@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <UserSecretsId>0def05f5-c30f-4d2a-8831-9332c2b51601</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Colaboracao.Shared.CargaCore.Domain\Colaboracao.Shared.CargaCore.Domain.csproj" />
+    <ProjectReference Include="..\Colaboracao.Core\Colaboracao.Core.csproj" />
+    <ProjectReference Include="..\DataTransferObject.Domain\DataTransferObject.Domain.csproj" />
+    <ProjectReference Include="..\MapaDeAlocacao.Application\MapaDeAlocacao.Application.csproj" />
+    <ProjectReference Include="..\MapaDeAlocacao.Domain\MapaDeAlocacao.Domain.csproj" />
+    <ProjectReference Include="..\Colaboracao.Shared.TemplateOrg.Domain\Colaboracao.Shared.TemplateOrg.Domain.csproj" />
+  </ItemGroup>
+</Project>

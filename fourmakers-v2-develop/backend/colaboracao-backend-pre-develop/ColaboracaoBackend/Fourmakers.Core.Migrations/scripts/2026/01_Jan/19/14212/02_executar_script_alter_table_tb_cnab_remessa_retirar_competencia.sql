@@ -1,0 +1,1 @@
+ALTER TABLE tb_cnab_remessa DROP COLUMN competencia;

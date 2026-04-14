@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataTransferObject.Domain\DataTransferObject.Domain.csproj" />
+    <ProjectReference Include="..\Colaboracao.Core\Colaboracao.Core.csproj" />
+    <ProjectReference Include="..\Colaboracao.Helper\Colaboracao.Helper.csproj" />
+    <ProjectReference Include="..\ApiClient.Domain\ApiClient.Domain.csproj" />
+    <ProjectReference Include="..\Foursys.Domain\Foursys.Domain.csproj" />
+    <ProjectReference Include="..\Logs.Infra\Logs.Infra.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Utils\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utils\" />
+  </ItemGroup>
+</Project>

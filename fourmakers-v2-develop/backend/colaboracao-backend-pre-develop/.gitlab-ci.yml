@@ -1,0 +1,583 @@
+# -----------------------------------------------------------------------------
+# CANÔNICO: fonte única para a esteira raiz. O GitLab NÃO carrega este arquivo —
+# só o `.gitlab-ci.yml` na raiz é avaliado. Edite triggers (*_ci) apenas aqui;
+# o `deploy-manager.sh` copia este arquivo para `.gitlab-ci.yml` e descomenta os
+# serviços escolhidos (nunca reordena o YAML com sed).
+# -----------------------------------------------------------------------------
+
+# CI Pipeline
+include:
+  - local: .gitlab-pipeline.yml
+  - local: .gitlab-rules.yml
+
+
+.is_draft: &is_draft
+  - !reference [._is_draft, rules]
+.is_config: &is_config
+  - !reference [._is_config, rules]
+.is_feature: &is_feature
+  - !reference [._is_feature, rules]
+.is_bugfix: &is_bugfix
+  - !reference [._is_bugfix, rules]
+.is_hotfix: &is_hotfix
+  - !reference [._is_hotfix, rules]
+.is_merge: &is_merge
+  - !reference [._is_merge, rules]
+.is_develop: &is_develop
+  - !reference [._is_develop, rules]
+
+.is_release: &is_release
+  - !reference [._is_release, rules]
+.is_new_protected_branch: &is_new_protected_branch
+  - !reference [._is_new_protected_branch, rules]
+
+stages:
+  - prepare
+  - database_migration
+  - startup-admissao
+  - startup-apontamento
+  - startup-bancotalentosrs-consumer
+  - startup-bi
+  - startup-botfourmakers
+  - startup-colaborador
+  - startup-competencia
+  - startup-crm
+  - startup-curriculo-batch-consumer
+  - startup-financeiro
+  - startup-firebase
+  - startup-folha-consumer
+  - startup-foursys
+  - startup-gestaopessoa
+  - startup-labs
+  - startup-mapaalocacao
+  - startup-maparelacionamento
+  - startup-marketing
+  - startup-organograma
+  - startup-perfilcorporativo
+  - startup-projeto
+  - startup-rotinasbackoffice
+  - startup-social
+  - startup-srs
+  - startup-uploadfiles
+  - startup-usuario
+  - release
+  - cleanup
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+database_migration:
+  stage: database_migration
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  # Só roda em push para main/develop; em pipelines de MR variáveis protegidas não são injetadas.
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && ($CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == "develop")
+  before_script:
+    - "echo Iniciando configuração de variáveis de ambiente"
+    - |
+      if [ \"${CI_COMMIT_REF_NAME}\" == \"develop\" ]; then
+        export CD_MIGRA_CONN_STR=$CD_MIGRATION_CONN_STR_DEVELOPMENT  
+        echo "Branch é develop. Usando variável CD_MIGRATION_CONN_STR_DEVELOPMENT."
+      elif [ \"${CI_COMMIT_REF_NAME}\" == \"main\" ]; then
+        export CD_MIGRA_CONN_STR=$CD_MIGRATION_CONN_STR_PRODUCTION
+        echo "Branch é main. Usando variável CD_MIGRATION_CONN_STR_PRODUCTION."
+      else
+        echo "Branch não é develop nem main. Continuando pipeline..."
+        exit 0
+      fi
+  script:
+    - "echo Verificando variáveis de ambiente antes de iniciar a migração..."
+    - "echo Branch: ${CI_COMMIT_REF_NAME}"
+    - cd ColaboracaoBackend/Fourmakers.Core.Migrations
+    - "echo Diretório atual: $(pwd)"
+    - "echo Rodando build do projeto..."
+    - dotnet build -c Release
+    - "echo Build concluído. Executando migração..."
+    - dotnet bin/Release/net8.0/Fourmakers.Core.Migrations.dll
+
+docker_prune:
+  stage: prepare
+  rules:
+    - if: $CI_RM_PIPELINE_IMAGE == "true" && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_REF_PROTECTED == "true" && $CI_COMMIT_BRANCH == "develop"
+  script:
+    - |
+      docker system prune -a -f
+
+admissao_ci:
+  stage: startup-admissao
+  allow_failure: true
+  trigger:
+    include: ColaboracaoBackend/Admissao.API/.gitlab-ci.yml
+    strategy: depend
+  rules:
+    - *is_config
+    - *is_feature
+    - *is_develop
+    - *is_release
+    - *is_bugfix
+    - *is_hotfix
+    - *is_merge
+
+# apontamento_ci:
+#   stage: startup-apontamento
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/Apontamento.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# bancotalentosrs-consumer_ci:
+#   stage: startup-bancotalentosrs-consumer
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/BancoTalentoSRSConsumer/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# bi_ci:
+#   stage: startup-bi
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/BI.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# botfourmakers_ci:
+#   stage: startup-botfourmakers
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/BotFourmakers.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# colaborador_ci:
+#   stage: startup-colaborador
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/Colaborador.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# competencia_ci:
+#   stage: startup-competencia
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/Competencia.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# crm_ci:
+#   stage: startup-crm
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/CRM.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# curriculo-batch-consumer_ci:
+#   stage: startup-curriculo-batch-consumer
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/CurriculoBatchConsumer/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# financeiro_ci:
+#   stage: startup-financeiro
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/Financeiro.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# firebase_ci:
+#   stage: startup-firebase
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/Firebase.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# folha-consumer_ci:
+#   stage: startup-folha-consumer
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/FolhaColaboradorConsumer/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# foursys_ci:
+#   stage: startup-foursys
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/Foursys.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# gestaopessoa_ci:
+#   stage: startup-gestaopessoa
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/GestaoPessoa.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# labs_ci:
+#   stage: startup-labs
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/Labs.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# mapaalocacao_ci:
+#   stage: startup-mapaalocacao
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/MapaDeAlocacao.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+maparelacionamento_ci:
+  stage: startup-maparelacionamento
+  allow_failure: true
+  trigger:
+    include: ColaboracaoBackend/MapaDeRelacionamento.API/.gitlab-ci.yml
+    strategy: depend
+  rules:
+    - *is_config
+    - *is_feature
+    - *is_develop
+    - *is_release
+    - *is_bugfix
+    - *is_hotfix
+    - *is_merge
+
+# marketing_ci:
+#   stage: startup-marketing
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/Marketing.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+organograma_ci:
+  stage: startup-organograma
+  allow_failure: true
+  trigger:
+    include: ColaboracaoBackend/Organograma.API/.gitlab-ci.yml
+    strategy: depend
+  rules:
+    - *is_config
+    - *is_feature
+    - *is_develop
+    - *is_release
+    - *is_bugfix
+    - *is_hotfix
+    - *is_merge
+
+# perfilcorporativo_ci:
+#   stage: startup-perfilcorporativo
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/PerfilCorporativo.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# projeto_ci:
+#   stage: startup-projeto
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/Projeto.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# srs_ci:
+#   stage: startup-srs
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/SRS.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# uploadfiles_ci:
+#   stage: startup-uploadfiles
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/UploadFiles.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# usuario_ci:
+#   stage: startup-usuario
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/Usuario.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# 
+# financeiro_ci:
+#   stage: startup-financeiro
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/Financeiro.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+#     
+# 
+# srs_ci:
+#   stage: startup-srs
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/SRS.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# apontamento_ci:
+#   stage: startup-apontamento
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/Apontamento.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# bi_ci:
+#   stage: startup-bi
+#   allow_failure: true
+#   trigger:
+#     include: ColaboracaoBackend/BI.API/.gitlab-ci.yml
+#     strategy: depend
+#   rules:
+#     - *is_config
+#     - *is_feature
+#     - *is_develop
+#     - *is_release
+#     - *is_bugfix
+#     - *is_hotfix
+#     - *is_merge
+# 
+# 
+release:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - *is_release
+  script:
+    - export
+  release:
+    name: 'Backoffice API'
+    description: 'Backoffice API'
+    tag_name: '$CI_COMMIT_TAG'
+    ref: '$CI_COMMIT_TAG'
+    assets:
+      links:
+        - name: URL Base for API
+          url: https://api.fourmakers.io
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

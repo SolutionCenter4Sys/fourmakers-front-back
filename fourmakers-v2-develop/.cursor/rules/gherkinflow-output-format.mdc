@@ -1,0 +1,132 @@
+---
+description: >
+  Guardrail de formato de output do GherkinFlow Agent.
+  Aplicar SEMPRE que o GherkinFlow gerar cenários BDD, salvar arquivo .md,
+  ou quando o usuário pedir cenários, BDD, gherkin, tabela de cenários.
+  Define o formato obrigatório: apenas Título + Sumário + Cenários BDD.
+alwaysApply: false
+---
+
+# GherkinFlow — Formato de Output Obrigatório
+
+## ESTRUTURA DO ARQUIVO — EXATAMENTE 3 BLOCOS, NESTA ORDEM
+
+```
+Bloco 1 — Título
+Bloco 2 — Sumário
+Bloco 3 — Cenários BDD (uma tabela por tela)
+```
+
+**Nada antes, nada depois, nada entre eles além do que está especificado abaixo.**
+
+---
+
+## Bloco 1 — Título
+
+```markdown
+# Cenários BDD — [Nome do Módulo]
+```
+
+**Regras:**
+- Uma única linha `# H1`
+- Sem subtítulo, sem data, sem versão, sem autor, sem organização
+
+---
+
+## Bloco 2 — Sumário
+
+```markdown
+| Tipo | Qtd |
+|---|:---:|
+| ✅ Positivo | XX |
+| ❌ Negativo | XX |
+| 🔁 Regressivo | XX |
+| **Total** | **XX** |
+```
+
+**Regras:**
+- Exatamente 2 colunas: `Tipo` e `Qtd`
+- Se houver mais de uma tela: uma linha por tela + uma linha de total geral
+- Vem logo após o título, sem texto entre eles
+
+---
+
+## Bloco 3 — Cenários BDD
+
+Uma seção por tela analisada, com H2 e tabela de 7 colunas:
+
+```markdown
+## [Nome da Tela]
+
+| # | Funcionalidade (Feature) | Dado (Given) | Quando (When) | Então (Then) | E… (And) | Referência do Código |
+|---|---|---|---|---|---|---|
+| R-01 | [Positivo] Descrição | contexto do usuário | ação do usuário | resultado visível | consequência ou — | `Arquivo.tsx:linha — função()` |
+```
+
+**Regras das 7 colunas — TODAS OBRIGATÓRIAS:**
+
+| Coluna | O que conter |
+|---|---|
+| `#` | ID do cenário com prefixo por tela (R-01, I-01...) |
+| `Funcionalidade (Feature)` | `[Positivo]` / `[Negativo]` / `[Regressivo]` + descrição em linguagem de negócio |
+| `Dado (Given)` | Contexto inicial do usuário — sem mencionar componentes ou estado técnico |
+| `Quando (When)` | Ação do usuário em linguagem declarativa — NUNCA "clico", "marco", "digito" |
+| `Então (Then)` | Resultado visível ao usuário |
+| `E… (And)` | Consequência secundária, ou `—` se não houver |
+| `Referência do Código` | `Arquivo.tsx:linha — função()` — NUNCA vazia, NUNCA `—` |
+
+---
+
+## O QUE É TERMINANTEMENTE PROIBIDO NO OUTPUT
+
+| Proibido | Motivo |
+|---|---|
+| Tabela de metadados (Projeto, Agente, Data, Versão...) | Não faz parte dos 3 blocos |
+| Seção "Passo A — Análise das Telas" | Análise é interna — não vai no output |
+| Seção "Passo B — Mapa de Visibilidade" | Mapa de visibilidade é interno — não vai no output |
+| Label "Passo C —" antes dos cenários | Os cenários são o Bloco 3 — sem label |
+| Linha "Contagem: X Positivo · Y Negativo..." antes da tabela | A contagem fica só no Sumário (Bloco 2) |
+| "Sumário Final" ao final do arquivo | O sumário vem no início — não repetir no final |
+| reg-notes abaixo das tabelas | Não fazem parte dos 3 blocos |
+| Qualquer texto explicativo entre blocos | Os blocos são adjacentes, sem texto entre eles |
+| Etapas de análise no chat ("Analisando...", "Gerando...") | O agente trabalha em silêncio |
+| Metadados no nome do arquivo (datas, autor) | Nome: `REEMBOLSO-BDD-vN.md` apenas |
+
+---
+
+## EXEMPLO DE OUTPUT CORRETO COMPLETO
+
+```markdown
+# Cenários BDD — Módulo de Reembolso
+
+| Tipo | Qtd |
+|---|:---:|
+| ✅ Positivo — Dashboard | 8 |
+| ❌ Negativo — Dashboard | 3 |
+| 🔁 Regressivo — Dashboard | 3 |
+| ✅ Positivo — Inserir | 6 |
+| ❌ Negativo — Inserir | 6 |
+| 🔁 Regressivo — Inserir | 4 |
+| **Total** | **30** |
+
+## Reembolso Dashboard
+
+| # | Funcionalidade (Feature) | Dado (Given) | Quando (When) | Então (Then) | E… (And) | Referência do Código |
+|---|---|---|---|---|---|---|
+| R-01 | [Positivo] Acesso padrão ao módulo | Colaborador sem perfil de gestor | acessa o módulo de Reembolso | visualiza apenas a aba "Meus Reembolsos" | as abas restritas não aparecem | `Reembolso.tsx:45 — souGestor, souAprovador` |
+
+## Inserir Reembolso
+
+| # | Funcionalidade (Feature) | Dado (Given) | Quando (When) | Então (Then) | E… (And) | Referência do Código |
+|---|---|---|---|---|---|---|
+| I-01 | [Positivo] Adição de item ao carrinho | Colaborador com projeto selecionado | adiciona um item com todos os campos preenchidos | o item aparece no carrinho com valor e descrição | o total do carrinho é atualizado | `InserirReembolso.tsx:312 — handleAdicionarCarrinho()` |
+```
+
+---
+
+## Pasta e nome de arquivo
+
+- **Pasta:** `DEMO/cenarios-bdd/`
+- **Nome:** `REEMBOLSO-BDD-vN.md` — N é o próximo sequencial (verificar arquivos existentes)
+- **NUNCA** sobrescrever versão existente
+- **NUNCA** usar datas, autor ou qualquer sufixo no nome

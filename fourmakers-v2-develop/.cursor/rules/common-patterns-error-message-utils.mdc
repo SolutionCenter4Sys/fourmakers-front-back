@@ -1,0 +1,94 @@
+---
+name: common-patterns-error-message-utils
+description: "Apply when handling errors shown to the user (toast, setState, form feedback). Triggers on: catch blocks that display error.message directly, hardcoded user-facing error strings, toast.error/alert without using getMensagemAmigavelErro. Use for: centralizing user-facing error messages via @shared/utils/errorMessageUtils."
+globs: "**/*.ts,**/*.tsx"
+alwaysApply: false
+---
+
+**Version:** 1.0.0  
+**Last Updated:** 06/03/2026
+
+---
+
+# Mensagens de erro ao usuário com errorMessageUtils
+
+Exibir mensagens amigáveis ao usuário a partir de erros (rede, API, exceções) usando o utilitário centralizado `@shared/utils/errorMessageUtils`.
+
+---
+
+## 1. Usar getMensagemAmigavelErro para erros exibidos ao usuário
+
+**Contexto:** Sempre que um `catch` ou tratamento de erro for exibir texto ao usuário (toast, estado de erro em formulário, alert, setError), use `getMensagemAmigavelErro` para obter uma mensagem consistente (inclui mapeamento de erros de rede para "Sem conexão..." e fallback genérico).
+
+**Proibido:**
+
+```typescript
+// ❌ BAD: error.message direto (pode ser técnico ou vazio)
+} catch (e) {
+  toast.error((e as Error).message);
+}
+
+// ❌ BAD: mensagem hardcoded sem usar o util
+} catch (e) {
+  toast.error('Erro ao salvar');
+}
+
+// ❌ BAD: lógica manual de rede
+} catch (e) {
+  const msg = e instanceof Error && e.message?.includes('fetch') ? 'Sem conexão' : 'Erro';
+  setError(msg);
+}
+```
+
+**Requerido:**
+
+```typescript
+// ✅ GOOD: util para mensagem amigável + fallback específico da operação
+import { getMensagemAmigavelErro } from '@shared/utils/errorMessageUtils';
+
+} catch (e) {
+  console.error('Erro ao importar candidato', e);
+  const message = getMensagemAmigavelErro(
+    e,
+    'Não foi possível importar o candidato. Tente novamente.'
+  );
+  setImportError(message);
+  toast.error(message);
+}
+```
+
+---
+
+## 2. Fallback opcional e em português
+
+**Contexto:** O segundo parâmetro de `getMensagemAmigavelErro` é opcional (default: "Algo deu errado. Tente novamente."). Use um fallback específico da ação quando fizer sentido.
+
+**Exemplos:**
+
+```typescript
+// ✅ Fallback genérico (pode omitir)
+const msg = getMensagemAmigavelErro(e);
+
+// ✅ Fallback específico da feature
+const msg = getMensagemAmigavelErro(e, 'Não foi possível importar. Tente novamente.');
+const msg = getMensagemAmigavelErro(e, 'Falha ao salvar a vaga. Tente novamente.');
+```
+
+---
+
+## 3. Log técnico separado da mensagem ao usuário
+
+**Contexto:** Para diagnóstico, faça `console.error` (ou logger) com o erro original; para o usuário, exiba apenas o retorno de `getMensagemAmigavelErro`.
+
+**Requerido:**
+
+```typescript
+} catch (e) {
+  console.error('Erro ao importar em lote', e);
+  const mensagem = getMensagemAmigavelErro(e, 'Não foi possível importar. Tente novamente.');
+  setImportError(mensagem);
+  toast.error(mensagem);
+}
+```
+
+Não exibir `error.message` ou stack em UI; manter mensagens ao usuário em português e sem jargões técnicos.

@@ -1,0 +1,458 @@
+{
+  "info": {
+    "_postman_id": "bd74c3bc-30f5-4ada-9ab9-b98f15a63635",
+    "name": "Projeto.API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "19527603"
+  },
+  "item": [
+    {
+      "name": "api/Empresa",
+      "item": [
+        {
+          "name": "/api/Empresa/AdicionarEmpresa",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"ullamco labore officia non\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Empresa/AdicionarEmpresa",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Empresa",
+                "AdicionarEmpresa"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"nome\": \"ullamco labore officia non\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/Empresa/AdicionarEmpresa",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "Empresa",
+                    "AdicionarEmpresa"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"sucesso\": false,\n  \"mensagem\": \"magna in ea exercitation\",\n  \"erros\": [\n    \"cupidatat cillum Excepteur aliqua nostrud\",\n    \"reprehenderit amet velit eu\"\n  ],\n  \"empresa\": {\n    \"id\": 37394619,\n    \"nome\": \"deseru\",\n    \"ativo\": false\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "/api/Empresa/ListarEmpresa",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Empresa/ListarEmpresa?busca=dolor ipsu&cursor=-14681348&limite=-14681348",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Empresa",
+                "ListarEmpresa"
+              ],
+              "query": [
+                {
+                  "key": "busca",
+                  "value": "dolor ipsu"
+                },
+                {
+                  "key": "cursor",
+                  "value": "-14681348"
+                },
+                {
+                  "key": "limite",
+                  "value": "-14681348"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/Empresa/ListarEmpresa?busca=dolor ipsu&cursor=-14681348&limite=-14681348",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "Empresa",
+                    "ListarEmpresa"
+                  ],
+                  "query": [
+                    {
+                      "key": "busca",
+                      "value": "dolor ipsu"
+                    },
+                    {
+                      "key": "cursor",
+                      "value": "-14681348"
+                    },
+                    {
+                      "key": "limite",
+                      "value": "-14681348"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"sucesso\": false,\n  \"mensagem\": \"fugiat cillum culpa consectetur\",\n  \"erros\": [\n    \"enim amet\",\n    \"cillum voluptate veniam el\"\n  ],\n  \"Empresas\": [\n    {\n      \"id\": 1158369,\n      \"Nome\": \"aute Lorem sunt\"\n    },\n    {\n      \"id\": 95281713,\n      \"Nome\": \"ullamco laboris esse mollit\"\n    }\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "/api/Empresa/GetEmpresaById",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/Empresa/GetEmpresaById?id=-50612231",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Empresa",
+                "GetEmpresaById"
+              ],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "-50612231"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/api/Empresa/GetEmpresaById?id=-50612231",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "Empresa",
+                    "GetEmpresaById"
+                  ],
+                  "query": [
+                    {
+                      "key": "id",
+                      "value": "-50612231"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"sucesso\": false,\n  \"mensagem\": \"sunt\",\n  \"erros\": [\n    \"in in\",\n    \"reprehenderit nostrud magna sed\"\n  ],\n  \"empresa\": {\n    \"id\": 36913274,\n    \"nome\": \"officia in\",\n    \"ativo\": false\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "/api/Empresa/RemoverEmpresa",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"empresaId\": -96744518\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Empresa/RemoverEmpresa",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Empresa",
+                "RemoverEmpresa"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"empresaId\": -96744518\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/Empresa/RemoverEmpresa",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "Empresa",
+                    "RemoverEmpresa"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"sucesso\": false,\n  \"mensagem\": \"labore ut\",\n  \"erros\": [\n    \"tempor Excepteur\",\n    \"sunt\"\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "/api/Empresa/AtualizaEmpresa",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "text/plain"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 86293320,\n  \"nome\": \"incididunt aliquip\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/Empresa/AtualizaEmpresa",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "Empresa",
+                "AtualizaEmpresa"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "Success",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 86293320,\n  \"nome\": \"incididunt aliquip\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/Empresa/AtualizaEmpresa",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "Empresa",
+                    "AtualizaEmpresa"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"sucesso\": true,\n  \"mensagem\": \"veniam deserunt nulla\",\n  \"erros\": [\n    \"dolor irure nulla\",\n    \"mollit\"\n  ],\n  \"Empresa\": {\n    \"id\": 13133827,\n    \"nome\": \"Lorem cillum\"\n  }\n}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "j6WWjafkocJ2zCPTe2Bs36X++lyIh1+/kpUwBzuracpTY0mRKYgf97PsvqyZ02cp",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "{{baseUrl}}",
+      "type": "string"
+    }
+  ]
+}

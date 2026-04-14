@@ -1,0 +1,1 @@
+DROP procedure IF EXISTS `spr_rpt_relatorio_colaboradores`;

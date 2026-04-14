@@ -1,0 +1,1 @@
+ALTER TABLE tb_colaborador_alocado DROP FOREIGN KEY fk_tb_tbd_alocado;

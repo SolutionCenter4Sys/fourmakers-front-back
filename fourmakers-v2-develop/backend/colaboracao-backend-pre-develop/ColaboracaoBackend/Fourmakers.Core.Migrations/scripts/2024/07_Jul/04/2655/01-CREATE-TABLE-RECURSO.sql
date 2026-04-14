@@ -1,0 +1,20 @@
+CREATE TABLE `tb_colaborador_periodo_alocacao_calculo_mensal` (
+  `id` char(36) NOT NULL DEFAULT (uuid()),
+  `codigo_colaborador` varchar(255) DEFAULT NULL,
+  `cod_tbd_alocado` int DEFAULT NULL,
+  `mes` int NOT NULL,
+  `ano` int NOT NULL,
+  `horas` decimal(10,2) NOT NULL,
+  `status_colaborador_periodo_alocacao` varchar(255) NOT NULL,
+  `data_criacao` datetime DEFAULT CURRENT_TIMESTAMP,
+  `tb_org_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `cod_tbd_alocado` (`cod_tbd_alocado`),
+  KEY `codigo_colaborador` (`codigo_colaborador`),
+  KEY `tb_org_id` (`tb_org_id`),
+  KEY `idx_mes_ano` (`mes`,`ano`),
+  KEY `idx_status_colaborador_periodo_alocacao` (`status_colaborador_periodo_alocacao`),
+  CONSTRAINT `tb_colaborador_periodo_alocacao_calculo_mensal_ibfk_1` FOREIGN KEY (`cod_tbd_alocado`) REFERENCES `tb_tbd_alocado` (`cod_tbd_alocado`),
+  CONSTRAINT `tb_colaborador_periodo_alocacao_calculo_mensal_ibfk_2` FOREIGN KEY (`codigo_colaborador`) REFERENCES `tb_colaborador_org` (`cod_colaborador_externo`),
+  CONSTRAINT `tb_colaborador_periodo_alocacao_calculo_mensal_ibfk_3` FOREIGN KEY (`tb_org_id`) REFERENCES `tb_org` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;

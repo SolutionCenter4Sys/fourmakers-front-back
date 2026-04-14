@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BI.Domain\BI.Domain.csproj" />
+    <ProjectReference Include="..\DataTransferObject.Domain\DataTransferObject.Domain.csproj" />
+    <ProjectReference Include="..\Colaboracao.Core\Colaboracao.Core.csproj" />
+    <ProjectReference Include="..\Colaboracao.Initializer\Colaboracao.Initializer.csproj" />
+    <ProjectReference Include="..\ApiClient.Domain\ApiClient.Domain.csproj" />
+  </ItemGroup>
+</Project>

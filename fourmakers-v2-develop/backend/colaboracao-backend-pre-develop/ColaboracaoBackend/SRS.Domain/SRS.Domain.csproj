@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Colaboracao.Core\Colaboracao.Core.csproj" />
+    <ProjectReference Include="..\ColaboracaoBridge.Domain\ColaboracaoBridge.Domain.csproj" />
+    <ProjectReference Include="..\Labs.Domain\Labs.Domain.csproj" />
+    <ProjectReference Include="..\Core.DomainModel\Core.Domain.csproj" />
+    <ProjectReference Include="..\DataTransferObject.Domain\DataTransferObject.Domain.csproj" />
+    <ProjectReference Include="..\MessageQueue.Infra\MessageQueue.Infra.csproj" />
+    <ProjectReference Include="..\Social.Domain\Social.Domain.csproj" />
+    <ProjectReference Include="..\SRS.Infra\SRS.Infra.csproj" />
+    <ProjectReference Include="..\Usuario.Domain\Usuario.Domain.csproj" />
+    <ProjectReference Include="..\Logs.Infra\Logs.Infra.csproj" />
+  </ItemGroup>
+</Project>

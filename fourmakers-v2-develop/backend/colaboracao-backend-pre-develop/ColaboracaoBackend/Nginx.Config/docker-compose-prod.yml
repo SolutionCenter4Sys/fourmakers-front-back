@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+   backoffice-api-rf-prod:
+      image: sistemasinternos.foursys.com.br:5000/backoffice-api-rf-prod:latest
+      container_name: backoffice-api-rf-prod
+      ports:
+         - 84:80
+      expose:
+         - 84
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Dockerfile-prd
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+
+networks:
+   docker-network:
+      external: true
+      name: docker-network
+      driver: bridge

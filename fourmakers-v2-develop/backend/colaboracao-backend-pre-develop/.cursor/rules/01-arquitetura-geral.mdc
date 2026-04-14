@@ -1,0 +1,40 @@
+---
+description: Arquitetura em camadas do projeto Colaboração Backend — princípios que se aplicam a todo o código
+alwaysApply: true
+---
+
+# Arquitetura em Camadas — Colaboração Backend
+
+## Stack e padrão
+
+- .NET 8 · MySQL · **Dapper** (padrão) · DDD-like em camadas
+- **Base de dados:** MySQL com Dapper. Entity Framework é **legado** — não criar novos DbContexts.
+
+## Camadas e responsabilidades
+
+| Camada | Projeto(s) | Responsabilidade |
+|--------|-----------|-----------------|
+| **API** | `[Nome].API` | Controllers enxutos, roteamento, leitura de JWT |
+| **Application** | `[Nome].Application` | Initializer (`IInitializerConfigurator`) — apenas DI |
+| **Domain** | `[Nome].Domain` | Services + ValidatorServices — regras de negócio |
+| **Contratos** | `Core.DomainModel` | Interfaces de repositório (`Core.Domain.*`) |
+| **DTOs** | `DataTransferObject.Domain` | Request (Input) e Response (Result) |
+| **Infra** | `Colaboracao.Infra` | Repositórios com Dapper |
+| **DI central** | `Colaboracao.Initializer` | Extensões `Add*Dependencies()` |
+
+## Fluxo obrigatório
+
+```
+Controller → IService → IRepository (Core.Domain) → Repository (Infra/Dapper)
+```
+
+## Proibições absolutas
+
+- ❌ Lógica de negócio no Controller ou no Repository
+- ❌ Acesso a `IDBConnection` / Dapper fora de `Colaboracao.Infra`
+- ❌ `IAspNetUser` injetado no Domain — passar `cpf` e `orgId` como parâmetros
+- ❌ Factory para models (padrão legado — seção 7)
+- ❌ Novos `DbContext` ou fluxos com Entity Framework
+- ❌ `AddScoped<IXyzService, XyzService>()` — usar `TryAddScopedDomainService` para ativar `[LogDomainClass]`
+- ❌ Criação direta de `HttpClient` — usar `IApiClient` (ApiClient.Domain + ApliClient.Infra)
+- ❌ Segredos/tokens hardcoded — sempre variáveis de ambiente ou AWS Secrets Manager

@@ -1,0 +1,76 @@
+# CD Pipeline
+
+._aws_credentials_script: 
+  script:
+    - |
+      curl --silent "https://gitlab.com/gitlab-org/incubation-engineering/mobile-devops/load-secure-files/-/raw/main/installer" | bash
+      mkdir -p ~/.aws
+      mv ./config ~/.aws/
+      mv ./credentials ~/.aws/
+
+
+._ci_release_push_script: 
+  script: 
+  - |
+    curl --silent --request PUT --header "PRIVATE-TOKEN: ${CI_PROJECT_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/variables/CI_RELEASE_VERSION" --form "value=${CI_RELEASE_VERSION}"
+
+
+._registry_tag_exports: 
+  exports: 
+    - export CI_COMMIT_DATE_SERIAL=$(date +%y%m%d.%H%M%S -d "$(echo ${CI_COMMIT_TIMESTAMP::19}|tr -s T \ )")
+    - export GITLAB_REGISTRY_TAG_COMMIT=${CI_REGISTRY_IMAGE}/${CI_ENV}:${CI_RELEASE_VERSION}-${CI_COMMIT_DATE_SERIAL}-${CI_COMMIT_SHORT_SHA}
+    - export GITLAB_REGISTRY_TAG_LATEST=${CI_REGISTRY_IMAGE}/${CI_ENV}:latest
+    - export AWS_ECR_TAG_COMMIT=${CI_AWS_ECR}/${ECR_PROJECT_PATH}/${CI_ENV}:${CI_RELEASE_VERSION}-${CI_COMMIT_DATE_SERIAL}-${CI_COMMIT_SHORT_SHA}
+    - export AWS_ECR_TAG_LATEST=${CI_AWS_ECR}/${ECR_PROJECT_PATH}/${CI_ENV}:latest
+
+
+# .pre_build:
+#   stage: pre-build
+#   image: $CI_REGISTRY_IMAGE/pipeline:latest
+#   script:
+#     - *ci_release_push
+
+
+._aws_resources_script:
+  script:
+    - |
+      cp ${PROJECT_CFN_PATH}${PROJECT_NAME}-task-${CI_ENV}.env ./Cfn
+      cp ${PROJECT_CFN_PATH}${PROJECT_NAME}-task-${CI_ENV}.yaml ./Cfn
+      cd Cfn
+      make ${PROJECT_NAME}-task-${CI_ENV}.env
+      make ${PROJECT_NAME}-task-${CI_ENV}.yaml
+
+._build_image_script:
+  script:
+    - cd ColaboracaoBackend
+    # Base libgdiplus no ECR: backoffice/dotnet-aspnet-libgdiplus:8.0 (jobs base_image_libgdiplus_*)
+    - aws ecr get-login-password | docker login --username AWS --password-stdin ${CI_AWS_ECR}
+    - jq -n 'env|{CI_PROJECT_PATH, CI_COMMIT_BRANCH, CI_COMMIT_TAG, CI_COMMIT_SHORT_SHA, CI_COMMIT_TIMESTAMP, CI_PROJECT_URL, CI_RELEASE_VERSION}' > info.json
+    - docker build -f ${PROJECT_DOCKER_PATH} --pull --build-arg REGISTRY_IMAGE=${CI_AWS_ECR}/backoffice -t ${AWS_ECR_TAG_COMMIT} -t ${AWS_ECR_TAG_LATEST} --no-cache .
+    - docker push ${AWS_ECR_TAG_COMMIT}
+    - docker push ${AWS_ECR_TAG_LATEST}
+    - docker rmi ${AWS_ECR_TAG_LATEST}
+    - docker rmi ${AWS_ECR_TAG_COMMIT}
+
+
+._aws_services_script:
+  script:
+    - |
+      cp ${PROJECT_CFN_PATH}${PROJECT_NAME}-service-${CI_ENV}.yaml ./Cfn
+      cd Cfn
+      make ${PROJECT_NAME}-service-${CI_ENV}.yaml
+
+._deploy_web_script:
+  script:
+    - |
+      aws ecs update-service --cluster ${CI_AWS_ECS_CLUSTER} --service ${CI_AWS_ECS_SERVICE}-${CI_ENV} --force-new-deployment
+      echo "aws ecs update-service --cluster ${CI_AWS_ECS_CLUSTER} --service ${CI_AWS_ECS_SERVICE}-${CI_ENV} --force-new-deployment"
+
+._deploy_alb_rules_script:
+  script:
+    - |
+      cp ${PROJECT_CFN_PATH}*-alb-listener-rule-${CI_ENV}.yaml ./Cfn
+      cd Cfn
+      for file in ./*-alb-listener-rule-${CI_ENV}.yaml; do
+            make $file 
+      done

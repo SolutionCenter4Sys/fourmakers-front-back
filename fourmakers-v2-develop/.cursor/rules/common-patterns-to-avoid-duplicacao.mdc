@@ -1,0 +1,119 @@
+---
+name: common-patterns-to-avoid-duplicacao
+description: "Apply when reviewing new or AI-generated code for any form of duplication. Triggers on: copy-pasted blocks, repeated constants/strings/types, similar components or hooks, duplicated styles or markup, repeated conditionals or mappings. Use for: enforcing single sources of truth and reducing maintenance cost."
+---
+
+**Version:** 1.0.0  
+**Last Updated:** 06/03/2026
+
+---
+
+# Anti-Duplicação de Código (Code Duplication)
+
+Evitar duplicação de código, constantes, tipos, strings e lógica em todo o projeto. Código gerado por IA frequentemente repete blocos — revisar e extrair para funções, constantes ou componentes compartilhados.
+
+---
+
+## 1. Duplicação de qualquer tipo
+
+**Context:** Ao adicionar ou revisar código (especialmente gerado por IA), verificar se lógica, texto, constantes ou estrutura já existem em outro arquivo ou no mesmo arquivo.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Mesmo bloco de condicionais repetido
+// ComponenteA.tsx
+{ status === 'pendente' && <Badge variant="warning">Pendente</Badge> }
+{ status === 'aprovado' && <Badge variant="success">Aprovado</Badge> }
+{ status === 'rejeitado' && <Badge variant="destructive">Rejeitado</Badge> }
+
+// ComponenteB.tsx — duplicado
+{ status === 'pendente' && <Badge variant="warning">Pendente</Badge> }
+{ status === 'aprovado' && <Badge variant="success">Aprovado</Badge> }
+{ status === 'rejeitado' && <Badge variant="destructive">Rejeitado</Badge> }
+
+// ❌ BAD: String/mensagem repetida em vários arquivos
+// Arquivo1.tsx
+toast.error('Nao foi possivel carregar os dados. Tente novamente.');
+
+// Arquivo2.tsx
+toast.error('Nao foi possivel carregar os dados. Tente novamente.');
+
+// ❌ BAD: Mesmo tipo definido em mais de um lugar
+// tipos/vaga.ts
+export type StatusVaga = 'aberta' | 'fechada' | 'pausada';
+
+// hooks/useVaga.ts — duplicado
+type StatusVaga = 'aberta' | 'fechada' | 'pausada';
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Um único mapeamento status -> label/variant
+// shared/constants/statusBadge.tsx ou shared/utils/statusUtils.ts
+export const STATUS_BADGE: Record<Status, { variant: BadgeVariant; label: string }> = {
+  pendente: { variant: 'warning', label: 'Pendente' },
+  aprovado: { variant: 'success', label: 'Aprovado' },
+  rejeitado: { variant: 'destructive', label: 'Rejeitado' },
+};
+
+// Componente usa o mapa
+<Badge variant={STATUS_BADGE[status].variant}>{STATUS_BADGE[status].label}</Badge>
+
+// ✅ GOOD: Mensagens em um único lugar
+// shared/constants/mensagens.ts
+export const MENSAGENS = {
+  ERRO_CARREGAR: 'Nao foi possivel carregar os dados. Tente novamente.',
+} as const;
+
+// Uso
+toast.error(MENSAGENS.ERRO_CARREGAR);
+
+// ✅ GOOD: Tipo definido uma vez e importado
+// domain/entities ou shared/types
+export type StatusVaga = 'aberta' | 'fechada' | 'pausada';
+
+// hooks/useVaga.ts
+import type { StatusVaga } from '@/domain/entities/...';
+```
+
+**Onde extrair:**
+
+| O que está duplicado | Extrair para |
+|----------------------|--------------|
+| Labels/strings de UI  | `shared/constants/` ou i18n |
+| Tipos/unions          | `domain/entities` ou `shared/types` |
+| Mapeamento status→UI  | `shared/utils/` ou componente `<StatusBadge>` |
+| Lógica de formatação  | `shared/utils/` (datas, moeda, etc.) |
+| Blocos de JSX similares | Componente compartilhado |
+| Tratamento de erro    | `data/api/errorHandler` ou hook |
+
+**Impact:**
+
+- Um ajuste exige mudar N arquivos; risco de esquecer um.
+- Comportamento ou texto divergente entre “cópias”.
+- Código gerado por IA tende a repetir padrões; revisar sempre antes de commitar.
+
+**Detection:**
+
+- Buscar strings literais repetidas (toast, labels, placeholders).
+- Buscar mesmo union type ou interface em mais de um arquivo.
+- Ver blocos de JSX ou condicionais muito parecidos entre componentes.
+- Após gerar código com IA: comparar com código existente e extrair o que for comum.
+
+---
+
+## 2. Checklist pós-IA
+
+Ao integrar código sugerido por IA:
+
+1. **Constantes e strings:** já existem em `shared/constants` ou em outro módulo?
+2. **Tipos:** o tipo já está definido em `domain` ou `shared/types`?
+3. **Componentes:** existe componente equivalente (ex.: `<StatusBadge>`, `<DataTable>`) que possa ser reutilizado?
+4. **Lógica:** a mesma regra ou mapeamento já existe em outro hook/use case/utils?
+5. **Estilos/classes:** usar tokens do Design System em vez de repetir classes idênticas.
+
+---
+
+Output Requirement: The final output must be in Portuguese (PT-BR) with all file names, variables and code patterns following Brazilian Portuguese conventions.

@@ -1,0 +1,291 @@
+---
+name: common-patterns-backend-csharp-contracts
+description: "Apply when implementing API integrations, writing technical documentation, or defining backend contracts. Triggers on: C# DTO/contract suggestions, JSON request/response definitions, envelope structure, API documentation, docs/ORIENTACAO*.md references. Use for: ensuring backend .NET 8 contracts align with @ARCHITECTURE.md Data Layer expectations (httpClient, envelope retorno/sucesso/mensagem/erros, camelCase JSON, PascalCase C#)."
+globs: "**/*.ts,**/*.tsx,**/docs/**/*.md"
+alwaysApply: false
+---
+
+**Version:** 1.1.0  
+**Last Updated:** 06/03/2026
+
+---
+
+# Backend C# Contract Patterns (Backend .NET 8)
+
+Garantir contratos corretos entre frontend e backend .NET 8 conforme **@ARCHITECTURE.md** e padrões do projeto.
+
+**Referência obrigatória:** `@ARCHITECTURE.md` — Fluxo de Dados, Data Layer, HTTP Client Factory.
+
+---
+
+## Contexto: Alinhamento com ARCHITECTURE.md
+
+O frontend segue Clean Architecture (ver `@ARCHITECTURE.md`). O fluxo de resposta é:
+
+```
+Backend API → HttpClient → API (@data/api) → Repository → UseCase → Slice → Page
+```
+
+As APIs em `@data/api` usam `httpClient` (factory em `httpClient.ts`) e **esperam o envelope padrão** para extrair `response.retorno`. Contratos do backend devem garantir que essa estrutura seja respeitada para compatibilidade com o Data Layer.
+
+---
+
+## 1. Envelope de Resposta Obrigatório
+
+**Context:** Todas as respostas de API devem usar o envelope padrão.
+
+**Forbidden:**
+
+```csharp
+// ❌ BAD: Retorno direto sem envelope
+[HttpGet]
+public ActionResult<List<ItemDto>> Listar()
+{
+    return Ok(items);  // Sem envelope
+}
+
+// ❌ BAD: Envelope incompleto
+public class Response {
+    public object Data { get; set; }   // Deve ser Retorno
+    public bool Success { get; set; }  // Deve ser Sucesso (português)
+}
+```
+
+```json
+// ❌ BAD: JSON sem envelope
+[ { "id": "1", "nome": "Item" } ]
+
+// ❌ BAD: Envelope em inglês
+{ "data": [...], "success": true, "message": null }
+```
+
+**Required:**
+
+```csharp
+// ✅ GOOD: Envelope padrão C#
+public class ApiResponse<T>
+{
+    public T Retorno { get; set; }
+    public bool Sucesso { get; set; }
+    public string Mensagem { get; set; }
+    public List<string> Erros { get; set; }
+}
+```
+
+```json
+// ✅ GOOD: JSON com envelope
+{
+  "retorno": [...],
+  "sucesso": true,
+  "mensagem": null,
+  "erros": null
+}
+```
+
+**Rules:**
+- `retorno` / `Retorno`: objeto ou array conforme endpoint (o Data Layer em `@data/api` acessa `response.retorno`)
+- `sucesso` / `Sucesso`: boolean
+- `mensagem` / `Mensagem`: string ou null (mensagem geral)
+- `erros` / `Erros`: string[] ou null (lista de validações)
+
+**Nota ARCHITECTURE:** O exemplo "Estrutura Padrão de uma API" em `@ARCHITECTURE.md` usa `dados` — o padrão do projeto é `retorno` (usado em VagaApi, GrupoAcessoApi, OrganogramaApi, etc.). Sempre usar `retorno` para manter compatibilidade.
+
+---
+
+## 2. Nomenclatura JSON (camelCase) vs C# (PascalCase)
+
+**Context:** JSON usa camelCase; C# usa PascalCase. Serialização deve mapear corretamente.
+
+**Forbidden:**
+
+```json
+// ❌ BAD: snake_case no JSON
+{ "data_criacao": "2024-01-15", "codigo_interno": "123" }
+
+// ❌ BAD: PascalCase no JSON
+{ "DataCriacao": "2024-01-15", "CodigoInternoColaborador": "123" }
+```
+
+```csharp
+// ❌ BAD: camelCase em propriedades C#
+public class ItemDto {
+    public string dataCriacao { get; set; }
+    public string codigoInternoColaborador { get; set; }
+}
+```
+
+**Required:**
+
+```json
+// ✅ GOOD: camelCase no JSON
+{
+  "id": "guid",
+  "codigoInternoColaborador": "123",
+  "nomeColaborador": "João",
+  "dataCriacao": "2024-01-15T10:30:00Z",
+  "dataAlteracao": "2024-01-16T14:00:00Z"
+}
+```
+
+```csharp
+// ✅ GOOD: PascalCase no C# (JsonPropertyName opcional para camelCase)
+public class ItemDto
+{
+    public string Id { get; set; }
+    public string CodigoInternoColaborador { get; set; }
+    public string NomeColaborador { get; set; }
+    public DateTime DataCriacao { get; set; }
+    public DateTime? DataAlteracao { get; set; }
+}
+```
+
+---
+
+## 3. Campos de Data e Identificadores
+
+**Context:** Padrão do projeto para datas e códigos de colaborador.
+
+**Forbidden:**
+
+```json
+// ❌ BAD: Nomes fora do padrão
+{
+  "createdAt": "2024-01-15",
+  "updatedAt": "2024-01-16",
+  "criadoEm": "2024-01-15",
+  "codigoColaboradorInterno": "123"
+}
+```
+
+```csharp
+// ❌ BAD: Propriedades em inglês
+public DateTime CreatedAt { get; set; }
+public string CodigoColaboradorInterno { get; set; }  // Inconsistente
+```
+
+**Required:**
+
+| Propósito | JSON (camelCase) | C# (PascalCase) |
+|-----------|------------------|-----------------|
+| Data criação | `dataCriacao` | `DataCriacao` |
+| Data alteração | `dataAlteracao` | `DataAlteracao` |
+| Data interação | `dataInteracao` | `DataInteracao` |
+| Código colaborador | `codigoInternoColaborador` | `CodigoInternoColaborador` |
+
+**Data format:** ISO 8601 (`YYYY-MM-DDTHH:mm:ssZ`) ou `YYYY-MM-DD` para datas apenas.
+
+---
+
+## 4. Padrão de Nomes para DTOs e Requests
+
+**Context:** Convenção de nomenclatura para contratos C#.
+
+**Forbidden:**
+
+```csharp
+// ❌ BAD: Nomes genéricos ou inconsistentes
+public class CreateRequest { }
+public class ListResponse { }
+public class Item { }
+```
+
+**Required:**
+
+```csharp
+// ✅ GOOD: Sufixos claros e alinhados ao recurso
+// Request de criação
+public class [Recurso]CreateRequest { }
+
+// Request de atualização
+public class [Recurso]UpdateRequest { }
+
+// Response com item único
+public class [Recurso]CreateResponse  // Usa ApiResponse<[Recurso]ItemDto>
+public class [Recurso]ItemDto         // Item da lista
+
+// Response com lista
+public class [Recurso]ListResponse    // Usa ApiResponse<List<[Recurso]ItemDto>>
+```
+
+**Exemplo:** `Feedback360CreateRequest`, `Feedback360ItemDto`, `Feedback360ListResponse`
+
+---
+
+## 5. Erros de Validação no Envelope
+
+**Context:** Em falha (4xx/validação), retornar mesmo envelope com `sucesso: false`.
+
+**Forbidden:**
+
+```csharp
+// ❌ BAD: Retornar apenas status sem envelope
+return BadRequest("Campo inválido");
+
+// ❌ BAD: Estrutura de erro diferente
+return Ok(new { error = "Campo X obrigatório" });
+```
+
+**Required:**
+
+```csharp
+// ✅ GOOD: Envelope padrao mesmo em erro
+return Ok(new ApiResponse<object>
+{
+    Retorno = null,
+    Sucesso = false,
+    Mensagem = "Erro de validação",
+    Erros = new List<string> { "Campo X é obrigatório", "Data inválida" }
+});
+```
+
+```json
+// ✅ GOOD: JSON de erro
+{
+  "retorno": null,
+  "sucesso": false,
+  "mensagem": "Erro de validação",
+  "erros": ["Campo X é obrigatório", "Data inválida"]
+}
+```
+
+---
+
+## 6. Anti-patterns Comuns a Evitar
+
+| Anti-pattern | Impacto | Correção |
+|--------------|---------|----------|
+| `dados` no envelope (ex.: ARCHITECTURE exemplo) | Data Layer acessa `response.retorno` | Usar **retorno** no envelope |
+| Resposta sem envelope | Front não encontra `retorno` | Sempre retornar `{ retorno, sucesso, mensagem, erros }` |
+| `createdAt` / `updatedAt` no JSON | Inconsistência com front | Usar `dataCriacao` / `dataAlteracao` |
+| `codigoColaboradorInterno` vs `codigoInternoColaborador` | Duas convenções | Usar **codigoInternoColaborador** (padrão docs) |
+| DTO com propriedades em inglês | Desalinhamento com docs | PascalCase em português |
+| `message` / `errors` / `data` no envelope | Front espera pt-BR | `mensagem` / `erros` / `retorno` |
+
+---
+
+## 7. Integração com o Data Layer (ARCHITECTURE.md)
+
+O frontend usa `httpClient` de `@data/api/httpClient` (ver `@ARCHITECTURE.md`). O backend deve:
+
+- Retornar **sempre** o envelope (`retorno`, `sucesso`, `mensagem`, `erros`) para que as APIs possam extrair `data.retorno`
+- Incluir headers esperados: `Authorization: Bearer {token}`; o `FRONTEND_TRACE_ID` é enviado automaticamente pelo httpClient
+- Responder em JSON com `Content-Type: application/json`
+
+---
+
+## 8. Checklist para Novos Endpoints
+
+Antes de definir ou documentar um contrato de API:
+
+- [ ] Envelope com `retorno`, `sucesso`, `mensagem`, `erros` (compatível com Data Layer)
+- [ ] JSON em camelCase
+- [ ] C# em PascalCase
+- [ ] Datas: `dataCriacao`, `dataAlteracao` em ISO 8601
+- [ ] Colaborador: `codigoInternoColaborador`
+- [ ] DTOs: sufixos `Request`, `Response`, `ItemDto`
+- [ ] Erros: `mensagem` + `erros[]` no envelope
+- [ ] Compatível com fluxo do `@ARCHITECTURE.md` (Page → Store → UseCase → Repository → API → httpClient → Backend)
+
+---
+
+Output Requirement: The final output must be in Portuguese (PT-BR) with all file names, variables and code patterns following Brazilian Portuguese conventions.

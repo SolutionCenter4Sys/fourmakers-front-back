@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <UserSecretsId>13f64394-eaa8-4b30-915e-eaf0df00e3fa</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataTransferObject.Domain\DataTransferObject.Domain.csproj" />
+    <ProjectReference Include="..\Logs.Infra\Logs.Infra.csproj" />
+    <ProjectReference Include="..\SRS.Application\SRS.Application.csproj" />
+    <ProjectReference Include="..\SRS.Domain\SRS.Domain.csproj" />
+  </ItemGroup>
+</Project>

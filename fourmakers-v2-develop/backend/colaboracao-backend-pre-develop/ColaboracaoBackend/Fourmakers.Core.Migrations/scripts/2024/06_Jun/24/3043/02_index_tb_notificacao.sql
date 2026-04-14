@@ -1,0 +1,1 @@
+CREATE INDEX idx_tb_colaborador_cpf_tb_org_id ON tb_notificacao(tb_colaborador_cpf, tb_org_id);

@@ -1,0 +1,4 @@
+ALTER TABLE `tb_apontamento_periodo_fechado` 
+CHANGE COLUMN `id` `id` INT NOT NULL AUTO_INCREMENT ,
+CHANGE COLUMN `data_criacao` `data_criacao` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ,
+CHANGE COLUMN `data_alteracao` `data_alteracao` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP ;

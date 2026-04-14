@@ -1,0 +1,1 @@
+DROP PROCEDURE spr_rpt_relatorio_apontamento;

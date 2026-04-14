@@ -1,0 +1,7 @@
+ALTER TABLE tb_parceiros
+ADD COLUMN tb_colaborador_codigo_colaborador_ultima_alteracao VARCHAR(36);
+
+ALTER TABLE tb_parceiros
+ADD CONSTRAINT fk_parceiros_colaborador_ultima_alteracao
+FOREIGN KEY (tb_colaborador_codigo_colaborador_ultima_alteracao)
+REFERENCES tb_colaborador(codigo_interno_colaborador);

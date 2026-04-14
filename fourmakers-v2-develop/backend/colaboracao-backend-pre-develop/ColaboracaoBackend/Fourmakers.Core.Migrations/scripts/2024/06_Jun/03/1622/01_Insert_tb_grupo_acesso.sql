@@ -1,0 +1,1 @@
+INSERT INTO `tb_grupo_acesso` (id, `descricao`, `ativo`, `nivel`, `tb_org_id`) VALUES (20, 'GERENTE COMPETENCIA', '1', '0', '2');

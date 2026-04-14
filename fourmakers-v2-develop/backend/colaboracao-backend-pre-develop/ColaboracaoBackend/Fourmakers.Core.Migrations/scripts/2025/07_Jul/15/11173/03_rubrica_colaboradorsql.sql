@@ -1,0 +1,21 @@
+CREATE TABLE tb_rubrica_colaborador (
+    id CHAR(36) NOT NULL,
+    ativo TINYINT(1) NOT NULL DEFAULT '1',
+    codigo_interno_colaborador_alteracao VARCHAR(36) NOT NULL,
+    codigo_interno_colaborador_criacao VARCHAR(36) NOT NULL,
+    valor DECIMAL(15, 2),
+    percentual DECIMAL(15, 2),
+    tb_rubrica_id CHAR(36) NOT NULL,
+    codigo_interno_colaborador CHAR(36) NOT NULL,
+    tb_vigencia_inicial_id CHAR(36) NOT NULL,
+    tb_vigencia_final_id CHAR(36),
+    codigo_rubrica_frequencia VARCHAR(50) NOT NULL,
+	observacao VARCHAR(1000) NOT NULL,
+    data_criacao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    data_alteracao TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (tb_rubrica_id) REFERENCES tb_rubrica(id),
+    FOREIGN KEY (tb_vigencia_inicial_id) REFERENCES tb_vigencia(id),
+    FOREIGN KEY (tb_vigencia_final_id) REFERENCES tb_vigencia(id),
+    FOREIGN KEY (codigo_rubrica_frequencia) REFERENCES tb_rubrica_frequencia(codigo_rubrica_frequencia)
+);

@@ -1,0 +1,492 @@
+version: '3.5'
+
+services:
+   competencia-api:
+      image: sistemasinternos.foursys.com.br:5000/competencia-api:homolog
+      container_name: competencia-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${COMPETENCIA_API_PORT}
+      ports:
+         - "${COMPETENCIA_API_PORT}:${COMPETENCIA_API_PORT}"
+      expose:
+         - "${COMPETENCIA_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Competencia.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   uploadfiles-api:
+      image: sistemasinternos.foursys.com.br:5000/uploadfiles-api:homolog
+      container_name: uploadfiles-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${UPLOADFILES_API_PORT}
+         - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+         - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+         - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+         - AWS_REGION=${AWS_DEFAULT_REGION}
+      ports:
+         - "${UPLOADFILES_API_PORT}:${UPLOADFILES_API_PORT}"
+      expose:
+         - "${UPLOADFILES_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: UploadFiles.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   formacao-api:
+      image: sistemasinternos.foursys.com.br:5000/formacao-api:homolog
+      container_name: formacao-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${FORMACAO_API_PORT}
+      ports:
+         - "${FORMACAO_API_PORT}:${FORMACAO_API_PORT}"
+      expose:
+         - "${FORMACAO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Formacao.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   dominio-api:
+      image: sistemasinternos.foursys.com.br:5000/dominio-api:homolog
+      container_name: dominio-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${DOMINIO_API_PORT}
+      ports:
+         - "${DOMINIO_API_PORT}:${DOMINIO_API_PORT}"
+      expose:
+         - "${DOMINIO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Dominio.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   interesse-api:
+      image: sistemasinternos.foursys.com.br:5000/interesse-api:homolog
+      container_name: interesse-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${INTERESSE_API_PORT}
+      ports:
+         - "${INTERESSE_API_PORT}:${INTERESSE_API_PORT}"
+      expose:
+         - "${INTERESSE_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Interesse.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   metodologia-api:
+      image: sistemasinternos.foursys.com.br:5000/metodologia-api:homolog
+      container_name: metodologia-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${METODOLOGIA_API_PORT}
+      ports:
+         - "${METODOLOGIA_API_PORT}:${METODOLOGIA_API_PORT}"
+      expose:
+         - "${METODOLOGIA_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Metodologia.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   colaborador-api:
+      image: sistemasinternos.foursys.com.br:5000/colaborador-api:homolog
+      container_name: colaborador-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${COLABORADOR_API_PORT}
+      ports:
+         - "${COLABORADOR_API_PORT}:${COLABORADOR_API_PORT}"
+      expose:
+         - "${COLABORADOR_API_PORT}"
+
+      build:
+         context: .
+         dockerfile: Colaborador.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   usuario-api:
+      image: sistemasinternos.foursys.com.br:5000/usuario-api:homolog
+      container_name: usuario-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${USUARIO_API_PORT}
+      ports:
+         - "${USUARIO_API_PORT}:${USUARIO_API_PORT}"
+      expose:
+         - "${USUARIO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Usuario.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   foursys-api:
+      image: sistemasinternos.foursys.com.br:5000/foursys-api:homolog
+      container_name: foursys-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${FOURSYS_API_PORT}
+      ports:
+         - "${FOURSYS_API_PORT}:${FOURSYS_API_PORT}"
+      expose:
+         - "${FOURSYS_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Foursys.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   srs-api:
+      image: sistemasinternos.foursys.com.br:5000/srs-api:homolog
+      container_name: srs-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${SRS_API_PORT}
+      ports:
+         - "${SRS_API_PORT}:${SRS_API_PORT}"
+      expose:
+         - "${SRS_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: SRS.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   softskill-api:
+      image: sistemasinternos.foursys.com.br:5000/softskill-api:homolog
+      container_name: softskill-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${SOFTSKILL_API_PORT}
+      ports:
+         - "${SOFTSKILL_API_PORT}:${SOFTSKILL_API_PORT}"
+      expose:
+         - "${SOFTSKILL_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Softskill.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   crm-api:
+      image: sistemasinternos.foursys.com.br:5000/crm-api:homolog
+      container_name: crm-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${CRM_API_PORT}
+      ports:
+         - "${CRM_API_PORT}:${CRM_API_PORT}"
+      expose:
+         - "${CRM_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: CRM.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   idioma-api:
+      image: sistemasinternos.foursys.com.br:5000/idioma-api:homolog
+      container_name: idioma-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${IDIOMA_API_PORT}
+      ports:
+         - "${IDIOMA_API_PORT}:${IDIOMA_API_PORT}"
+      expose:
+         - "${IDIOMA_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Idioma.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   projeto-api:
+      image: sistemasinternos.foursys.com.br:5000/projeto-api:homolog
+      container_name: projeto-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${PROJETO_API_PORT}
+      ports:
+         - "${PROJETO_API_PORT}:${PROJETO_API_PORT}"
+      expose:
+         - "${PROJETO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Projeto.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   mapaalocacao-api:
+      image: sistemasinternos.foursys.com.br:5000/mapaalocacao-api:homolog
+      container_name: mapaalocacao-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${MAPAALOCACAO_API_PORT}
+      ports:
+         - "${MAPAALOCACAO_API_PORT}:${MAPAALOCACAO_API_PORT}"
+      expose:
+         - "${MAPAALOCACAO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: MapaDeAlocacao.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+
+   mockserver-api:
+      image: sistemasinternos.foursys.com.br:5000/mockserver-api:homolog
+      container_name: mockserver-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${MOCKSERVER_API_PORT}
+      ports:
+         - "${MOCKSERVER_API_PORT}:${MOCKSERVER_API_PORT}"
+      expose:
+         - "${MOCKSERVER_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: MockServer.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   vaga-api:
+      image: sistemasinternos.foursys.com.br:5000/vaga-api:homolog
+      container_name: vaga-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${VAGA_API_PORT}
+      ports:
+         - "${VAGA_API_PORT}:${VAGA_API_PORT}"
+      expose:
+         - "${VAGA_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Vaga.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   rotinasbackoffice-api:
+      image: sistemasinternos.foursys.com.br:5000/rotinasbackoffice-api:homolog
+      container_name: rotinasbackoffice-api
+      env_file:
+         - ./.env
+      ports:
+         - "7884:7884"
+      expose:
+         - "7884"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: RotinasBackoffice.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   colaboracaobridge-api:
+      image: sistemasinternos.foursys.com.br:5000/colaboracaobridge-api:homolog
+      container_name: colaboracaobridge-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${COLABORACAO_BRIDGE_API_PORT}
+      ports:
+         - "${COLABORACAO_BRIDGE_API_PORT}:${COLABORACAO_BRIDGE_API_PORT}"
+      expose:
+         - "${COLABORACAO_BRIDGE_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: ColaboracaoBridge.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   apontamento-api:
+      image: sistemasinternos.foursys.com.br:5000/apontamento-api:homolog
+      container_name: apontamento-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${APONTAMENTO_API_PORT}
+      ports:
+         - "${APONTAMENTO_API_PORT}:${APONTAMENTO_API_PORT}"
+      expose:
+         - "${APONTAMENTO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Apontamento.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   lg-api:
+     image: sistemasinternos.foursys.com.br:5000/lg-api:homolog
+     container_name: lg-api
+     env_file:
+        - ./.env
+     environment:
+        - ASPNETCORE_ENVIRONMENT=Docker
+        - ASPNETCORE_URLS=http://+:${LG_API_PORT}
+     ports:
+        - "${LG_API_PORT}:${LG_API_PORT}"
+     expose:
+        - "${LG_API_PORT}"
+     networks:
+        - "docker-network"
+     build:
+        context: .
+        dockerfile: LG.API/Dockerfile
+     restart: unless-stopped
+     logging:
+       options:
+         max-size: 10m
+   botfourmakers-api:
+      image: sistemasinternos.foursys.com.br:5000/botfourmakers-api:homolog
+      container_name: botfourmakers-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${BOTFOURMAKERS_API_PORT}
+      ports:
+         - "${BOTFOURMAKERS_API_PORT}:${BOTFOURMAKERS_API_PORT}"
+      expose:
+         - "${BOTFOURMAKERS_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: BotFourmakers.API/Dockerfile
+      restart: unless-stopped
+      logging:
+         options:
+            max-size: 10m
+   reembolso-api:
+      image: sistemasinternos.foursys.com.br:5000/reembolso-api:homolog
+      container_name: reembolso-api
+      env_file:
+         - ./.env
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${REEMBOLSO_API_PORT}
+      ports:
+         - "${REEMBOLSO_API_PORT}:${REEMBOLSO_API_PORT}"
+      expose:
+         - "${REEMBOLSO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Reembolso.API/Dockerfile
+      restart: unless-stopped
+      logging:
+         options:
+            max-size: 10m
+networks:
+   docker-network:
+      external: true
+      name: docker-network
+      driver: bridge

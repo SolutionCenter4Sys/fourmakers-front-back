@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "Firebase.API\\Firebase.API.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "Colaborador.API\\Colaborador.API.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

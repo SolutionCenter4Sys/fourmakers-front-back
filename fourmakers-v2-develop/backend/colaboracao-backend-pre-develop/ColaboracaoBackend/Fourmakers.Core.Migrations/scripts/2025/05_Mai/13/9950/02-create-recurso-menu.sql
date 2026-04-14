@@ -1,0 +1,22 @@
+CREATE TABLE `tb_recurso_menu` (
+  `id` char(36) NOT NULL,
+  `ativo` tinyint(1) NOT NULL DEFAULT '1',
+  `codigo_interno_colaborador_alteracao` varchar(36) NOT NULL,
+  `codigo_interno_colaborador_criacao` varchar(36) NOT NULL,
+  `nome_menu` varchar(100) NOT NULL,
+  `codigo_recurso` varchar(50) NOT NULL,
+  `codigo_recurso_pai` varchar(50) DEFAULT NULL,
+  `codigo_icone` varchar(50) DEFAULT NULL,
+  `tipo_menu` enum('group_sidebar','item_sidebar','item_header','item_profile') DEFAULT NULL,
+  `link_externo_nova_pagina` varchar(500) DEFAULT NULL,
+  `ordenacao` float DEFAULT NULL,
+  `em_breve` tinyint(1) DEFAULT NULL,
+  `visivel` tinyint(1) DEFAULT NULL,
+  `data_criacao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `data_alteracao` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `codigo_recurso` (`codigo_recurso`,`codigo_recurso_pai`),
+  KEY `fk_codigo_recurso_pai` (`codigo_recurso_pai`),
+  CONSTRAINT `fk_tb_recurso_menu_codigo_recurso` FOREIGN KEY (`codigo_recurso`) REFERENCES `tb_recurso` (`codigo_recurso`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_tb_recurso_menu_codigo_recurso_pai` FOREIGN KEY (`codigo_recurso_pai`) REFERENCES `tb_recurso_menu` (`codigo_recurso`) ON DELETE CASCADE ON UPDATE CASCADE
+);

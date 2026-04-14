@@ -1,0 +1,1 @@
+ALTER TABLE `tb_gestor_externo` ADD `preferencias_pessoais` text NULL;

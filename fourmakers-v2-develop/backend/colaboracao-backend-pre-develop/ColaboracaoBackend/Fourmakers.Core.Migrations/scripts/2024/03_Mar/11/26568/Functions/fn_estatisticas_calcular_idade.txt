@@ -1,0 +1,25 @@
+CREATE FUNCTION `fn_estatisticas_calcular_idade`(data_nascimento DATE) RETURNS varchar(20)
+BEGIN
+    DECLARE diferenca_anos INT;
+    DECLARE faixa VARCHAR(20);
+    
+    -- SET diferenca_anos = YEAR(CURDATE()) - YEAR(data_nascimento);
+	SET diferenca_anos = TIMESTAMPDIFF(YEAR, STR_TO_DATE(data_nascimento, '%Y-%m-%d'), CURDATE());
+
+    
+    IF data_nascimento IS NULL OR data_nascimento = '0000-00-00 00:00:00' THEN
+		SET faixa = 'sem_Resposta';
+    ELSEIF diferenca_anos <= 25 THEN
+        SET faixa = 'idade_25_ou_menos';
+    ELSEIF diferenca_anos BETWEEN 26 AND 34 THEN
+        SET faixa = 'idade_26_34';
+    ELSEIF diferenca_anos BETWEEN 35 AND 44 THEN
+        SET faixa = 'idade_35_44';
+    ELSEIF diferenca_anos BETWEEN 45 AND 54 THEN
+        SET faixa = 'idade_45_54';
+    ELSEIF diferenca_anos >= 55 THEN
+        SET faixa = 'idade_55_mais';
+    END IF;
+    
+    RETURN faixa;
+END

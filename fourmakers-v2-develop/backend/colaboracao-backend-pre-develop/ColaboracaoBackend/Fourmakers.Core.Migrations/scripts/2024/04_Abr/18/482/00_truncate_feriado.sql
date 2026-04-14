@@ -1,0 +1,1 @@
+TRUNCATE TABLE tb_feriado;

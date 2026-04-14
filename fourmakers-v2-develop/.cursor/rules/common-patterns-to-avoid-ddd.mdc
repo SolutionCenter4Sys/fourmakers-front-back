@@ -1,0 +1,680 @@
+---
+name: common-patterns-to-avoid-ddd
+description: "Apply when reviewing business rule placement, analyzing domain model strength, or detecting anemic domain models. Triggers on: business logic in React components or Redux, UseCases that just pass through to repositories without logic, entities with only properties and no methods, validation scattered across layers. Use for: enforcing Domain-Driven Design principles and rich domain models."
+---
+
+**Version:** 1.2.0  
+**Last Updated:** 06/03/2026
+
+---
+
+# Domain-Driven Design (DDD) Anti-Patterns
+
+Violations of domain-centric design and rich model principles.
+
+---
+
+## 1. Business Rule Outside Domain
+
+**Context:** When reviewing where business decisions are made. Business logic must live in Domain layer (Entities, Value Objects, Domain Services, UseCases).
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Business rule in Redux
+// src/app/store/vagaSlice.ts
+const vagaSlice = createSlice({
+  name: 'vaga',
+  initialState,
+  reducers: {
+    publicarVaga: (state, action) => {
+      const vaga = state.vagas.find(v => v.id === action.payload);
+      
+      // Business rule in reducer!
+      if (vaga.status !== 'RASCUNHO') {
+        throw new Error('Apenas rascunhos podem ser publicados');
+      }
+      
+      // Business calculation
+      vaga.dataPublicacao = new Date().toISOString();
+      vaga.status = 'PUBLICADA';
+    }
+  }
+});
+
+// ❌ BAD: Business rule in component
+// src/presentation/components/vaga/VagaCard.tsx
+const podeCandidatar = (vaga: Vaga, usuario: Usuario) => {
+  // Business logic in UI!
+  if (vaga.status !== 'PUBLICADA') return false;
+  if (vaga.dataExpiracao && new Date(vaga.dataExpiracao) < new Date()) return false;
+  if (usuario.tipo !== 'CANDIDATO') return false;
+  return true;
+};
+
+// ❌ BAD: Business rule in API/repository
+// src/data/repositories/VagaRepositoryImpl.ts
+async function criar(dados: CriarVagaDTO): Promise<Vaga> {
+  // Validation in repository!
+  if (dados.salarioMinimo > dados.salarioMaximo) {
+    throw new Error('Salario minimo nao pode ser maior que maximo');
+  }
+  
+  return this.api.criar(dados);
+}
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Business rule in Entity
+// src/domain/entities/Vaga.ts
+export class Vaga {
+  private constructor(
+    private readonly _id: string,
+    private _titulo: string,
+    private _status: StatusVaga,
+    private _dataPublicacao?: Date,
+    private _dataExpiracao?: Date
+  ) {}
+  
+  // Factory method with validation
+  static criar(dados: CriarVagaDTO): Resultado<Vaga> {
+    if (dados.salarioMinimo > dados.salarioMaximo) {
+      return { sucesso: false, erro: 'Salario minimo nao pode ser maior que maximo' };
+    }
+    
+    return {
+      sucesso: true,
+      dados: new Vaga(
+        generateUUID(),
+        dados.titulo,
+        'RASCUNHO'
+      )
+    };
+  }
+  
+  // Business behavior encapsulated
+  publicar(): Resultado<void> {
+    if (this._status !== 'RASCUNHO') {
+      return { sucesso: false, erro: 'Apenas rascunhos podem ser publicados' };
+    }
+    
+    this._status = 'PUBLICADA';
+    this._dataPublicacao = new Date();
+    return { sucesso: true };
+  }
+  
+  // Business query encapsulated
+  estaAtiva(): boolean {
+    if (this._status !== 'PUBLICADA') return false;
+    if (!this._dataExpiracao) return true;
+    return this._dataExpiracao > new Date();
+  }
+  
+  podeSerCandidatadaPor(usuario: Usuario): boolean {
+    if (!this.estaAtiva()) return false;
+    if (usuario.tipo !== 'CANDIDATO') return false;
+    return true;
+  }
+  
+  get id(): string { return this._id; }
+  get status(): StatusVaga { return this._status; }
+  get dataPublicacao(): Date | undefined { return this._dataPublicacao; }
+}
+
+// ✅ GOOD: UseCase orchestrates, doesn't contain rules
+// src/domain/usecases/vaga/PublicarVagaUseCase.ts
+@injectable()
+export class PublicarVagaUseCase {
+  constructor(
+    @inject('VagaRepository') private repo: VagaRepository
+  ) {}
+  
+  async execute(vagaId: string): Promise<Resultado<void>> {
+    const vaga = await this.repo.obterPorId(vagaId);
+    
+    if (!vaga) {
+      return { sucesso: false, erro: 'Vaga nao encontrada' };
+    }
+    
+    // Delegate to entity - business rule lives in domain
+    const resultado = vaga.publicar();
+    
+    if (!resultado.sucesso) {
+      return resultado;
+    }
+    
+    await this.repo.salvar(vaga);
+    return { sucesso: true };
+  }
+}
+
+// ✅ GOOD: Component uses domain, doesn't implement rules
+// src/presentation/components/vaga/VagaCard.tsx
+const VagaCard = ({ vaga, usuario }: { vaga: Vaga; usuario: Usuario }) => {
+  // Use domain method, don't reimplement logic
+  const podeCandidatar = vaga.podeSerCandidatadaPor(usuario);
+  
+  return (
+    <Card>
+      <StatusBadge status={vaga.status} />
+      {podeCandidatar && <CandidatarButton />}
+    </Card>
+  );
+};
+```
+
+**Where Business Rules Belong:**
+
+| Type | Location | Example |
+|------|----------|---------|
+| Entity lifecycle | Entity static factory | `Vaga.criar()` with validation |
+| State transitions | Entity methods | `vaga.publicar()`, `vaga.cancelar()` |
+| Calculations | Entity methods or Value Objects | `vaga.calcularSalarioTotal()` |
+| Cross-entity rules | Domain Services | `RecomendacaoService.calcularMatch()` |
+| Orchestration | UseCases | `PublicarVagaUseCase` calls repo + notifications |
+| Invariants | Entity validation | `vaga.validar()` enforces rules |
+
+**Impact:**
+
+- Procedural system - domain is just data bags
+- Weak domain model - can't trust objects to be valid
+- Scattered rules - hard to find where decisions are made
+- Duplication - same validation in multiple places
+- Testing difficulty - need UI to test business logic
+
+**Detection:**
+
+- `if/else` logic in components beyond UI state
+- Validation in API calls
+- State change conditions in Redux reducers
+- Calculations in `.tsx` files
+- Complex `disabled={...}` logic in JSX
+
+**Architecture Reference:**
+
+See `@ARCHITECTURE.md` Section 5: "Regra de negocio em Entities ou UseCases. Nao em Redux, Components, API ou Repository."
+
+---
+
+## 2. Anemic UseCases
+
+**Context:** When reviewing UseCase implementations. UseCases should represent business intent and contain logic, not just pass through.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Anemic UseCase - just passes through
+// src/domain/usecases/vaga/ListarVagasUseCase.ts
+@injectable()
+export class ListarVagasUseCase {
+  constructor(
+    @inject('VagaRepository') private repo: VagaRepository
+  ) {}
+  
+  async execute(): Promise<Vaga[]> {
+    // Just delegates - adds no value!
+    return this.repo.listar();
+  }
+}
+
+// ❌ BAD: Anemic UseCase with no decision
+// src/domain/usecases/candidatura/AprovarCandidatoUseCase.ts
+@injectable()
+export class AprovarCandidatoUseCase {
+  constructor(
+    @inject('CandidaturaRepository') private repo: CandidaturaRepository
+  ) {}
+  
+  async execute(candidatoId: string): Promise<void> {
+    // No validation, no orchestration, just pass-through
+    await this.repo.atualizarStatus(candidatoId, 'APROVADO');
+  }
+}
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Rich UseCase with intent and logic
+// src/domain/usecases/vaga/ListarVagasUseCase.ts
+@injectable()
+export class ListarVagasUseCase {
+  constructor(
+    @inject('VagaRepository') private repo: VagaRepository,
+    @inject('CacheService') private cache: CacheService,
+    @inject('Logger') private logger: Logger
+  ) {}
+  
+  async execute(filtro: FiltroVaga): Promise<Vaga[]> {
+    const cacheKey = `vagas:${JSON.stringify(filtro)}`;
+    
+    // Decision: Check cache first
+    const cached = this.cache.get<Vaga[]>(cacheKey);
+    if (cached && this.cacheAindaValido(filtro)) {
+      this.logger.debug('Cache hit for vagas list', { filtro });
+      return cached;
+    }
+    
+    // Get from repository
+    const vagas = await this.repo.listar(filtro);
+    
+    // Decision: Apply post-fetch business filter
+    const vagasVisiveis = vagas.filter(v => 
+      v.estaAtiva() || this.usuarioPodeVerInativas()
+    );
+    
+    // Decision: Sort by business priority
+    const ordenadas = this.ordenarPorPrioridade(vagasVisiveis);
+    
+    // Store in cache
+    this.cache.set(cacheKey, ordenadas, 300);
+    
+    return ordenadas;
+  }
+  
+  private cacheAindaValido(filtro: FiltroVaga): boolean {
+    // Business rule: certain filters don't use cache
+    return !filtro.ordenacaoPersonalizada;
+  }
+  
+  private usuarioPodeVerInativas(): boolean {
+    // Business rule based on current user permissions
+    return false; // Simplified
+  }
+  
+  private ordenarPorPrioridade(vagas: Vaga[]): Vaga[] {
+    return vagas.sort((a, b) => {
+      if (a.destaque && !b.destaque) return -1;
+      if (!a.destaque && b.destaque) return 1;
+      return b.dataPublicacao.getTime() - a.dataPublicacao.getTime();
+    });
+  }
+}
+
+// ✅ GOOD: UseCase with orchestration
+// src/domain/usecases/candidatura/AprovarCandidatoUseCase.ts
+@injectable()
+export class AprovarCandidatoUseCase {
+  constructor(
+    @inject('CandidaturaRepository') private candidaturaRepo: CandidaturaRepository,
+    @inject('VagaRepository') private vagaRepo: VagaRepository,
+    @inject('NotificacaoService') private notificacao: NotificacaoService,
+    @inject('AuditoriaService') private auditoria: AuditoriaService,
+    @inject('Logger') private logger: Logger
+  ) {}
+  
+  async execute(candidatoId: string): Promise<Resultado<void>> {
+    this.logger.info('Iniciando aprovacao de candidato', { candidatoId });
+    
+    // Step 1: Load with validation
+    const candidatura = await this.candidaturaRepo.obterPorId(candidatoId);
+    if (!candidatura) {
+      this.logger.warn('Candidato nao encontrado', { candidatoId });
+      return { sucesso: false, erro: 'Candidato nao encontrado' };
+    }
+    
+    // Step 2: Business validation
+    if (candidatura.status !== 'EM_ANALISE') {
+      return { 
+        sucesso: false, 
+        erro: `Nao e possivel aprovar candidato com status ${candidatura.status}` 
+      };
+    }
+    
+    // Step 3: Load related data
+    const vaga = await this.vagaRepo.obterPorId(candidatura.vagaId);
+    if (!vaga) {
+      return { sucesso: false, erro: 'Vaga associada nao encontrada' };
+    }
+    
+    // Step 4: Execute business operation
+    candidatura.aprovar();
+    await this.candidaturaRepo.salvar(candidatura);
+    
+    // Step 5: Side effects
+    await Promise.all([
+      this.notificacao.enviar(candidatura.candidatoEmail, 'APROVACAO', {
+        vagaTitulo: vaga.titulo,
+        proximosPassos: 'Aguarde contato do RH'
+      }),
+      this.auditoria.registrar('CANDIDATURA_APROVADA', {
+        candidatoId,
+        vagaId: vaga.id,
+        aprovadorId: this.getUsuarioAtual()
+      })
+    ]);
+    
+    this.logger.info('Candidato aprovado com sucesso', { candidatoId });
+    return { sucesso: true };
+  }
+}
+```
+
+**UseCase Health Indicators:**
+
+| Anemic (Bad) | Rich (Good) |
+|--------------|-------------|
+| < 5 lines of code | Substantial logic |
+| Just calls repo | Makes decisions |
+| No validation | Validates input |
+| No orchestration | Coordinates multiple services |
+| No side effects | Handles notifications, audit, cache |
+| No error handling | Comprehensive error handling |
+
+**Impact:**
+
+- Inflated architecture - extra layers with no purpose
+- Layers without purpose - indirection without value
+- Confusion - developers don't know what UseCases are for
+
+**Detection:**
+
+- UseCases that just call `repo.listar()`
+- UseCases without `if/else` or validation
+- UseCases without error handling
+- UseCases that don't inject any services beyond repository
+
+**When UseCase is Justified:**
+
+- Orchestrates multiple repositories
+- Applies business filters/sorting
+- Handles caching
+- Sends notifications
+- Records audit
+- Validates preconditions
+
+**When Query is Sufficient:**
+
+- Simple list with no filters
+- Direct lookup by ID
+- No side effects needed
+- Consider using Repository directly or Query Handler pattern
+
+---
+
+## 3. Entities as DTOs
+
+**Context:** When designing entities. Entities should encapsulate behavior, not just be data structures.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Entity as DTO (data bag)
+// src/domain/entities/Feedback.ts
+export interface Feedback {
+  id: string;
+  comentario: string;
+  nivel: number;
+  dataCriacao: string;
+  // No methods, no encapsulation
+}
+
+// ❌ BAD: Even worse - plain object
+// src/domain/entities/Vaga.ts
+export type Vaga = {
+  id: string;
+  titulo: string;
+  status: string;
+  // No behavior at all
+};
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Rich Entity with behavior
+// src/domain/entities/Feedback.ts
+export class Feedback {
+  private constructor(
+    private readonly _id: string,
+    private _comentario: string,
+    private _nivel: number,
+    private _dataCriacao: Date,
+    private _status: StatusFeedback = 'ATIVO'
+  ) {}
+  
+  // Factory method with validation
+  static criar(dados: CriarFeedbackDTO): Resultado<Feedback> {
+    // Validation in factory
+    if (dados.nivel < 1 || dados.nivel > 5) {
+      return { sucesso: false, erro: 'Nivel deve estar entre 1 e 5' };
+    }
+    
+    if ((dados.nivel === 1 || dados.nivel === 2) && !dados.comentario?.trim()) {
+      return { sucesso: false, erro: 'Comentario obrigatorio para niveis baixos' };
+    }
+    
+    return {
+      sucesso: true,
+      dados: new Feedback(
+        generateUUID(),
+        dados.comentario,
+        dados.nivel,
+        new Date()
+      )
+    };
+  }
+  
+  // Business behavior
+  editarComentario(novoComentario: string): Resultado<void> {
+    if (this._status !== 'ATIVO') {
+      return { sucesso: false, erro: 'Nao e possivel editar feedback inativo' };
+    }
+    
+    this._comentario = novoComentario;
+    return { sucesso: true };
+  }
+  
+  inativar(): void {
+    this._status = 'INATIVO';
+  }
+  
+  // Business queries
+  estaAtivo(): boolean {
+    return this._status === 'ATIVO';
+  }
+  
+  requerComentario(): boolean {
+    return this._nivel === 1 || this._nivel === 2;
+  }
+  
+  getLabelNivel(): string {
+    const labels = {
+      1: 'Precisa evoluir bastante',
+      2: 'Abaixo do esperado',
+      3: 'Dentro do esperado',
+      4: 'Acima do esperado',
+      5: 'Referencia para os demais'
+    };
+    return labels[this._nivel];
+  }
+  
+  // Getters for read access
+  get id(): string { return this._id; }
+  get comentario(): string { return this._comentario; }
+  get nivel(): number { return this._nivel; }
+  get dataCriacao(): Date { return this._dataCriacao; }
+  get status(): StatusFeedback { return this._status; }
+}
+
+// ✅ GOOD: Value Object for complex types
+// src/domain/value-objects/Periodo.ts
+export class Periodo {
+  private constructor(
+    private readonly _inicio: Date,
+    private readonly _fim: Date
+  ) {}
+  
+  static criar(inicio: Date, fim: Date): Resultado<Periodo> {
+    if (inicio >= fim) {
+      return { sucesso: false, erro: 'Data inicio deve ser anterior a data fim' };
+    }
+    return { sucesso: true, dados: new Periodo(inicio, fim) };
+  }
+  
+  contem(data: Date): boolean {
+    return data >= this._inicio && data <= this._fim;
+  }
+  
+  dias(): number {
+    const diff = this._fim.getTime() - this._inicio.getTime();
+    return Math.ceil(diff / (1000 * 60 * 60 * 24));
+  }
+  
+  get inicio(): Date { return this._inicio; }
+  get fim(): Date { return this._fim; }
+}
+```
+
+**Entity vs DTO:**
+
+| Characteristic | Entity (Domain) | DTO (Data Transfer) |
+|----------------|-----------------|---------------------|
+| Has behavior | Yes (methods) | No (data only) |
+| Encapsulation | Private fields, public methods | Public fields |
+| Validation | In constructor/factory | External |
+| Identity | Has ID, tracked | Just data |
+| Mutability | Controlled via methods | Often mutable |
+| Location | `domain/entities/` | `shared/types/` or `data/dtos/` |
+
+**Impact:**
+
+- Loss of encapsulation - anyone can modify entity state
+- Scattered rules - validation happens in many places
+- Invalid states - entities can exist in impossible states
+- Testing difficulty - can't trust entity is valid
+
+**Detection:**
+
+- `interface` instead of `class` for entities
+- Entities with no methods (only getters/setters)
+- Direct property assignment to entities
+- Validation happening outside entity
+- `type` alias for entities
+
+**Refactoring Strategy:**
+
+| From | To |
+|------|-----|
+| Interface with properties | Class with private fields |
+| External validation | Factory method with validation |
+| Direct property access | Getter methods |
+| External state changes | Entity methods (e.g., `ativar()`, `cancelar()`) |
+| Scattered calculations | Entity methods or Value Objects |
+
+---
+
+## 4. Feature Coupled to Backend
+
+**Context:** When frontend assumes backend behavior or replicates backend rules.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Frontend reproduces backend rule
+// src/domain/usecases/vaga/CalcularSalarioUseCase.ts
+@injectable()
+export class CalcularSalarioUseCase {
+  execute(valor: number, tipo: TipoContrato): number {
+    // Frontend guessing backend calculation!
+    if (tipo === 'CLT') {
+      return valor * 1.3; // Assuming 30% benefits
+    }
+    return valor;
+  }
+}
+
+// ❌ BAD: Frontend assumes backend behavior
+// src/presentation/components/candidatura/CandidaturaCard.tsx
+const podeCancelar = (candidatura: Candidatura) => {
+  // Frontend assuming backend rule!
+  const diffHours = (Date.now() - candidatura.dataCriacao.getTime()) / (1000 * 60 * 60);
+  return diffHours < 24 && candidatura.status === 'PENDENTE';
+};
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Frontend asks backend for calculations
+// src/domain/usecases/vaga/ObterSalarioCalculadoUseCase.ts
+@injectable()
+export class ObterSalarioCalculadoUseCase {
+  constructor(
+    @inject('CalculadoraApi') private api: CalculadoraApi
+  ) {}
+  
+  async execute(valor: number, tipo: TipoContrato): Promise<number> {
+    // Backend owns the calculation
+    const response = await this.api.calcular({ valor, tipo });
+    return response.retorno;
+  }
+}
+
+// ✅ GOOD: Frontend delegates to backend
+// src/presentation/components/candidatura/CandidaturaCard.tsx
+const CandidaturaCard = ({ candidatura }: { candidatura: Candidatura }) => {
+  const container = useContainer();
+  const verificarUseCase = container.resolve(VerificarCancelamentoUseCase);
+  const [podeCancelar, setPodeCancelar] = useState(false);
+  
+  useEffect(() => {
+    // Ask backend if can cancel
+    verificarUseCase.execute(candidatura.id)
+      .then(resultado => setPodeCancelar(resultado.podeCancelar));
+  }, [candidatura.id]);
+};
+
+// ✅ GOOD: Backend endpoint for business rule
+// src/domain/usecases/candidatura/VerificarCancelamentoUseCase.ts
+@injectable()
+export class VerificarCancelamentoUseCase {
+  constructor(
+    @inject('CandidaturaRepository') private repo: CandidaturaRepository
+  ) {}
+  
+  async execute(candidaturaId: string): Promise<VerificacaoResult> {
+    const candidatura = await this.repo.obterPorId(candidaturaId);
+    if (!candidatura) {
+      return { podeCancelar: false, motivo: 'Candidatura nao encontrada' };
+    }
+    
+    // Backend decides, frontend just shows result
+    return {
+      podeCancelar: candidatura.podeSerCancelada(),
+      motivo: candidatura.podeSerCancelada() ? null : 'Prazo de cancelamento expirado'
+    };
+  }
+}
+```
+
+**Principle:**
+
+- Frontend: Handles UI, user interactions, display logic
+- Backend: Owns business rules, calculations, validations, state transitions
+- API Contract: Backend exposes what frontend can/can't do
+
+**Impact:**
+
+- Logic duplication - same rule in two places
+- Future divergence - backend changes, frontend doesn't know
+- Stale assumptions - frontend logic becomes outdated
+- Security issues - client-side validation can be bypassed
+
+**Detection:**
+
+- Calculations in domain that match backend logic
+- Client-side validation without server validation
+- Assumptions about state transitions
+- Time-based logic in frontend ("within 24 hours")
+- Status transitions checked in frontend
+
+**Architecture Reference:**
+
+See `@ARCHITECTURE.md` Section 5: "Frontend nao deve reproduzir regra do backend nem assumir comportamento implicito."
+
+---
+
+**Output Requirement:** The final output must be in Portuguese (PT-BR) with all file names, variables and code patterns following Brazilian Portuguese conventions.

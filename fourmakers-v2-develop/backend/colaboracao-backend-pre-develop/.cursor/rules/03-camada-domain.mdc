@@ -1,0 +1,72 @@
+---
+description: Padrão obrigatório para Services e ValidatorServices da camada Domain do projeto Colaboração Backend
+globs: **/{Impl,Interfaces}/**/*{Service,ValidatorService}.cs
+alwaysApply: false
+---
+
+# Camada Domain — Services e ValidatorServices
+
+## Service — estrutura obrigatória
+
+```csharp
+[LogDomainClass]                        // ativa interceptor de log automático
+public class {Recurso}Service : I{Recurso}Service
+{
+    public static readonly string DESCRICAO_ENTIDADE = "{Recurso}";
+
+    private readonly I{Recurso}Repository _repository;
+    private readonly I{Recurso}ValidatorService _validatorService;
+    // IDBConnectionUnitOfWork apenas quando houver transação
+    private readonly IDBConnectionUnitOfWork _unitOfWork;
+
+    // Método padrão de retorno
+    public async Task<ApiGenericResult<{Recurso}Result>> ObterPorId(Guid id, string cpf, int orgId)
+    {
+        var resultado = new ApiGenericResult<{Recurso}Result>();
+        try
+        {
+            _validatorService.ValidarAcesso(cpf, orgId);
+            var item = await _repository.ObterPorIdAsync(id);
+            if (item == null) ExceptionUtil.NaoEncontrado(DESCRICAO_ENTIDADE);
+            resultado.Retorno = item;
+        }
+        catch (Exception ex) { ExceptionUtil.GerenciarRetornoExcecao(ex, CRUDEnum.Read, DESCRICAO_ENTIDADE); }
+        return resultado;
+    }
+}
+```
+
+## Regras do Service
+
+- **Sempre** anotar a classe com `[LogDomainClass]` (Logs.Infra.Attributes).
+- Registrar no Initializer com `TryAddScopedDomainService<I, T>()` — nunca `AddScoped` simples.
+- Retornar `ApiGenericResult<T>` ou `ApiGenericResult` (DataTransferObject.Domain.Base).
+- Usar `ExceptionUtil.GerenciarRetornoExcecao(ex, CRUDEnum.{acao}, DESCRICAO_ENTIDADE)` no catch.
+- Usar `ExceptionUtil.NaoEncontrado`, `NaoInserido`, etc. para erros de negócio.
+- Transações gerenciadas **aqui** (nunca no Repository): `BeginTransaction` → `Commit` / `Rollback`.
+- Não depender de `IAspNetUser` — receber `cpf` e `orgId` como parâmetros.
+
+## ValidatorService — estrutura obrigatória
+
+```csharp
+public class {Recurso}ValidatorService : I{Recurso}ValidatorService
+{
+    public void ValidarAcesso(string cpf, int orgId)
+    {
+        // validar permissão via IFuncionalidadeSistemaRepository ou regra de negócio
+        if (!temAcesso) throw new UnauthorizedAccessException("Usuário sem permissão.");
+    }
+
+    public void ValidarInput({Recurso}Input input)
+    {
+        if (string.IsNullOrWhiteSpace(input.Campo))
+            throw new ArgumentException("Campo é obrigatório.");
+    }
+}
+```
+
+## Interfaces
+
+- Service: `{Nome}.Domain/Interfaces/{Contexto}/I{Recurso}Service.cs`
+- ValidatorService: `{Nome}.Domain/Interfaces/{Contexto}/I{Recurso}ValidatorService.cs`
+- Implementações: `{Nome}.Domain/Impl/{Contexto}/`

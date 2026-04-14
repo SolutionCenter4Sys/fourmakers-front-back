@@ -1,0 +1,5 @@
+export { ParceiroFormModal } from './ParceiroFormModal'
+export { ContratoFormModal } from './ContratoFormModal'
+export { UploadArquivoModal } from './UploadArquivoModal'
+export { ContratoDetailsModal } from './ContratoDetailsModal'
+export { DetalhesContratoModal } from './DetalhesContratoModal'

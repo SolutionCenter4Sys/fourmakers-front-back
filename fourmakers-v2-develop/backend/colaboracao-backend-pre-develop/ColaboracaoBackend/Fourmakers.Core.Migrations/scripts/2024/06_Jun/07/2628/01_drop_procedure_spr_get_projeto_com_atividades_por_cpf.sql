@@ -1,0 +1,1 @@
+DROP PROCEDURE spr_get_projeto_com_atividades_por_cpf;

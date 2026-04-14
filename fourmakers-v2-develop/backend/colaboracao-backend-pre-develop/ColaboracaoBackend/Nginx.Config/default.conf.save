@@ -1,0 +1,85 @@
+server {
+    listen       80;
+    listen  [::]:80;
+    server_name  localhost;
+
+    #access_log  /var/log/nginx/host.access.log  main;
+
+    location /api/colaborador {
+        proxy_pass http://colaborador-api:30101/api/colaborador;
+    }
+
+    location /api/comentario {
+        proxy_pass http://comentario-api:30102/api/comentario;
+    }
+
+    location /api/filtro {
+        proxy_pass http://filtro-api:30103/api/filtro;
+    }
+
+    location /api/firebase {
+        proxy_pass http://firebase-api:30104/api/firebase;
+    }
+
+    location /api/hobby {
+        proxy_pass http://hobby-api:30105/api/hobby;
+    }
+
+    location /api/interesse {
+        proxy_pass http://interesse-api:30106/api/interesse;
+    }
+
+    location /api/metodologia {
+        proxy_pass http://metodologia-api:30107/api/metodologia;
+    }
+
+    location ~ .*(\/api\/[Uu]suario) {
+        proxy_pass http://usuario-api:30108/api/usuario;
+    }
+
+    location /api/candidato {
+        proxy_pass http://candidato-api:30109/api/candidato;
+    }	
+
+    location /api/competencia {
+        proxy_pass http://competencia-api:30110/api/competencia;
+    }	
+
+    location /api/dominio {
+        proxy_pass http://dominio-api:30111/api/dominio;
+    }
+
+    location /api/endosso {
+        proxy_pass http://endosso-api:30112/api/endosso;
+    }
+
+    location /api/feed {
+        proxy_pass http://feed-api:30113/api/feed;
+    }
+
+    location /api/modeloreferencia {
+        proxy_pass http://modeloreferencia-api:30114/api/modeloreferencia;
+    }
+
+    location /api/noticia {
+        proxy_pass http://noticia-api:30115/api/noticia;
+    }
+
+    location /api/uploadfiles {
+        proxy_pass http://uploadfiles-api:30116/api/uploadfiles;
+    }
+
+    location /api/formacao {
+        proxy_pass http://formacao-api:30117/api/formacao;
+    }
+	
+    location /api/foursys {
+        proxy_pass http://foursys-api:30118/api/foursys;
+    }
+
+      location /api/bi {
+        proxy_pass http://bi-api:30119/api/bi;
+    }
+
+}
+

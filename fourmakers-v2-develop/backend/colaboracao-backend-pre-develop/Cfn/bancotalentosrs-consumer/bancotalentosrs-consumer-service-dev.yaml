@@ -1,0 +1,27 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: IaC Architectural Resources
+Parameters:
+  AwsProfile:
+    AllowedValues:
+    - fsys2-development
+    Type: String
+  Env:
+    Default: dev
+    Type: String
+  Project:
+    Default: bancotalentosrs-consumer
+    Type: String
+Resources:
+  Stack:
+    Properties:
+      Parameters:
+        AwsProfile:
+          Fn::Sub: ${AwsProfile}
+        Env:
+          Fn::Sub: ${Env}
+        Project:
+          Fn::Sub: ${Project}
+        StackName:
+          Fn::Sub: ${AWS::StackName}
+      TemplateURL: https://fsys2-bucket-cfn-dev.s3.amazonaws.com/ecs-service-template.yaml
+    Type: AWS::CloudFormation::Stack

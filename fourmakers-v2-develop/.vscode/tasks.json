@@ -1,0 +1,102 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "▶ Iniciar Aplicação",
+      "type": "npm",
+      "script": "dev",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "vite",
+        "pattern": [{ "regexp": ".", "file": 1, "location": 2, "message": 3 }],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": ".*",
+          "endsPattern": ".*(Local:|ready in|server running at).*"
+        }
+      },
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "always", "panel": "shared" }
+    },
+    {
+      "label": "🎭 Abrir — GherkinFlow Agent",
+      "type": "shell",
+      "command": "code DEMO/agentes/01-GherkinFlow.md",
+      "presentation": { "reveal": "never" },
+      "problemMatcher": []
+    },
+    {
+      "label": "🧪 Abrir — DataForge Agent",
+      "type": "shell",
+      "command": "code DEMO/agentes/02-DataForge.md",
+      "presentation": { "reveal": "never" },
+      "problemMatcher": []
+    },
+    {
+      "label": "🎬 Abrir — Playwright Agent",
+      "type": "shell",
+      "command": "code DEMO/agentes/03-Playwright.md",
+      "presentation": { "reveal": "never" },
+      "problemMatcher": []
+    },
+    {
+      "label": "📋 Abrir — Script da Demo (DEMO-PROMPT.md)",
+      "type": "shell",
+      "command": "code DEMO-PROMPT.md",
+      "presentation": { "reveal": "never" },
+      "problemMatcher": []
+    },
+    {
+      "label": "🗂 Abrir — Cenários BDD gerados",
+      "type": "shell",
+      "command": "code DEMO/cenarios-bdd",
+      "presentation": { "reveal": "never" },
+      "problemMatcher": []
+    },
+    {
+      "label": "🗃 Abrir — Massa de Dados gerada",
+      "type": "shell",
+      "command": "code DEMO/massa-dados",
+      "presentation": { "reveal": "never" },
+      "problemMatcher": []
+    },
+    {
+      "label": "⚡ Rodar — Testes Playwright (Homolog)",
+      "type": "shell",
+      "command": "npx playwright test --reporter=list",
+      "options": {
+        "env": {
+          "BASE_URL": "https://app.dev.fourmakers.io"
+        }
+      },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "⚡ Rodar — Testes Playwright (Local)",
+      "type": "shell",
+      "command": "npx playwright test --reporter=list",
+      "options": {
+        "env": {
+          "BASE_URL": "http://localhost:5173"
+        }
+      },
+      "presentation": { "reveal": "always", "panel": "shared" },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔍 Abrir — Playwright Codegen (Homolog)",
+      "type": "shell",
+      "command": "npx playwright codegen https://app.dev.fourmakers.io/reembolso",
+      "presentation": { "reveal": "always", "panel": "new" },
+      "problemMatcher": []
+    },
+    {
+      "label": "🔍 Abrir — Playwright Codegen (Local)",
+      "type": "shell",
+      "command": "npx playwright codegen http://localhost:5173/reembolso",
+      "presentation": { "reveal": "always", "panel": "new" },
+      "problemMatcher": []
+    }
+  ]
+}

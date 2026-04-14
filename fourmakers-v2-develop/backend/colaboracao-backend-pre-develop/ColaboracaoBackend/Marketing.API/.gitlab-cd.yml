@@ -1,0 +1,277 @@
+# CD Pipeline
+include:
+  - .gitlab-rules.yml
+  - .gitlab-cd.yml
+
+variables:
+  FF_USE_FASTZIP: "true"
+
+.is_develop: &is_develop
+  - !reference [._is_develop, rules]
+.is_release: &is_release
+  - !reference [._is_release, rules]
+.is_new_protected_branch: &is_new_protected_branch
+  - !reference [._is_new_protected_branch, rules]
+
+stages:
+  - check-versions
+  - check-deploy
+  - iac-resources
+  - publish
+  - iac-services
+  - deploy
+  - deploy-alb-rules
+  - tag-version
+
+# Job para verificar versões dos projetos
+check_project_versions_develop:
+  stage: check-versions
+  image: alpine:latest
+  environment: DEVELOPMENT
+  before_script:
+    - apk add --no-cache bash grep curl jq
+  script:
+    - ./Cfn/scripts/check-project-versions.sh MARKETING_API
+  artifacts:
+    paths:
+      - deploy_config.json
+    expire_in: 1 hour
+  rules:
+    - *is_develop
+
+check_project_versions_release:
+  stage: check-versions
+  image: alpine:latest
+  environment: PRODUCTION
+  before_script:
+    - apk add --no-cache bash grep curl jq
+  script:
+    - ./Cfn/scripts/check-project-versions.sh MARKETING_API
+  artifacts:
+    paths:
+      - deploy_config.json
+    expire_in: 1 hour
+  rules:
+    - *is_release
+
+# Job para verificar se o deploy é necessário
+check_deploy:
+  stage: check-deploy
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache bash grep curl jq
+  script:
+    - ./Cfn/scripts/check-deploy-from-json.sh MARKETING_API
+  artifacts:
+    paths:
+      - deploy_config.json
+    expire_in: 1 hour
+  rules:
+    - *is_develop
+    - *is_release
+
+.cd_project_env: &cd_project_env
+  - export ECR_PROJECT_PATH=backoffice/marketing-api
+  - export CI_AWS_ECS_SERVICE=srv-marketing-api
+  - export PROJECT_CFN_PATH=Cfn/marketing-api/
+  - export PROJECT_NAME=marketing-api
+  - export PROJECT_DOCKER_PATH=Marketing.API/Dockerfile
+
+.ci_env_develop: &ci_env_develop
+  - export AWS_PROFILE=fsys2-development
+  - export CI_ENV=dev
+
+.ci_env_release: &ci_env_release
+  - export AWS_PROFILE=fsys2-production
+  - export CI_ENV=prd
+
+.ci_release: &ci_release
+  - export CI_RELEASE_VERSION=$(pysemver bump patch $CI_RELEASE_VERSION)
+
+.ci_release_develop: &ci_release_develop
+  - *ci_env_develop
+  - *ci_release
+
+.ci_release_release: &ci_release_release
+  - *ci_env_release
+  - export CI_RELEASE_VERSION=${CI_COMMIT_TAG}
+
+.aws_resources:
+  stage: iac-resources
+  cache: []
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: './'
+  script:
+    - !reference [._aws_credentials_script, script]
+    - !reference [._aws_resources_script, script]
+
+aws_resources_develop:
+  environment: DEVELOPMENT
+  needs:
+    - check_deploy
+  extends: .aws_resources
+  rules:
+    - *is_develop
+  before_script:
+    - *ci_env_develop
+    - *cd_project_env
+
+aws_resources_release:
+  environment: PRODUCTION
+  needs:
+    - check_deploy
+  extends: .aws_resources
+  rules:
+    - *is_release
+  before_script:
+    - *ci_env_release
+    - *cd_project_env
+
+.build_image:
+  stage: publish
+  cache: []
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: "./"
+  script:
+    - !reference [._registry_tag_exports, exports]
+    - !reference [._aws_credentials_script, script]
+    - !reference [._build_image_script, script]
+
+build_image_develop:
+  environment: DEVELOPMENT
+  needs:
+    - check_deploy
+    - aws_resources_develop
+  extends: .build_image
+  rules:
+    - *is_develop
+  before_script:
+    - *ci_env_develop
+    - *cd_project_env
+
+build_image_release:
+  environment: PRODUCTION
+  needs:
+    - check_deploy
+    - aws_resources_release
+  extends: .build_image
+  rules:
+    - *is_release
+  before_script:
+    - *ci_env_release
+    - *cd_project_env
+
+.aws_services:
+  stage: iac-services
+  cache: []
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: './'
+  script:
+    - !reference [._aws_credentials_script, script]
+    - !reference [._aws_services_script, script]
+
+aws_services_develop:
+  environment: DEVELOPMENT
+  needs:
+    - check_deploy
+    - build_image_develop
+  extends: .aws_services
+  rules:
+    - *is_develop
+  before_script:
+    - *ci_env_develop
+    - *cd_project_env
+
+aws_services_release:
+  environment: PRODUCTION
+  needs:
+    - check_deploy
+    - build_image_release
+  extends: .aws_services
+  rules:
+    - *is_release
+  before_script:
+    - *ci_env_release
+    - *cd_project_env
+
+.deploy_web:
+  stage: deploy
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-ecs:latest
+  cache: []
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: "./"
+  script:
+    - !reference [._aws_credentials_script, script]
+    - !reference [._deploy_web_script, script]
+
+deploy_web_develop:
+  environment: DEVELOPMENT
+  needs:
+    - check_deploy
+    - aws_services_develop
+  extends: .deploy_web
+  rules:
+    - *is_develop
+  before_script:
+    - *ci_env_develop
+    - *cd_project_env
+
+deploy_web_release:
+  environment: PRODUCTION
+  needs:
+    - check_deploy
+    - aws_services_release
+  extends: .deploy_web
+  rules:
+    - *is_release
+  before_script:
+    - *ci_env_release
+    - *cd_project_env
+
+.deploy_alb_rules:
+  stage: deploy-alb-rules
+  cache: []
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: './'
+  script:
+    - !reference [._aws_credentials_script, script]
+    - !reference [._deploy_alb_rules_script, script]
+
+deploy_alb_rules_develop:
+  environment: DEVELOPMENT
+  needs:
+    - check_deploy
+    - deploy_web_develop
+  extends: .deploy_alb_rules
+  rules:
+    - *is_develop
+  before_script:
+    - *ci_env_develop
+    - *cd_project_env
+
+deploy_alb_rules_release:
+  environment: PRODUCTION
+  needs:
+    - check_deploy
+    - deploy_web_release
+  extends: .deploy_alb_rules
+  rules:
+    - *is_release
+  before_script:
+    - *ci_env_release
+    - *cd_project_env
+
+# Job para criar tag de versão após deploy em produção
+tag_version_release:
+  stage: tag-version
+  image: alpine:latest
+  needs:
+    - deploy_web_release
+  environment: PRODUCTION
+  before_script:
+    - apk add --no-cache bash grep curl jq
+  script:
+    - chmod +x ./Cfn/scripts/tag-version.sh
+    - ./Cfn/scripts/tag-version.sh MARKETING_API
+  rules:
+    - *is_release

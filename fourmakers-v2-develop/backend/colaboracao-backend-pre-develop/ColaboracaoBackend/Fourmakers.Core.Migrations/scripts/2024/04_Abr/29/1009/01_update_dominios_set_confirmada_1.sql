@@ -1,0 +1,1 @@
+UPDATE tb_dominionegocio SET confirmada = 1 WHERE confirmada = 0;

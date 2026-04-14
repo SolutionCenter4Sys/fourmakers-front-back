@@ -1,0 +1,3 @@
+ALTER TABLE tb_comentarios_interacao_acoes
+ADD CONSTRAINT fk_comentarios_tb_codigo_interno_colaborador FOREIGN KEY (tb_colaborador_codigo_interno_colaborador) 
+REFERENCES tb_colaborador (codigo_interno_colaborador) ON DELETE SET NULL ON UPDATE CASCADE;

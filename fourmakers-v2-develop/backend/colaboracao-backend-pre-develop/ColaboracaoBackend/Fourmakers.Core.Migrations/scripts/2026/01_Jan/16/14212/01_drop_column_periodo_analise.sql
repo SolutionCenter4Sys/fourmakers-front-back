@@ -1,0 +1,2 @@
+ALTER TABLE tb_gest_desemp_parametrizacao_org
+DROP COLUMN periodo_padrao_analise_dias;

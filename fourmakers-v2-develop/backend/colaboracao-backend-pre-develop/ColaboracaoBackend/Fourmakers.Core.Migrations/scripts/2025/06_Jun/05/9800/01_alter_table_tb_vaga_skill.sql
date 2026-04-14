@@ -1,0 +1,2 @@
+ALTER TABLE tb_vaga_skill
+ADD COLUMN relevante BOOLEAN DEFAULT FALSE;

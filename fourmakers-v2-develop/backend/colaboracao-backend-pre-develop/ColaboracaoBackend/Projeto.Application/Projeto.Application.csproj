@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Colaboracao.Infra\Colaboracao.Infra.csproj" />
+    <ProjectReference Include="..\ApiClient.Domain\ApiClient.Domain.csproj" />
+    <ProjectReference Include="..\Colaboracao.Initializer\Colaboracao.Initializer.csproj" />
+    <ProjectReference Include="..\Projeto.Domain\Projeto.Domain.csproj" />
+  </ItemGroup>
+</Project>

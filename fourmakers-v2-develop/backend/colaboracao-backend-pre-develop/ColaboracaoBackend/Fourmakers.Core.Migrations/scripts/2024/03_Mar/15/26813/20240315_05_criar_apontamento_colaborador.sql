@@ -1,0 +1,20 @@
+CREATE TABLE `tb_colaborador_apontamento` (
+  `id` CHAR(36) PRIMARY KEY NOT NULL,
+  `horas` BIGINT UNSIGNED,
+  `justificativa` varchar(500),
+  `data` date,
+  `numero_semana` integer,
+  `numero_semana_dia` integer,
+  `tb_atividade_id` CHAR(36),
+  `tb_status_apontamento_id` CHAR(36),
+  `tipo_apontamento_id` ENUM ('diario', 'mensal'),
+  `tb_vigencia_id` CHAR(36),
+  `tb_projeto_org_cod_projeto` varchar(255),
+  `tb_org_id` integer,
+  `tb_colaborador_org_tb_colaborador_cpf` varchar(11),
+  FOREIGN KEY (`tb_org_id`, `tb_colaborador_org_tb_colaborador_cpf`) REFERENCES `tb_colaborador_org`(`tb_org_id`, `tb_colaborador_cpf`),
+  FOREIGN KEY (`tb_projeto_org_cod_projeto`, `tb_org_id`) REFERENCES `tb_projeto_org` (`cod_projeto`, `tb_org_id`),
+  FOREIGN KEY (`tb_status_apontamento_id`) REFERENCES `tb_status_apontamento`(`id`),
+  FOREIGN KEY (`tb_vigencia_id`) REFERENCES `tb_vigencia`(`id`),
+  FOREIGN KEY (`tb_atividade_id`) REFERENCES `tb_atividade`(`id`)
+);

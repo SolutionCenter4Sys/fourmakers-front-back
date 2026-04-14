@@ -1,0 +1,425 @@
+---
+name: common-patterns-to-avoid-clean-code
+description: "Apply when reviewing component complexity, analyzing responsibility distribution, or detecting SRP violations. Triggers on: components with embedded business logic, Redux slices containing business rules instead of delegating, shared/ folder containing feature-specific code. Use for: enforcing Clean Code principles and Single Responsibility Principle."
+---
+
+**Version:** 1.2.0  
+**Last Updated:** 06/03/2026
+
+---
+
+# Clean Code and SRP Anti-Patterns
+
+Violations of responsibility separation and code clarity principles.
+
+---
+
+## 1. Shared as Global Dumpster
+
+**Context:** When organizing utility code or deciding where to place shared functionality. The `shared/` folder has a specific, limited purpose.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Feature-specific code in shared
+// src/shared/hooks/useFeedback360.ts
+// Contains logic specific to Feedback 360 feature
+
+// ❌ BAD: Business logic in shared
+// src/shared/utils/calcularNivelFeedback.ts
+// Contains domain calculations that belong in domain/
+
+// ❌ BAD: API calls in shared
+// src/shared/services/apiService.ts
+// Makes HTTP calls - should be in data/
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Only generic utilities in shared
+// src/shared/types/ — TypeScript interfaces and types
+export interface ApiResponse<T> {
+  retorno: T;
+  sucesso: boolean;
+  mensagem: string | null;
+  erros: string[] | null;
+}
+
+// ✅ GOOD: Generic utilities
+// src/shared/utils/dateUtils.ts
+export const formatarDataISO = (data: Date): string => {
+  return data.toISOString().split('T')[0];
+};
+
+export const parseDataBR = (data: string): Date | null => {
+  const parts = data.split('/');
+  if (parts.length !== 3) return null;
+  return new Date(parseInt(parts[2]), parseInt(parts[1]) - 1, parseInt(parts[0]));
+};
+
+// ✅ GOOD: Cross-cutting constants
+// src/shared/constants/httpStatus.ts
+export const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  NOT_FOUND: 404,
+  SERVER_ERROR: 500
+} as const;
+```
+
+**Allowed in shared/:**
+
+| Category | Examples | NOT Allowed |
+|----------|----------|-------------|
+| Types | `ApiResponse`, `PaginationParams` | Feature-specific types |
+| Utils | `dateUtils`, `stringUtils`, `currencyUtils` | Business calculations |
+| Constants | `HTTP_STATUS`, `MAX_PAGE_SIZE` | Feature constants |
+| Guards | `isNonNull`, `hasProperty` | Domain validation rules |
+
+**Impact:**
+
+- Loss of code identity - shared becomes a dumping ground
+- Unordered growth - difficult to find what should be reused
+- Feature leakage - business logic escapes domain layer
+- Testing difficulty - shared code has mixed concerns
+
+**Detection:**
+
+- Check: `grep -r "useCase\|business\|domain" src/shared/` (should be empty)
+- Look for feature names in shared/ folder
+- Any business calculations in shared/utils
+- Any HTTP calls in shared/
+
+---
+
+## 2. Business Logic in Components
+
+**Context:** When reviewing React components. Components should handle UI, not business decisions.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Business calculation in component
+// src/presentation/components/feedback/FeedbackCard.tsx
+const FeedbackCard = ({ feedback }) => {
+  // Business calculation that should be in domain
+  const calcularNivel = (comentario: string): number => {
+    if (comentario.includes('excelente')) return 5;
+    if (comentario.includes('bom')) return 4;
+    return 3;
+  };
+  
+  const nivel = calcularNivel(feedback.comentario);
+  
+  // Business decision in component
+  const podeEditar = (feedback) => {
+    const diffDays = (new Date() - new Date(feedback.dataCriacao)) / (1000 * 60 * 60 * 24);
+    return diffDays < 7 && feedback.status === 'RASCUNHO';
+  };
+
+  return <Card>{/* ... */}</Card>;
+};
+
+// ❌ BAD: Orchestration in component
+// src/presentation/pages/recrutamento/GestaoVagas.tsx
+const GestaoVagasPage = () => {
+  const handleAprovarCandidato = async (candidato) => {
+    // Business validation mixed with UI
+    if (candidato.status !== 'EM_ANALISE') {
+      toast.error('Somente candidatos em analise podem ser aprovados');
+      return;
+    }
+    
+    // Complex business flow
+    await candidaturaApi.atualizarStatus(candidato.id, 'APROVADO');
+    await notificacaoApi.enviar(candidato.email, 'Parabens! Voce foi aprovado');
+    await auditoriaApi.registrar('APROVACAO_CANDIDATO', candidato.id);
+    
+    // ... more business logic
+  };
+};
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Component delegates to UseCase
+// src/presentation/components/feedback/FeedbackCard.tsx
+const FeedbackCard = ({ feedback }: FeedbackCardProps) => {
+  // Component only handles UI concerns
+  const container = useContainer();
+  const calcularNivelUseCase = container.resolve(CalcularNivelUseCase);
+  const verificarEdicaoUseCase = container.resolve(VerificarEdicaoUseCase);
+  
+  const nivel = useMemo(() => 
+    calcularNivelUseCase.execute(feedback.comentario),
+    [feedback.comentario]
+  );
+  
+  const podeEditar = useMemo(() => 
+    verificarEdicaoUseCase.execute(feedback),
+    [feedback]
+  );
+  
+  return (
+    <Card>
+      <NivelBadge nivel={nivel} />
+      {podeEditar && <EditButton />}
+    </Card>
+  );
+};
+
+// ✅ GOOD: Page delegates complex flow to UseCase
+// src/domain/usecases/candidatura/AprovarCandidatoUseCase.ts
+@injectable()
+export class AprovarCandidatoUseCase {
+  constructor(
+    @inject('CandidaturaRepository') private repo: CandidaturaRepository,
+    @inject('NotificacaoService') private notificacao: NotificacaoService,
+    @inject('AuditoriaService') private auditoria: AuditoriaService
+  ) {}
+  
+  async execute(candidatoId: string): Promise<Resultado> {
+    // All business logic in domain
+    const candidato = await this.repo.obterPorId(candidatoId);
+    
+    if (!candidato) {
+      return { sucesso: false, erro: 'Candidato nao encontrado' };
+    }
+    
+    if (candidato.status !== 'EM_ANALISE') {
+      return { 
+        sucesso: false, 
+        erro: 'Somente candidatos em analise podem ser aprovados' 
+      };
+    }
+    
+    // Business orchestration
+    await this.repo.atualizarStatus(candidatoId, 'APROVADO');
+    await this.notificacao.enviar(candidato.email, 'Aprovado');
+    await this.auditoria.registrar('APROVACAO', candidatoId);
+    
+    return { sucesso: true };
+  }
+}
+
+// ✅ GOOD: Page is thin, delegates to domain
+// src/presentation/pages/recrutamento/GestaoVagas.tsx
+const GestaoVagasPage = () => {
+  const container = useContainer();
+  const aprovarUseCase = container.resolve(AprovarCandidatoUseCase);
+  
+  const handleAprovar = async (candidato: Candidato) => {
+    const resultado = await aprovarUseCase.execute(candidato.id);
+    
+    if (resultado.sucesso) {
+      toast.success('Candidato aprovado com sucesso');
+    } else {
+      toast.error(resultado.erro);
+    }
+  };
+};
+```
+
+**Impact:**
+
+- Bloated UI components - hard to test, hard to reuse
+- Business logic scattered - can't find where decisions are made
+- Testing difficulty - need to render components to test business rules
+- Duplication - same calculations copied to multiple components
+
+**Detection:**
+
+- Business calculations (if/else logic on data) in `.tsx` files
+- Components with > 100 lines (likely doing too much)
+- Multiple API calls orchestrated in `handleSubmit`
+- Date/number calculations in components
+- Status determination logic in JSX
+
+**Refactoring Strategy:**
+
+| Violation | Move To |
+|-----------|---------|
+| Data transformation | `shared/utils` or Entity methods |
+| Business validation | Domain UseCase or Entity |
+| Orchestration (multiple API calls) | Domain UseCase |
+| Status determination | Domain Entity or Value Object |
+| Calculations | Domain Service |
+
+---
+
+## 3. Redux Store as Business Logic Container
+
+**Context:** When reviewing Redux slices. Redux should manage state, not contain business rules.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Business logic in reducer
+// src/app/store/vagaSlice.ts
+const vagaSlice = createSlice({
+  name: 'vaga',
+  initialState,
+  reducers: {
+    aprovarCandidato: (state, action: PayloadAction<string>) => {
+      const candidato = state.candidatos.find(c => c.id === action.payload);
+      
+      // Business rule in reducer!
+      if (candidato && candidato.status === 'EM_ANALISE') {
+        candidato.status = 'APROVADO';
+        candidato.dataAprovacao = new Date().toISOString();
+        
+        // Side effect calculation
+        candidato.pontuacao += 10;
+      }
+    },
+    
+    calcularRanking: (state) => {
+      // Complex business calculation in Redux!
+      state.candidatos.sort((a, b) => {
+        const scoreA = a.experiencia * 2 + a.formacao;
+        const scoreB = b.experiencia * 2 + b.formacao;
+        return scoreB - scoreA;
+      });
+    }
+  }
+});
+
+// ❌ BAD: Thunk with business rules
+// src/app/store/feedbackThunks.ts
+export const enviarFeedback = createAsyncThunk(
+  'feedback/enviar',
+  async (dados: FeedbackDTO, { rejectWithValue }) => {
+    // Validation logic (should be in domain)
+    if (dados.nivel <= 2 && !dados.comentario) {
+      return rejectWithValue('Comentario obrigatorio para niveis baixos');
+    }
+    
+    // Business calculation (should be in domain)
+    const pontuacao = dados.nivel * 10;
+    
+    const response = await feedbackApi.criar({ ...dados, pontuacao });
+    return response;
+  }
+);
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Redux delegates to UseCases
+// src/app/store/vagaSlice.ts
+const vagaSlice = createSlice({
+  name: 'vaga',
+  initialState,
+  reducers: {
+    // Only state updates, no business logic
+    setCandidatos: (state, action: PayloadAction<Candidato[]>) => {
+      state.candidatos = action.payload;
+    },
+    
+    atualizarStatusCandidato: (state, action: PayloadAction<{ 
+      id: string; 
+      status: StatusCandidato;
+      dataAprovacao?: string;
+    }>) => {
+      const { id, status, dataAprovacao } = action.payload;
+      const candidato = state.candidatos.find(c => c.id === id);
+      if (candidato) {
+        candidato.status = status;
+        if (dataAprovacao) candidato.dataAprovacao = dataAprovacao;
+      }
+    }
+  }
+});
+
+// ✅ GOOD: Thunk is thin, delegates to UseCase
+// src/app/store/feedbackThunks.ts
+export const enviarFeedback = createAsyncThunk(
+  'feedback/enviar',
+  async (dados: FeedbackDTO, { rejectWithValue }) => {
+    const container = getContainer();
+    const useCase = container.resolve(EnviarFeedbackUseCase);
+    
+    // Delegate all logic to domain
+    const resultado = await useCase.execute(dados);
+    
+    if (!resultado.sucesso) {
+      return rejectWithValue(resultado.erro);
+    }
+    
+    return resultado.dados;
+  }
+);
+
+// ✅ GOOD: Domain contains the logic
+// src/domain/usecases/feedback/EnviarFeedbackUseCase.ts
+@injectable()
+export class EnviarFeedbackUseCase {
+  constructor(
+    @inject('FeedbackRepository') private repo: FeedbackRepository,
+    @inject('CalculadoraPontuacao') private calc: CalculadoraPontuacao
+  ) {}
+  
+  async execute(dados: FeedbackDTO): Promise<Resultado<Feedback>> {
+    // Validation in domain
+    const validacao = this.validar(dados);
+    if (!validacao.valido) {
+      return { sucesso: false, erro: validacao.erro };
+    }
+    
+    // Business calculation in domain
+    const pontuacao = this.calc.calcular(dados.nivel);
+    
+    const feedback = new Feedback({
+      ...dados,
+      pontuacao
+    });
+    
+    const salvo = await this.repo.salvar(feedback);
+    return { sucesso: true, dados: salvo };
+  }
+  
+  private validar(dados: FeedbackDTO): Validacao {
+    if (dados.nivel <= 2 && !dados.comentario?.trim()) {
+      return { valido: false, erro: 'Comentario obrigatorio para niveis baixos' };
+    }
+    return { valido: true };
+  }
+}
+```
+
+**Redux Responsibilities (Correct):**
+
+| Redux Does | Redux Does NOT |
+|------------|----------------|
+| Store state | Business validation |
+| Update state on actions | Calculations |
+| Call UseCases | Orchestration logic |
+| Handle loading/error UI states | Business decisions |
+
+**Impact:**
+
+- State coupled to business rules - can't change one without the other
+- Growing complexity - reducers become harder to understand
+- Testing difficulty - need Redux store to test business logic
+- Reuse impossibility - business logic trapped in Redux
+
+**Detection:**
+
+- `if/else` logic in reducers beyond simple null checks
+- Calculations in reducers
+- Validation logic in thunks
+- Multiple API calls in one thunk
+- `createAsyncThunk` with complex logic
+
+**Architecture Reference:**
+
+See `@ARCHITECTURE.md` Section 5.2: "Store como Orquestrador - Redux nao e camada de dominio. Slices devem delegar para UseCases e atualizar estado apenas."
+
+---
+
+Output Requirement: The final output must be in Portuguese (PT-BR) with all file names, variables and code patterns following Brazilian Portuguese conventions.

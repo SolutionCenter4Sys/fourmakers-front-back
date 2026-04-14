@@ -1,0 +1,1 @@
+DROP TABLE tb_org_parametro_configuracao;

@@ -1,0 +1,1 @@
+ALTER TABLE tb_tbd_alocado MODIFY COLUMN cod_tbd_alocado INT AUTO_INCREMENT;

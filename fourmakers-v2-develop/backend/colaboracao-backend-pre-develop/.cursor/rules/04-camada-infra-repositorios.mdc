@@ -1,0 +1,69 @@
+---
+description: Padrão obrigatório para Repositórios com Dapper na camada Infra do projeto Colaboração Backend
+globs: **/Repositories/**/*.cs
+alwaysApply: false
+---
+
+# Camada Infra — Repositórios com Dapper
+
+## Estrutura obrigatória
+
+```csharp
+// Interface: Core.DomainModel/{Contexto}/{Recurso}/I{Recurso}Repository.cs
+namespace Core.Domain.{Contexto}.{Recurso}
+{
+    public interface I{Recurso}Repository
+    {
+        Task<IEnumerable<{Recurso}Result>> ListarAsync(int orgId, bool somenteAtivos = true);
+        Task<{Recurso}Result?> ObterPorIdAsync(Guid id);
+        Task<{Recurso}Result> InserirAsync({Recurso}Input input, string cpf, int orgId, IDbTransaction? transaction = null);
+        Task<bool> DeletarAsync(Guid id, IDbTransaction? transaction = null);
+    }
+}
+
+// Implementação: Colaboracao.Infra/Repositories/{Contexto}/{Recurso}/{Recurso}Repository.cs
+public class {Recurso}Repository : I{Recurso}Repository
+{
+    private readonly IDBConnection _dapperConnection;
+
+    public {Recurso}Repository(IDBConnection dapperConnection)
+    {
+        _dapperConnection = dapperConnection;
+    }
+
+    private string SELECT_DEFAULT => @"
+        SELECT r.id AS Id, r.tb_org_id AS OrgId, r.descricao AS Descricao
+        FROM tb_{recurso} r WHERE r.ativo = 1";
+
+    public async Task<IEnumerable<{Recurso}Result>> ListarAsync(int orgId, bool somenteAtivos = true)
+    {
+        var connection = _dapperConnection.GetConnection();
+        var query = SELECT_DEFAULT + " AND r.tb_org_id = @OrgId";
+        return await connection.QueryAsync<{Recurso}Result>(query, new { OrgId = orgId });
+    }
+}
+```
+
+## Regras
+
+- **Interface** sempre em `Core.DomainModel` (namespace `Core.Domain.*`).
+- **Implementação** sempre em `Colaboracao.Infra/Repositories/`.
+- Usar apenas **Dapper**: `QueryAsync`, `QueryFirstOrDefaultAsync`, `ExecuteAsync`.
+- **Nunca** usar Entity Framework em novos repositórios.
+- SQL com aliases em **PascalCase** para mapeamento direto nos DTOs do `DataTransferObject.Domain`.
+- Retornar tipos de `DataTransferObject.Domain`, nunca entidades ou classes próprias da Infra.
+- Métodos de **escrita** aceitam `IDbTransaction? transaction = null` para suporte a transações.
+- Nunca iniciar ou encerrar transação no repositório — isso é responsabilidade do Service.
+
+## Padrão de SQL
+
+```csharp
+// Consulta: alias PascalCase obrigatório para mapeamento Dapper
+"SELECT r.id AS Id, r.nome AS Nome, r.ativo AS Ativo FROM tb_recurso r WHERE r.ativo = 1"
+
+// Inserção: usar UUID() e NOW() no MySQL
+"INSERT INTO tb_recurso (id, nome, data_criacao) VALUES (UUID(), @Nome, NOW())"
+
+// Exclusão lógica (preferível ao DELETE físico)
+"UPDATE tb_recurso SET ativo = 0 WHERE id = @Id"
+```

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <UserSecretsId>03781e0b-ae16-4b01-82b1-ec4bd46edf6e</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataTransferObject.Domain\DataTransferObject.Domain.csproj">
+      <GlobalPropertiesToRemove>
+      </GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Colaborador.Domain\Colaborador.Domain.csproj">
+      <GlobalPropertiesToRemove>
+      </GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Colaborador.Application\Colaborador.Application.csproj">
+      <GlobalPropertiesToRemove>
+      </GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\Questionario.Domain\Questionario.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.0" />
+  </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties appsettings_1json__JsonSchema="" properties_4launchsettings_1json__JsonSchema="" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

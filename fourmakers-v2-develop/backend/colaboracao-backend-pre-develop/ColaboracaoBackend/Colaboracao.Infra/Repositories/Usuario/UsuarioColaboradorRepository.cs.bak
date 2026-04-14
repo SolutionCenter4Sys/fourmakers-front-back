@@ -1,0 +1,769 @@
+﻿using Colaboracao.Core;
+using Colaboracao.Core.Interfaces;
+using Colaboracao.Infra.Context;
+using Core.Domain.Usuario;
+using Dapper;
+using DataTransferObject.Domain.Carga;
+using DataTransferObject.Domain.Colaborador;
+using DataTransferObject.Domain.Endereco;
+using DataTransferObject.Domain.Org;
+using DataTransferObject.Domain.Usuario;
+using DataTransferObject.Domain.Util.Enum;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Sprache;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Colaboracao.Infra.Repositories.Usuario
+{
+    public class UsuarioColaboradorRepository : IUsuarioColaboradorRepository
+    {
+        private const int ORG_ID_FOURMARKERS = 1;
+        private readonly ColaboradorContext _colaboradorContext;
+        private readonly IDBConnection _dapperConnection;
+        private readonly IConfiguration _configuration;
+
+
+        public UsuarioColaboradorRepository(ColaboradorContext colaboradorContext, IConfiguration configuration, IDBConnection dapperConnection)
+        {
+            this._colaboradorContext = colaboradorContext;
+            this._configuration = configuration;
+            _dapperConnection = dapperConnection;
+        }
+
+        public void InsertUsuarioColaborador(UsuarioColaboradorDTO usuario, ColaboradorDTO colaborador, EnderecoDTO endereco)
+        {
+            InsereNovoColaborador(usuario, colaborador, endereco);
+        }
+
+        public void InsertColaboradorSemUsuario(ColaboradorDTO colaborador)
+        {
+            InserirOuAtualizarSomenteTbColaborador(colaborador);
+        }
+
+        public void UpsertUsuarioColaborador(UsuarioColaboradorDTO usuario, ColaboradorDTO colaborador, EnderecoDTO endereco)
+        {
+            if (_colaboradorContext.tb_colaborador.Where(x => x.codigo_interno_colaborador == colaborador.Cpf).Count() > 0)
+                AtualizaColaborador(colaborador, endereco);
+            else
+                InsereNovoColaborador(usuario, colaborador, endereco);
+        }
+
+        public bool CheckColaboradorOrg(string cpf, int orgId)
+        {
+            return _colaboradorContext.tb_colaborador_org.Where(x => x.codigo_interno_colaborador == cpf && x.tb_org_id == orgId).Any();
+        }
+
+        public bool CheckColaboradorOrgAtivo(string cpf, int orgId)
+        {
+            return _colaboradorContext.tb_colaborador_org.Where(x => x.codigo_interno_colaborador == cpf && x.tb_org_id == orgId && x.ativo == 1).Any();
+        }
+
+        public void UpsertColaboradorOrg(ColaboradorDTO colaborador, ColaboradorOrgDTO colaboradorOrg)
+        {
+
+            var colabOrgRow = _colaboradorContext.tb_colaborador_org
+                .Where(x => x.cod_colaborador_externo == colaboradorOrg.CodColaborador && colaboradorOrg.OrgId == x.tb_org_id).FirstOrDefault();
+            if (colabOrgRow != null)
+            {
+                AtualizaColaboradorOrg(colabOrgRow, colaboradorOrg);
+            }
+            else
+            {
+                InsereColaboradorOrg(colaborador, colaboradorOrg);
+            }
+        }
+
+        private void AtualizaColaboradorOrg(tb_colaborador_org colabOrgRow, ColaboradorOrgDTO colaboradorOrg)
+        {
+            colabOrgRow.cargo = colaboradorOrg.Cargo;
+            colabOrgRow.cod_colaborador_externo = colaboradorOrg.CodColaborador;
+            colabOrgRow.codigo_interno_colaboradorNavigation = _colaboradorContext.tb_colaborador.Find(colaboradorOrg.Cpf);
+            colabOrgRow.cod_departamento = colaboradorOrg.CodDepartamento;
+            colabOrgRow.cod_diretoria = colaboradorOrg.CodDiretoria;
+            colabOrgRow.codigo_cargo = colaboradorOrg.CodCargo;
+            colabOrgRow.data_alteracao = DateTime.Now;
+            colabOrgRow.departamento = colaboradorOrg.Departamento;
+            colabOrgRow.diretoria = colaboradorOrg.Diretoria;
+            colabOrgRow.data_admissao = colaboradorOrg.DataAdmissao;
+            colabOrgRow.modelo_contratacao = colaboradorOrg.ModeloContratacao;
+            colabOrgRow.empresa_relacionada = colaboradorOrg.EmpresaRelacionada?.ToUpperInvariant();
+            colabOrgRow.modelo_trabalho = colaboradorOrg.ModeloTrabalho;
+            colabOrgRow.dias_por_semana = colaboradorOrg.DiasPorSemana;
+            colabOrgRow.valor_hora = colaboradorOrg.ValorHora;
+            colabOrgRow.custo_hora = colaboradorOrg.CustoHora;
+            colabOrgRow.base_hora_mes = colaboradorOrg.BaseHoraMes;
+            colabOrgRow.ativo = (sbyte)(colaboradorOrg.Ativo ? 1 : 0);
+            _colaboradorContext.tb_colaborador_org.Update(colabOrgRow);
+            _colaboradorContext.SaveChanges();
+
+        }
+
+        private void InsereColaboradorOrg(ColaboradorDTO colaborador, ColaboradorOrgDTO colaboradorOrg)
+        {
+            var colaboradorOrgRow = new tb_colaborador_org
+            {
+                cargo = colaboradorOrg.Cargo,
+                cod_colaborador_externo = colaboradorOrg.CodColaborador,
+                cod_departamento = colaboradorOrg.CodDepartamento,
+                cod_diretoria = colaboradorOrg.CodDiretoria,
+                codigo_cargo = colaboradorOrg.CodCargo,
+                data_alteracao = DateTime.Now,
+                departamento = colaboradorOrg.Departamento,
+                diretoria = colaboradorOrg.Diretoria,
+                codigo_interno_colaborador = colaborador.Cpf,
+                tb_org_id = colaboradorOrg.OrgId,
+                data_admissao = colaboradorOrg.DataAdmissao,
+                modelo_contratacao = colaboradorOrg.ModeloContratacao,
+                empresa_relacionada = colaboradorOrg.EmpresaRelacionada?.ToUpperInvariant(),
+                modelo_trabalho = colaboradorOrg.ModeloTrabalho,
+                dias_por_semana = colaboradorOrg.DiasPorSemana,
+                valor_hora = colaboradorOrg.ValorHora,
+                custo_hora = colaboradorOrg.CustoHora,
+                base_hora_mes = colaboradorOrg.BaseHoraMes,
+                ativo = (sbyte)(colaboradorOrg.Ativo ? 1 : 0)
+            };
+            _colaboradorContext.tb_colaborador_org.Add(colaboradorOrgRow);
+            _colaboradorContext.SaveChanges();
+
+            _colaboradorContext.ChangeTracker.Clear();
+        }
+
+        private void InsereNovoColaborador(UsuarioColaboradorDTO usuario, ColaboradorDTO colaborador, EnderecoDTO endereco)
+        {
+            try
+            {
+                tb_endereco rowEndereco = null;
+                if (endereco != null)
+                {
+                    rowEndereco = new tb_endereco();
+
+                    rowEndereco.cep = endereco.Cep;
+                    rowEndereco.cidade = endereco.Cidade;
+                    rowEndereco.complemento = endereco.Complemento;
+                    rowEndereco.estado = endereco.Estado;
+                    rowEndereco.endereco = endereco.Endereco;
+                    rowEndereco.numero = endereco.Numero;
+                    rowEndereco.bairro = endereco.Bairro;
+                    rowEndereco.com_quem_mora = endereco.ComQuemMora;
+
+                    _colaboradorContext.tb_endereco.Add(rowEndereco);
+                    _colaboradorContext.SaveChanges();
+                }
+
+                InserirOuAtualizarSomenteTbColaborador(colaborador, rowEndereco?.id);
+
+                if (usuario != null)
+                {
+                    if (_colaboradorContext.tb_usuario.Where(x => x.codigo_interno_colaborador == usuario.Cpf).Count() > 0)
+                    {
+                        var userRow = _colaboradorContext.tb_usuario.Where(x => x.codigo_interno_colaborador == usuario.Cpf).First();
+                        userRow.primeiro_acesso_realizado = 1;
+                        userRow.email = usuario.Email;
+                        _colaboradorContext.tb_usuario.Update(userRow);
+                    }
+                    else
+                    {
+                        var usuarioRow = new tb_usuario();
+
+                        usuarioRow.ativo = 1;
+                        usuarioRow.codigo_interno_colaborador = usuario.Cpf;
+                        usuarioRow.email = usuario.Email;
+                        usuarioRow.fcm_token = null;
+                        usuarioRow.password = "";
+                        usuarioRow.primeiro_acesso_realizado = 0;
+                        usuarioRow.tb_org_id = usuario.OrgId;
+
+                        _colaboradorContext.tb_usuario.Add(usuarioRow);
+                    }
+                }
+
+
+
+                _colaboradorContext.SaveChanges();
+
+                var colaboradorStatus = new tb_colaborador_status();
+                colaboradorStatus.ativo = 1;
+                colaboradorStatus.data_alteracao = DateTime.Now;
+                colaboradorStatus.data_criacao = DateTime.Now;
+                colaboradorStatus.status_colaborador_id = 1;
+                colaboradorStatus.codigo_interno_colaborador = colaborador.Cpf;
+
+                _colaboradorContext.tb_colaborador_status.Add(colaboradorStatus);
+                _colaboradorContext.SaveChanges();
+
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        private void InserirOuAtualizarSomenteTbColaborador(ColaboradorDTO colaborador, long? enderecoId = null)
+        {
+            var colaboradorExistente = _colaboradorContext.tb_colaborador.FirstOrDefault(c => c.codigo_interno_colaborador == colaborador.Cpf);
+
+            var row = colaboradorExistente != null ? colaboradorExistente : new tb_colaborador();
+
+            if (colaboradorExistente is not null)
+            {
+                row.ativo = 1;
+                _colaboradorContext.tb_colaborador.Update(row);
+            }
+            else
+            {
+                row.codigo_interno_colaborador = colaborador.Cpf;
+                row.documento_colaborador = colaborador.DocumentoColaborador;
+                row.nome_completo = colaborador.NomeCompleto;
+                row.data_nascimento = colaborador.DataNascimento != null && colaborador.DataNascimento != DateTime.MinValue ? colaborador.DataNascimento : (DateTime?)null;
+                row.rg = colaborador.Rg;
+                row.matricula = colaborador.Matricula;
+                row.endereco_id = enderecoId;
+                row.data_criacao = DateTime.Now;
+                row.data_alteracao = DateTime.Now;
+                row.contato_principal_ddi = colaborador.ContatoPrincipalDDI;
+                row.contato_principal = colaborador.ContatoPrincipal;
+                row.contato_outro = colaborador.ContatoOutros;
+                row.imagem_id = null;
+                row.candidato = 0;
+                row.ativo = 1;
+                row.passaporte = colaborador.Passaporte;
+                row.estado_civil = colaborador.EstadoCivil;
+                row.genero = colaborador.Genero;
+                row.etnia = colaborador.Etnia;
+                row.escolaridade = colaborador.Escolaridade;
+                row.orientacao_sexual = colaborador.OrientacaoSexual;
+                row.refugiado = (SByte)(colaborador.PessoaRefugiada ? 1 : 0);
+                row.email_alternativo = colaborador.EmailAlternativo;
+                row.visualizar_busca_aderencia = (SByte)(colaborador.VisualizarBuscaAderencia ? 1 : 0);
+
+                _colaboradorContext.tb_colaborador.Add(row);
+                _colaboradorContext.SaveChanges();
+            }
+
+        }
+
+        public void EditarColaborador(CadastroColaboradorInput colaboradorInput, int orgId)
+        {
+            try
+            {
+                var colaborador = _colaboradorContext.tb_colaborador.FirstOrDefault(c => c.codigo_interno_colaborador == colaboradorInput.Cpf);
+                if (colaborador != null)
+                {
+                    colaborador.documento_colaborador = colaboradorInput.DocumentoColaborador;
+                    colaborador.nome_completo = colaboradorInput.NomeColaborador;
+                    colaborador.data_alteracao = DateTime.Now;
+                    colaborador.contato_principal_ddi = colaboradorInput.ContatoPrincipalDDI;
+                    colaborador.contato_principal = colaboradorInput.ContatoPrincipal;
+                    colaborador.visualizar_busca_aderencia = (SByte)(colaboradorInput.ConsiderarVisualizacaoAderentes ? 1 : 0);
+                    _colaboradorContext.tb_colaborador.Update(colaborador);
+                }
+
+                var usuario = _colaboradorContext.tb_usuario.FirstOrDefault(u => u.codigo_interno_colaborador == colaboradorInput.Cpf);
+                if (usuario != null)
+                {
+                    usuario.email = colaboradorInput.Email;
+
+                    _colaboradorContext.tb_usuario.Update(usuario);
+                }
+
+                var colaboradorOrg = _colaboradorContext.tb_colaborador_org.FirstOrDefault(o => o.codigo_interno_colaborador == colaboradorInput.Cpf && o.tb_org_id == orgId);
+                if (colaboradorOrg != null)
+                {
+                    colaboradorOrg.cod_colaborador_externo = colaboradorInput.CodColaborador;
+                    colaboradorOrg.cod_diretoria = colaboradorInput.CodDiretoria;
+                    colaboradorOrg.diretoria = colaboradorInput.Diretoria;
+                    colaboradorOrg.cod_departamento = colaboradorInput.CodDepartamento;
+                    colaboradorOrg.departamento = colaboradorInput.Departamento;
+                    colaboradorOrg.data_admissao = colaboradorInput.DataAdmissao;
+                    colaboradorOrg.modelo_contratacao = colaboradorInput.ModeloContratacao;
+                    colaboradorOrg.empresa_relacionada = colaboradorInput.EmpresaRelacionada?.ToUpperInvariant();
+                    colaboradorOrg.modelo_trabalho = colaboradorInput.ModeloTrabalho;
+                    colaboradorOrg.dias_por_semana = colaboradorInput.DiasPorSemana;
+                    colaboradorOrg.valor_hora = colaboradorInput.ValorHora;
+                    colaboradorOrg.custo_hora = colaboradorInput.CustoHora;
+                    colaboradorOrg.base_hora_mes = colaboradorInput.BaseHoraMes;
+                    colaboradorOrg.ativo = (sbyte)(colaboradorInput.Ativo ? 1 : 0);
+
+                    if (colaboradorInput.Ativo)
+                    {
+                        colaboradorOrg.data_inativacao = null;
+                    }
+                    else
+                    {
+                        colaboradorOrg.data_inativacao = colaboradorInput.DataInativacao ?? DateTime.Now;
+                    }
+
+                    _colaboradorContext.tb_colaborador_org.Update(colaboradorOrg);
+                }
+
+                var colaboradorHierarquia = _colaboradorContext.tb_colaborador_hierarquia
+                                            .Include(h => h.tb_org)
+                                            .FirstOrDefault(h => h.cod_colaborador_externo == colaboradorInput.CodColaborador);
+
+                if (colaboradorHierarquia != null)
+                {
+                    _colaboradorContext.tb_colaborador_hierarquia.Remove(colaboradorHierarquia);
+                    _colaboradorContext.SaveChanges();
+                }
+
+                var novoColaboradorHierarquia = new tb_colaborador_hierarquia
+                {
+                    cod_colaborador_externo = colaboradorInput.CodColaborador,
+                    cod_colaborador_superior = colaboradorInput.CodGestor,
+                    tb_org_id = orgId
+                };
+                _colaboradorContext.tb_colaborador_hierarquia.Add(novoColaboradorHierarquia);
+
+                _colaboradorContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao editar colaborador.", ex);
+            }
+        }
+
+        private void AtualizaColaborador(ColaboradorDTO colaborador, EnderecoDTO endereco)
+        {
+            try
+            {
+                if (!_colaboradorContext.tb_colaborador
+                    .Where(x => x.codigo_interno_colaborador == colaborador.Cpf).Any())
+                    throw new Exception("Este colaborador não existe.");
+
+                var colabRow = _colaboradorContext.tb_colaborador
+                    .Where(x => x.codigo_interno_colaborador == colaborador.Cpf).FirstOrDefault();
+
+                var rowEndereco = colabRow.endereco;
+                if (rowEndereco != null)
+                {
+                    rowEndereco.cep = endereco.Cep;
+                    rowEndereco.cidade = endereco.Cidade;
+                    rowEndereco.complemento = endereco.Complemento;
+                    rowEndereco.estado = endereco.Estado;
+                    rowEndereco.endereco = endereco.Endereco;
+                    rowEndereco.numero = endereco.Numero;
+                    rowEndereco.bairro = endereco.Bairro;
+
+                    _colaboradorContext.tb_endereco.Update(rowEndereco);
+                }
+                else
+                {
+                    rowEndereco = new tb_endereco();
+
+                    rowEndereco.cep = endereco.Cep;
+                    rowEndereco.cidade = endereco.Cidade;
+                    rowEndereco.complemento = endereco.Complemento;
+                    rowEndereco.estado = endereco.Estado;
+                    rowEndereco.endereco = endereco.Endereco;
+                    rowEndereco.numero = endereco.Numero;
+                    rowEndereco.bairro = endereco.Bairro;
+                    rowEndereco.com_quem_mora = "";
+
+                    _colaboradorContext.tb_endereco.Add(rowEndereco);
+                }
+
+                _colaboradorContext.SaveChanges();
+
+                colabRow.nome_completo = colaborador.NomeCompleto;
+                colabRow.data_nascimento = colaborador.DataNascimento ?? DateTime.MinValue;
+                colabRow.rg = colaborador.Rg;
+                colabRow.endereco_id = rowEndereco.id;
+                colabRow.data_alteracao = DateTime.Now;
+                colabRow.contato_principal_ddi = colaborador.ContatoPrincipalDDI;
+                colabRow.contato_principal = colaborador.ContatoPrincipal;
+                colabRow.contato_outro = colaborador.ContatoOutros;
+                colabRow.ativo = colaborador.FlagAtivo ? (sbyte)1 : (sbyte)0;
+                colabRow.estado_civil = colaborador.EstadoCivil;
+                colabRow.genero = colaborador.Genero;
+                colabRow.etnia = colaborador.Etnia;
+                colabRow.escolaridade = colaborador.Escolaridade;
+                colabRow.orientacao_sexual = colaborador.OrientacaoSexual;
+                colabRow.refugiado = (SByte)(colaborador.PessoaRefugiada ? 1 : 0);
+                colabRow.email_alternativo = colaborador.EmailAlternativo;
+
+                _colaboradorContext.tb_colaborador.Update(colabRow);
+                _colaboradorContext.SaveChanges();
+
+
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public void AtualizaEmailUsuario(UsuarioColaboradorDTO usuario)
+        {
+            var usuarioRow = _colaboradorContext.tb_usuario.FirstOrDefault(u => u.codigo_interno_colaborador == usuario.Cpf && u.email != usuario.Email);
+            if (usuarioRow != null)
+            {
+                usuarioRow.email = usuario.Email;
+                _colaboradorContext.tb_usuario.Update(usuarioRow);
+                _colaboradorContext.SaveChanges();
+            }
+        }
+
+        public void AtualizaDocumentoUsuario(String codInternoColaborador, String documentoColaborador)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AtualizaNomelUsuario(String codInternoColaborador, String nomeCompleto)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void InserePrestadorServicoPessoaJuridica(string cnpj, PrestadorServicoDTO prestadorServico, RegimeTributarioDTO regimeTributario, string cpf)
+        {
+            try
+            {
+                if (_colaboradorContext.tb_pessoa_juridica
+              .Where(x => x.cnpj == prestadorServico.Cnpj).Count() > 0)
+                {
+                    throw new Exception("Este prestador já existe.");
+                }
+
+                // Verifica se o código do banco é válido
+                var bancoExistente = _colaboradorContext.tb_bancos.FirstOrDefault(b => b.codigo == prestadorServico.CodigoBanco);
+                if (bancoExistente == null)
+                {
+                    throw new Exception("O código do banco é inválido");
+                }
+                var idRegimeTributario = _colaboradorContext.tb_regime_tributario.Where(x => x.descricao == regimeTributario.Descricao.ToString()).FirstOrDefault();
+
+                var row = new tb_pessoa_juridica();
+
+                row.cnpj = prestadorServico.Cnpj.ToString();
+                row.tb_regime_tributario_id = idRegimeTributario.id;
+                row.nome_fantasia = prestadorServico.NomeFantasia.ToString();
+                row.razao_social = prestadorServico.RazaoSocial.ToString();
+                row.agencia = prestadorServico.Agencia.ToString();
+                row.conta_digito = prestadorServico.ContaDigito.ToString();
+                row.tb_bancos_codigo = prestadorServico.CodigoBanco.ToString();
+                row.codigo_interno_colaborador = cpf;
+                _colaboradorContext.tb_pessoa_juridica.Add(row);
+                _colaboradorContext.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
+
+        }
+
+        public void AlterarPrestadorServicoPessoaJuridica(string cnpj, PrestadorServicoDTO prestadorServico, RegimeTributarioDTO regimeTributario, string cpf)
+        {
+            try
+            {
+
+
+                if (!_colaboradorContext.tb_pessoa_juridica
+              .Where(x => x.cnpj == prestadorServico.Cnpj).Any())
+                {
+                    throw new Exception("Este prestador Não existe.");
+                }
+
+                // Verifica se o código do banco é válido
+                var bancoExistente = _colaboradorContext.tb_bancos.FirstOrDefault(b => b.codigo == prestadorServico.CodigoBanco);
+                if (bancoExistente == null)
+                {
+                    throw new Exception("O código do banco é inválido");
+                }
+                var idRegimeTributario = _colaboradorContext.tb_regime_tributario.Where(x => x.descricao == regimeTributario.Descricao.ToString()).FirstOrDefault();
+
+                var row = new tb_pessoa_juridica();
+
+                row.cnpj = prestadorServico.Cnpj.ToString();
+                row.tb_regime_tributario_id = idRegimeTributario.id;
+                row.nome_fantasia = prestadorServico.NomeFantasia.ToString();
+                row.razao_social = prestadorServico.RazaoSocial.ToString();
+                row.agencia = prestadorServico.Agencia.ToString();
+                row.conta_digito = prestadorServico.ContaDigito.ToString();
+                row.tb_bancos_codigo = prestadorServico.CodigoBanco.ToString();
+                row.codigo_interno_colaborador = cpf;
+                _colaboradorContext.tb_pessoa_juridica.Update(row);
+                _colaboradorContext.SaveChanges();
+            }
+
+            catch
+            {
+                throw;
+            }
+
+        }
+
+        public bool ExisteColaborador(string cpf)
+        {
+            return _colaboradorContext.tb_colaborador
+                    .Where(x => x.codigo_interno_colaborador == cpf).Any();
+        }
+
+        public bool ExisteColaboradorComCPF(string cpf, int orgId)
+        {
+            return _colaboradorContext.tb_colaborador_org
+                    .Any(x => x.tb_org_id == orgId && x.codigo_interno_colaboradorNavigation.documento_colaborador == cpf);
+        }
+
+        public bool ExisteColaboradorComEmail(string email, int orgId)
+        {
+            return _colaboradorContext.tb_colaborador_org
+                    .Any(x => x.tb_org_id == orgId 
+                              && x.codigo_interno_colaboradorNavigation.tb_usuario.Any(u => u.email == email && u.tb_org_id == orgId ));
+        }
+
+        public bool ExisteColaboradorComCodColaboradorExterno(string codColaboradorExt, int orgId)
+        {
+            return _colaboradorContext.tb_colaborador_org
+                    .Any(x => x.tb_org_id == orgId && x.cod_colaborador_externo == codColaboradorExt);
+        }
+
+        public bool ExisteColaboradorComCodColaboradorExternoECpf(string codColaboradorExt, string cpf, int orgId)
+        {
+            return _colaboradorContext.tb_colaborador_org
+                    .Any(x => x.tb_org_id == orgId && x.cod_colaborador_externo == codColaboradorExt && x.codigo_interno_colaborador == cpf);
+        }
+
+        public bool SeTokenSistema(string token)
+        {
+            return _colaboradorContext.tb_token_sistema
+                    .Where(x => x.token == token).Any();
+        }
+
+        public UsuarioColaboradorDTO GetUserByCPFEOrgId(string cpf, int orgId, int? userId = null)
+        {
+            try
+            {
+                var row = _colaboradorContext.tb_usuario
+                    .Where(usuario => ((usuario.codigo_interno_colaborador == cpf && usuario.tb_org_id == orgId) || usuario.id == userId) && usuario.ativo == 1)
+                    .Join(_colaboradorContext.tb_colaborador,
+                        usuario => usuario.codigo_interno_colaborador,
+                        colaborador => colaborador.codigo_interno_colaborador,
+                        (usuario, colaborador) => new
+                        {
+                            usuario.id,
+                            usuario.email,
+                            colaborador.nome_completo,
+                            colaborador.contato_principal_ddi,
+                            colaborador.contato_principal
+                        })
+                    .FirstOrDefault();
+
+                if (row == null)
+                    throw new Exception("Usuário não encontrado");
+
+                return new UsuarioColaboradorDTO
+                {
+                    Cpf = cpf,
+                    UsuarioId = row.id,
+                    Email = row.email,
+                    NomeColaborador = row.nome_completo,
+                    ContatoPrincipalDDI = row.contato_principal_ddi,
+                    ContatoPrincipal = row.contato_principal
+                };
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
+
+        public void DeletaHierarquiaColaborador(int orgId)
+        {
+            _colaboradorContext.tb_colaborador_hierarquia.RemoveRange(_colaboradorContext.tb_colaborador_hierarquia.Where(x => x.tb_org_id == orgId));
+            _colaboradorContext.SaveChanges();
+        }
+
+        public void DeletaHierarquiaColaboradorPorCodColaborador(string codColaborador, int orgId)
+        {
+            _colaboradorContext.tb_colaborador_hierarquia.RemoveRange(
+                _colaboradorContext.tb_colaborador_hierarquia.Where(x => x.cod_colaborador_externo == codColaborador
+                                                                         && x.tb_org_id == orgId)
+                                                                     );
+            _colaboradorContext.SaveChanges();
+        }
+
+        public void InsereHierarquiaColaborador(ColaboradorHierarquiaCargaDTO cargaColaboradorHierarquia, int orgId)
+        {
+            _colaboradorContext.tb_colaborador_hierarquia.Add(
+               new tb_colaborador_hierarquia()
+               {
+                   tb_org_id = orgId,
+                   cod_colaborador_externo = cargaColaboradorHierarquia.IdentificadorColaborador,
+                   cod_colaborador_superior = cargaColaboradorHierarquia.IdentificadorSuperior
+               });
+            _colaboradorContext.SaveChanges();
+        }
+
+        public void InsereHierarquiaColaborador(List<ColaboradorHierarquiaCargaDTO> cargaColaboradorHierarquia, int orgId)
+        {
+            _colaboradorContext.tb_colaborador_hierarquia.AddRange(cargaColaboradorHierarquia.Select(
+                colaboradorHierarquia => new tb_colaborador_hierarquia
+                {
+                    tb_org_id = orgId,
+                    cod_colaborador_externo = colaboradorHierarquia.IdentificadorColaborador,
+                    cod_colaborador_superior = colaboradorHierarquia.IdentificadorSuperior
+                }).ToList()
+            );
+            _colaboradorContext.SaveChanges();
+        }
+
+        public void DeletaColaboradorProjetoOrg(int orgId, string codColaborador)
+        {
+            _colaboradorContext.tb_colaborador_projeto_org.RemoveRange(_colaboradorContext.tb_colaborador_projeto_org.Where(x => x.tb_org_id == orgId && x.cod_colaborador == codColaborador));
+            _colaboradorContext.SaveChanges();
+        }
+
+        public void InsereColaboradorProjetoOrg(List<ColaboradorProjetoCargaDTO> colaboradoresProjetoCarga, int orgId)
+        {
+            _colaboradorContext.tb_colaborador_projeto_org.AddRange(colaboradoresProjetoCarga.Select(colaboradorProjeto => new tb_colaborador_projeto_org
+            {
+                tb_org_id = orgId,
+                cod_colaborador = colaboradorProjeto.CodigoColaborador,
+                cod_projeto = colaboradorProjeto.CodigoProjeto,
+                nome_projeto = colaboradorProjeto.NomeProjeto
+            }).ToList()
+            );
+            _colaboradorContext.SaveChanges();
+        }
+
+        public void AlteraSenhaUsuario(string cpf, string senha, int orgId)
+        {
+            var senhaHash = Criptografia.MD5Hash(senha);
+            var usuarioRow = _colaboradorContext.tb_usuario.Where(x => x.codigo_interno_colaborador == cpf && x.tb_org_id == orgId).FirstOrDefault();
+            if (usuarioRow == null)
+                throw new Exception("Usuário não existe");
+            usuarioRow.password = senhaHash;
+            _colaboradorContext.tb_usuario.Update(usuarioRow);
+            _colaboradorContext.SaveChanges();
+        }
+
+        public string GetColaboradorCpf(string codColaborador, int orgId)
+        {
+            return _colaboradorContext.tb_colaborador_org.Where(x => x.cod_colaborador_externo == codColaborador && x.tb_org_id == orgId).FirstOrDefault()?.codigo_interno_colaborador ?? null;
+        }
+        public void AtualizaListaColaboradorProjetoOrg(List<ColaboradorProjetoCargaDTO> colaboradoresProjetoCarga, string codColaborador, int orgId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public string GetCodigoInternoByCodExterno(string codExterno, int orgId)
+        {
+            return _colaboradorContext.tb_colaborador_org.Where(x => x.cod_colaborador_externo == codExterno && x.tb_org_id == orgId).FirstOrDefault()?.codigo_interno_colaborador ?? null;
+        }
+
+        public async Task<bool> AlterarIdiomaPadrao(string idioma, string cpf, int orgId)
+        {
+            var colaborador = await _colaboradorContext.tb_colaborador_org.Where(x => x.codigo_interno_colaborador == cpf && x.tb_org_id == orgId).FirstOrDefaultAsync();
+            if (colaborador == null)
+                return false;
+
+            try
+            {
+                colaborador.idioma = idioma;
+                _colaboradorContext.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
+            return true;
+        }
+
+        public void AtualizaDadosBasicosUsuario(string codInternoColaborador, DateTime dataNascimento)
+        {
+            throw new NotImplementedException();
+        }
+
+        public UsuarioColaboradorDTO BuscaColaboradorPorCodigo(string codColaborador, int orgId)
+        {
+            var colaborador = _colaboradorContext.tb_colaborador_org
+                .Where(x => x.codigo_interno_colaborador == codColaborador && x.tb_org_id == orgId)
+<<<<<<< HEAD
+                .Select(x => new UsuarioColaboradorDTO
+                {
+                    NomeColaborador = x.codigo_interno_colaboradorNavigation.nome_completo,
+                    Email = x.codigo_interno_colaboradorNavigation.tb_usuario.email
+=======
+                .ToList()
+                .Select(x => {
+                    var usuario = x.codigo_interno_colaboradorNavigation.tb_usuario.Where(u => u.tb_org_id == orgId).FirstOrDefault();
+                    return new UsuarioDTO
+                    {
+                        NomeColaborador = x.codigo_interno_colaboradorNavigation.nome_completo,
+                        Email = usuario?.email
+                    };
+>>>>>>> pre-develop
+                })
+                .FirstOrDefault();
+
+
+
+            return colaborador;
+        }
+
+        public async Task<string> GetCodColaboradorByEmailEOrgId(string email, int orgId)
+        {
+            var connection = _dapperConnection.GetConnection();
+            var query = @"
+                SELECT
+                    tu.codigo_interno_colaborador
+                FROM tb_usuario tu
+                WHERE 
+                    tu.email = @Email
+                    AND tu.tb_org_id = @OrgId;";
+            var parametros = new
+            {
+                Email = email,
+                OrgId = orgId
+            };
+
+            var result = await connection.QueryFirstOrDefaultAsync<string>(query, parametros);
+            
+            return result;
+        }
+
+        public async Task<List<UsuarioDTO>> BuscarUsuariosOrgPorEmail(string email)
+        {
+            var connection = _dapperConnection.GetConnection();
+            var query = @"
+                SELECT
+                    tu.id AS Id,
+                    tu.codigo_interno_colaborador AS CodigoInternoColaborador,
+                    tu.email AS Email,
+                    tu.primeiro_acesso_realizado AS PrimeiroAcessoRealizado,
+                    tu.ativo AS Ativo,
+                    tu.sistemico AS Sistemico,
+                    tu.data_expiracao AS DataExpiracao,
+                    tu.dataAceiteTermo AS DataAceiteTermo,
+                    tu.tb_org_id AS OrgId
+                FROM tb_usuario tu
+                WHERE 
+                    tu.email = @Email;";
+
+            var parametros = new { Email = email };
+
+            var result = await connection.QueryAsync<UsuarioDTO>(query, parametros);
+            
+            return result.ToList();
+        }
+
+        public void InserirUsuarioEColaboradorOrg(UsuarioColaboradorDTO usuario, ColaboradorOrgDTO colaboradorOrg)
+        {
+            var connection = _dapperConnection.GetConnection();
+            var usuarioQuery = @"insert into tb_usuario (ativo, codigo_interno_colaborador, email, password, primeiro_acesso_realizado, tb_org_id)
+                        values(
+                            @ativo, @cpf, @email, @password, @primeiroAcessoRealizado, @orgId
+                        );";
+            connection.Execute(usuarioQuery, new { ativo = 1, cpf = usuario.Cpf, email = usuario.Email, password = "", primeiroAcessoRealizado = 0, orgId = usuario.OrgId });
+            
+            InsereColaboradorOrg(new ColaboradorDTO{Cpf = usuario.Cpf}, colaboradorOrg);
+        }
+    }
+}

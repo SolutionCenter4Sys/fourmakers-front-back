@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Empresa\NewFolder\**" />
+    <EmbeddedResource Remove="Empresa\NewFolder\**" />
+    <None Remove="Empresa\NewFolder\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Colaborador\BuscaCargoResult.cs" />
+    <Compile Remove="Colaborador\BuscaDiretoriaResult.cs" />
+    <Compile Remove="Colaborador\CertificadoResult.cs" />
+    <Compile Remove="Colaborador\CertificadoInfo.cs" />
+    <Compile Remove="Colaborador\CargoResult.cs" />
+    <Compile Remove="Colaborador\ComentarioResult.cs" />
+    <Compile Remove="Colaborador\ListaComentarioResult.cs" />
+    <Compile Remove="Colaborador\ComentarioInfo.cs" />
+    <Compile Remove="Colaborador\ItemPerfilResult.cs" />
+    <Compile Remove="Colaborador\ComentarioTipoInfo.cs" />
+    <Compile Remove="Colaborador\ComentarioTipoResult.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Usuario\.DS_Store" />
+    <None Remove="Softskill\" />
+    <None Remove="Softskill\Softskill.DTO" />
+    <None Remove="SSO\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Endosso\" />
+    <Folder Include="Dominio\" />
+    <Folder Include="SSO\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+</Project>

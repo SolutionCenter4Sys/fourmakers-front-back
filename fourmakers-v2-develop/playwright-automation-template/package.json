@@ -1,0 +1,22 @@
+{
+  "name": "playwright-automation-project",
+  "version": "1.0.0",
+  "description": "Projeto de automação com Playwright e TypeScript — migrado do Cypress",
+  "scripts": {
+    "demo": "playwright test tests/reembolso/reembolso-demo.spec.ts --headed",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:reembolso": "playwright test tests/reembolso/reembolso.spec.ts",
+    "test:jornada": "playwright test tests/reembolso/reembolso-jornada.spec.ts",
+    "test:jornada:unico": "playwright test tests/reembolso/reembolso-jornada-unico.spec.ts",
+    "test:reembolso:all": "playwright test tests/reembolso/",
+    "relatorio": "playwright show-report evidencias/relatorios",
+    "install:browsers": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

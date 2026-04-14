@@ -1,0 +1,98 @@
+# Pipeline Image
+# Mastria @ Foursys
+
+include:
+  - local: .gitlab-cd.yml
+
+pipeline_image:
+  stage: prepare
+  cache: []
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "prepare"
+  script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+    - docker build --pull -t "$CI_REGISTRY_IMAGE/pipeline" -f Dockerfile.pipeline .
+    - docker push "$CI_REGISTRY_IMAGE/pipeline"
+
+# Base aspnet:8.0 + libgdiplus no ECR (backoffice/dotnet-aspnet-libgdiplus:8.0), mesma conta das APIs.
+# Um job por ambiente: só roda se os arquivos da base mudaram E o pipeline é do branch/alvo correspondente
+# (evita develop + production no mesmo MR e evita rodar só porque o pipeline foi disparado pela web).
+.base_image_libgdiplus:
+  stage: prepare
+  cache: []
+  variables:
+    SECURE_FILES_DOWNLOAD_PATH: "./"
+  script:
+    - |
+      aws cloudformation deploy \
+        --stack-name dotnet-aspnet-libgdiplus-ecr \
+        --template-file Cfn/base-images/dotnet-aspnet-libgdiplus-ecr.yaml \
+        --no-fail-on-empty-changeset
+    - export ECR_BASE_TAG="${CI_AWS_ECR}/backoffice/dotnet-aspnet-libgdiplus:8.0"
+    - |
+      if [ -d Docker/dotnet-aspnet-libgdiplus ]; then LIBGDI_DIR=Docker/dotnet-aspnet-libgdiplus
+      elif [ -d docker/dotnet-aspnet-libgdiplus ]; then LIBGDI_DIR=docker/dotnet-aspnet-libgdiplus
+      else echo "Não encontrado Docker/ nem docker/ para dotnet-aspnet-libgdiplus"; ls -la; exit 1; fi
+      docker build --pull -t "$ECR_BASE_TAG" -f "$LIBGDI_DIR/Dockerfile" "$LIBGDI_DIR"
+    - aws ecr get-login-password | docker login --username AWS --password-stdin "${CI_AWS_ECR}"
+    - docker push "$ECR_BASE_TAG"
+    - docker rmi "$ECR_BASE_TAG" || true
+
+base_image_libgdiplus_develop:
+  extends: .base_image_libgdiplus
+  environment: DEVELOPMENT
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "develop"
+      changes:
+        - Docker/dotnet-aspnet-libgdiplus/Dockerfile
+        - docker/dotnet-aspnet-libgdiplus/Dockerfile
+        - Cfn/base-images/dotnet-aspnet-libgdiplus-ecr.yaml
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline" && $CI_COMMIT_BRANCH == "develop"
+      changes:
+        - Docker/dotnet-aspnet-libgdiplus/Dockerfile
+        - docker/dotnet-aspnet-libgdiplus/Dockerfile
+        - Cfn/base-images/dotnet-aspnet-libgdiplus-ecr.yaml
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"
+      changes:
+        - Docker/dotnet-aspnet-libgdiplus/Dockerfile
+        - docker/dotnet-aspnet-libgdiplus/Dockerfile
+        - Cfn/base-images/dotnet-aspnet-libgdiplus-ecr.yaml
+  before_script:
+    - export AWS_PROFILE=fsys2-development
+    - !reference [._aws_credentials_script, script]
+
+base_image_libgdiplus_production:
+  extends: .base_image_libgdiplus
+  environment: PRODUCTION
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "main"
+      changes:
+        - Docker/dotnet-aspnet-libgdiplus/Dockerfile
+        - docker/dotnet-aspnet-libgdiplus/Dockerfile
+        - Cfn/base-images/dotnet-aspnet-libgdiplus-ecr.yaml
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline" && $CI_COMMIT_BRANCH == "main"
+      changes:
+        - Docker/dotnet-aspnet-libgdiplus/Dockerfile
+        - docker/dotnet-aspnet-libgdiplus/Dockerfile
+        - Cfn/base-images/dotnet-aspnet-libgdiplus-ecr.yaml
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+      changes:
+        - Docker/dotnet-aspnet-libgdiplus/Dockerfile
+        - docker/dotnet-aspnet-libgdiplus/Dockerfile
+        - Cfn/base-images/dotnet-aspnet-libgdiplus-ecr.yaml
+  before_script:
+    - export AWS_PROFILE=fsys2-production
+    - !reference [._aws_credentials_script, script]
+
+cleanup:
+  stage: cleanup
+  tags:
+    - shell
+  cache: []
+  rules:
+    - if: $CI_RM_PIPELINE_IMAGE == "true"
+  allow_failure: true
+  script:
+    - docker images --format '{{json .}}'|jq -r --arg CI_PROJECT_PATH "${CI_PROJECT_PATH}" '.|select(.Repository|test($CI_PROJECT_PATH))|.Repository+":"+.Tag'|sed 's/:<none>//g'|sort -ru|grep --color=never 'pipeline\|cfn'|xargs -r docker rmi || true
+    - docker images --format '{{json .}}'|jq -r --arg CI_PROJECT_PATH "${CI_PROJECT_PATH}" '.|select(.Repository|test($CI_PROJECT_PATH))|.ID+"\t"+.Repository'|grep --color=never 'pipeline\|cfn'|cut -f1|xargs -r docker rmi || true
+    - docker volume prune -f

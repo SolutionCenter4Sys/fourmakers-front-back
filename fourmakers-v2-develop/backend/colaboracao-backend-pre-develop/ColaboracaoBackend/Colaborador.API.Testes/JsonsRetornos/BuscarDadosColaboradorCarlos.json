@@ -1,0 +1,2440 @@
+﻿{
+  "colaborador": {
+    "cpf": "03772351131",
+    "nomeCompleto": "Carlos Eduardo Santos Alves Domingos Do Amor",
+    "email": "carlos.domingos@foursys.com.br",
+    "contatoPrincipal": "11991922088",
+    "contatoOutros": null,
+    "slack_id": "UB5SPTHMZ",
+    "dataNascimento": "1991-11-08T00:00:00",
+    "cargo": {
+      "cargo": "Arquiteto de Sistema",
+      "id": 211
+    },
+    "diretoria": {
+      "diretoria": "UN II - RAFAEL",
+      "id": 2
+    },
+    "status": {
+      "id": 1,
+      "descricao": "ATIVO"
+    },
+    "rg": "5509898",
+    "fcmToken": null,
+    "matricula": null,
+    "dataAdmissao": "0001-01-01T00:00:00",
+    "endereco": {
+      "cep": "06414025",
+      "endereco": "RUA WERNER GOLDBERG",
+      "complemento": "APT 12, TORRE D",
+      "numero": 157,
+      "bairro": "JARDIM TUPANCI",
+      "cidade": "BARUERI",
+      "estado": "SP"
+    },
+    "flagCandidato": false,
+    "flagAtivo": false,
+    "candidato": null,
+    "urlFoto": null,
+    "urlFotoThumb": null,
+    "urlFotoThumbMini": null,
+    "urlFotoThumbVeryMini": null,
+    "meSegue": false,
+    "estouSeguindo": false,
+    "acessoBackoffice": true,
+    "acessoBuscaAvançada": true
+  },
+  "redeColaborador": {
+    "seguindo": [
+      {
+        "cpf": "33983006850",
+        "nomeCompleto": "Douglas Martins de Jesus",
+        "email": "douglas.martins@foursys.com.br",
+        "contatoPrincipal": "11984771212",
+        "contatoOutros": null,
+        "slack_id": "UEU6N325R",
+        "dataNascimento": "1986-01-28T00:00:00",
+        "cargo": {
+          "cargo": "Analista Programador",
+          "id": 203
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "44928508X",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "0001-01-01T00:00:00",
+        "endereco": {
+          "cep": "05131050",
+          "endereco": "Rua Roberto de Lamenais",
+          "complemento": "",
+          "numero": 47,
+          "bairro": "Vila Mangalot",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33983006850/foto_20211301144610.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33983006850/foto_20211301144610_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33983006850/foto_20211301144610_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33983006850/foto_20211301144610_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": true,
+        "acessoBuscaAvançada": true
+      },
+      {
+        "cpf": "81031459715",
+        "nomeCompleto": "Denise Maria Paixao Botelho",
+        "email": "denise.paixao@foursys.com.br",
+        "contatoPrincipal": "11999430699",
+        "contatoOutros": null,
+        "slack_id": "U8RN0MRDL",
+        "dataNascimento": "1964-02-04T00:00:00",
+        "cargo": {
+          "cargo": "Gerente de Projetos",
+          "id": 197
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "377745",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2020-10-05T00:00:00",
+        "endereco": {
+          "cep": "04134021",
+          "endereco": "Rua Vigário Albernaz",
+          "complemento": "APTO 81",
+          "numero": 637,
+          "bairro": "Vila Gumercindo",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/81031459715/foto.png",
+        "urlFotoThumb": null,
+        "urlFotoThumbMini": null,
+        "urlFotoThumbVeryMini": null,
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": true,
+        "acessoBuscaAvançada": true
+      },
+      {
+        "cpf": "40527058823",
+        "nomeCompleto": "Brunno González Anjos",
+        "email": "brunno.anjos@foursys.com.br",
+        "contatoPrincipal": "14998193176",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1994-08-18T00:00:00",
+        "cargo": {
+          "cargo": "Trainee",
+          "id": 259
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "44363849",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2020-11-09T00:00:00",
+        "endereco": {
+          "cep": "17580000",
+          "endereco": "Rua Washington Luiz",
+          "complemento": null,
+          "numero": 384,
+          "bairro": "",
+          "cidade": "Pompéia",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/40527058823/foto_20212910164930.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/40527058823/foto_20212910164930_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/40527058823/foto_20212910164930_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/40527058823/foto_20212910164930_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": true,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "42416999877",
+        "nomeCompleto": "Isabelly Pinheiro Serra",
+        "email": "isabelly.serra@foursys.com.br",
+        "contatoPrincipal": "11987522466",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "2000-08-11T00:00:00",
+        "cargo": {
+          "cargo": "Desenvolvedor PHP",
+          "id": 263
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "383430689",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2021-01-11T00:00:00",
+        "endereco": {
+          "cep": "08120000",
+          "endereco": "Avenida Barão de Alagoas",
+          "complemento": "",
+          "numero": 29,
+          "bairro": "Itaim Paulista",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/42416999877/foto_20212201145307.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/42416999877/foto_20212201145307_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/42416999877/foto_20212201145307_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/42416999877/foto_20212201145307_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "32067541862",
+        "nomeCompleto": "Charles Nascimento dos Passos",
+        "email": "charles.passos@foursys.com.br",
+        "contatoPrincipal": "11995308723",
+        "contatoOutros": null,
+        "slack_id": "UCSCFKGJH",
+        "dataNascimento": "1983-09-25T00:00:00",
+        "cargo": {
+          "cargo": "Analista Programador",
+          "id": 203
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "223407203",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "0001-01-01T00:00:00",
+        "endereco": {
+          "cep": "07190914",
+          "endereco": "Rua Célia Domingues Faustino 89",
+          "complemento": "",
+          "numero": 89,
+          "bairro": "PARQUE CECAP",
+          "cidade": "Guarulhos",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/32067541862/foto_20212201143018.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/32067541862/foto_20212201143018_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/32067541862/foto_20212201143018_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/32067541862/foto_20212201143018_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "28267005889",
+        "nomeCompleto": "Fabiane Cristina Piassentini",
+        "email": "fabiane.piassentini@foursys.com.br",
+        "contatoPrincipal": "11997910275",
+        "contatoOutros": null,
+        "slack_id": "UAFDTTT46",
+        "dataNascimento": "1980-11-08T00:00:00",
+        "cargo": {
+          "cargo": "Analista de Sistemas",
+          "id": 202
+        },
+        "diretoria": {
+          "diretoria": "UN I - RONALDO",
+          "id": 1
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "338644842",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2014-06-02T00:00:00",
+        "endereco": {
+          "cep": "",
+          "endereco": "",
+          "complemento": "",
+          "numero": 0,
+          "bairro": "",
+          "cidade": "SÃO PAULO",
+          "estado": "-1"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/28267005889/foto_20211401122447.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/28267005889/foto_20211401122447_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/28267005889/foto_20211401122447_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/28267005889/foto_20211401122447_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "05544837856",
+        "nomeCompleto": "Fulvio Mascara Da Silva",
+        "email": "fulvio.mascara@foursys.com.br",
+        "contatoPrincipal": "11972055051",
+        "contatoOutros": null,
+        "slack_id": "U7XRHH3J8",
+        "dataNascimento": "1975-10-02T00:00:00",
+        "cargo": {
+          "cargo": "Cientista-Chefe",
+          "id": 323
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "242884477",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "0001-01-01T00:00:00",
+        "endereco": {
+          "cep": "04520013",
+          "endereco": "Rua Inhambú",
+          "complemento": "Ap. 14",
+          "numero": 1208,
+          "bairro": "Vila Uberabinha",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/05544837856/foto_20211701123217.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/05544837856/foto_20211701123217_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/05544837856/foto_20211701123217_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/05544837856/foto_20211701123217_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "44238863836",
+        "nomeCompleto": "Armando Soares de Camargo",
+        "email": "armando.soares@foursys.com.br",
+        "contatoPrincipal": "11981688423",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1994-02-02T00:00:00",
+        "cargo": {
+          "cargo": "Desenvolvedor Trainee",
+          "id": 240
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 3,
+          "descricao": "INATIVO"
+        },
+        "rg": "475317944",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2021-01-07T00:00:00",
+        "endereco": {
+          "cep": "06152090",
+          "endereco": "Rua Piracicaba",
+          "complemento": "",
+          "numero": 187,
+          "bairro": "Veloso",
+          "cidade": "Osasco",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": null,
+        "urlFotoThumb": null,
+        "urlFotoThumbMini": null,
+        "urlFotoThumbVeryMini": null,
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "23871328820",
+        "nomeCompleto": "FABIO CARVALHO COSTA",
+        "email": "fabio.carvalho@foursys.com.br",
+        "contatoPrincipal": "11976417452",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1998-05-14T00:00:00",
+        "cargo": {
+          "cargo": "Desenvolvedor Trainee",
+          "id": 240
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "563417675",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2021-01-07T00:00:00",
+        "endereco": {
+          "cep": "06026090",
+          "endereco": "Rua Doutor Paulo Ferraz da Costa Aguiar",
+          "complemento": "81 D",
+          "numero": 1600,
+          "bairro": "Vila Yara",
+          "cidade": "Osasco",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/23871328820/foto_20211801180416.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/23871328820/foto_20211801180416_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/23871328820/foto_20211801180416_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/23871328820/foto_20211801180416_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "52300130874",
+        "nomeCompleto": "Julia Siqueira",
+        "email": "julia.siqueira@foursys.com.br",
+        "contatoPrincipal": null,
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "2002-09-19T00:00:00",
+        "cargo": {
+          "cargo": "Trainee",
+          "id": 259
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "521711538",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2020-09-01T00:00:00",
+        "endereco": null,
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": null,
+        "urlFotoThumb": null,
+        "urlFotoThumbMini": null,
+        "urlFotoThumbVeryMini": null,
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "50401977803",
+        "nomeCompleto": "Murilo Silva Ribeiro",
+        "email": "murilo.ribeiro@foursys.com.br",
+        "contatoPrincipal": "13996045332",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "2001-09-24T00:00:00",
+        "cargo": {
+          "cargo": "Desenvolvedor Trainee",
+          "id": 240
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "522774155",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2021-01-07T00:00:00",
+        "endereco": {
+          "cep": "11530100",
+          "endereco": "Rua Francisco Barbosa",
+          "complemento": "",
+          "numero": 293,
+          "bairro": "Vila Ponte Nova",
+          "cidade": "Cubatão",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50401977803/foto_20211801171406.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50401977803/foto_20211801171406_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50401977803/foto_20211801171406_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50401977803/foto_20211801171406_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": true,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "31849743835",
+        "nomeCompleto": "RAFAEL BONOTTO",
+        "email": "rafael.bonotto@foursys.com.br",
+        "contatoPrincipal": "11962069556",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1983-07-08T00:00:00",
+        "cargo": {
+          "cargo": "Programador Trainee",
+          "id": 201
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "30 404 483 0",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2021-01-05T00:00:00",
+        "endereco": {
+          "cep": "04256177",
+          "endereco": "Rua Mercedes Salano Castineiras",
+          "complemento": "",
+          "numero": 21,
+          "bairro": "Jardim Patente Novo",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": null,
+        "urlFotoThumb": null,
+        "urlFotoThumbMini": null,
+        "urlFotoThumbVeryMini": null,
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "21577852800",
+        "nomeCompleto": "Priscilla De Amorim",
+        "email": "priscilla.amorim@foursys.com.br",
+        "contatoPrincipal": "11982559804",
+        "contatoOutros": null,
+        "slack_id": "U7X5YAEQG",
+        "dataNascimento": "1979-07-22T00:00:00",
+        "cargo": {
+          "cargo": "Gerente de Operações",
+          "id": 324
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "229474007",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2013-09-18T00:00:00",
+        "endereco": {
+          "cep": "05588000",
+          "endereco": "Avenida Engenheiro Heitor Antônio Eiras Garcia",
+          "complemento": "AP 92B",
+          "numero": 180,
+          "bairro": "Jardim Esmeralda",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/21577852800/foto_20212101123645.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/21577852800/foto_20212101123645_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/21577852800/foto_20212101123645_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/21577852800/foto_20212101123645_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "50275486800",
+        "nomeCompleto": "Felipe Gonzalez Santos",
+        "email": "felipe.gonzalez@foursys.com.br",
+        "contatoPrincipal": "11943435747",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "2001-06-08T00:00:00",
+        "cargo": {
+          "cargo": "Analista de Testes",
+          "id": 205
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "536359878",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2021-01-07T00:00:00",
+        "endereco": {
+          "cep": "03343000",
+          "endereco": "Rua Pantojo",
+          "complemento": "APTO 104A",
+          "numero": 631,
+          "bairro": "Vila Regente Feijó",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50275486800/foto_20212101142723.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50275486800/foto_20212101142723_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50275486800/foto_20212101142723_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50275486800/foto_20212101142723_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "42951440880",
+        "nomeCompleto": "Anderson Silva da Conceição",
+        "email": "aconceicao@foursys.com.br",
+        "contatoPrincipal": "13996468589",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1994-07-19T00:00:00",
+        "cargo": {
+          "cargo": "Desenvolvedor Net",
+          "id": 199
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 3,
+          "descricao": "INATIVO"
+        },
+        "rg": "41278161x",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2020-12-15T00:00:00",
+        "endereco": {
+          "cep": "11500050",
+          "endereco": "Rua Cidade de Pinhal",
+          "complemento": "BLOCO B, APT 24",
+          "numero": 277,
+          "bairro": "Parque Fernando Jorge",
+          "cidade": "Cubatão",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": null,
+        "urlFotoThumb": null,
+        "urlFotoThumbMini": null,
+        "urlFotoThumbVeryMini": null,
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "33203787830",
+        "nomeCompleto": "Amanda Lima de Oliveira Barreto",
+        "email": "amanda.barreto@foursys.com.br",
+        "contatoPrincipal": "11997583725",
+        "contatoOutros": null,
+        "slack_id": "US16C2G9G",
+        "dataNascimento": "1986-04-14T00:00:00",
+        "cargo": {
+          "cargo": "Gerente de Projetos",
+          "id": 197
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "341177945",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2020-01-08T00:00:00",
+        "endereco": {
+          "cep": "08235270",
+          "endereco": "Rua Jacuanga",
+          "complemento": "",
+          "numero": 10,
+          "bairro": "Parque Sevilha",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33203787830/foto_20212101214657.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33203787830/foto_20212101214657_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33203787830/foto_20212101214657_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33203787830/foto_20212101214657_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "43102967850",
+        "nomeCompleto": "Ruth Menezes Scocco",
+        "email": "ruth.menezes@foursys.com.br",
+        "contatoPrincipal": "11959885522",
+        "contatoOutros": null,
+        "slack_id": "UEM6XDUUU",
+        "dataNascimento": "1996-04-03T00:00:00",
+        "cargo": {
+          "cargo": "Analista de RH",
+          "id": 244
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "379631301",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2018-10-23T00:00:00",
+        "endereco": {
+          "cep": "09840520",
+          "endereco": "Rua Maria Copeinski",
+          "complemento": "",
+          "numero": 34,
+          "bairro": "Dos Casa",
+          "cidade": "São Bernardo do Campo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/43102967850/foto_20211901105923.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/43102967850/foto_20211901105923_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/43102967850/foto_20211901105923_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/43102967850/foto_20211901105923_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": true,
+        "acessoBuscaAvançada": true
+      },
+      {
+        "cpf": "21762792800",
+        "nomeCompleto": "Renata Gondim Ono Cremaschi",
+        "email": "renata.ono@foursys.com.br",
+        "contatoPrincipal": "11984925550",
+        "contatoOutros": null,
+        "slack_id": "U8DP45U4W",
+        "dataNascimento": "1980-05-24T00:00:00",
+        "cargo": {
+          "cargo": "Gerente de Projetos",
+          "id": 197
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "277612056",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2009-04-06T00:00:00",
+        "endereco": {
+          "cep": "05159520",
+          "endereco": "Rua Coronel Augusto Machado",
+          "complemento": "",
+          "numero": 161,
+          "bairro": "Jardim Maristela",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": null,
+        "urlFotoThumb": null,
+        "urlFotoThumbMini": null,
+        "urlFotoThumbVeryMini": null,
+        "meSegue": false,
+        "estouSeguindo": true,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "46589409811",
+        "nomeCompleto": "Leticia Rocha dos Anjos",
+        "email": "leticia.anjos@foursys.com.br",
+        "contatoPrincipal": "11986212724",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1997-06-14T00:00:00",
+        "cargo": {
+          "cargo": "Analista de RH",
+          "id": 244
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "509469346",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2019-01-07T00:00:00",
+        "endereco": {
+          "cep": "04444000",
+          "endereco": "Avenida Miguel Yunes",
+          "complemento": "APT 136, T 2",
+          "numero": 485,
+          "bairro": "Usina Piratininga",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/46589409811/foto_20212804104021.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/46589409811/foto_20212804104021_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/46589409811/foto_20212804104021_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/46589409811/foto_20212804104021_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "19288876863",
+        "nomeCompleto": "Marcelo Moraes Lopes",
+        "email": "marcelo.lopes@foursys.com.br",
+        "contatoPrincipal": "11982591737",
+        "contatoOutros": null,
+        "slack_id": "UM002A3UJ",
+        "dataNascimento": "1967-09-27T00:00:00",
+        "cargo": {
+          "cargo": "Arquiteto de Sistema",
+          "id": 211
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "18403596X",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "0001-01-01T00:00:00",
+        "endereco": {
+          "cep": "05713410",
+          "endereco": "Rua do Ângulo",
+          "complemento": "AP 92",
+          "numero": 412,
+          "bairro": "Jardim Ampliação",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/19288876863/foto_20212502091824.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/19288876863/foto_20212502091824_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/19288876863/foto_20212502091824_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/19288876863/foto_20212502091824_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "10492884838",
+        "nomeCompleto": "Claudia Nakazawa",
+        "email": "claudia.nakazawa@foursys.com.br",
+        "contatoPrincipal": "11995991035",
+        "contatoOutros": null,
+        "slack_id": "U7X4V34AC",
+        "dataNascimento": "1968-03-27T00:00:00",
+        "cargo": {
+          "cargo": "Gerente de Projetos",
+          "id": 197
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "189336687",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2015-12-15T00:00:00",
+        "endereco": {
+          "cep": "04256260",
+          "endereco": "Rua Adão Delphino",
+          "complemento": "CASA",
+          "numero": 41,
+          "bairro": "Jardim Patente Novo",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/10492884838/foto_20212201204738.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/10492884838/foto_20212201204738_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/10492884838/foto_20212201204738_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/10492884838/foto_20212201204738_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "03772351131",
+        "nomeCompleto": "Carlos Eduardo Santos Alves Domingos Do Amor",
+        "email": "carlos.domingos@foursys.com.br",
+        "contatoPrincipal": "11991922088",
+        "contatoOutros": null,
+        "slack_id": "UB5SPTHMZ",
+        "dataNascimento": "1991-11-08T00:00:00",
+        "cargo": {
+          "cargo": "Arquiteto de Sistema",
+          "id": 211
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "5509898",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "0001-01-01T00:00:00",
+        "endereco": {
+          "cep": "06414025",
+          "endereco": "RUA WERNER GOLDBERG",
+          "complemento": "APT 12, TORRE D",
+          "numero": 157,
+          "bairro": "JARDIM TUPANCI",
+          "cidade": "BARUERI",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": null,
+        "urlFotoThumb": null,
+        "urlFotoThumbMini": null,
+        "urlFotoThumbVeryMini": null,
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": true,
+        "acessoBuscaAvançada": true
+      }
+    ],
+    "seguidores": [
+      {
+        "cpf": "33983006850",
+        "nomeCompleto": "Douglas Martins de Jesus",
+        "email": "douglas.martins@foursys.com.br",
+        "contatoPrincipal": "11984771212",
+        "contatoOutros": null,
+        "slack_id": "UEU6N325R",
+        "dataNascimento": "1986-01-28T00:00:00",
+        "cargo": {
+          "cargo": "Analista Programador",
+          "id": 203
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "44928508X",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "0001-01-01T00:00:00",
+        "endereco": {
+          "cep": "05131050",
+          "endereco": "Rua Roberto de Lamenais",
+          "complemento": "",
+          "numero": 47,
+          "bairro": "Vila Mangalot",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33983006850/foto_20211301144610.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33983006850/foto_20211301144610_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33983006850/foto_20211301144610_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33983006850/foto_20211301144610_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": true,
+        "acessoBuscaAvançada": true
+      },
+      {
+        "cpf": "40527058823",
+        "nomeCompleto": "Brunno González Anjos",
+        "email": "brunno.anjos@foursys.com.br",
+        "contatoPrincipal": "14998193176",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1994-08-18T00:00:00",
+        "cargo": {
+          "cargo": "Trainee",
+          "id": 259
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "44363849",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2020-11-09T00:00:00",
+        "endereco": {
+          "cep": "17580000",
+          "endereco": "Rua Washington Luiz",
+          "complemento": null,
+          "numero": 384,
+          "bairro": "",
+          "cidade": "Pompéia",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/40527058823/foto_20212910164930.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/40527058823/foto_20212910164930_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/40527058823/foto_20212910164930_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/40527058823/foto_20212910164930_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": true,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "81031459715",
+        "nomeCompleto": "Denise Maria Paixao Botelho",
+        "email": "denise.paixao@foursys.com.br",
+        "contatoPrincipal": "11999430699",
+        "contatoOutros": null,
+        "slack_id": "U8RN0MRDL",
+        "dataNascimento": "1964-02-04T00:00:00",
+        "cargo": {
+          "cargo": "Gerente de Projetos",
+          "id": 197
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "377745",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2020-10-05T00:00:00",
+        "endereco": {
+          "cep": "04134021",
+          "endereco": "Rua Vigário Albernaz",
+          "complemento": "APTO 81",
+          "numero": 637,
+          "bairro": "Vila Gumercindo",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/81031459715/foto.png",
+        "urlFotoThumb": null,
+        "urlFotoThumbMini": null,
+        "urlFotoThumbVeryMini": null,
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": true,
+        "acessoBuscaAvançada": true
+      },
+      {
+        "cpf": "42416999877",
+        "nomeCompleto": "Isabelly Pinheiro Serra",
+        "email": "isabelly.serra@foursys.com.br",
+        "contatoPrincipal": "11987522466",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "2000-08-11T00:00:00",
+        "cargo": {
+          "cargo": "Desenvolvedor PHP",
+          "id": 263
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "383430689",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2021-01-11T00:00:00",
+        "endereco": {
+          "cep": "08120000",
+          "endereco": "Avenida Barão de Alagoas",
+          "complemento": "",
+          "numero": 29,
+          "bairro": "Itaim Paulista",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/42416999877/foto_20212201145307.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/42416999877/foto_20212201145307_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/42416999877/foto_20212201145307_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/42416999877/foto_20212201145307_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "28267005889",
+        "nomeCompleto": "Fabiane Cristina Piassentini",
+        "email": "fabiane.piassentini@foursys.com.br",
+        "contatoPrincipal": "11997910275",
+        "contatoOutros": null,
+        "slack_id": "UAFDTTT46",
+        "dataNascimento": "1980-11-08T00:00:00",
+        "cargo": {
+          "cargo": "Analista de Sistemas",
+          "id": 202
+        },
+        "diretoria": {
+          "diretoria": "UN I - RONALDO",
+          "id": 1
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "338644842",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2014-06-02T00:00:00",
+        "endereco": {
+          "cep": "",
+          "endereco": "",
+          "complemento": "",
+          "numero": 0,
+          "bairro": "",
+          "cidade": "SÃO PAULO",
+          "estado": "-1"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/28267005889/foto_20211401122447.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/28267005889/foto_20211401122447_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/28267005889/foto_20211401122447_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/28267005889/foto_20211401122447_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "05544837856",
+        "nomeCompleto": "Fulvio Mascara Da Silva",
+        "email": "fulvio.mascara@foursys.com.br",
+        "contatoPrincipal": "11972055051",
+        "contatoOutros": null,
+        "slack_id": "U7XRHH3J8",
+        "dataNascimento": "1975-10-02T00:00:00",
+        "cargo": {
+          "cargo": "Cientista-Chefe",
+          "id": 323
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "242884477",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "0001-01-01T00:00:00",
+        "endereco": {
+          "cep": "04520013",
+          "endereco": "Rua Inhambú",
+          "complemento": "Ap. 14",
+          "numero": 1208,
+          "bairro": "Vila Uberabinha",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/05544837856/foto_20211701123217.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/05544837856/foto_20211701123217_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/05544837856/foto_20211701123217_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/05544837856/foto_20211701123217_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "23871328820",
+        "nomeCompleto": "FABIO CARVALHO COSTA",
+        "email": "fabio.carvalho@foursys.com.br",
+        "contatoPrincipal": "11976417452",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1998-05-14T00:00:00",
+        "cargo": {
+          "cargo": "Desenvolvedor Trainee",
+          "id": 240
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "563417675",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2021-01-07T00:00:00",
+        "endereco": {
+          "cep": "06026090",
+          "endereco": "Rua Doutor Paulo Ferraz da Costa Aguiar",
+          "complemento": "81 D",
+          "numero": 1600,
+          "bairro": "Vila Yara",
+          "cidade": "Osasco",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/23871328820/foto_20211801180416.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/23871328820/foto_20211801180416_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/23871328820/foto_20211801180416_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/23871328820/foto_20211801180416_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "21577852800",
+        "nomeCompleto": "Priscilla De Amorim",
+        "email": "priscilla.amorim@foursys.com.br",
+        "contatoPrincipal": "11982559804",
+        "contatoOutros": null,
+        "slack_id": "U7X5YAEQG",
+        "dataNascimento": "1979-07-22T00:00:00",
+        "cargo": {
+          "cargo": "Gerente de Operações",
+          "id": 324
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "229474007",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2013-09-18T00:00:00",
+        "endereco": {
+          "cep": "05588000",
+          "endereco": "Avenida Engenheiro Heitor Antônio Eiras Garcia",
+          "complemento": "AP 92B",
+          "numero": 180,
+          "bairro": "Jardim Esmeralda",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/21577852800/foto_20212101123645.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/21577852800/foto_20212101123645_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/21577852800/foto_20212101123645_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/21577852800/foto_20212101123645_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "50275486800",
+        "nomeCompleto": "Felipe Gonzalez Santos",
+        "email": "felipe.gonzalez@foursys.com.br",
+        "contatoPrincipal": "11943435747",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "2001-06-08T00:00:00",
+        "cargo": {
+          "cargo": "Analista de Testes",
+          "id": 205
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "536359878",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2021-01-07T00:00:00",
+        "endereco": {
+          "cep": "03343000",
+          "endereco": "Rua Pantojo",
+          "complemento": "APTO 104A",
+          "numero": 631,
+          "bairro": "Vila Regente Feijó",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50275486800/foto_20212101142723.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50275486800/foto_20212101142723_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50275486800/foto_20212101142723_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50275486800/foto_20212101142723_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "50401977803",
+        "nomeCompleto": "Murilo Silva Ribeiro",
+        "email": "murilo.ribeiro@foursys.com.br",
+        "contatoPrincipal": "13996045332",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "2001-09-24T00:00:00",
+        "cargo": {
+          "cargo": "Desenvolvedor Trainee",
+          "id": 240
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "522774155",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2021-01-07T00:00:00",
+        "endereco": {
+          "cep": "11530100",
+          "endereco": "Rua Francisco Barbosa",
+          "complemento": "",
+          "numero": 293,
+          "bairro": "Vila Ponte Nova",
+          "cidade": "Cubatão",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50401977803/foto_20211801171406.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50401977803/foto_20211801171406_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50401977803/foto_20211801171406_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/50401977803/foto_20211801171406_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": true,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "10492884838",
+        "nomeCompleto": "Claudia Nakazawa",
+        "email": "claudia.nakazawa@foursys.com.br",
+        "contatoPrincipal": "11995991035",
+        "contatoOutros": null,
+        "slack_id": "U7X4V34AC",
+        "dataNascimento": "1968-03-27T00:00:00",
+        "cargo": {
+          "cargo": "Gerente de Projetos",
+          "id": 197
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "189336687",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2015-12-15T00:00:00",
+        "endereco": {
+          "cep": "04256260",
+          "endereco": "Rua Adão Delphino",
+          "complemento": "CASA",
+          "numero": 41,
+          "bairro": "Jardim Patente Novo",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/10492884838/foto_20212201204738.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/10492884838/foto_20212201204738_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/10492884838/foto_20212201204738_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/10492884838/foto_20212201204738_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "31849743835",
+        "nomeCompleto": "RAFAEL BONOTTO",
+        "email": "rafael.bonotto@foursys.com.br",
+        "contatoPrincipal": "11962069556",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1983-07-08T00:00:00",
+        "cargo": {
+          "cargo": "Programador Trainee",
+          "id": 201
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "30 404 483 0",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2021-01-05T00:00:00",
+        "endereco": {
+          "cep": "04256177",
+          "endereco": "Rua Mercedes Salano Castineiras",
+          "complemento": "",
+          "numero": 21,
+          "bairro": "Jardim Patente Novo",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": null,
+        "urlFotoThumb": null,
+        "urlFotoThumbMini": null,
+        "urlFotoThumbVeryMini": null,
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "30585518866",
+        "nomeCompleto": "Rodrigo Meireles Pedrosa",
+        "email": "rodrigo.pedrosa@foursys.com.br",
+        "contatoPrincipal": "11951986240",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1982-05-08T00:00:00",
+        "cargo": {
+          "cargo": "Gerente de Projetos",
+          "id": 197
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "332786146",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2020-03-18T00:00:00",
+        "endereco": {
+          "cep": "03416000",
+          "endereco": "Rua Pretória",
+          "complemento": "apto 184A",
+          "numero": 437,
+          "bairro": "Vila Formosa",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/30585518866/foto_20212402225228.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/30585518866/foto_20212402225228_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/30585518866/foto_20212402225228_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/30585518866/foto_20212402225228_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "46589409811",
+        "nomeCompleto": "Leticia Rocha dos Anjos",
+        "email": "leticia.anjos@foursys.com.br",
+        "contatoPrincipal": "11986212724",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1997-06-14T00:00:00",
+        "cargo": {
+          "cargo": "Analista de RH",
+          "id": 244
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "509469346",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2019-01-07T00:00:00",
+        "endereco": {
+          "cep": "04444000",
+          "endereco": "Avenida Miguel Yunes",
+          "complemento": "APT 136, T 2",
+          "numero": 485,
+          "bairro": "Usina Piratininga",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/46589409811/foto_20212804104021.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/46589409811/foto_20212804104021_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/46589409811/foto_20212804104021_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/46589409811/foto_20212804104021_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "34920038852",
+        "nomeCompleto": "Sidney Kiyoshi Miyahira",
+        "email": "sidney.miyahira@foursys.com.br",
+        "contatoPrincipal": "11997103150",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1985-11-26T00:00:00",
+        "cargo": {
+          "cargo": "Analista de Testes",
+          "id": 205
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "352459992",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2019-11-11T00:00:00",
+        "endereco": {
+          "cep": "04210060",
+          "endereco": "Rua Oliveira Alves",
+          "complemento": "",
+          "numero": 48,
+          "bairro": "Ipiranga",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": null,
+        "urlFotoThumb": null,
+        "urlFotoThumbMini": null,
+        "urlFotoThumbVeryMini": null,
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "33203787830",
+        "nomeCompleto": "Amanda Lima de Oliveira Barreto",
+        "email": "amanda.barreto@foursys.com.br",
+        "contatoPrincipal": "11997583725",
+        "contatoOutros": null,
+        "slack_id": "US16C2G9G",
+        "dataNascimento": "1986-04-14T00:00:00",
+        "cargo": {
+          "cargo": "Gerente de Projetos",
+          "id": 197
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "341177945",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2020-01-08T00:00:00",
+        "endereco": {
+          "cep": "08235270",
+          "endereco": "Rua Jacuanga",
+          "complemento": "",
+          "numero": 10,
+          "bairro": "Parque Sevilha",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33203787830/foto_20212101214657.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33203787830/foto_20212101214657_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33203787830/foto_20212101214657_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33203787830/foto_20212101214657_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "02670015760",
+        "nomeCompleto": "Patrick Lima Chaves",
+        "email": "patrick.chaves@foursys.com.br",
+        "contatoPrincipal": "11969234013",
+        "contatoOutros": null,
+        "slack_id": null,
+        "dataNascimento": "1972-12-13T00:00:00",
+        "cargo": {
+          "cargo": "Líder Técnico",
+          "id": 228
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "098606254",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "0001-01-01T00:00:00",
+        "endereco": {
+          "cep": "04455350",
+          "endereco": "Rua Laura dos Anjos Ramos",
+          "complemento": "448",
+          "numero": 448,
+          "bairro": "Vila Campo Grande",
+          "cidade": "São Paulo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/02670015760/foto_20211503190350.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/02670015760/foto_20211503190350_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/02670015760/foto_20211503190350_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/02670015760/foto_20211503190350_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": false,
+        "acessoBuscaAvançada": false
+      },
+      {
+        "cpf": "43102967850",
+        "nomeCompleto": "Ruth Menezes Scocco",
+        "email": "ruth.menezes@foursys.com.br",
+        "contatoPrincipal": "11959885522",
+        "contatoOutros": null,
+        "slack_id": "UEM6XDUUU",
+        "dataNascimento": "1996-04-03T00:00:00",
+        "cargo": {
+          "cargo": "Analista de RH",
+          "id": 244
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "379631301",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "2018-10-23T00:00:00",
+        "endereco": {
+          "cep": "09840520",
+          "endereco": "Rua Maria Copeinski",
+          "complemento": "",
+          "numero": 34,
+          "bairro": "Dos Casa",
+          "cidade": "São Bernardo do Campo",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/43102967850/foto_20211901105923.png",
+        "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/43102967850/foto_20211901105923_thumb.png",
+        "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/43102967850/foto_20211901105923_thumb50.png",
+        "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/43102967850/foto_20211901105923_thumb25.png",
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": true,
+        "acessoBuscaAvançada": true
+      },
+      {
+        "cpf": "03772351131",
+        "nomeCompleto": "Carlos Eduardo Santos Alves Domingos Do Amor",
+        "email": "carlos.domingos@foursys.com.br",
+        "contatoPrincipal": "11991922088",
+        "contatoOutros": null,
+        "slack_id": "UB5SPTHMZ",
+        "dataNascimento": "1991-11-08T00:00:00",
+        "cargo": {
+          "cargo": "Arquiteto de Sistema",
+          "id": 211
+        },
+        "diretoria": {
+          "diretoria": "UN II - RAFAEL",
+          "id": 2
+        },
+        "status": {
+          "id": 1,
+          "descricao": "ATIVO"
+        },
+        "rg": "5509898",
+        "fcmToken": null,
+        "matricula": null,
+        "dataAdmissao": "0001-01-01T00:00:00",
+        "endereco": {
+          "cep": "06414025",
+          "endereco": "RUA WERNER GOLDBERG",
+          "complemento": "APT 12, TORRE D",
+          "numero": 157,
+          "bairro": "JARDIM TUPANCI",
+          "cidade": "BARUERI",
+          "estado": "SP"
+        },
+        "flagCandidato": false,
+        "flagAtivo": false,
+        "candidato": null,
+        "urlFoto": null,
+        "urlFotoThumb": null,
+        "urlFotoThumbMini": null,
+        "urlFotoThumbVeryMini": null,
+        "meSegue": false,
+        "estouSeguindo": false,
+        "acessoBackoffice": true,
+        "acessoBuscaAvançada": true
+      }
+    ]
+  },
+  "perfilProfissional": {
+    "competencias": [
+      {
+        "id": 128,
+        "competencia": {
+          "id": 5,
+          "descricao": "JAVA"
+        },
+        "data": "2021-01-11T23:14:39-03:00",
+        "certificados": [],
+        "endosso": {
+          "descricaoStatus": "Confirmado",
+          "endossado": true,
+          "nivelEndosso": 5.0,
+          "quantidadeEndosso": 1,
+          "quantidadeSolicitacaoEndosso": 1
+        },
+        "nivel": null,
+        "endossoConcedido": [
+          {
+            "dataEndosso": "2021-01-13T14:46:44-03:00",
+            "colaborador": {
+              "cpf": "33983006850",
+              "nomeCompleto": "Douglas Martins de Jesus",
+              "email": "douglas.martins@foursys.com.br",
+              "contatoPrincipal": "11984771212",
+              "contatoOutros": null,
+              "slack_id": "UEU6N325R",
+              "dataNascimento": "1986-01-28T00:00:00",
+              "cargo": {
+                "cargo": "Analista Programador",
+                "id": 203
+              },
+              "diretoria": {
+                "diretoria": "UN II - RAFAEL",
+                "id": 2
+              },
+              "status": {
+                "id": 1,
+                "descricao": "ATIVO"
+              },
+              "rg": "44928508X",
+              "fcmToken": null,
+              "matricula": null,
+              "dataAdmissao": "0001-01-01T00:00:00",
+              "endereco": {
+                "cep": "05131050",
+                "endereco": "Rua Roberto de Lamenais",
+                "complemento": "",
+                "numero": 47,
+                "bairro": "Vila Mangalot",
+                "cidade": "São Paulo",
+                "estado": "SP"
+              },
+              "flagCandidato": false,
+              "flagAtivo": false,
+              "candidato": null,
+              "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33983006850/foto_20211301144610.png",
+              "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33983006850/foto_20211301144610_thumb.png",
+              "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33983006850/foto_20211301144610_thumb50.png",
+              "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/33983006850/foto_20211301144610_thumb25.png",
+              "meSegue": false,
+              "estouSeguindo": false,
+              "acessoBackoffice": true,
+              "acessoBuscaAvançada": true
+            },
+            "tipoEndosso": {
+              "id": 6,
+              "descricao": "Domina",
+              "nivelEndosso": 5
+            }
+          }
+        ]
+      },
+      {
+        "id": 129,
+        "competencia": {
+          "id": 2,
+          "descricao": "JAVASCRIPT"
+        },
+        "data": "2021-01-11T23:14:39-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 143,
+        "competencia": {
+          "id": 489,
+          "descricao": "React Native"
+        },
+        "data": "2021-01-14T12:22:03-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 180,
+        "competencia": {
+          "id": 1,
+          "descricao": "C#"
+        },
+        "data": "2021-01-17T14:30:35-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": {
+          "id": 4,
+          "descricao": "Sênior"
+        },
+        "endossoConcedido": []
+      },
+      {
+        "id": 287,
+        "competencia": {
+          "id": 536,
+          "descricao": ".Net Core"
+        },
+        "data": "2021-01-22T11:58:08-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 288,
+        "competencia": {
+          "id": 479,
+          "descricao": "Asp.net Core"
+        },
+        "data": "2021-01-22T11:58:08-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 289,
+        "competencia": {
+          "id": 537,
+          "descricao": "Vb6"
+        },
+        "data": "2021-01-22T11:58:09-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 290,
+        "competencia": {
+          "id": 254,
+          "descricao": "PHP"
+        },
+        "data": "2021-01-22T11:58:10-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 291,
+        "competencia": {
+          "id": 470,
+          "descricao": "Node Js"
+        },
+        "data": "2021-01-22T11:58:10-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 292,
+        "competencia": {
+          "id": 6,
+          "descricao": "APPCELERATOR TITANIUM"
+        },
+        "data": "2021-01-22T11:58:11-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 293,
+        "competencia": {
+          "id": 471,
+          "descricao": "Xamarin Forms"
+        },
+        "data": "2021-01-22T11:58:11-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 294,
+        "competencia": {
+          "id": 7,
+          "descricao": "SQL SERVER"
+        },
+        "data": "2021-01-22T11:58:12-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 295,
+        "competencia": {
+          "id": 247,
+          "descricao": "ORACLE"
+        },
+        "data": "2021-01-22T11:58:12-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 296,
+        "competencia": {
+          "id": 127,
+          "descricao": "C"
+        },
+        "data": "2021-01-22T11:58:13-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 297,
+        "competencia": {
+          "id": 509,
+          "descricao": "Linux"
+        },
+        "data": "2021-01-22T11:58:14-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 298,
+        "competencia": {
+          "id": 372,
+          "descricao": "IOS"
+        },
+        "data": "2021-01-22T11:58:14-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 299,
+        "competencia": {
+          "id": 371,
+          "descricao": "ANDROID"
+        },
+        "data": "2021-01-22T11:58:15-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 300,
+        "competencia": {
+          "id": 538,
+          "descricao": "Appium"
+        },
+        "data": "2021-01-22T11:58:15-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 301,
+        "competencia": {
+          "id": 539,
+          "descricao": "Jenkins"
+        },
+        "data": "2021-01-22T11:58:16-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 302,
+        "competencia": {
+          "id": 540,
+          "descricao": "Azure Devops"
+        },
+        "data": "2021-01-22T11:58:16-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 303,
+        "competencia": {
+          "id": 251,
+          "descricao": "PERL"
+        },
+        "data": "2021-01-22T11:58:17-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 337,
+        "competencia": {
+          "id": 549,
+          "descricao": "Postgeo"
+        },
+        "data": "2021-01-28T11:27:57-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": null,
+        "endossoConcedido": []
+      },
+      {
+        "id": 489,
+        "competencia": {
+          "id": 498,
+          "descricao": "Inteligência Artificial"
+        },
+        "data": "2021-07-23T08:07:00-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": {
+          "id": 3,
+          "descricao": "Pleno"
+        },
+        "endossoConcedido": []
+      },
+      {
+        "id": 555,
+        "competencia": {
+          "id": 478,
+          "descricao": ".Net"
+        },
+        "data": "2021-11-19T11:32:51-03:00",
+        "certificados": [],
+        "endosso": null,
+        "nivel": {
+          "id": 4,
+          "descricao": "Sênior"
+        },
+        "endossoConcedido": []
+      }
+    ],
+    "formacoes": [
+      {
+        "id": 55,
+        "formacao": {
+          "id": 39,
+          "descricao": "CIÊNCIA DA COMPUTAÇÃO",
+          "emissor": "Em desenvolvimento"
+        },
+        "data": "2021-01-11T23:14:51-03:00",
+        "certificado": {
+          "path": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/certificados/03772351131_FORMACAO/137.png",
+          "thumb": null,
+          "idCertificado": 55,
+          "principal": true
+        },
+        "endosso": {
+          "descricaoStatus": "Confirmado",
+          "endossado": true,
+          "nivelEndosso": 5.0,
+          "quantidadeEndosso": 1,
+          "quantidadeSolicitacaoEndosso": 1
+        },
+        "nivel": {
+          "id": 6,
+          "descricao": "Graduação"
+        },
+        "endossoConcedido": [
+          {
+            "dataEndosso": "2021-01-28T15:28:33-03:00",
+            "colaborador": {
+              "cpf": "05544837856",
+              "nomeCompleto": "Fulvio Mascara Da Silva",
+              "email": "fulvio.mascara@foursys.com.br",
+              "contatoPrincipal": "11972055051",
+              "contatoOutros": null,
+              "slack_id": "U7XRHH3J8",
+              "dataNascimento": "1975-10-02T00:00:00",
+              "cargo": {
+                "cargo": "Cientista-Chefe",
+                "id": 323
+              },
+              "diretoria": {
+                "diretoria": "UN II - RAFAEL",
+                "id": 2
+              },
+              "status": {
+                "id": 1,
+                "descricao": "ATIVO"
+              },
+              "rg": "242884477",
+              "fcmToken": null,
+              "matricula": null,
+              "dataAdmissao": "0001-01-01T00:00:00",
+              "endereco": {
+                "cep": "04520013",
+                "endereco": "Rua Inhambú",
+                "complemento": "Ap. 14",
+                "numero": 1208,
+                "bairro": "Vila Uberabinha",
+                "cidade": "São Paulo",
+                "estado": "SP"
+              },
+              "flagCandidato": false,
+              "flagAtivo": false,
+              "candidato": null,
+              "urlFoto": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/05544837856/foto_20211701123217.png",
+              "urlFotoThumb": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/05544837856/foto_20211701123217_thumb.png",
+              "urlFotoThumbMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/05544837856/foto_20211701123217_thumb50.png",
+              "urlFotoThumbVeryMini": "https://colab-api.app.foursys.com/ColaboradorMidia/arquivos/colaboradores/05544837856/foto_20211701123217_thumb25.png",
+              "meSegue": false,
+              "estouSeguindo": false,
+              "acessoBackoffice": false,
+              "acessoBuscaAvançada": false
+            },
+            "tipoEndosso": {
+              "id": 6,
+              "descricao": "Domina",
+              "nivelEndosso": 5
+            }
+          }
+        ]
+      }
+    ],
+    "dominios": [
+      {
+        "id": 49,
+        "dominio": {
+          "id": 2,
+          "descricao": "SEGURADORAS"
+        },
+        "data": "2021-01-11T23:15:03-03:00",
+        "endosso": null,
+        "nivel": {
+          "id": 14,
+          "descricao": "Alto"
+        },
+        "endossoConcedido": []
+      }
+    ],
+    "metodologias": [
+      {
+        "id": 57,
+        "metodologia": {
+          "id": 54,
+          "descricao": "Safe Agilist 4.6"
+        },
+        "data": "2021-01-11T23:15:10-03:00",
+        "endosso": null,
+        "nivel": {
+          "id": 10,
+          "descricao": "Certificado"
+        },
+        "endossoConcedido": []
+      }
+    ],
+    "modelos": [
+      {
+        "id": 37,
+        "modeloReferencia": {
+          "id": 2,
+          "descricao": "ITIL"
+        },
+        "data": "2021-01-11T23:15:20-03:00",
+        "endosso": null,
+        "nivel": {
+          "id": 20,
+          "descricao": "Baixo"
+        },
+        "endossoConcedido": []
+      }
+    ],
+    "interesses": [
+      {
+        "id": 80,
+        "interesse": {
+          "id": 16,
+          "descricao": "Mobile"
+        },
+        "data": "2021-01-11T23:15:32-03:00"
+      }
+    ],
+    "hobbies": [
+      {
+        "id": 75,
+        "hobbie": {
+          "id": 4,
+          "descricao": "MEMES"
+        },
+        "data": "2021-01-11T23:15:40-03:00"
+      },
+      {
+        "id": 76,
+        "hobbie": {
+          "id": 14,
+          "descricao": "Comer Besteiras"
+        },
+        "data": "2021-01-13T13:33:58-03:00"
+      },
+      {
+        "id": 85,
+        "hobbie": {
+          "id": 5,
+          "descricao": "JOGAR"
+        },
+        "data": "2021-01-14T12:34:30-03:00"
+      },
+      {
+        "id": 86,
+        "hobbie": {
+          "id": 19,
+          "descricao": "Jogar Truco"
+        },
+        "data": "2021-01-14T12:35:56-03:00"
+      },
+      {
+        "id": 105,
+        "hobbie": {
+          "id": 23,
+          "descricao": "Viajar"
+        },
+        "data": "2021-01-19T10:05:29-03:00"
+      }
+    ]
+  },
+  "atividadeColaborador": null,
+  "forcaPerfil": null,
+  "totalResultCount": 0,
+  "sucesso": true,
+  "mensagem": null,
+  "erros": null
+}

@@ -1,0 +1,200 @@
+-- ============================================================
+-- FOURMAKERS v2 — Dicionário de Dados
+-- Dialeto  : SQLite 3.x
+-- Versão   : v3-20260326
+-- Tabelas  : 11 | Domínios: Auth, RH, Projetos, Reembolso
+-- ============================================================
+-- LEGENDA
+--   [PK]      Primary Key
+--   [FK→X]    Foreign Key referenciando tabela X
+--   [NN]      NOT NULL
+--   [UQ]      UNIQUE
+--   [DF:x]    DEFAULT valor x
+--   [NULL]    Coluna opcional
+--   [BOOL]    INTEGER: 0 = false | 1 = true
+--   [SENS]    Dado sensível — LGPD (criptografar em produção)
+--   [IMMUT]   Só INSERT, nunca UPDATE
+--   [CASCADE] ON DELETE CASCADE
+-- ============================================================
+
+-- ──────────────────────────────────────────────────────────────
+-- DOMÍNIO: AUTH / MULTI-TENANT
+-- ──────────────────────────────────────────────────────────────
+
+-- tb_organizacao
+-- Tenant raiz da plataforma. Todos os dados são isolados por org_id.
+--   id             [PK][NN]
+--   cnpj           [UQ][NULL][SENS]  14 dígitos sem pontuação. CHECK length = 14.
+--   razao_social   [NN]              Razão social para documentos fiscais e relatórios
+--   nome_fantasia  [NULL]            Nome de exibição no header (fallback para razao_social)
+--   subdominio     [UQ][NULL]        Slug da URL de login (ex: foursys → /login/foursys)
+--   email_contato  [NULL]            E-mail administrativo da organização
+--   telefone       [NULL]            Telefone com DDD, sem formatação (ex: 11999998888)
+--   cep            [NULL]            CEP sem hífen (8 dígitos); usado para relatórios e cobrança
+--   cidade         [NULL]            Cidade sede da organização
+--   uf             [NULL]            Sigla do estado — 2 caracteres (CHECK length = 2)
+--   logotipo_url   [NULL]            URL pública do logotipo (PNG/SVG). Exibido no header e PDFs
+--   ativo          [BOOL][DF:1]      0 = organização desabilitada; todos logins são negados
+--   criado_em      [IMMUT][DF:NOW]   Timestamp de criação do tenant
+
+-- tb_usuario
+-- Credenciais de acesso. E-mail único por organização. CPF único por organização.
+--   id              [PK][NN]
+--   org_id          [FK→tb_organizacao][NN]
+--   cpf             [UQ c/ org_id][NULL][SENS]  11 dígitos sem pontuação. CHECK length = 11.
+--                   RN: mesmo CPF pode existir em orgs distintas (usuário PJ multi-empresa)
+--   email           [NN][UQ c/ org_id]           Mesmo e-mail pode existir em orgs distintas
+--   nome            [NN]                         Nome completo para exibição e relatórios
+--   telefone        [NULL][SENS]                 Telefone com DDD (ex: 11999998888)
+--   data_nascimento [NULL][SENS]                 ISO 8601 (YYYY-MM-DD); usada em relatórios de RH e aniversários
+--   perfil          [NN][DF:Colaborador]          Controle de acesso por perfil.
+--                   Valores: Admin | Gestor | Colaborador | RH | Financeiro
+--                   RN: Admin gerencia tenants; RH gerencia candidaturas e colaboradores;
+--                       Financeiro aprova pagamentos; Gestor visualiza equipe
+--   avatar_url      [NULL]                       URL pública da foto de perfil
+--   ativo           [BOOL][DF:1]                 0 = login negado (colaborador desligado ou suspenso)
+--   criado_em       [IMMUT][DF:NOW]              Timestamp do primeiro cadastro
+--   ultimo_acesso   [NULL]                       Atualizado a cada login bem-sucedido; NULL = nunca acessou
+
+-- ──────────────────────────────────────────────────────────────
+-- DOMÍNIO: RH
+-- ──────────────────────────────────────────────────────────────
+
+-- tb_cargo
+-- Lookup de cargos reutilizável entre organizações.
+--   cod         [PK]    Código alfanumérico (ex: DEV-SR, GES-TI). Definido pelo RH.
+--   nome        [NN]    Nome completo do cargo (ex: Desenvolvedor Sênior)
+--   nivel       [NN][DF:Pleno]  Valores: Junior | Pleno | Senior | Especialista | Gestor
+--   descricao   [NULL]  Texto livre com responsabilidades e requisitos do cargo
+--   salario_min [NULL]  Piso salarial da faixa em R$; NULL = sem faixa definida
+--   salario_max [NULL]  Teto salarial da faixa em R$; NULL = sem faixa definida
+--               CHECK: salario_min <= salario_max quando ambos preenchidos
+
+-- tb_departamento
+-- Lookup de departamentos por organização.
+--   cod              [PK]  Código alfanumérico (ex: TI, RH, FIN, COM)
+--   nome             [NN]  Nome exibido em relatórios e solicitações
+--   org_id           [FK→tb_organizacao][NN]  Departamento pertence a uma organização
+--   centro_custo     [NULL]  Código de centro de custo para integração com ERP/contabilidade
+--   email_depto      [NULL]  E-mail de contato do departamento (ex: ti@empresa.com)
+--   responsavel_cod  [FK→tb_colaborador][NULL]  Colaborador responsável pelo departamento;
+--                    NULL = departamento sem head definido
+
+-- tb_colaborador
+-- Perfil profissional vinculado a um usuário. Contém dados de RH, bancários e de acesso.
+--   cod_profissional   [PK]     Código gerado pelo RH (ex: EMP-001). Não é autoincrement.
+--   usuario_id         [FK→tb_usuario][NN]
+--   cargo_cod          [FK→tb_cargo][NN]
+--   depto_cod          [FK→tb_departamento][NN]
+--   gestor_cod         [FK→tb_colaborador][NULL]  Auto-referência; NULL = sem gestor (C-level)
+--   nome               [NN]     Nome completo; pode divergir de tb_usuario.nome em casos de apelido
+--   celular            [NULL][SENS]  Celular com DDD (ex: 11999998888)
+--   data_admissao      [NN][IMMUT]   ISO 8601 (YYYY-MM-DD); data de entrada na empresa
+--   data_demissao      [NULL]        ISO 8601; preenchido no desligamento. CHECK >= data_admissao
+--   modelo_contratacao [NN][DF:CLT]  Valores: CLT | PJ | Estagio | Terceiro
+--   salario            [NULL][SENS]  Remuneração mensal em R$
+--   banco              [NULL]        Nome do banco (ex: Nubank, Itaú, Bradesco)
+--   agencia            [NULL]        Número da agência sem dígito verificador
+--   conta_corrente     [NULL][SENS]  Número da conta com dígito verificador
+--   tipo_pix           [NULL]        Valores: CPF | CNPJ | Email | Telefone | Aleatoria
+--   chave_pix          [NULL][SENS]  Chave PIX no formato correspondente ao tipo_pix
+--   linkedin_url       [NULL]        URL do perfil LinkedIn (opcional, preenchido pelo colaborador)
+--   sou_gestor         [BOOL][DF:0]  1 = pode visualizar solicitações da equipe
+--   sou_aprovador      [BOOL][DF:0]  1 = pode aprovar/reprovar itens de reembolso
+--   ativo              [BOOL][DF:1]  0 = colaborador desligado; sincronizado com tb_usuario.ativo
+
+-- ──────────────────────────────────────────────────────────────
+-- DOMÍNIO: PROJETOS
+-- ──────────────────────────────────────────────────────────────
+
+-- tb_cliente
+-- Clientes da empresa. Base para projetos e reembolsos.
+--   codigo_cliente   [PK]   Código alfanumérico (ex: CLI-001)
+--   cnpj             [UQ][NULL][SENS]  14 dígitos sem pontuação. CHECK length = 14.
+--   razao_social     [NN]   Razão social para NF e contratos
+--   nome_fantasia    [NULL] Nome de exibição (fallback para razao_social)
+--   email_contato    [NULL] E-mail do ponto focal comercial no cliente
+--   telefone         [NULL] Telefone do cliente com DDD
+--   responsavel_nome [NULL] Nome do ponto focal (pessoa física) no cliente
+--   cep              [NULL] CEP da sede (8 dígitos); usado para logística
+--   cidade           [NULL] Cidade sede do cliente
+--   uf               [NULL] Sigla do estado — 2 caracteres. CHECK length = 2.
+--   ativo            [BOOL][DF:1]  0 = cliente inativo; projetos existentes mantidos
+
+-- tb_projeto
+-- Projetos vinculados a clientes. Referenciados opcionalmente em reembolsos.
+--   codigo_projeto   [PK]   Código alfanumérico (ex: PRJ-001)
+--   codigo_cliente   [FK→tb_cliente][NN]
+--   responsavel_cod  [FK→tb_colaborador][NULL]  Gerente do projeto; NULL = sem responsável
+--   nome             [NN]   Nome do projeto exibido em telas e relatórios
+--   descricao        [NULL] Texto livre com escopo, objetivos e entregas
+--   status           [NN][DF:Em andamento]
+--                    Valores: Em andamento | Encerrado | Suspenso | Proposta
+--   orcamento        [NULL] Orçamento total do projeto em R$; NULL = sem orçamento formal
+--   data_inicio      [NN]   ISO 8601 (YYYY-MM-DD)
+--   data_fim         [NULL] ISO 8601; NULL = sem prazo definido. CHECK >= data_inicio
+
+-- ──────────────────────────────────────────────────────────────
+-- DOMÍNIO: REEMBOLSO
+-- ──────────────────────────────────────────────────────────────
+
+-- tb_verba
+-- Categorias de reembolso com teto de valor e regras de comprovante.
+--   verba_id            [PK][NN]
+--   categoria           [NN][UQ]  Nome da categoria (ex: Alimentação, Transporte, Hospedagem)
+--   descricao           [NULL]    Orientação de uso da categoria exibida no formulário
+--   valor               [NN]      Teto máximo da categoria em R$; 0 = sem teto
+--   tipo_custo          [NN][DF:debito]  Valores: debito | credito | fixa | variavel
+--   requer_comprovante  [BOOL][DF:1]    1 = comprovante_url obrigatório no item (validação na aplicação)
+--   prazo_envio_dias    [NN][DF:30]     Prazo em dias corridos para envio do comprovante após a despesa
+--   ativo               [BOOL][DF:1]
+
+-- tb_status_solicitacao (domínio fixo — não gerar INSERT)
+-- 1=Pendente | 2=Aprovado | 3=Reprovado | 4=Aguardando Pagamento | 5=Pago
+-- RN: status_id=2 exige aprovador_cod preenchido em tb_solicitacao_item (CHECK no schema)
+-- RN: status_id=3 exige observacao preenchida em tb_solicitacao_item (CHECK no schema)
+
+-- tb_solicitacao_grupo
+-- Agrupamento lógico de itens de uma mesma viagem, evento ou despesa.
+--   id               [PK][NN]
+--   cod_profissional [FK→tb_colaborador][NN]
+--   projeto_cod      [FK→tb_projeto][NULL]  Projeto ao qual os gastos são atribuídos; NULL = overhead
+--   objetivo         [NN]  Descrição do motivo (ex: Viagem SP - TechConf 2026)
+--   total_declarado  [NN][DF:0]  Soma dos valores declarados dos itens; atualizado pela aplicação
+--   data_solicitacao [IMMUT][DF:NOW]
+
+-- tb_solicitacao_item
+-- Item individual de reembolso dentro de um grupo.
+--   id                   [PK][NN]
+--   solicitacao_grupo_id [FK→tb_solicitacao_grupo][NN]
+--   verba_id             [FK→tb_verba][NN]
+--   status_id            [FK→tb_status_solicitacao][NN][DF:1]
+--   aprovador_cod        [FK→tb_colaborador][NULL]  NULL enquanto Pendente. CHECK: preenchido se status=2
+--   categoria            [NN]  Espelha tb_verba.categoria para auditoria histórica
+--   descricao            [NN]  Detalhamento do gasto informado pelo colaborador
+--   data_despesa         [NN]  ISO 8601 (YYYY-MM-DD); deve ser <= data_solicitacao
+--   valor                [NN][CHECK > 0]  Valor declarado pelo colaborador (não redondo)
+--   valor_aprovado       [NULL]  Preenchido pelo aprovador; NULL = pendente ou reprovado
+--   comprovante_url      [NULL]  URL do comprovante/nota fiscal no storage; obrigatório se tb_verba.requer_comprovante = 1
+--   data_aprovacao       [NULL]  ISO 8601; preenchida quando status passa para Aprovado. CHECK >= data_despesa
+--   data_pagamento       [NULL]  ISO 8601; preenchida quando status passa para Pago. CHECK >= data_aprovacao
+--   observacao           [NULL]  Obrigatória quando status_id = 3 (CHECK no schema)
+
+-- ============================================================
+-- FIM DO DICIONÁRIO
+-- Fourmakers v2 · v4-20260409 · 11 tabelas
+-- Histórico: v3-20260326 → v4-20260409
+--   - Removido domínio Recrutamento (tb_vaga, tb_candidatura) — fora do escopo da demo
+-- Histórico: v2-20260325 → v3-20260326
+--   + tb_organizacao: cnpj, nome_fantasia, email_contato, telefone, cep, cidade, uf, logotipo_url, criado_em
+--   + tb_usuario: cpf, telefone, data_nascimento, perfil, avatar_url, criado_em, ultimo_acesso
+--   + tb_cargo: descricao, salario_min, salario_max
+--   + tb_departamento: centro_custo, email_depto, responsavel_cod
+--   + tb_colaborador: celular, data_admissao, data_demissao, salario, banco, agencia, conta_corrente,
+--                     tipo_pix, chave_pix, linkedin_url
+--   + tb_cliente: cnpj, nome_fantasia, email_contato, telefone, responsavel_nome, cep, cidade, uf
+--   + tb_projeto: responsavel_cod, descricao, orcamento
+--   + tb_verba: descricao, requer_comprovante, prazo_envio_dias
+--   + tb_solicitacao_grupo: projeto_cod, total_declarado
+--   + tb_solicitacao_item: comprovante_url, data_aprovacao, data_pagamento
+-- ============================================================

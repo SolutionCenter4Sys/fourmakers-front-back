@@ -1,0 +1,2 @@
+INSERT INTO tb_funcionalidade_sistema(id, descricao, ativo) VALUES (49,'RUBRICAS_CONFIGURACOES',1);
+INSERT INTO tb_grupo_acesso_funcionalidade_sistema(tb_grupo_acesso_id,tb_funcionalidade_sistema_id, ativo) VALUES ((select id from tb_grupo_acesso where descricao = 'GESTOR ROYAL' and tb_org_id = 9),49,1);

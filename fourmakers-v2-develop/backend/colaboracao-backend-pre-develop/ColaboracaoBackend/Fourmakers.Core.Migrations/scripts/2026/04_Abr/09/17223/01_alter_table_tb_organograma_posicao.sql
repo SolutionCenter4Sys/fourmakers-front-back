@@ -1,0 +1,2 @@
+ALTER TABLE tb_organograma_posicao
+MODIFY tb_mapa_relacionamento_influencia_id INT NOT NULL DEFAULT 4;

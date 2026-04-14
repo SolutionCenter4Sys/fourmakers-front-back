@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <UserSecretsId>13f64394-eaa8-4b30-915e-eaf0df00e3fa</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataTransferObject.Domain\DataTransferObject.Domain.csproj" />
+    <ProjectReference Include="..\Apontamento.Application\Apontamento.Application.csproj" />
+    <ProjectReference Include="..\Apontamento.Domain\Apontamento.Domain.csproj" />
+  </ItemGroup>
+</Project>

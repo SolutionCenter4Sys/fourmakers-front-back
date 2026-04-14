@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Colaboracao.Infra\Colaboracao.Infra.csproj" />
+    <ProjectReference Include="..\Colaboracao.Initializer\Colaboracao.Initializer.csproj" />
+    <ProjectReference Include="..\Firebase.Domain\Firebase.Domain.csproj" />
+    <ProjectReference Include="..\Firebase.Infra\Firebase.Infra.csproj" />
+    <ProjectReference Include="..\Social.Domain\Social.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

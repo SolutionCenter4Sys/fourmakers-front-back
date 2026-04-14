@@ -1,0 +1,3 @@
+INSERT INTO tb_grupo_acesso (descricao, ativo, nivel, tb_org_id) VALUES ('COLABORADOR CLT', 1, 0, 9);
+INSERT INTO tb_funcionalidade_sistema(id, descricao, ativo) VALUES (48,'ACESSO_MEU_HOLERITE',1);
+INSERT INTO tb_grupo_acesso_funcionalidade_sistema(tb_grupo_acesso_id,tb_funcionalidade_sistema_id, ativo) VALUES ((select id from tb_grupo_acesso where descricao = 'COLABORADOR CLT' and tb_org_id = 9),48,1);

@@ -1,0 +1,3 @@
+INSERT INTO tb_funcionalidade_rota (`id`, `rota`, `tb_funcionalidade_sistema_id`, `tb_org_id`) VALUES (UUID(), 'timesheet', '16', '2');
+INSERT INTO tb_funcionalidade_rota (`id`, `rota`, `tb_funcionalidade_sistema_id`, `tb_org_id`) VALUES (UUID(), 'timesheet', '16', '5');
+INSERT INTO tb_funcionalidade_rota (`id`, `rota`, `tb_funcionalidade_sistema_id`, `tb_org_id`) VALUES (UUID(), 'timesheet', '16', '6');

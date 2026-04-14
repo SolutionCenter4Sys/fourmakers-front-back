@@ -1,0 +1,1 @@
+DROP TABLE tb_organograma_departamento_log;

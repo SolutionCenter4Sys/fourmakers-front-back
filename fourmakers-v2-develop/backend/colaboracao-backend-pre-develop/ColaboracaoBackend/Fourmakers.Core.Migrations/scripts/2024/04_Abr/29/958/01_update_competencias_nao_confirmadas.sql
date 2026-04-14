@@ -1,0 +1,1 @@
+UPDATE tb_competencia SET confirmada = 1 WHERE confirmada = 0;

@@ -1,0 +1,2 @@
+INSERT INTO tb_parametro(id, nome_parametro, descricao_parametro, codigo_parametro, codigo_modulo_sistema, ativo, tipo_parametro)
+VALUES(UUID(), "Mostrar reembolso", "Permitir a org vizualizar o modulo de reembolso", "MOSTRAR_REEMBOLSO", "REEMBOLSO", 1, "FRONTEND");

@@ -1,0 +1,117 @@
+---
+name: common-patterns-to-avoid-dead-code
+description: "Apply when cleaning up codebase, before releases, or after refactors. Triggers on: files not imported anywhere, exports never used, imports declared but not used. Use for: detecting deprecated/orphan files and unused imports to remove dead code."
+---
+
+**Version:** 1.0.0  
+**Last Updated:** 06/03/2026
+
+---
+
+# Código morto e imports não utilizados (Dead Code & Unused Imports)
+
+Identificar e remover arquivos obsoletos que não são importados em nenhum lugar, e imports declarados mas não utilizados no arquivo.
+
+---
+
+## 1. Arquivos e trechos não referenciados
+
+**Context:** Arquivos (ou exports) que nenhum outro módulo importa são candidatos a deprecação ou remoção. Inclui arquivos órfãos, componentes/hooks/utils abandonados após refatoração e exports não usados.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Arquivo nunca importado em nenhum lugar do projeto
+// src/shared/utils/legadoFormatador.ts — nenhum import aponta para este arquivo
+export function formatarDataLegado(d: Date) {
+  return d.toISOString().split('T')[0];
+}
+
+// ❌ BAD: Múltiplos exports no mesmo arquivo; alguns nunca usados
+// src/domain/entities/Vaga.ts
+export interface Vaga { ... }
+export type StatusVaga = 'aberta' | 'fechada';  // nunca importado
+export const VAGA_DEFAULT = { ... };            // nunca importado
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Antes de remover, confirmar que não há referências
+// Buscar no projeto: import.*legadoFormatador|from.*legadoFormatador
+// Se nenhum resultado (exceto o próprio arquivo), o arquivo pode ser removido ou marcado deprecated
+
+// ✅ GOOD: Manter apenas exports que são usados; ou documentar se uso futuro é intencional
+// src/domain/entities/Vaga.ts
+export interface Vaga { ... }
+// StatusVaga e VAGA_DEFAULT removidos ou movidos para onde são usados
+```
+
+**Detection:**
+
+- Buscar referências ao arquivo: `grep -r "from ['\"].*nomeDoArquivo" src/` ou `grep -r "import.*nomeDoArquivo" src/`.
+- Para exports nomeados: buscar o nome do export em `src/` (ex.: `StatusVaga`, `VAGA_DEFAULT`).
+- Ferramentas: ESLint com regras de unused exports; scripts ou ferramentas de análise de dependências (ex.: `ts-prune`, `knip`) para listar exports não usados.
+- Pontos de entrada (rotas, `main`, entrypoints de build) não contam como “não importados” — não remover sem verificar.
+
+**Impact:**
+
+- Código morto aumenta ruído e risco de usar versão errada de uma função.
+- Imports não usados poluem o arquivo e podem mascarar dependências reais.
+- Arquivos órfãos dificultam navegação e manutenção.
+
+---
+
+## 2. Imports declarados mas não utilizados
+
+**Context:** Qualquer símbolo importado que não seja referenciado no corpo do arquivo deve ser removido (ou usado).
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Imports não utilizados
+// src/presentation/pages/Vagas.tsx
+import { useState, useEffect, useCallback } from 'react';  // useCallback nunca usado
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';                // Card nunca usado
+import type { Vaga } from '@/domain/entities/Vaga';
+import { useVagas } from '@/hooks/useVagas';
+import { formatarMoeda } from '@/shared/utils/formatador';  // formatarMoeda nunca usado
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Apenas o que é usado
+// src/presentation/pages/Vagas.tsx
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import type { Vaga } from '@/domain/entities/Vaga';
+import { useVagas } from '@/hooks/useVagas';
+```
+
+**Detection:**
+
+- ESLint: `@typescript-eslint/no-unused-vars` para variáveis/parâmetros; regras como `unused-imports/unused-imports` para imports não usados.
+- Busca manual: para cada `import { A, B, C }`, verificar se A, B e C aparecem no resto do arquivo (excluindo a linha do import).
+- Type-only imports: `import type { X }` que não é usado pode ser removido; manter apenas tipos realmente referenciados.
+
+**Impact:**
+
+- Imports não usados dificultam leitura e podem confundir sobre dependências reais do módulo.
+- Em tree-shaking, dependências não referenciadas podem ser eliminadas pelo bundler, mas manter imports desnecessários não é boa prática.
+
+---
+
+## 3. Checklist de revisão
+
+Ao revisar código ou antes de merge/release:
+
+1. **Arquivos novos ou renomeados:** o antigo ainda é importado em algum lugar? Se não, remover ou marcar como deprecated.
+2. **Refatoração:** componentes/utils extraídos — o arquivo original ainda exporta algo que ninguém usa? Remover exports ou arquivo.
+3. **Cada arquivo tocado:** há `import` de símbolos que não aparecem no arquivo? Remover.
+4. **Tipos:** `import type { X }` — X é usado em anotações ou em `typeof`? Se não, remover do import.
+
+---
+
+Output Requirement: The final output must be in Portuguese (PT-BR) with all file names, variables and code patterns following Brazilian Portuguese conventions.

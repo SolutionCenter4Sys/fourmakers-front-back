@@ -1,0 +1,12 @@
+CREATE FUNCTION `fn_calcular_percentual`(quantidade_total INT, total_parcial INT) RETURNS decimal(10,2)
+BEGIN
+    DECLARE percentual DECIMAL(10,2);
+
+    IF total_parcial = 0 THEN
+        SET percentual = 0;
+    ELSE
+        SET percentual = (quantidade_total / total_parcial) * 100;
+    END IF;
+
+    RETURN percentual;
+END

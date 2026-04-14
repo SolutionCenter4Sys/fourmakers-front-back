@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ApiClient.Domain\ApiClient.Domain.csproj" />
+    <ProjectReference Include="..\ApliClient.Infra\ApliClient.Infra.csproj" />
+    <ProjectReference Include="..\DataTransferObject.Domain\DataTransferObject.Domain.csproj" />
+    <ProjectReference Include="..\Labs.Domain\Labs.Domain.csproj" />
+  </ItemGroup>
+</Project>

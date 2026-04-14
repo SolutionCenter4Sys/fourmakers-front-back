@@ -1,0 +1,470 @@
+---
+name: common-patterns-to-avoid-architecture
+description: "Apply during code review when analyzing imports between layers, detecting Clean Architecture violations, or reviewing dependency direction. Triggers on: domain importing infrastructure, presentation accessing data layer directly, layer cohesion issues, or repository/interface misplacement. Use for: enforcing Dependency Rule and layer boundaries."
+---
+
+**Version:** 1.2.0  
+**Last Updated:** 06/03/2026
+
+---
+
+# Architectural Anti-Patterns
+
+Violations of Clean Architecture Dependency Rule and layer structure.
+
+---
+
+## 1. Dependency Rule Violation
+
+**Context:** When analyzing imports between architectural layers. The Dependency Rule states: inner layers must NOT depend on outer layers.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Domain importing infrastructure
+// src/domain/entities/Usuario.ts
+import { store } from '@/app/store'; // Domain knows Redux
+import { httpClient } from '@/data/api/httpClient'; // Domain knows HTTP
+
+// ❌ BAD: UseCase importing concrete API
+// src/domain/usecases/usuario/ObterUsuarioUseCase.ts
+import { usuarioApi } from '@/data/api/usuarioApi'; // UseCase depends on concrete API
+
+// ❌ BAD: Entity knowing implementation details
+// src/domain/entities/Feedback.ts
+import { firebaseDb } from '@/core/firebase'; // Entity knows Firebase
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Domain defines interfaces
+// src/domain/repositories/UsuarioRepository.ts
+export interface UsuarioRepository {
+  obterPorId(id: string): Promise<Usuario | null>;
+}
+
+// ✅ GOOD: UseCase depends on interface
+// src/domain/usecases/usuario/ObterUsuarioUseCase.ts
+import type { UsuarioRepository } from '@/domain/repositories/UsuarioRepository';
+
+@injectable()
+export class ObterUsuarioUseCase {
+  constructor(
+    @inject('UsuarioRepository') private repository: UsuarioRepository
+  ) {}
+  
+  async execute(id: string): Promise<Usuario | null> {
+    return this.repository.obterPorId(id);
+  }
+}
+
+// ✅ GOOD: Domain is pure
+// src/domain/entities/Feedback.ts
+export class Feedback {
+  constructor(
+    public readonly id: string,
+    public readonly comentario: string,
+    public readonly nivel: number
+  ) {}
+  
+  // Business logic only, no external dependencies
+  validar(): boolean {
+    return this.nivel >= 1 && this.nivel <= 5;
+  }
+}
+```
+
+**Impact:**
+
+- Structural coupling - layers become intertwined
+- Loss of isolation - can't test layers independently
+- Testing difficulty - need to mock infrastructure in domain tests
+- Impossibility of implementation swap - can't change data layer without touching domain
+
+**Detection:**
+
+- Look for imports from `app/`, `data/`, `presentation/` in `domain/` files
+- Check: `grep -r "from '@\(app\|data\|presentation\)'" src/domain/`
+- Forbidden keywords in domain: `Redux`, `fetch`, `axios`, `window`, `document`
+
+---
+
+## 2. Mixing Interface with Implementation
+
+**Context:** When creating or moving repository files. Contracts and implementations must be in correct layers.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Repository implementation inside domain
+// src/domain/repositories/UsuarioRepositoryImpl.ts
+export class UsuarioRepositoryImpl implements UsuarioRepository {
+  // This is implementation, should be in data/
+}
+
+// ❌ BAD: Contract definition inside data
+// src/data/repositories/IUsuarioRepository.ts
+export interface UsuarioRepository {
+  // Interface should be defined in domain/
+}
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Contract in domain
+// src/domain/repositories/UsuarioRepository.ts
+export interface UsuarioRepository {
+  obterPorId(id: string): Promise<Usuario | null>;
+  listar(): Promise<Usuario[]>;
+  criar(usuario: CriarUsuarioDTO): Promise<Usuario>;
+}
+
+// ✅ GOOD: Implementation in data
+// src/data/repositories/UsuarioRepositoryImpl.ts
+@injectable()
+export class UsuarioRepositoryImpl implements UsuarioRepository {
+  constructor(
+    @inject('UsuarioApi') private api: UsuarioApi
+  ) {}
+  
+  async obterPorId(id: string): Promise<Usuario | null> {
+    const response = await this.api.obterPorId(id);
+    return mapToDomain(response);
+  }
+  // ... other implementations
+}
+```
+
+**Layer Responsibilities:**
+
+| Layer | Defines | Implements |
+|-------|---------|------------|
+| Domain | Repository interfaces, Entities, UseCases | Business logic in entities |
+| Data | Repository implementations, APIs | HTTP calls, data mapping |
+
+**Impact:**
+
+- Loss of dependency inversion - depends on concrete, not abstraction
+- Difficulty mocking - can't easily test UseCases
+- Testability compromised - domain tests need real infrastructure
+
+**Detection:**
+
+- Files named `*Impl.ts` in `domain/` folder
+- Interface definitions (`I*.ts` or `*Interface.ts`) in `data/` folder
+- Check: `find src/domain -name "*Impl*" -o -name "*Implementation*"`
+
+---
+
+## 3. Creating Implicit Dependencies
+
+**Context:** When accessing browser APIs or global objects without abstraction.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Direct browser API access
+// src/domain/services/StorageService.ts
+export class StorageService {
+  salvar(key: string, value: string): void {
+    localStorage.setItem(key, value); // No abstraction
+  }
+  
+  obterDimensoes(): { width: number, height: number } {
+    return {
+      width: window.innerWidth, // No abstraction
+      height: window.innerHeight
+    };
+  }
+}
+
+// ❌ BAD: Direct document access
+// src/presentation/components/MeuComponente.tsx
+useEffect(() => {
+  document.getElementById('modal').style.display = 'block'; // No React abstraction
+}, []);
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Abstracted storage
+// src/core/storage/StorageInterface.ts
+export interface StorageInterface {
+  setItem(key: string, value: string): void;
+  getItem(key: string): string | null;
+}
+
+// src/data/storage/LocalStorageAdapter.ts
+@injectable()
+export class LocalStorageAdapter implements StorageInterface {
+  setItem(key: string, value: string): void {
+    localStorage.setItem(key, value);
+  }
+  // ...
+}
+
+// ✅ GOOD: React refs instead of document
+// src/presentation/components/MeuComponente.tsx
+const modalRef = useRef<HTMLDivElement>(null);
+
+useEffect(() => {
+  if (modalRef.current) {
+    modalRef.current.style.display = 'block';
+  }
+}, []);
+```
+
+**Impact:**
+
+- SSR breakage - `window`/`document` don't exist on server
+- Testing breakage - need browser environment for unit tests
+- Hidden coupling - dependencies not visible in constructor/imports
+
+**Detection:**
+
+- Look for: `window.`, `document.`, `localStorage.`, `sessionStorage.`
+- Check: `grep -r "window\|document\|localStorage" src/domain/ src/shared/` (should not exist)
+- Exceptions only in `presentation/` with proper guards
+
+---
+
+## 4. Layer Cohesion Violation
+
+**Context:** When organizing code or reviewing layer responsibilities. Each layer has one clear responsibility.
+
+**Layer Responsibilities:**
+
+| Layer | Responsibility | Must NOT |
+|-------|----------------|----------|
+| Presentation | UI rendering, user events | Business logic, API calls |
+| App | State management, DI container | Data implementation, business rules |
+| Domain | Business rules, entities, use cases | Know HTTP, know React/Redux |
+| Data | HTTP calls, repository implementation | Know React, have business logic |
+| Shared | Types, constants, generic utilities | Know feature specifics |
+| Core | DI container, framework config | Know domain specifics |
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Business logic in presentation
+// src/presentation/pages/recrutamento/GestaoVagas.tsx
+const calcularTotal = (itens: Item[]) => {
+  // Business calculation should be in domain
+  return itens.reduce((sum, item) => sum + item.valor * 1.1, 0);
+};
+
+// ❌ BAD: HTTP knowledge in domain
+// src/domain/usecases/ProcessarPagamentoUseCase.ts
+const response = await fetch('/api/pagamento'); // Domain knows HTTP
+
+// ❌ BAD: React in data layer
+// src/data/repositories/VagaRepositoryImpl.ts
+import { useSelector } from 'react-redux'; // Data knows React
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Pure business logic in domain
+// src/domain/services/CalculadoraService.ts
+export class CalculadoraService {
+  static calcularTotal(itens: Item[]): number {
+    return itens.reduce((sum, item) => sum + item.valor * 1.1, 0);
+  }
+}
+
+// ✅ GOOD: UseCase delegates, doesn't implement HTTP
+// src/domain/usecases/ProcessarPagamentoUseCase.ts
+@injectable()
+export class ProcessarPagamentoUseCase {
+  constructor(
+    @inject('PagamentoRepository') private repo: PagamentoRepository
+  ) {}
+  
+  async execute(dados: ProcessarPagamentoDTO): Promise<Resultado> {
+    // Business logic only
+    if (!this.validarDados(dados)) {
+      throw new ValidationError('Dados invalidos');
+    }
+    
+    // Delegate to repository
+    return this.repo.processar(dados);
+  }
+}
+
+// ✅ GOOD: Page is thin, delegates to domain
+// src/presentation/pages/recrutamento/GestaoVagas.tsx
+const GestaoVagasPage = () => {
+  const container = useContainer();
+  const aprovarUseCase = container.resolve(AprovarCandidatoUseCase);
+  
+  const handleAprovar = async (candidato: Candidato) => {
+    const resultado = await aprovarUseCase.execute(candidato.id);
+    
+    if (resultado.sucesso) {
+      toast.success('Candidato aprovado com sucesso');
+    } else {
+      toast.error(resultado.erro);
+    }
+  };
+};
+```
+
+**Impact:**
+
+- Mixed responsibilities - hard to find where things belong
+- Unorganized growth - code spreads unpredictably
+- Testing difficulty - can't test layers in isolation
+
+**Detection:**
+
+- Business calculations in `.tsx` files (should be in domain/services)
+- `fetch`, `axios` in domain or shared
+- Redux hooks in data or domain
+- Component logic that decides business rules
+
+---
+
+## 5. Decorative Layers
+
+**Context:** When reviewing architecture health. Having folder structure doesn't mean architecture is being followed.
+
+**Signs of Decorative Architecture:**
+
+```typescript
+// ❌ BAD: UseCase without business logic
+// src/domain/usecases/vaga/ListarVagasUseCase.ts
+@injectable()
+export class ListarVagasUseCase {
+  constructor(
+    @inject('VagaRepository') private repository: VagaRepository
+  ) {}
+  
+  async execute(): Promise<Vaga[]> {
+    // Just passes through - adds no value
+    return this.repository.listar();
+  }
+}
+
+// ❌ BAD: Domain that doesn't protect rules
+// src/domain/entities/Vaga.ts
+export interface Vaga {
+  id: string;
+  titulo: string;
+  // No methods, no encapsulation, no validation
+}
+
+// ❌ BAD: Repository as pass-through
+// src/data/repositories/VagaRepositoryImpl.ts
+async listar(): Promise<Vaga[]> {
+  // No mapping, no error handling, just direct API call
+  return this.api.listar();
+}
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Rich UseCase
+// src/domain/usecases/vaga/ListarVagasUseCase.ts
+@injectable()
+export class ListarVagasUseCase {
+  constructor(
+    @inject('VagaRepository') private repository: VagaRepository,
+    @inject('CacheService') private cache: CacheService
+  ) {}
+  
+  async execute(filtro: FiltroVaga): Promise<Vaga[]> {
+    // Check cache first
+    const cached = this.cache.get<Vaga[]>(`vagas:${JSON.stringify(filtro)}`);
+    if (cached) return cached;
+    
+    // Get from repository
+    const vagas = await this.repository.listar(filtro);
+    
+    // Apply business filter (not just data filter)
+    const vagasAtivas = vagas.filter(v => this.estaAtiva(v));
+    
+    // Cache result
+    this.cache.set(`vagas:${JSON.stringify(filtro)}`, vagasAtivas, 300);
+    
+    return vagasAtivas;
+  }
+  
+  private estaAtiva(vaga: Vaga): boolean {
+    // Business rule: vaga ativa if not expired and has openings
+    return !vaga.dataExpiracao || new Date(vaga.dataExpiracao) > new Date();
+  }
+}
+
+// ✅ GOOD: Rich Entity
+// src/domain/entities/Vaga.ts
+export class Vaga {
+  constructor(
+    private readonly _id: string,
+    private _titulo: string,
+    private _status: StatusVaga,
+    private _dataExpiracao?: Date
+  ) {}
+  
+  get id(): string { return this._id; }
+  get titulo(): string { return this._titulo; }
+  get status(): StatusVaga { return this._status; }
+  
+  estaAtiva(): boolean {
+    // Encapsulated business rule
+    if (this._status !== 'PUBLICADA') return false;
+    if (!this._dataExpiracao) return true;
+    return this._dataExpiracao > new Date();
+  }
+  
+  publicar(): void {
+    if (this._status !== 'RASCUNHO') {
+      throw new DomainError('Apenas rascunhos podem ser publicados');
+    }
+    this._status = 'PUBLICADA';
+  }
+}
+
+// ✅ GOOD: Repository with mapping and error handling
+// src/data/repositories/VagaRepositoryImpl.ts
+async listar(filtro: FiltroVaga): Promise<Vaga[]> {
+  try {
+    const response = await this.api.listar({
+      pagina: filtro.pagina,
+      tamanhoPagina: filtro.itensPorPagina
+    });
+    
+    return response.retorno.map(this.mapToDomain);
+  } catch (error) {
+    this.logger.error('Failed to list vagas', { error, filtro });
+    throw new RepositoryError('Nao foi possivel carregar vagas');
+  }
+}
+```
+
+**Impact:**
+
+- False sense of quality - folders look good, code isn't
+- Complexity without benefit - layers exist but add no value
+- Maintenance burden - extra indirection without purpose
+
+**Detection:**
+
+- UseCases with < 5 lines of code (just pass-through)
+- Entities with no methods (interfaces instead of classes)
+- Repositories with no mapping, no error handling
+- Services with no logic (just aggregate calls)
+
+**Health Check Questions:**
+
+- Does removing this layer break anything meaningful?
+- Is this layer enforcing rules or just passing data?
+- Would the code work the same without this abstraction?
+
+---
+
+Output Requirement: The final output must be in Portuguese (PT-BR) with all file names, variables and code patterns following Brazilian Portuguese conventions.

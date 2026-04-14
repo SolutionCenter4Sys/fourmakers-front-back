@@ -1,0 +1,2 @@
+ALTER TABLE `tb_candidato_vaga`
+ADD COLUMN `data_ultima_alteracao` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `data_criacao`;

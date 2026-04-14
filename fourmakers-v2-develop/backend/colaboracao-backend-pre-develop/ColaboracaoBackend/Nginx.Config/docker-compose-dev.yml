@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+   backoffice-api-rf-dev:
+      image: backoffice-api-rf-dev
+      container_name: backoffice-api-rf-dev
+      ports:
+         - 184:80
+      expose:
+         - 184
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Dockerfile
+
+networks:
+   docker-network:
+      external: true
+      name: docker-network
+      driver: bridge

@@ -1,0 +1,1 @@
+ALTER TABLE tb_rubrica_codigo_colaborador_alternativo MODIFY COLUMN codigo_interno_colaborador varchar(36) NOT NULL;

@@ -1,0 +1,291 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="REQUIRED_EQUAL_OR_HIGHER_AMOUNT" xml:space="preserve">
+    <value>To register a time entry, you must assign a value equal to or greater than zero hours.</value>
+  </data>
+  <data name="REQUIRED_START_DATE" xml:space="preserve">
+    <value>The start date is required.</value>
+  </data>
+  <data name="REQUIRED_END_DATE" xml:space="preserve">
+    <value>The end date is required.</value>
+  </data>
+  <data name="END_DATE_MUST_BE_GREATER_THAN_OR_EQUAL_TO_START_DATE" xml:space="preserve">
+    <value>The end date must be equal to or later than the start date.</value>
+  </data>
+  <data name="SUM_TRACKING_HOURS_CANNOT_BE_GREATER_THAN_24_HOURS" xml:space="preserve">
+    <value>The total of hours entered, together with already logged hours, cannot exceed 24 hours.</value>
+  </data>
+  <data name="APPROVED_BY_TIMESHEET_HOURS_COLLABORATOR" xml:space="preserve">
+    <value>Approved through the TIMESHEET_HOURS_COLLABORATOR functionality.</value>
+  </data>
+  <data name="CANNOT_BE_TRACKING_ZERO_HOURS" xml:space="preserve">
+    <value>It is not allowed to log 0 hours.</value>
+  </data>
+  <data name="COLLABORATOR_CANNOT_TRACKING_BY_INACTIVE_DATE" xml:space="preserve">
+    <value>The collaborator cannot register entries after {{INACTIVE_DATE}}, as they are inactive on that date.</value>
+  </data>
+  <data name="CANNOT_TRACKING_HOURS_AFTER_PROJECT_FINISHED" xml:space="preserve">
+    <value>It is not possible to log hours after the project is completed.</value>
+  </data>
+  <data name="MUST_BE_PROJECT_ALLOCATED_FOR_TRACKING_HOUR" xml:space="preserve">
+    <value>You must be allocated to the project to log hours.</value>
+  </data>
+  <data name="ERROR_GETTING_STATUS_LIST" xml:space="preserve">
+    <value>An error occurred while retrieving the status list.</value>
+  </data>
+  <data name="ERROR_GETTING_STATUS_GROUP_LIST" xml:space="preserve">
+    <value>An error occurred while retrieving the status group list.</value>
+  </data>
+  <data name="TRACKING_NOT_FOUND_FOR_DELETION" xml:space="preserve">
+    <value>Time entry not found for deletion.</value>
+  </data>
+  <data name="DELETION_TRACKING_ALLOWED_ONLY_BY_YOURSELF" xml:space="preserve">
+    <value>Time entries can only be deleted by the collaborator themselves.</value>
+  </data>
+  <data name="DELETION_TRACKING_WITH_APRROVED_STATUS_NOT_ALLOWED" xml:space="preserve">
+    <value>Deletion of time entries with Approved status is not allowed.</value>
+  </data>
+  <data name="COLLABORATOR_COULD_NOT_BE_FOUND_FOR_THE_SPECIFIED_ORG" xml:space="preserve">
+    <value>The collaborator could not be found in the specified organization.</value>
+  </data>
+  <data name="ERROR_GETTING_CURRENT_WEEK_TEMPLATE" xml:space="preserve">
+    <value>Error retrieving the current week template.</value>
+  </data>
+  <data name="ERROR_GETTING_PROJECTS_MANAGER" xml:space="preserve">
+    <value>Error accessing the manager's projects.</value>
+  </data>
+  <data name="ERROR_GETTING_TERMS_MANAGER" xml:space="preserve">
+    <value>Error accessing the manager's terms.</value>
+  </data>
+  <data name="IDS_NOT_BELONG_TO_MANAGEMENT" xml:space="preserve">
+    <value>The following time entry IDs do not belong to the specified management: {{INVALID_IDS}}</value>
+  </data>
+  <data name="STATUS_CHANGE_RESTRICTED_FOR_NON_PENDING" xml:space="preserve">
+    <value>Status change is restricted for time entries not in Pending status.</value>
+  </data>
+  <data name="INVALID_MONTH_AND_YEAR_PARAMETERS" xml:space="preserve">
+    <value>The month: '{{MOUNTH}}' and year: '{{YEAR}}' parameters were incorrectly specified.</value>
+  </data>
+  <data name="ERROR_GETTING_ADMIN_MANAGERS" xml:space="preserve">
+    <value>Error accessing administrative managers.</value>
+  </data>
+  <data name="ERROR_FETCHING_HOLIDAY_LIST" xml:space="preserve">
+    <value>Error retrieving the holiday list.</value>
+  </data>
+  <data name="INVALID_MONTH" xml:space="preserve">
+    <value>The specified month is invalid.</value>
+  </data>
+  <data name="INVALID_YEAR" xml:space="preserve">
+    <value>The specified year is invalid.</value>
+  </data>
+  <data name="CANNOT_EXTRACT_MANAGER_VIEW_REPORT" xml:space="preserve">
+    <value>Cannot extract a Manager View report.</value>
+  </data>
+  <data name="UNIDENTIFIED_ERROR_REPORT_ACCESS_ENUM" xml:space="preserve">
+    <value>Unidentified error retrieving RelatorioApontamentoEnum.</value>
+  </data>
+  <data name="NO_ENTRIES_FOR_PERIOD" xml:space="preserve">
+    <value>There are no time entries for the specified period.</value>
+  </data>
+  <data name="ERROR_VALIDATE_REPORT_INVALID_PARAM" xml:space="preserve">
+    <value>Error validating report, system parameter is not valid for this context.</value>
+  </data>
+  <data name="ACCESS_DENIED_TIMESHEET" xml:space="preserve">
+    <value>Access denied: Timesheet Report.</value>
+  </data>
+  <data name="ACCESS_DENIED_TIMESHEET_SIMPLIFIED" xml:space="preserve">
+    <value>Access denied: Simplified Timesheet Report.</value>
+  </data>
+  <data name="ACCESS_DENIED_TO_ANOTHER_COLLABORATOR" xml:space="preserve">
+    <value>Access denied: Time Entry for another Collaborator.</value>
+  </data>
+  <data name="REQUIRED_PROJECT_CODE" xml:space="preserve">
+    <value>The project code is required.</value>
+  </data>
+  <data name="REQUIRED_CPF" xml:space="preserve">
+    <value>The CPF is required.</value>
+  </data>
+  <data name="NOT_TIMESHEET" xml:space="preserve">
+    <value>No time entries recorded.</value>
+  </data>
+  <data name="NO_PENDING_APPROVALS" xml:space="preserve">
+    <value>There are no pending approvals for this project.</value>
+  </data>
+  <data name="STATUS_APPROVED" xml:space="preserve">
+    <value>Approved</value>
+  </data>
+  <data name="ERROR_WHEN_APPROVED_PROJECT_AND_COLLABORATOR" xml:space="preserve">
+    <value>Error approving the project with code {{COD_PROJETO}} and collaborator {{CPF}}: {{MESSAGE}}</value>
+  </data>
+  <data name="NO_COLLABORATORS_TO_GENERATE_FILE" xml:space="preserve">
+    <value>There are no collaborators to generate the file.</value>
+  </data>
+  <data name="MESSAGE_CLOSED_PERIOD" xml:space="preserve">
+    <value>Period closed for entries.</value>
+  </data>
+  <data name="MESSAGE_INVALID_DATE" xml:space="preserve">
+    <value>Could not validate the date; invalid date.</value>
+  </data>
+  <data name="STATUS_OPEN" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="TIME_ENTRIES_APPROVED_SUCCESSFULLY" xml:space="preserve">
+    <value>{{QT_TIME_ENTRIES}} entry(ies) approved successfully.</value>
+  </data>
+  <data name="TIME_ENTRIES_DISAPPROVE_SUCCESSFULLY" xml:space="preserve">
+    <value>{{QT_TIME_ENTRIES}} entry(ies) disapprove successfully.</value>
+  </data>
+  <data name="COLLABORATOR_ID_NOT_PROVIDED" xml:space="preserve">
+    <value>The collaborator ID was not provided.</value>
+  </data>
+  <data name="MANAGER_NOT_INFORMED" xml:space="preserve">
+    <value>Manager not informed</value>
+  </data>
+  <data name="ERROR_SENDING_REJECTION_EMAIL_EMPTY_LIST" xml:space="preserve">
+    <value>Error sending rejection email, timesheet list is empty.</value>
+  </data>
+  <data name="ERROR_SENDING_REJECTION_EMAIL_TEMPLATE_NOT_REGISTERED" xml:space="preserve">
+    <value>Error sending rejection email, template REPROVACAO_APONTAMENTO_HORAS not registered.</value>
+  </data>
+  <data name="NOTIFICATION_REJECTED_PROJECT" xml:space="preserve">
+    <value>Your hours on the project{{PLURAL}} {{PROJECTS_JOINED}} were rejected.</value>
+  </data>
+  <data name="NOTIFICATION_REJECTED_PROJECT_ACCESS_MORE_DETAILS" xml:space="preserve">
+    <value>Access for more details.</value>
+  </data>
+  <data name="NOTIFICATION_REJECTED_PROJECT_APPROVE_SAY" xml:space="preserve">
+    <value>The Approver said: {{JUSTIFICATION}}</value>
+  </data>
+  <data name="SUBJECT_TIMESHEET_HOURS_REJECTED" xml:space="preserve">
+    <value>Your hours were rejected in the Timesheet.</value>
+  </data>
+  <data name="REJECTED_HOURS" xml:space="preserve">
+    <value>Rejected hours</value>
+  </data>
+	<data name="SUBJECT_TIMESHEET_HOURS_PEDING" xml:space="preserve">
+    <value>Hours pending approval</value>
+  </data>
+  <data name="MODIFIED_DURING_CHANGES" xml:space="preserve">
+    <value>We detected changes in the data. Please refresh the page to ensure you're viewing the most up-to-date information.</value>
+  </data>
+  <data name="ACCESS_DENIED_TO_SELF_APPROVAL" xml:space="preserve">
+    <value>You are not allowed to approve your own entries.</value>
+  </data>
+</root>

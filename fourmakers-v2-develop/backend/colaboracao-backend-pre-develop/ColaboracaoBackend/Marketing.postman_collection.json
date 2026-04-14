@@ -1,0 +1,747 @@
+{
+	"info": {
+		"_postman_id": "5e237c13-c032-4a3a-8162-df709cdf372d",
+		"name": "Marketing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33853022"
+	},
+	"item": [
+		{
+			"name": "Localhost",
+			"item": [
+				{
+					"name": "Comunicacao",
+					"item": [
+						{
+							"name": "Comunidade",
+							"item": [
+								{
+									"name": "Comunidade",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Comunidade",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Comunidade"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Comunidade",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "capaComunidade",
+													"type": "file",
+													"src": "/C:/Users/FelipeMarquesMartins/OneDrive - Foursys/Área de Trabalho/foursys_fundo_teste.png"
+												},
+												{
+													"key": "nome",
+													"value": "Comunidade .NET",
+													"type": "text"
+												},
+												{
+													"key": "descricao",
+													"value": "Comunidade .NET",
+													"type": "text"
+												},
+												{
+													"key": "tipo",
+													"value": "privada",
+													"type": "text"
+												},
+												{
+													"key": "permitePostagemMembro",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "permiteSair",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "publicacaoConfiguracaoPolitica",
+													"value": "sugerir",
+													"type": "text"
+												},
+												{
+													"key": "publicacaoPermiteComentario",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "publicacaoPermiteLikeHabilitado",
+													"value": "true",
+													"type": "text"
+												},
+												{
+													"key": "codigosInternoColaboradoresModeradores",
+													"value": "22d4e59d-5091-11ef-b5f5-029c6b897a8d",
+													"type": "text"
+												},
+												{
+													"key": "codigosInternoColaboradoresModeradores",
+													"value": "23f94d08-5091-11ef-b5f5-029c6b897a8d",
+													"type": "text"
+												},
+												{
+													"key": "gruposComunidade",
+													"value": "b610c620-bb20-4762-b829-ae8f3b605db8",
+													"type": "text"
+												},
+												{
+													"key": "gruposComunidade",
+													"value": "e68e7895-25ba-4ab6-84f9-96827886a986",
+													"type": "text"
+												},
+												{
+													"key": "codigoInternoColaboradoresParticipantes",
+													"value": "22d4e59d-5091-11ef-b5f5-029c6b897a8d",
+													"type": "text"
+												},
+												{
+													"key": "codigoInternoColaboradoresParticipantes",
+													"value": "23f94d08-5091-11ef-b5f5-029c6b897a8d",
+													"type": "text"
+												},
+												{
+													"key": "",
+													"value": "",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Comunidade",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Comunidade"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Grupo",
+							"item": [
+								{
+									"name": "Grupo",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"nome\": \"Desenvolvedores\",\r\n  \"descricao\": \"Desenvolvedores\",\r\n  \"permiteCriarPublicacaoInformativo\": true,\r\n  \"publicacaoInformativoRequerAprovacao\": true,\r\n  \"aprovaPublicacaoInformativo\": true,\r\n  \"codigoInternoColaboradoresParticipantes\": [\r\n    \"22d4e59d-5091-11ef-b5f5-029c6b897a8d\",\r\n    \"23f94d08-5091-11ef-b5f5-029c6b897a8d\"\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Grupo",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Grupo"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ListarGrupos",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Grupo",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Grupo"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ColaboradoresDisponiveis",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Grupo/ColaboradoresDisponiveis?grupoId=704df391-2406-4008-9bd4-bda87dbc1e46&filtro=roupas",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Grupo",
+												"ColaboradoresDisponiveis"
+											],
+											"query": [
+												{
+													"key": "grupoId",
+													"value": "704df391-2406-4008-9bd4-bda87dbc1e46"
+												},
+												{
+													"key": "filtro",
+													"value": "roupas"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Grupo By Id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Grupo/7c1f0f4d-3348-4bd8-9c19-ce630a7e6e0f",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Grupo",
+												"7c1f0f4d-3348-4bd8-9c19-ce630a7e6e0f"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AtualizarGrupo",
+									"request": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"nome\": \"Desenvolvedores\",\r\n    \"descricao\": \"Desenvolvedores\",\r\n    \"permiteCriarPublicacaoInformativo\": true,\r\n    \"publicacaoInformativoRequerAprovacao\": false,  \r\n    \"aprovaPublicacaoInformativo\": true,\r\n    \"codigoInternoColaboradoresParticipantes\": [\r\n    \"22d4e59d-5091-11ef-b5f5-029c6b897a8d\",\r\n    \"23f94d08-5091-11ef-b5f5-029c6b897a8d\"\r\n  ] \r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Grupo/7c1f0f4d-3348-4bd8-9c19-ce630a7e6e0f",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Grupo",
+												"7c1f0f4d-3348-4bd8-9c19-ce630a7e6e0f"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Configuracao",
+							"item": [
+								{
+									"name": "ObterConfiguracao",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Configuracao",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Configuracao"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "InserirOuAtualizarConfiguracao",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"notificaWeb\": true,\r\n  \"notificaTeams\": true,\r\n  \"notificaEmail\": true,\r\n  \"notificaPlataforma\": true\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Configuracao",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Configuracao"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Profissionais",
+							"item": [
+								{
+									"name": "ObterListaProfissionais",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}"
+											}
+										],
+										"url": {
+											"raw": "http://localhost:55301/api/Marketing/Comunicacao/Profissionais",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "55301",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Profissionais"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Publicacao",
+							"item": [
+								{
+									"name": "Feed",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Publicacao/Feed?somenteLeituraObrigatoria=false&tipo=",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Publicacao",
+												"Feed"
+											],
+											"query": [
+												{
+													"key": "somenteLeituraObrigatoria",
+													"value": "false"
+												},
+												{
+													"key": "tipo",
+													"value": ""
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "InserirPublicacao",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"tipo\": \"documento\",\r\n  \"titulo\": \"Nova Publicação\",\r\n  \"conteudo\": \"Conteúdo da publicação de teste\",\r\n  \"labels\": [\r\n    \"Label1\",\r\n    \"Label2\"\r\n  ],\r\n  \"dataAgendamentoPublicacao\": null,\r\n  \"dataValidadePublicacao\": null,\r\n  \"grupos\": [\r\n    \"7c1f0f4d-3348-4bd8-9c19-ce630a7e6e0f\"\r\n  ],\r\n  \"anexos\": [\r\n    {\r\n      \"nomeArquivo\": \"arquivo.pdf\",\r\n      \"urlArquivo\": \"https://exemplo.com/arquivo.pdf\",\r\n      \"tipo\": \"documento\",\r\n      \"tamanhoBytes\": 1024000\r\n    }\r\n  ],\r\n  \"configuracaoInteracao\": {\r\n    \"requerConfirmacaoLeitura\": false,\r\n    \"permiteComentarios\": true,\r\n    \"permiteCurtidas\": true,\r\n    \"fixada\": false\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Publicacao",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Publicacao"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "InserirPublicacaoInformativo",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"tipo\": \"informativo\",\r\n  \"titulo\": \"Publicação Informativa\",\r\n  \"conteudo\": \"Conteúdo da publicação informativa que requer aprovação\",\r\n  \"labels\": [\r\n    \"Importante\"\r\n  ],\r\n  \"dataAgendamentoPublicacao\": null,\r\n  \"dataValidadePublicacao\": null,\r\n  \"grupos\": [],\r\n  \"anexos\": [],\r\n  \"configuracaoInteracao\": {\r\n    \"requerConfirmacaoLeitura\": true,\r\n    \"permiteComentarios\": true,\r\n    \"permiteCurtidas\": true,\r\n    \"fixada\": false\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Publicacao",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Publicacao"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ObterPublicacaoPorId",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Publicacao/{{publicacaoId}}",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Publicacao",
+												"{{publicacaoId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AtualizarPublicacao",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"publicacaoId\": \"{{publicacaoId}}\",\r\n  \"tipo\": \"documento\",\r\n  \"titulo\": \"Publicação Atualizada\",\r\n  \"conteudo\": \"Conteúdo atualizado da publicação\",\r\n  \"labels\": [\r\n    \"Label1\",\r\n    \"Label3\"\r\n  ],\r\n  \"dataAgendamentoPublicacao\": null,\r\n  \"dataValidadePublicacao\": null,\r\n  \"grupos\": [\r\n    \"b610c620-bb20-4762-b829-ae8f3b605db8\"\r\n  ],\r\n  \"anexos\": [],\r\n  \"configuracaoInteracao\": {\r\n    \"requerConfirmacaoLeitura\": true,\r\n    \"permiteComentarios\": true,\r\n    \"permiteCurtidas\": true,\r\n    \"fixada\": true\r\n  }\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Publicacao",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Publicacao"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "DeletarPublicacao",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Publicacao/{{publicacaoId}}",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Publicacao",
+												"{{publicacaoId}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ArquivarPublicacao",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Publicacao/{{publicacaoId}}/Arquivar",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Publicacao",
+												"{{publicacaoId}}",
+												"Arquivar"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ConfirmarLeituraObrigatoria",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{token_dev}}",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"publicacaoId\": \"{{publicacaoId}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "https://localhost:55300/api/Marketing/Comunicacao/Publicacao/ConfirmarLeituraObrigatoria",
+											"protocol": "https",
+											"host": [
+												"localhost"
+											],
+											"port": "55300",
+											"path": [
+												"api",
+												"Marketing",
+												"Comunicacao",
+												"Publicacao",
+												"ConfirmarLeituraObrigatoria"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}

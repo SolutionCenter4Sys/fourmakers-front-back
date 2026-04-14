@@ -1,0 +1,1934 @@
+[
+  {
+    "COMPE": "001",
+    "ShortName": "BCO DO BRASIL S.A."
+  },
+  {
+    "COMPE": "003",
+    "ShortName": "BCO DA AMAZONIA S.A."
+  },
+  {
+    "COMPE": "004",
+    "ShortName": "BCO DO NORDESTE DO BRASIL S.A."
+  },
+  {
+    "COMPE": "007",
+    "ShortName": "BNDES"
+  },
+  {
+    "COMPE": "010",
+    "ShortName": "CREDICOAMO"
+  },
+  {
+    "COMPE": "011",
+    "ShortName": "UBS (BRASIL) CORRETORA DE VALORES S.A."
+  },
+  {
+    "COMPE": "012",
+    "ShortName": "BANCO INBURSA"
+  },
+  {
+    "COMPE": "014",
+    "ShortName": "STATE STREET BR S.A. BCO COMERCIAL"
+  },
+  {
+    "COMPE": "015",
+    "ShortName": "UBS BB CCTVM S.A."
+  },
+  {
+    "COMPE": "016",
+    "ShortName": "CCM DESP TRÂNS SC E RS"
+  },
+  {
+    "COMPE": "017",
+    "ShortName": "BNY MELLON BCO S.A."
+  },
+  {
+    "COMPE": "018",
+    "ShortName": "BCO TRICURY S.A."
+  },
+  {
+    "COMPE": "021",
+    "ShortName": "BCO BANESTES S.A."
+  },
+  {
+    "COMPE": "024",
+    "ShortName": "BCO BANDEPE S.A."
+  },
+  {
+    "COMPE": "025",
+    "ShortName": "BCO ALFA S.A."
+  },
+  {
+    "COMPE": "029",
+    "ShortName": "BANCO ITAÚ CONSIGNADO S.A."
+  },
+  {
+    "COMPE": "033",
+    "ShortName": "BCO SANTANDER (BRASIL) S.A."
+  },
+  {
+    "COMPE": "036",
+    "ShortName": "BCO BBI S.A."
+  },
+  {
+    "COMPE": "037",
+    "ShortName": "BCO DO EST. DO PA S.A."
+  },
+  {
+    "COMPE": "040",
+    "ShortName": "BCO CARGILL S.A."
+  },
+  {
+    "COMPE": "041",
+    "ShortName": "BCO DO ESTADO DO RS S.A."
+  },
+  {
+    "COMPE": "047",
+    "ShortName": "BCO DO EST. DE SE S.A."
+  },
+  {
+    "COMPE": "060",
+    "ShortName": "CONFIDENCE CC S.A."
+  },
+  {
+    "COMPE": "062",
+    "ShortName": "HIPERCARD BM S.A."
+  },
+  {
+    "COMPE": "063",
+    "ShortName": "BANCO BRADESCARD"
+  },
+  {
+    "COMPE": "064",
+    "ShortName": "GOLDMAN SACHS DO BRASIL BM S.A"
+  },
+  {
+    "COMPE": "065",
+    "ShortName": "BCO ANDBANK S.A."
+  },
+  {
+    "COMPE": "066",
+    "ShortName": "BCO MORGAN STANLEY S.A."
+  },
+  {
+    "COMPE": "069",
+    "ShortName": "BCO CREFISA S.A."
+  },
+  {
+    "COMPE": "070",
+    "ShortName": "BRB - BCO DE BRASILIA S.A."
+  },
+  {
+    "COMPE": "074",
+    "ShortName": "BCO. J.SAFRA S.A."
+  },
+  {
+    "COMPE": "075",
+    "ShortName": "BANCO ABN AMRO CLEARING S.A."
+  },
+  {
+    "COMPE": "076",
+    "ShortName": "BCO KDB BRASIL S.A."
+  },
+  {
+    "COMPE": "077",
+    "ShortName": "BANCO INTER"
+  },
+  {
+    "COMPE": "078",
+    "ShortName": "HAITONG BI DO BRASIL S.A."
+  },
+  {
+    "COMPE": "079",
+    "ShortName": "PICPAY BANK - BANCO MÚLTIPLO S.A"
+  },
+  {
+    "COMPE": "080",
+    "ShortName": "BT CC LTDA."
+  },
+  {
+    "COMPE": "081",
+    "ShortName": "BANCOSEGURO S.A."
+  },
+  {
+    "COMPE": "082",
+    "ShortName": "BANCO TOPÁZIO S.A."
+  },
+  {
+    "COMPE": "083",
+    "ShortName": "BCO DA CHINA BRASIL S.A."
+  },
+  {
+    "COMPE": "084",
+    "ShortName": "SISPRIME DO BRASIL - COOP"
+  },
+  {
+    "COMPE": "085",
+    "ShortName": "COOPCENTRAL AILOS"
+  },
+  {
+    "COMPE": "088",
+    "ShortName": "BANCO RANDON S.A."
+  },
+  {
+    "COMPE": "089",
+    "ShortName": "CREDISAN CC"
+  },
+  {
+    "COMPE": "091",
+    "ShortName": "CCCM UNICRED CENTRAL RS"
+  },
+  {
+    "COMPE": "092",
+    "ShortName": "BRK S.A. CFI"
+  },
+  {
+    "COMPE": "093",
+    "ShortName": "POLOCRED SCMEPP LTDA."
+  },
+  {
+    "COMPE": "094",
+    "ShortName": "BANCO FINAXIS"
+  },
+  {
+    "COMPE": "095",
+    "ShortName": "BANCO TRAVELEX S.A."
+  },
+  {
+    "COMPE": "096",
+    "ShortName": "BCO B3 S.A."
+  },
+  {
+    "COMPE": "097",
+    "ShortName": "CREDISIS - CENTRAL DE COOPERATIVAS DE CRÉDITO LTDA."
+  },
+  {
+    "COMPE": "098",
+    "ShortName": "CREDIALIANÇA CCR"
+  },
+  {
+    "COMPE": "099",
+    "ShortName": "UNIPRIME COOPCENTRAL LTDA."
+  },
+  {
+    "COMPE": "100",
+    "ShortName": "PLANNER CV S.A."
+  },
+  {
+    "COMPE": "101",
+    "ShortName": "RENASCENCA DTVM LTDA"
+  },
+  {
+    "COMPE": "102",
+    "ShortName": "XP INVESTIMENTOS CCTVM S/A"
+  },
+  {
+    "COMPE": "104",
+    "ShortName": "CAIXA ECONOMICA FEDERAL"
+  },
+  {
+    "COMPE": "105",
+    "ShortName": "LECCA CFI S.A."
+  },
+  {
+    "COMPE": "107",
+    "ShortName": "BCO BOCOM BBM S.A."
+  },
+  {
+    "COMPE": "108",
+    "ShortName": "PORTOCRED S.A. - CFI"
+  },
+  {
+    "COMPE": "111",
+    "ShortName": "OLIVEIRA TRUST DTVM S.A."
+  },
+  {
+    "COMPE": "113",
+    "ShortName": "NEON CTVM S.A."
+  },
+  {
+    "COMPE": "114",
+    "ShortName": "CENTRAL COOPERATIVA DE CRÉDITO NO ESTADO DO ESPÍRITO SANTO"
+  },
+  {
+    "COMPE": "117",
+    "ShortName": "ADVANCED CC LTDA"
+  },
+  {
+    "COMPE": "119",
+    "ShortName": "BCO WESTERN UNION"
+  },
+  {
+    "COMPE": "120",
+    "ShortName": "BCO RODOBENS S.A."
+  },
+  {
+    "COMPE": "121",
+    "ShortName": "BCO AGIBANK S.A."
+  },
+  {
+    "COMPE": "122",
+    "ShortName": "BCO BRADESCO BERJ S.A."
+  },
+  {
+    "COMPE": "124",
+    "ShortName": "BCO WOORI BANK DO BRASIL S.A."
+  },
+  {
+    "COMPE": "125",
+    "ShortName": "BANCO GENIAL"
+  },
+  {
+    "COMPE": "126",
+    "ShortName": "BR PARTNERS BI"
+  },
+  {
+    "COMPE": "127",
+    "ShortName": "CODEPE CVC S.A."
+  },
+  {
+    "COMPE": "128",
+    "ShortName": "BRAZA BANK S.A. BCO DE CÂMBIO"
+  },
+  {
+    "COMPE": "129",
+    "ShortName": "UBS BB BI S.A."
+  },
+  {
+    "COMPE": "130",
+    "ShortName": "CARUANA SCFI"
+  },
+  {
+    "COMPE": "131",
+    "ShortName": "TULLETT PREBON BRASIL CVC LTDA"
+  },
+  {
+    "COMPE": "132",
+    "ShortName": "ICBC DO BRASIL BM S.A."
+  },
+  {
+    "COMPE": "133",
+    "ShortName": "CRESOL CONFEDERAÇÃO"
+  },
+  {
+    "COMPE": "134",
+    "ShortName": "BGC LIQUIDEZ DTVM LTDA"
+  },
+  {
+    "COMPE": "136",
+    "ShortName": "UNICRED DO BRASIL"
+  },
+  {
+    "COMPE": "138",
+    "ShortName": "GET MONEY CC LTDA"
+  },
+  {
+    "COMPE": "139",
+    "ShortName": "INTESA SANPAOLO BRASIL S.A. BM"
+  },
+  {
+    "COMPE": "140",
+    "ShortName": "NU INVESTIMENTOS S.A. - CTVM"
+  },
+  {
+    "COMPE": "141",
+    "ShortName": "MASTER BI S.A."
+  },
+  {
+    "COMPE": "142",
+    "ShortName": "BROKER BRASIL CC LTDA."
+  },
+  {
+    "COMPE": "143",
+    "ShortName": "INTEX BANK BCO DE CÂMBIO S.A."
+  },
+  {
+    "COMPE": "144",
+    "ShortName": "EBURY BCO DE CÂMBIO S.A."
+  },
+  {
+    "COMPE": "145",
+    "ShortName": "LEVYCAM CCV LTDA"
+  },
+  {
+    "COMPE": "146",
+    "ShortName": "GUITTA CC LTDA"
+  },
+  {
+    "COMPE": "149",
+    "ShortName": "FACTA S.A. CFI"
+  },
+  {
+    "COMPE": "157",
+    "ShortName": "ICAP DO BRASIL CTVM LTDA."
+  },
+  {
+    "COMPE": "159",
+    "ShortName": "CASA CREDITO S.A. SCM"
+  },
+  {
+    "COMPE": "163",
+    "ShortName": "COMMERZBANK BRASIL S.A. - BCO MÚLTIPLO"
+  },
+  {
+    "COMPE": "173",
+    "ShortName": "BRL TRUST DTVM SA"
+  },
+  {
+    "COMPE": "174",
+    "ShortName": "PEFISA S.A. - C.F.I."
+  },
+  {
+    "COMPE": "177",
+    "ShortName": "SAFRA CTVM"
+  },
+  {
+    "COMPE": "180",
+    "ShortName": "CM CAPITAL MARKETS CCTVM LTDA"
+  },
+  {
+    "COMPE": "183",
+    "ShortName": "SOCRED SA - SCMEPP"
+  },
+  {
+    "COMPE": "184",
+    "ShortName": "BCO ITAÚ BBA S.A."
+  },
+  {
+    "COMPE": "188",
+    "ShortName": "ATIVA S.A. INVESTIMENTOS CCTVM"
+  },
+  {
+    "COMPE": "189",
+    "ShortName": "HS FINANCEIRA"
+  },
+  {
+    "COMPE": "190",
+    "ShortName": "SERVICOOP"
+  },
+  {
+    "COMPE": "191",
+    "ShortName": "NOVA FUTURA CTVM LTDA."
+  },
+  {
+    "COMPE": "194",
+    "ShortName": "UNIDA DTVM LTDA"
+  },
+  {
+    "COMPE": "195",
+    "ShortName": "VALOR S/A SCFI"
+  },
+  {
+    "COMPE": "196",
+    "ShortName": "FAIR CC S.A."
+  },
+  {
+    "COMPE": "197",
+    "ShortName": "STONE IP S.A."
+  },
+  {
+    "COMPE": "208",
+    "ShortName": "BANCO BTG PACTUAL S.A."
+  },
+  {
+    "COMPE": "212",
+    "ShortName": "BANCO ORIGINAL"
+  },
+  {
+    "COMPE": "213",
+    "ShortName": "BCO ARBI S.A."
+  },
+  {
+    "COMPE": "217",
+    "ShortName": "BANCO JOHN DEERE S.A."
+  },
+  {
+    "COMPE": "218",
+    "ShortName": "BCO BS2 S.A."
+  },
+  {
+    "COMPE": "222",
+    "ShortName": "BCO CRÉDIT AGRICOLE BR S.A."
+  },
+  {
+    "COMPE": "224",
+    "ShortName": "BCO FIBRA S.A."
+  },
+  {
+    "COMPE": "233",
+    "ShortName": "BANCO BMG SOLUÇÕES FINANCEIRAS S.A."
+  },
+  {
+    "COMPE": "237",
+    "ShortName": "BCO BRADESCO S.A."
+  },
+  {
+    "COMPE": "241",
+    "ShortName": "BCO CLASSICO S.A."
+  },
+  {
+    "COMPE": "243",
+    "ShortName": "BANCO MASTER"
+  },
+  {
+    "COMPE": "246",
+    "ShortName": "BCO ABC BRASIL S.A."
+  },
+  {
+    "COMPE": "249",
+    "ShortName": "BANCO INVESTCRED UNIBANCO S.A."
+  },
+  {
+    "COMPE": "250",
+    "ShortName": "BANCO BMG CONSIGNADO S.A."
+  },
+  {
+    "COMPE": "253",
+    "ShortName": "BEXS CC S.A."
+  },
+  {
+    "COMPE": "254",
+    "ShortName": "PARANA BCO S.A."
+  },
+  {
+    "COMPE": "259",
+    "ShortName": "MONEYCORP BCO DE CÂMBIO S.A."
+  },
+  {
+    "COMPE": "260",
+    "ShortName": "NU PAGAMENTOS - IP"
+  },
+  {
+    "COMPE": "265",
+    "ShortName": "BCO FATOR S.A."
+  },
+  {
+    "COMPE": "266",
+    "ShortName": "BCO CEDULA S.A."
+  },
+  {
+    "COMPE": "268",
+    "ShortName": "BARI CIA HIPOTECÁRIA"
+  },
+  {
+    "COMPE": "269",
+    "ShortName": "BCO HSBC S.A."
+  },
+  {
+    "COMPE": "270",
+    "ShortName": "SAGITUR CC - EM LIQUIDAÇÃO EXTRAJUDICIAL"
+  },
+  {
+    "COMPE": "271",
+    "ShortName": "BPY CCTVM S.A."
+  },
+  {
+    "COMPE": "272",
+    "ShortName": "AGK CC S.A."
+  },
+  {
+    "COMPE": "273",
+    "ShortName": "COOP SULCREDI AMPLEA"
+  },
+  {
+    "COMPE": "274",
+    "ShortName": "BMP SCMEPP LTDA"
+  },
+  {
+    "COMPE": "276",
+    "ShortName": "BCO SENFF S.A."
+  },
+  {
+    "COMPE": "278",
+    "ShortName": "GENIAL INVESTIMENTOS CVM S.A."
+  },
+  {
+    "COMPE": "279",
+    "ShortName": "COOP DE PRIMAVERA DO LESTE"
+  },
+  {
+    "COMPE": "280",
+    "ShortName": "WILL FINANCEIRA S.A.CFI"
+  },
+  {
+    "COMPE": "281",
+    "ShortName": "CCR COOPAVEL"
+  },
+  {
+    "COMPE": "283",
+    "ShortName": "RB INVESTIMENTOS DTVM LTDA."
+  },
+  {
+    "COMPE": "285",
+    "ShortName": "FRENTE CC S.A."
+  },
+  {
+    "COMPE": "286",
+    "ShortName": "UNIPRIME OURO - COOP DE OURO"
+  },
+  {
+    "COMPE": "288",
+    "ShortName": "CAROL DTVM LTDA."
+  },
+  {
+    "COMPE": "289",
+    "ShortName": "EFX CC LTDA."
+  },
+  {
+    "COMPE": "290",
+    "ShortName": "PAGSEGURO INTERNET IP S.A."
+  },
+  {
+    "COMPE": "292",
+    "ShortName": "GALAPAGOS DTVM S.A."
+  },
+  {
+    "COMPE": "293",
+    "ShortName": "LASTRO RDV DTVM LTDA"
+  },
+  {
+    "COMPE": "296",
+    "ShortName": "OZ CORRETORA DE CÂMBIO S.A."
+  },
+  {
+    "COMPE": "298",
+    "ShortName": "VIPS CC S.A."
+  },
+  {
+    "COMPE": "299",
+    "ShortName": "BCO AFINZ S.A. - BM"
+  },
+  {
+    "COMPE": "300",
+    "ShortName": "BCO LA NACION ARGENTINA"
+  },
+  {
+    "COMPE": "301",
+    "ShortName": "DOCK IP S.A."
+  },
+  {
+    "COMPE": "305",
+    "ShortName": "FOURTRADE COR. DE CAMBIO LTDA"
+  },
+  {
+    "COMPE": "306",
+    "ShortName": "PORTOPAR DTVM LTDA"
+  },
+  {
+    "COMPE": "307",
+    "ShortName": "TERRA INVESTIMENTOS DTVM"
+  },
+  {
+    "COMPE": "309",
+    "ShortName": "CAMBIONET CC LTDA"
+  },
+  {
+    "COMPE": "310",
+    "ShortName": "VORTX DTVM LTDA."
+  },
+  {
+    "COMPE": "311",
+    "ShortName": "DOURADA CORRETORA"
+  },
+  {
+    "COMPE": "312",
+    "ShortName": "HSCM SCMEPP LTDA."
+  },
+  {
+    "COMPE": "313",
+    "ShortName": "AMAZÔNIA CC LTDA."
+  },
+  {
+    "COMPE": "315",
+    "ShortName": "PI DTVM S.A."
+  },
+  {
+    "COMPE": "318",
+    "ShortName": "BCO BMG S.A."
+  },
+  {
+    "COMPE": "319",
+    "ShortName": "OM DTVM LTDA"
+  },
+  {
+    "COMPE": "320",
+    "ShortName": "BOC BRASIL"
+  },
+  {
+    "COMPE": "321",
+    "ShortName": "CREFAZ SCMEPP SA"
+  },
+  {
+    "COMPE": "322",
+    "ShortName": "CCR DE ABELARDO LUZ"
+  },
+  {
+    "COMPE": "323",
+    "ShortName": "MERCADO PAGO IP LTDA."
+  },
+  {
+    "COMPE": "324",
+    "ShortName": "CARTOS SCD S.A."
+  },
+  {
+    "COMPE": "325",
+    "ShortName": "ÓRAMA DTVM S.A."
+  },
+  {
+    "COMPE": "326",
+    "ShortName": "PARATI - CFI S.A."
+  },
+  {
+    "COMPE": "328",
+    "ShortName": "CECM FABRIC CALÇADOS SAPIRANGA"
+  },
+  {
+    "COMPE": "329",
+    "ShortName": "QI SCD S.A."
+  },
+  {
+    "COMPE": "330",
+    "ShortName": "BANCO BARI S.A."
+  },
+  {
+    "COMPE": "331",
+    "ShortName": "OSLO CAPITAL DTVM SA"
+  },
+  {
+    "COMPE": "332",
+    "ShortName": "ACESSO SOLUÇÕES DE PAGAMENTO S.A. - INSTITUIÇÃO DE PAGAMENTO"
+  },
+  {
+    "COMPE": "334",
+    "ShortName": "BANCO BESA S.A."
+  },
+  {
+    "COMPE": "335",
+    "ShortName": "BANCO DIGIO"
+  },
+  {
+    "COMPE": "336",
+    "ShortName": "BCO C6 S.A."
+  },
+  {
+    "COMPE": "340",
+    "ShortName": "SUPERDIGITAL I.P. S.A."
+  },
+  {
+    "COMPE": "341",
+    "ShortName": "ITAÚ UNIBANCO S.A."
+  },
+  {
+    "COMPE": "342",
+    "ShortName": "CREDITAS SCD"
+  },
+  {
+    "COMPE": "343",
+    "ShortName": "FFA SCMEPP LTDA."
+  },
+  {
+    "COMPE": "348",
+    "ShortName": "BCO XP S.A."
+  },
+  {
+    "COMPE": "349",
+    "ShortName": "AL5 S.A. SCFI"
+  },
+  {
+    "COMPE": "350",
+    "ShortName": "COOP DE AGRICULTORES E AEROPORTUÁRIOS DO BRASIL"
+  },
+  {
+    "COMPE": "352",
+    "ShortName": "TORO CTVM S.A."
+  },
+  {
+    "COMPE": "354",
+    "ShortName": "NECTON INVESTIMENTOS S.A CVM"
+  },
+  {
+    "COMPE": "355",
+    "ShortName": "ÓTIMO SCD S.A."
+  },
+  {
+    "COMPE": "358",
+    "ShortName": "MIDWAY S.A. - SCFI"
+  },
+  {
+    "COMPE": "359",
+    "ShortName": "ZEMA CFI S/A"
+  },
+  {
+    "COMPE": "360",
+    "ShortName": "TRINUS CAPITAL DTVM"
+  },
+  {
+    "COMPE": "362",
+    "ShortName": "CIELO IP S.A."
+  },
+  {
+    "COMPE": "363",
+    "ShortName": "SINGULARE CTVM S.A."
+  },
+  {
+    "COMPE": "364",
+    "ShortName": "EFÍ S.A. - IP"
+  },
+  {
+    "COMPE": "365",
+    "ShortName": "SIMPAUL"
+  },
+  {
+    "COMPE": "366",
+    "ShortName": "BCO SOCIETE GENERALE BRASIL"
+  },
+  {
+    "COMPE": "367",
+    "ShortName": "VITREO DTVM S.A."
+  },
+  {
+    "COMPE": "368",
+    "ShortName": "BCO CSF S.A."
+  },
+  {
+    "COMPE": "370",
+    "ShortName": "BCO MIZUHO S.A."
+  },
+  {
+    "COMPE": "371",
+    "ShortName": "WARREN CVMC LTDA"
+  },
+  {
+    "COMPE": "373",
+    "ShortName": "UP.P SEP S.A."
+  },
+  {
+    "COMPE": "374",
+    "ShortName": "REALIZE SCFI S.A."
+  },
+  {
+    "COMPE": "376",
+    "ShortName": "BCO J.P. MORGAN S.A."
+  },
+  {
+    "COMPE": "377",
+    "ShortName": "BMS SCD S.A."
+  },
+  {
+    "COMPE": "378",
+    "ShortName": "BCO BRASILEIRO DE CRÉDITO S.A."
+  },
+  {
+    "COMPE": "379",
+    "ShortName": "COOP COOPERFORTE LTDA."
+  },
+  {
+    "COMPE": "380",
+    "ShortName": "PICPAY"
+  },
+  {
+    "COMPE": "381",
+    "ShortName": "BCO MERCEDES-BENZ S.A."
+  },
+  {
+    "COMPE": "382",
+    "ShortName": "FIDUCIA SCMEPP LTDA"
+  },
+  {
+    "COMPE": "383",
+    "ShortName": "EBANX IP LTDA."
+  },
+  {
+    "COMPE": "384",
+    "ShortName": "GLOBAL SCM LTDA"
+  },
+  {
+    "COMPE": "385",
+    "ShortName": "CECM DOS TRAB.PORT. DA G.VITOR"
+  },
+  {
+    "COMPE": "386",
+    "ShortName": "NU FINANCEIRA S.A. CFI"
+  },
+  {
+    "COMPE": "387",
+    "ShortName": "BCO TOYOTA DO BRASIL S.A."
+  },
+  {
+    "COMPE": "389",
+    "ShortName": "BCO MERCANTIL DO BRASIL S.A."
+  },
+  {
+    "COMPE": "390",
+    "ShortName": "BCO GM S.A."
+  },
+  {
+    "COMPE": "391",
+    "ShortName": "CCR DE IBIAM"
+  },
+  {
+    "COMPE": "393",
+    "ShortName": "BCO VOLKSWAGEN S.A"
+  },
+  {
+    "COMPE": "394",
+    "ShortName": "BCO BRADESCO FINANC. S.A."
+  },
+  {
+    "COMPE": "395",
+    "ShortName": "F D GOLD DTVM LTDA"
+  },
+  {
+    "COMPE": "396",
+    "ShortName": "MAGALUPAY"
+  },
+  {
+    "COMPE": "397",
+    "ShortName": "LISTO SCD S.A."
+  },
+  {
+    "COMPE": "398",
+    "ShortName": "IDEAL CTVM S.A."
+  },
+  {
+    "COMPE": "399",
+    "ShortName": "KIRTON BANK"
+  },
+  {
+    "COMPE": "400",
+    "ShortName": "COOP CREDITAG"
+  },
+  {
+    "COMPE": "401",
+    "ShortName": "IUGU IP S.A."
+  },
+  {
+    "COMPE": "402",
+    "ShortName": "COBUCCIO S.A. SCFI"
+  },
+  {
+    "COMPE": "403",
+    "ShortName": "CORA SCFI"
+  },
+  {
+    "COMPE": "404",
+    "ShortName": "SUMUP SCD S.A."
+  },
+  {
+    "COMPE": "406",
+    "ShortName": "ACCREDITO SCD S.A."
+  },
+  {
+    "COMPE": "407",
+    "ShortName": "SEFER INVESTIMENTOS DTVM LTDA"
+  },
+  {
+    "COMPE": "408",
+    "ShortName": "BONUSPAGO SCD S.A."
+  },
+  {
+    "COMPE": "410",
+    "ShortName": "PLANNER SOCIEDADE DE CRÉDITO DIRETO"
+  },
+  {
+    "COMPE": "411",
+    "ShortName": "VIA CERTA FINANCIADORA S.A. - CFI"
+  },
+  {
+    "COMPE": "412",
+    "ShortName": "SOCIAL BANK S/A"
+  },
+  {
+    "COMPE": "413",
+    "ShortName": "BCO BV S.A."
+  },
+  {
+    "COMPE": "414",
+    "ShortName": "LEND SCD S.A."
+  },
+  {
+    "COMPE": "415",
+    "ShortName": "BCO NACIONAL"
+  },
+  {
+    "COMPE": "416",
+    "ShortName": "LAMARA SCD S.A."
+  },
+  {
+    "COMPE": "418",
+    "ShortName": "ZIPDIN SCD S.A."
+  },
+  {
+    "COMPE": "419",
+    "ShortName": "NUMBRS SCD S.A."
+  },
+  {
+    "COMPE": "421",
+    "ShortName": "CC LAR CREDI"
+  },
+  {
+    "COMPE": "422",
+    "ShortName": "BCO SAFRA S.A."
+  },
+  {
+    "COMPE": "423",
+    "ShortName": "COLUNA S.A. DTVM"
+  },
+  {
+    "COMPE": "425",
+    "ShortName": "SOCINAL S.A. CFI"
+  },
+  {
+    "COMPE": "426",
+    "ShortName": "NEON FINANCEIRA - CFI S.A."
+  },
+  {
+    "COMPE": "427",
+    "ShortName": "CRED.UFES"
+  },
+  {
+    "COMPE": "428",
+    "ShortName": "CREDSYSTEM SCD S.A."
+  },
+  {
+    "COMPE": "429",
+    "ShortName": "CREDIARE CFI S.A."
+  },
+  {
+    "COMPE": "430",
+    "ShortName": "CCR SEARA"
+  },
+  {
+    "COMPE": "433",
+    "ShortName": "BR-CAPITAL DTVM S.A."
+  },
+  {
+    "COMPE": "435",
+    "ShortName": "DELCRED SCD S.A."
+  },
+  {
+    "COMPE": "438",
+    "ShortName": "TRUSTEE DTVM LTDA."
+  },
+  {
+    "COMPE": "439",
+    "ShortName": "ID CTVM"
+  },
+  {
+    "COMPE": "440",
+    "ShortName": "COOP CREDI&GENTE"
+  },
+  {
+    "COMPE": "442",
+    "ShortName": "MAGNETIS - DTVM"
+  },
+  {
+    "COMPE": "443",
+    "ShortName": "OCTA SCD S.A."
+  },
+  {
+    "COMPE": "444",
+    "ShortName": "TRINUS SCD S.A."
+  },
+  {
+    "COMPE": "445",
+    "ShortName": "PLANTAE CFI"
+  },
+  {
+    "COMPE": "447",
+    "ShortName": "MIRAE ASSET (BRASIL) CCTVM LTDA."
+  },
+  {
+    "COMPE": "448",
+    "ShortName": "HEMERA DTVM LTDA."
+  },
+  {
+    "COMPE": "449",
+    "ShortName": "DM"
+  },
+  {
+    "COMPE": "450",
+    "ShortName": "FITBANK IP"
+  },
+  {
+    "COMPE": "451",
+    "ShortName": "J17 - SCD S/A"
+  },
+  {
+    "COMPE": "452",
+    "ShortName": "CREDIFIT SCD S.A."
+  },
+  {
+    "COMPE": "454",
+    "ShortName": "MÉRITO DTVM LTDA."
+  },
+  {
+    "COMPE": "455",
+    "ShortName": "FÊNIX DTVM LTDA."
+  },
+  {
+    "COMPE": "456",
+    "ShortName": "BCO MUFG BRASIL S.A."
+  },
+  {
+    "COMPE": "457",
+    "ShortName": "UY3 SCD S/A"
+  },
+  {
+    "COMPE": "458",
+    "ShortName": "HEDGE INVESTMENTS DTVM LTDA."
+  },
+  {
+    "COMPE": "459",
+    "ShortName": "CCM SERV. PÚBLICOS SP"
+  },
+  {
+    "COMPE": "460",
+    "ShortName": "UNAVANTI SCD S/A"
+  },
+  {
+    "COMPE": "461",
+    "ShortName": "ASAAS IP S.A."
+  },
+  {
+    "COMPE": "462",
+    "ShortName": "STARK SCD S.A."
+  },
+  {
+    "COMPE": "463",
+    "ShortName": "AZUMI DTVM"
+  },
+  {
+    "COMPE": "464",
+    "ShortName": "BCO SUMITOMO MITSUI BRASIL S.A."
+  },
+  {
+    "COMPE": "465",
+    "ShortName": "CAPITAL CONSIG SCD S.A."
+  },
+  {
+    "COMPE": "467",
+    "ShortName": "MASTER S/A CCTVM"
+  },
+  {
+    "COMPE": "468",
+    "ShortName": "PORTOSEG S.A. CFI"
+  },
+  {
+    "COMPE": "469",
+    "ShortName": "PICPAY INVEST"
+  },
+  {
+    "COMPE": "470",
+    "ShortName": "CDC SCD S.A."
+  },
+  {
+    "COMPE": "471",
+    "ShortName": "COOP CRESERV CREDISIS"
+  },
+  {
+    "COMPE": "473",
+    "ShortName": "BCO CAIXA GERAL BRASIL S.A."
+  },
+  {
+    "COMPE": "475",
+    "ShortName": "BCO YAMAHA MOTOR S.A."
+  },
+  {
+    "COMPE": "477",
+    "ShortName": "CITIBANK N.A."
+  },
+  {
+    "COMPE": "478",
+    "ShortName": "GAZINCRED S.A. SCFI"
+  },
+  {
+    "COMPE": "479",
+    "ShortName": "BCO ITAUBANK S.A."
+  },
+  {
+    "COMPE": "481",
+    "ShortName": "SUPERLÓGICA SCD S.A."
+  },
+  {
+    "COMPE": "482",
+    "ShortName": "ARTTA SCD"
+  },
+  {
+    "COMPE": "484",
+    "ShortName": "MAF DTVM SA"
+  },
+  {
+    "COMPE": "487",
+    "ShortName": "DEUTSCHE BANK S.A.BCO ALEMAO"
+  },
+  {
+    "COMPE": "488",
+    "ShortName": "JPMORGAN CHASE BANK"
+  },
+  {
+    "COMPE": "492",
+    "ShortName": "ING BANK N.V."
+  },
+  {
+    "COMPE": "495",
+    "ShortName": "BCO LA PROVINCIA B AIRES BCE"
+  },
+  {
+    "COMPE": "496",
+    "ShortName": "BBVA BRASIL BI S.A."
+  },
+  {
+    "COMPE": "505",
+    "ShortName": "BCO UBS BRASIL"
+  },
+  {
+    "COMPE": "506",
+    "ShortName": "RJI"
+  },
+  {
+    "COMPE": "507",
+    "ShortName": "SCFI EFÍ S.A."
+  },
+  {
+    "COMPE": "508",
+    "ShortName": "AVENUE SECURITIES DTVM LTDA."
+  },
+  {
+    "COMPE": "509",
+    "ShortName": "CELCOIN IP S.A."
+  },
+  {
+    "COMPE": "510",
+    "ShortName": "FFCRED SCD S.A."
+  },
+  {
+    "COMPE": "511",
+    "ShortName": "MAGNUM SCD"
+  },
+  {
+    "COMPE": "512",
+    "ShortName": "FINVEST DTVM"
+  },
+  {
+    "COMPE": "513",
+    "ShortName": "ATF SCD S.A."
+  },
+  {
+    "COMPE": "514",
+    "ShortName": "EXIM CC LTDA."
+  },
+  {
+    "COMPE": "516",
+    "ShortName": "QISTA S.A. CFI"
+  },
+  {
+    "COMPE": "518",
+    "ShortName": "MERCADO CRÉDITO SCFI S.A."
+  },
+  {
+    "COMPE": "519",
+    "ShortName": "LIONS TRUST DTVM"
+  },
+  {
+    "COMPE": "520",
+    "ShortName": "SOMAPAY SCD S.A."
+  },
+  {
+    "COMPE": "521",
+    "ShortName": "PEAK SEP S.A."
+  },
+  {
+    "COMPE": "522",
+    "ShortName": "RED SCD S.A."
+  },
+  {
+    "COMPE": "523",
+    "ShortName": "HR DIGITAL SCD"
+  },
+  {
+    "COMPE": "524",
+    "ShortName": "WNT CAPITAL DTVM"
+  },
+  {
+    "COMPE": "525",
+    "ShortName": "INTERCAM CC LTDA"
+  },
+  {
+    "COMPE": "526",
+    "ShortName": "MONETARIE SCD"
+  },
+  {
+    "COMPE": "527",
+    "ShortName": "ATICCA SCD S.A."
+  },
+  {
+    "COMPE": "528",
+    "ShortName": "REAG TRUST DTVM"
+  },
+  {
+    "COMPE": "529",
+    "ShortName": "PINBANK IP"
+  },
+  {
+    "COMPE": "530",
+    "ShortName": "SER FINANCE SCD S.A."
+  },
+  {
+    "COMPE": "531",
+    "ShortName": "BMP SCD S.A."
+  },
+  {
+    "COMPE": "532",
+    "ShortName": "EAGLE SCD S.A."
+  },
+  {
+    "COMPE": "533",
+    "ShortName": "SRM BANK"
+  },
+  {
+    "COMPE": "534",
+    "ShortName": "EWALLY IP S.A."
+  },
+  {
+    "COMPE": "535",
+    "ShortName": "OPEA SCD"
+  },
+  {
+    "COMPE": "536",
+    "ShortName": "NEON PAGAMENTOS S.A. IP"
+  },
+  {
+    "COMPE": "537",
+    "ShortName": "MICROCASH SCMEPP LTDA."
+  },
+  {
+    "COMPE": "538",
+    "ShortName": "SUDACRED SCD S.A."
+  },
+  {
+    "COMPE": "539",
+    "ShortName": "SANTINVEST S.A. - CFI"
+  },
+  {
+    "COMPE": "540",
+    "ShortName": "HBI SCD"
+  },
+  {
+    "COMPE": "541",
+    "ShortName": "FDO GARANTIDOR CRÉDITOS"
+  },
+  {
+    "COMPE": "542",
+    "ShortName": "CLOUDWALK IP LTDA"
+  },
+  {
+    "COMPE": "543",
+    "ShortName": "COOPCRECE"
+  },
+  {
+    "COMPE": "544",
+    "ShortName": "MULTICRED SCD S.A."
+  },
+  {
+    "COMPE": "545",
+    "ShortName": "SENSO CCVM S.A."
+  },
+  {
+    "COMPE": "546",
+    "ShortName": "OKTO IP"
+  },
+  {
+    "COMPE": "547",
+    "ShortName": "BNK DIGITAL SCD S.A."
+  },
+  {
+    "COMPE": "548",
+    "ShortName": "RPW S.A. SCFI"
+  },
+  {
+    "COMPE": "549",
+    "ShortName": "INTRA DTVM"
+  },
+  {
+    "COMPE": "550",
+    "ShortName": "BEETELLER"
+  },
+  {
+    "COMPE": "551",
+    "ShortName": "VERT DTVM LTDA."
+  },
+  {
+    "COMPE": "552",
+    "ShortName": "UZZIPAY IP S.A."
+  },
+  {
+    "COMPE": "553",
+    "ShortName": "PERCAPITAL SCD S.A."
+  },
+  {
+    "COMPE": "554",
+    "ShortName": "STONEX BANCO DE CÂMBIO S.A."
+  },
+  {
+    "COMPE": "555",
+    "ShortName": "\"PAN FINANCEIRA S.A. - CRÉDITO, FINANCIAMENTO E INVESTIMENTOS\""
+  },
+  {
+    "COMPE": "556",
+    "ShortName": "SAYGO CÂMBIO"
+  },
+  {
+    "COMPE": "557",
+    "ShortName": "PAGPRIME IP"
+  },
+  {
+    "COMPE": "558",
+    "ShortName": "QI DTVM LTDA."
+  },
+  {
+    "COMPE": "559",
+    "ShortName": "KANASTRA CFI"
+  },
+  {
+    "COMPE": "560",
+    "ShortName": "MAG IP LTDA."
+  },
+  {
+    "COMPE": "561",
+    "ShortName": "PAY4FUN IP S.A."
+  },
+  {
+    "COMPE": "562",
+    "ShortName": "AZIMUT BRASIL DTVM LTDA"
+  },
+  {
+    "COMPE": "563",
+    "ShortName": "PROTEGE CASH"
+  },
+  {
+    "COMPE": "565",
+    "ShortName": "ÁGORA CTVM S.A."
+  },
+  {
+    "COMPE": "566",
+    "ShortName": "FLAGSHIP IP LTDA"
+  },
+  {
+    "COMPE": "567",
+    "ShortName": "MERCANTIL FINANCEIRA"
+  },
+  {
+    "COMPE": "568",
+    "ShortName": "BRCONDOS SCD S.A."
+  },
+  {
+    "COMPE": "569",
+    "ShortName": "CONTA PRONTA IP"
+  },
+  {
+    "COMPE": "572",
+    "ShortName": "ALL IN CRED SCD S.A."
+  },
+  {
+    "COMPE": "573",
+    "ShortName": "OXY CH"
+  },
+  {
+    "COMPE": "574",
+    "ShortName": "A55 SCD S.A."
+  },
+  {
+    "COMPE": "575",
+    "ShortName": "DGBK CREDIT S.A. - SOCIEDADE DE CRÉDITO DIRETO."
+  },
+  {
+    "COMPE": "576",
+    "ShortName": "MERCADO BITCOIN IP LTDA"
+  },
+  {
+    "COMPE": "577",
+    "ShortName": "AF DESENVOLVE SP S.A."
+  },
+  {
+    "COMPE": "578",
+    "ShortName": "SICRES"
+  },
+  {
+    "COMPE": "579",
+    "ShortName": "QUADRA SCD"
+  },
+  {
+    "COMPE": "580",
+    "ShortName": "CCCPOUPINV SUL E SUDESTE - CENTRAL SUL/SUDESTE"
+  },
+  {
+    "COMPE": "581",
+    "ShortName": "CENTRAL NORDESTE"
+  },
+  {
+    "COMPE": "582",
+    "ShortName": "\"CCC POUP INV DE MS, GO, DF E TO\""
+  },
+  {
+    "COMPE": "583",
+    "ShortName": "CCC POUP INV DO CENTRO NORTE DO BRASIL"
+  },
+  {
+    "COMPE": "584",
+    "ShortName": "\"CCC POUP E INV DOS ESTADOS DO PR, SP E RJ\""
+  },
+  {
+    "COMPE": "585",
+    "ShortName": "SETHI SCD SA"
+  },
+  {
+    "COMPE": "586",
+    "ShortName": "Z1 IP LTDA."
+  },
+  {
+    "COMPE": "587",
+    "ShortName": "FIDD DTVM LTDA."
+  },
+  {
+    "COMPE": "588",
+    "ShortName": "PROVER PROMOCAO DE VENDAS IP LTDA."
+  },
+  {
+    "COMPE": "589",
+    "ShortName": "G5 SCD SA"
+  },
+  {
+    "COMPE": "590",
+    "ShortName": "REPASSES FINANCEIROS E SOLUCOES TECNOLOGICAS IP S.A."
+  },
+  {
+    "COMPE": "591",
+    "ShortName": "BANVOX DTVM"
+  },
+  {
+    "COMPE": "592",
+    "ShortName": "MAPS IP LTDA."
+  },
+  {
+    "COMPE": "593",
+    "ShortName": "TRANSFEERA IP S.A."
+  },
+  {
+    "COMPE": "594",
+    "ShortName": "ASA SCFI S.A."
+  },
+  {
+    "COMPE": "595",
+    "ShortName": "ZOOP MEIOS DE PAGAMENTO"
+  },
+  {
+    "COMPE": "597",
+    "ShortName": "ISSUER IP LTDA."
+  },
+  {
+    "COMPE": "598",
+    "ShortName": "KONECT SCD S/A"
+  },
+  {
+    "COMPE": "599",
+    "ShortName": "AGORACRED S/A SCFI"
+  },
+  {
+    "COMPE": "600",
+    "ShortName": "BCO LUSO BRASILEIRO S.A."
+  },
+  {
+    "COMPE": "604",
+    "ShortName": "BCO INDUSTRIAL DO BRASIL S.A."
+  },
+  {
+    "COMPE": "610",
+    "ShortName": "BCO VR S.A."
+  },
+  {
+    "COMPE": "611",
+    "ShortName": "BCO PAULISTA S.A."
+  },
+  {
+    "COMPE": "612",
+    "ShortName": "BCO GUANABARA S.A."
+  },
+  {
+    "COMPE": "613",
+    "ShortName": "OMNI BANCO S.A."
+  },
+  {
+    "COMPE": "614",
+    "ShortName": "SANTS SCD S.A."
+  },
+  {
+    "COMPE": "615",
+    "ShortName": "SMART SOLUTIONS GROUP IP LTDA"
+  },
+  {
+    "COMPE": "619",
+    "ShortName": "TRIO IP LTDA."
+  },
+  {
+    "COMPE": "620",
+    "ShortName": "REVOLUT SCD S.A."
+  },
+  {
+    "COMPE": "623",
+    "ShortName": "BANCO PAN"
+  },
+  {
+    "COMPE": "626",
+    "ShortName": "BCO C6 CONSIG"
+  },
+  {
+    "COMPE": "630",
+    "ShortName": "BANCO LETSBANK S.A."
+  },
+  {
+    "COMPE": "632",
+    "ShortName": "Z-ON SCD S.A."
+  },
+  {
+    "COMPE": "633",
+    "ShortName": "BCO RENDIMENTO S.A."
+  },
+  {
+    "COMPE": "634",
+    "ShortName": "BCO TRIANGULO S.A."
+  },
+  {
+    "COMPE": "636",
+    "ShortName": "GIRO - SCD S/A"
+  },
+  {
+    "COMPE": "637",
+    "ShortName": "BCO SOFISA S.A."
+  },
+  {
+    "COMPE": "643",
+    "ShortName": "BCO PINE S.A."
+  },
+  {
+    "COMPE": "644",
+    "ShortName": "321 SCD S.A."
+  },
+  {
+    "COMPE": "646",
+    "ShortName": "DM SA CFI"
+  },
+  {
+    "COMPE": "651",
+    "ShortName": "PAGARE IP S.A."
+  },
+  {
+    "COMPE": "652",
+    "ShortName": "ITAÚ UNIBANCO HOLDING S.A."
+  },
+  {
+    "COMPE": "653",
+    "ShortName": "BM PLENO S.A."
+  },
+  {
+    "COMPE": "654",
+    "ShortName": "BCO DIGIMAIS S.A."
+  },
+  {
+    "COMPE": "655",
+    "ShortName": "BCO VOTORANTIM S.A."
+  },
+  {
+    "COMPE": "659",
+    "ShortName": "ONEKEY PAYMENTS IP S.A."
+  },
+  {
+    "COMPE": "660",
+    "ShortName": "PAGME IP LTDA"
+  },
+  {
+    "COMPE": "661",
+    "ShortName": "FREEX CC S.A."
+  },
+  {
+    "COMPE": "662",
+    "ShortName": "WE PAY OUT IP LTDA."
+  },
+  {
+    "COMPE": "663",
+    "ShortName": "ACTUAL DTVM S.A."
+  },
+  {
+    "COMPE": "664",
+    "ShortName": "EAGLE IP LTDA."
+  },
+  {
+    "COMPE": "665",
+    "ShortName": "STARK BANK S.A. - IP"
+  },
+  {
+    "COMPE": "666",
+    "ShortName": "URBANO S.A. SCFI"
+  },
+  {
+    "COMPE": "667",
+    "ShortName": "LIQUIDO IP LTDA"
+  },
+  {
+    "COMPE": "668",
+    "ShortName": "VIA CAPITAL SCD S/A"
+  },
+  {
+    "COMPE": "670",
+    "ShortName": "IP4Y IP LTDA."
+  },
+  {
+    "COMPE": "671",
+    "ShortName": "ZERO IP"
+  },
+  {
+    "COMPE": "672",
+    "ShortName": "STONE CFI S.A."
+  },
+  {
+    "COMPE": "673",
+    "ShortName": "CCR DO AGRESTE ALAGOANO"
+  },
+  {
+    "COMPE": "674",
+    "ShortName": "HINOVA PAY IP S.A."
+  },
+  {
+    "COMPE": "675",
+    "ShortName": "BANQI"
+  },
+  {
+    "COMPE": "676",
+    "ShortName": "DUFRIO CFI S.A."
+  },
+  {
+    "COMPE": "678",
+    "ShortName": "FIDEM SCD S/A"
+  },
+  {
+    "COMPE": "679",
+    "ShortName": "PAY IP S.A."
+  },
+  {
+    "COMPE": "680",
+    "ShortName": "DELTA GLOBAL SCD S.A."
+  },
+  {
+    "COMPE": "681",
+    "ShortName": "MT IP S.A."
+  },
+  {
+    "COMPE": "682",
+    "ShortName": "MONERY IP S.A."
+  },
+  {
+    "COMPE": "684",
+    "ShortName": "HARMOS S.A. - SCFI"
+  },
+  {
+    "COMPE": "685",
+    "ShortName": "TYCOON TECHNOLOGY IIP S.A"
+  },
+  {
+    "COMPE": "686",
+    "ShortName": "BIZ IP LTDA."
+  },
+  {
+    "COMPE": "687",
+    "ShortName": "INCO SEP S.A."
+  },
+  {
+    "COMPE": "688",
+    "ShortName": "KIKAI SCD S.A."
+  },
+  {
+    "COMPE": "689",
+    "ShortName": "NVIO BRASIL SCD S.A."
+  },
+  {
+    "COMPE": "690",
+    "ShortName": "BK IP S.A."
+  },
+  {
+    "COMPE": "692",
+    "ShortName": "SQUID SCD S.A."
+  },
+  {
+    "COMPE": "693",
+    "ShortName": "EFEX IP"
+  },
+  {
+    "COMPE": "694",
+    "ShortName": "WOOVI IP LTDA."
+  },
+  {
+    "COMPE": "695",
+    "ShortName": "BEES IP LTDA."
+  },
+  {
+    "COMPE": "697",
+    "ShortName": "MARMARIS"
+  },
+  {
+    "COMPE": "698",
+    "ShortName": "BIT SCD S.A."
+  },
+  {
+    "COMPE": "699",
+    "ShortName": "BFC SCD S.A."
+  },
+  {
+    "COMPE": "700",
+    "ShortName": "MW IP LTDA."
+  },
+  {
+    "COMPE": "701",
+    "ShortName": "INTEGRAÇÃO DE CRÉDITO E COBRANÇA SCD"
+  },
+  {
+    "COMPE": "703",
+    "ShortName": "GETNET IP"
+  },
+  {
+    "COMPE": "704",
+    "ShortName": "FEATBANK IP LTDA"
+  },
+  {
+    "COMPE": "707",
+    "ShortName": "BCO DAYCOVAL S.A"
+  },
+  {
+    "COMPE": "708",
+    "ShortName": "BCO INDUSCRED DE INVESTIM. S/A"
+  },
+  {
+    "COMPE": "712",
+    "ShortName": "OURIBANK S.A."
+  },
+  {
+    "COMPE": "714",
+    "ShortName": "FINAMAX S.A. CFI"
+  },
+  {
+    "COMPE": "719",
+    "ShortName": "BANCO MASTER MÚLTIPLO"
+  },
+  {
+    "COMPE": "720",
+    "ShortName": "BCO RNX S.A."
+  },
+  {
+    "COMPE": "739",
+    "ShortName": "BCO CETELEM S.A."
+  },
+  {
+    "COMPE": "741",
+    "ShortName": "BCO RIBEIRAO PRETO S.A."
+  },
+  {
+    "COMPE": "743",
+    "ShortName": "BANCO SEMEAR"
+  },
+  {
+    "COMPE": "745",
+    "ShortName": "BCO CITIBANK S.A."
+  },
+  {
+    "COMPE": "746",
+    "ShortName": "BCO MODAL S.A."
+  },
+  {
+    "COMPE": "747",
+    "ShortName": "BCO RABOBANK INTL BRASIL S.A."
+  },
+  {
+    "COMPE": "748",
+    "ShortName": "BCO COOPERATIVO SICREDI S.A."
+  },
+  {
+    "COMPE": "751",
+    "ShortName": "SCOTIABANK BRASIL"
+  },
+  {
+    "COMPE": "752",
+    "ShortName": "BCO BNP PARIBAS BRASIL S A"
+  },
+  {
+    "COMPE": "753",
+    "ShortName": "NOVO BCO CONTINENTAL S.A. - BM"
+  },
+  {
+    "COMPE": "754",
+    "ShortName": "BANCO SISTEMA"
+  },
+  {
+    "COMPE": "755",
+    "ShortName": "BOFA MERRILL LYNCH BM S.A."
+  },
+  {
+    "COMPE": "756",
+    "ShortName": "BANCO SICOOB S.A."
+  },
+  {
+    "COMPE": "757",
+    "ShortName": "BCO KEB HANA DO BRASIL S.A."
+  },
+  {
+    "COMPE": "759",
+    "ShortName": "BANSUR JM SCD S.A."
+  },
+  {
+    "COMPE": "760",
+    "ShortName": "EMCASH SERV FINANC SEP S.A."
+  },
+  {
+    "COMPE": "761",
+    "ShortName": "URBANO S.A. SCFI"
+  },
+  {
+    "COMPE": "762",
+    "ShortName": "OPPENS SEP S.A."
+  },
+  {
+    "COMPE": "763",
+    "ShortName": "VUE IP S.A."
+  },
+  {
+    "COMPE": "764",
+    "ShortName": "INDEPENDÊNCIA CC"
+  },
+  {
+    "COMPE": "766",
+    "ShortName": "LB PAY IP LTDA"
+  },
+  {
+    "COMPE": "768",
+    "ShortName": "BECKER FINANCEIRA SA - CFI"
+  },
+  {
+    "COMPE": "769",
+    "ShortName": "99PAY IP S.A."
+  },
+  {
+    "COMPE": "771",
+    "ShortName": "WX IP LTDA."
+  },
+  {
+    "COMPE": "772",
+    "ShortName": "CC MECUNP"
+  },
+  {
+    "COMPE": "773",
+    "ShortName": "KIWIFY IP"
+  },
+  {
+    "COMPE": "790",
+    "ShortName": "MAX IP"
+  }
+]

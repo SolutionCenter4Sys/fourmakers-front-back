@@ -1,0 +1,7 @@
+ALTER TABLE tb_candidato_vaga
+ADD COLUMN tb_colaborador_codigo_interno_colaborador_responsavel VARCHAR(36);
+
+ALTER TABLE tb_candidato_vaga
+ADD CONSTRAINT fk_candidato_vaga_colaborador_responsavel
+FOREIGN KEY (tb_colaborador_codigo_interno_colaborador_responsavel)
+REFERENCES tb_colaborador (codigo_interno_colaborador);

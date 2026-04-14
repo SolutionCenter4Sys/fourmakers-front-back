@@ -1,0 +1,58 @@
+/**
+ * Tokens de DI da jornada Recrutamento (/recrutamento/*, candidatura pública, match, template).
+ * Alterações neste arquivo não devem misturar com outros módulos.
+ */
+export const DiTokensRecrutamento = {
+  recruitmentApi: Symbol.for('RecruitmentApi'),
+  recruitmentRepository: Symbol.for('RecruitmentRepository'),
+  candidateApi: Symbol.for('CandidateApi'),
+  candidateRepository: Symbol.for('CandidateRepository'),
+  vagaApi: Symbol.for('VagaApi'),
+  vagaEdicaoApi: Symbol.for('VagaEdicaoApi'),
+  vagaRepository: Symbol.for('VagaRepository'),
+  vagaListApi: Symbol.for('VagaListApi'),
+  vagaListRepository: Symbol.for('VagaListRepository'),
+  candidatoListApi: Symbol.for('CandidatoListApi'),
+  candidatoListRepository: Symbol.for('CandidatoListRepository'),
+  candidaturaApi: Symbol.for('CandidaturaApi'),
+  candidaturaRepository: Symbol.for('CandidaturaRepository'),
+  historicoCandidaturaApi: Symbol.for('HistoricoCandidaturaApi'),
+  historicoCandidaturaRepository: Symbol.for('HistoricoCandidaturaRepository'),
+  templateContratacaoRepository: Symbol.for('TemplateContratacaoRepository'),
+  curriculoColaboradorApi: Symbol.for('CurriculoColaboradorApi'),
+  curriculoColaboradorRepository: Symbol.for('CurriculoColaboradorRepository'),
+  colaboradorBancoDeTalentosApi: Symbol.for('ColaboradorBancoDeTalentosApi'),
+  colaboradorBancoDeTalentosRepository: Symbol.for('ColaboradorBancoDeTalentosRepository'),
+  matchSemanticoApi: Symbol.for('MatchSemanticoApi'),
+  matchSemanticoRepository: Symbol.for('MatchSemanticoRepository'),
+  statusRecrutamentoRepository: Symbol.for('StatusRecrutamentoRepository'),
+  perfilAtuacaoRepository: Symbol.for('PerfilAtuacaoRepository'),
+  remuneracaoCalculationApi: Symbol.for('RemuneracaoCalculationApi'),
+  remuneracaoCalculationRepository: Symbol.for('RemuneracaoCalculationRepository'),
+  dashboardMetricasRecrutamentoApi: Symbol.for('DashboardMetricasRecrutamentoApi'),
+  dashboardMetricasRecrutamentoRepository: Symbol.for('DashboardMetricasRecrutamentoRepository'),
+  dashboardMetricasVagasEmFocoApi: Symbol.for('DashboardMetricasVagasEmFocoApi'),
+  dashboardMetricasVagasEmFocoRepository: Symbol.for('DashboardMetricasVagasEmFocoRepository'),
+  dashboardMetricasFunilDeVagasApi: Symbol.for('DashboardMetricasFunilDeVagasApi'),
+  dashboardMetricasFunilDeVagasRepository: Symbol.for('DashboardMetricasFunilDeVagasRepository'),
+  dashboardMetricasVagasPerdidasMotivoApi: Symbol.for('DashboardMetricasVagasPerdidasMotivoApi'),
+  dashboardMetricasVagasPerdidasMotivoRepository: Symbol.for(
+    'DashboardMetricasVagasPerdidasMotivoRepository'
+  ),
+  dashboardNovosCandidatosPorOrigemApi: Symbol.for('DashboardNovosCandidatosPorOrigemApi'),
+  dashboardNovosCandidatosPorOrigemRepository: Symbol.for('DashboardNovosCandidatosPorOrigemRepository'),
+  clientesGestaoAlocadosApi: Symbol.for('ClientesGestaoAlocadosApi'),
+  clientesGestaoAlocadosRepository: Symbol.for('ClientesGestaoAlocadosRepository'),
+  recrutadoresGestaoAlocadosApi: Symbol.for('RecrutadoresGestaoAlocadosApi'),
+  recrutadoresGestaoAlocadosRepository: Symbol.for('RecrutadoresGestaoAlocadosRepository'),
+  parametrizacaoNotificacaoCandidatosApi: Symbol.for('ParametrizacaoNotificacaoCandidatosApi'),
+  parametrizacaoNotificacaoCandidatosRepository: Symbol.for(
+    'ParametrizacaoNotificacaoCandidatosRepository'
+  ),
+  vagasApi: Symbol.for('VagasApi'),
+  vagasRepository: Symbol.for('VagasRepository'),
+  listarVagasRecrutamentoEPerfisUseCase: Symbol.for('ListarVagasRecrutamentoEPerfisUseCase'),
+  listarStatusVagasUseCase: Symbol.for('ListarStatusVagasUseCase'),
+  lgpdApi: Symbol.for('LgpdApi'),
+  lgpdRepository: Symbol.for('LgpdRepository'),
+} as const

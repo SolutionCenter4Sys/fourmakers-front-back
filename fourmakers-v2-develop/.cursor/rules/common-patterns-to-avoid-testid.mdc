@@ -1,0 +1,271 @@
+---
+description: "Apply when generating or reviewing React/TSX components. Triggers on: buttons, inputs, forms, modals, links, tabs, cards, list items, status badges, and any interactive or key display element missing data-testid. Use for: ensuring all generated UI code includes data-testid attributes following a consistent naming convention to support QA test automation."
+globs: **/*.tsx
+alwaysApply: false
+---
+
+**Version:** 2.0.0
+**Last Updated:** 09/03/2026
+
+---
+
+# data-testid em Componentes React
+
+Todo elemento interativo ou de exibição relevante **deve** conter `data-testid`. Isso é obrigatório para suportar automação de testes de QA sem depender de seletores frágeis (classe CSS, texto visível ou estrutura DOM).
+
+---
+
+## 1. Convenção de Nomenclatura
+
+Formato obrigatório: `[feature]-[componente]-[elemento]`
+
+- **feature**: Nome da pasta de domínio/feature (ex: `gestao-vagas`, `login`, `timesheet`).
+- **componente**: Nome do arquivo atual em kebab-case (ex: `vaga-card`, `candidato-form`).
+- **elemento**: Tipo do elemento ou sua ação (ex: `submit-button`, `email-input`, `status-badge`).
+- **Case**: Estritamente `kebab-case`. Nunca PascalCase, camelCase ou snake_case.
+
+**Proibido:**
+- Usar texto visível ao usuário no ID (`salvar-button` é ok; `button-salvar-alteracoes-do-perfil` é frágil).
+- Usar `index` do `.map()` como sufixo (quebra quando a ordem muda — use o ID da entidade).
+- Alterar um `data-testid` já existente sem alinhar com QA (é um contrato público).
+
+---
+
+## 2. Referência Rápida — O que é Obrigatório
+
+| Elemento | Obrigatório | Observação |
+|----------|:-----------:|------------|
+| `<Button>` | ✅ | Incluindo ícone-button e `asChild` |
+| `<Input>`, `<Textarea>` | ✅ | |
+| `<Select>` → `SelectTrigger` + `SelectItem` | ✅ | Ambos precisam de testid |
+| `<Checkbox>`, `<Switch>`, `<RadioGroup>` | ✅ | |
+| `<form>` | ✅ | Âncora de contexto para QA |
+| `<DialogContent>` / `<AlertDialogContent>` | ✅ | Âncora; seus botões também |
+| `<SheetContent>` | ✅ | Âncora; seus botões também |
+| `<DropdownMenuTrigger>` + `<DropdownMenuItem>` | ✅ | Ambos precisam de testid |
+| `<Link>`, `<TabsTrigger>` | ✅ | |
+| `<TableRow>` em listagens dinâmicas | ✅ | Usar ID da entidade como sufixo |
+| `<Badge>` com status dinâmico | ✅ | |
+| Mensagens de erro/validação (`<FormMessage>`) | ✅ | |
+| Estados loading / empty state | ✅ | |
+| Títulos de entidade dinâmica | ✅ | |
+| Textos estáticos genéricos | ❌ | Sem valor para automação |
+| `<div>` sem semântica relevante | ❌ | |
+
+---
+
+## 3. Exemplos Estáticos
+
+```tsx
+// ❌ BAD
+<Button onClick={handleSalvar}>Salvar</Button>
+<Input name="email" placeholder="E-mail" />
+<Switch checked={ativo} onCheckedChange={setAtivo} />
+
+// ✅ GOOD
+<Button data-testid="vaga-form-salvar-button" onClick={handleSalvar}>Salvar</Button>
+<Input data-testid="login-form-email-input" name="email" placeholder="E-mail" />
+<Switch data-testid="vaga-form-ativo-switch" checked={ativo} onCheckedChange={setAtivo} />
+```
+
+---
+
+## 4. Listas Dinâmicas — Nunca use index
+
+```tsx
+// ❌ BAD — IDs duplicados e frágeis (index muda com reordenação)
+{candidatos.map((candidato, index) => (
+  <TableRow data-testid={`candidatos-list-row-${index}`}>
+    <Button data-testid="candidatos-list-excluir-button">Excluir</Button>
+  </TableRow>
+))}
+
+// ✅ GOOD — IDs únicos baseados no ID da entidade
+{candidatos.map(candidato => (
+  <TableRow key={candidato.id} data-testid={`candidatos-list-row-${candidato.id}`}>
+    <TableCell>
+      <Button
+        data-testid={`candidatos-list-excluir-button-${candidato.id}`}
+        onClick={() => excluir(candidato.id)}
+      >
+        Excluir
+      </Button>
+    </TableCell>
+  </TableRow>
+))}
+```
+
+---
+
+## 5. Select — Trigger E Items precisam de testid
+
+O `SelectContent` renderiza em um Portal no `body`. O QA precisa de testid tanto no trigger (para abrir) quanto em cada item (para selecionar).
+
+```tsx
+// ❌ BAD — testid só no Select raiz (não é um elemento DOM real)
+<Select data-testid="vaga-form-status-select">
+  <SelectTrigger>...</SelectTrigger>
+  <SelectContent>
+    <SelectItem value="ATIVA">Ativa</SelectItem>
+  </SelectContent>
+</Select>
+
+// ✅ GOOD — testid no Trigger (para abrir) e em cada Item (para selecionar)
+<Select>
+  <SelectTrigger data-testid="vaga-form-status-trigger">
+    <SelectValue placeholder="Selecione o status" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectItem data-testid="vaga-form-status-item-ativa" value="ATIVA">Ativa</SelectItem>
+    <SelectItem data-testid="vaga-form-status-item-rascunho" value="RASCUNHO">Rascunho</SelectItem>
+  </SelectContent>
+</Select>
+```
+
+---
+
+## 6. DropdownMenu — Trigger E Items precisam de testid
+
+O `DropdownMenuContent` também renderiza em Portal. O QA precisa do trigger para abrir e de cada item para executar ações.
+
+```tsx
+// ❌ BAD
+<DropdownMenu>
+  <DropdownMenuTrigger>
+    <Button variant="ghost" size="icon"><MoreHorizontal /></Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem onClick={handleEditar}>Editar</DropdownMenuItem>
+    <DropdownMenuItem onClick={handleExcluir}>Excluir</DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+
+// ✅ GOOD
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button
+      data-testid={`vaga-card-acoes-trigger-${vaga.id}`}
+      variant="ghost"
+      size="icon"
+    >
+      <MoreHorizontal />
+    </Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuItem
+      data-testid={`vaga-card-acoes-editar-item-${vaga.id}`}
+      onClick={handleEditar}
+    >
+      Editar
+    </DropdownMenuItem>
+    <DropdownMenuItem
+      data-testid={`vaga-card-acoes-excluir-item-${vaga.id}`}
+      onClick={handleExcluir}
+    >
+      Excluir
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+---
+
+## 7. Formulários e Modais — Container como âncora
+
+Formulários e modais são âncoras de contexto. Permitem que QA faça `within(modal).getByTestId(...)` para evitar conflitos quando há elementos com nomes similares em outras partes da página.
+
+```tsx
+// ✅ GOOD — form como âncora
+<form data-testid="candidatura-form">
+  <Input data-testid="candidatura-form-nome-input" {...register('nome')} />
+  <FormMessage data-testid="candidatura-form-nome-error" />
+  <Button data-testid="candidatura-form-submit-button" type="submit">Enviar</Button>
+</form>
+
+// ✅ GOOD — modal com DialogContent como âncora
+<DialogContent data-testid="confirmar-exclusao-modal">
+  <DialogTitle>Confirmar Exclusão</DialogTitle>
+  <DialogDescription>Esta ação não pode ser desfeita.</DialogDescription>
+  <Button data-testid="confirmar-exclusao-modal-confirmar-button" onClick={onConfirm}>
+    Confirmar
+  </Button>
+  <Button data-testid="confirmar-exclusao-modal-cancelar-button" onClick={onClose}>
+    Cancelar
+  </Button>
+</DialogContent>
+
+// ✅ GOOD — AlertDialog para ações destrutivas
+<AlertDialogContent data-testid="excluir-vaga-alert-dialog">
+  <AlertDialogAction data-testid="excluir-vaga-alert-dialog-confirmar-button">
+    Excluir
+  </AlertDialogAction>
+  <AlertDialogCancel data-testid="excluir-vaga-alert-dialog-cancelar-button">
+    Cancelar
+  </AlertDialogCancel>
+</AlertDialogContent>
+
+// ✅ GOOD — Sheet (drawer lateral)
+<SheetContent data-testid="detalhes-candidato-sheet">
+  <Button data-testid="detalhes-candidato-sheet-fechar-button" onClick={onClose}>
+    Fechar
+  </Button>
+</SheetContent>
+```
+
+---
+
+## 8. Estados Condicionais — Cada estado precisa de testid
+
+Elementos que renderizam condicionalmente (erro, sucesso, loading, vazio) são críticos para automação — o QA precisa verificar sua presença/ausência.
+
+```tsx
+// ❌ BAD — estados sem testid
+{loading && <Spinner size="md" />}
+{error && <p className="text-destructive">{error.message}</p>}
+{!loading && vagas.length === 0 && <p>Nenhuma vaga encontrada.</p>}
+
+// ✅ GOOD
+{loading && <Spinner data-testid="gestao-vagas-loading-spinner" size="md" />}
+{error && (
+  <p data-testid="gestao-vagas-error-message" className="text-destructive">
+    {error.message}
+  </p>
+)}
+{!loading && vagas.length === 0 && (
+  <p data-testid="gestao-vagas-empty-state">Nenhuma vaga encontrada.</p>
+)}
+```
+
+---
+
+## 9. Componentes Customizados Reutilizáveis
+
+Componentes do Design System reutilizados em múltiplos contextos devem receber `data-testid` como prop e repassar ao elemento DOM raiz via spread.
+
+```tsx
+// ❌ BAD — testid passado é ignorado
+export const VagaCard = ({ vaga, children }) => (
+  <div className="p-4 border">{children}</div>
+);
+
+// ✅ GOOD — repassar via ...props
+export const VagaCard = ({ vaga, children, ...props }) => (
+  <div className="p-4 border" {...props}>{children}</div>
+);
+
+// Uso:
+<VagaCard data-testid={`gestao-vagas-vaga-card-${vaga.id}`} vaga={vaga} />
+```
+
+---
+
+## 10. Regra de Ouro — testid é um Contrato
+
+- `data-testid` é uma **interface pública com o time de QA**. Tratar como breaking change.
+- **Nunca renomear** um testid existente sem alinhar com QA e atualizar os testes.
+- **Nunca usar o mesmo testid** em dois elementos visíveis simultaneamente na mesma página.
+- **Nunca usar texto visível** como base do testid (muda com i18n, copy, A/B test).
+
+---
+
+Output Requirement: O código gerado deve seguir convenções em português (PT-BR) para nomes de domínio, features e entidades.

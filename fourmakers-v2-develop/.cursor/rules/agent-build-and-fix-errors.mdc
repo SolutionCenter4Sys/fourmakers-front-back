@@ -1,0 +1,79 @@
+---
+name: agent-build-and-fix-errors
+description: "Apply after implementing features, refactors, or when user asks to verify the app. Triggers on: completion of code changes, pre-merge checks, or explicit request to build/run. Use for: running the app build (and optionally lint), interpreting errors, and fixing them before considering the task done."
+---
+
+**Version:** 1.0.0  
+**Last Updated:** 06/03/2026
+
+---
+
+# Build e correção de erros (Build & Fix Errors)
+
+Executar o build (e, quando fizer sentido, o lint) do projeto após alterações de código e corrigir os erros encontrados antes de dar a tarefa por concluída.
+
+---
+
+## 1. Quando executar o build
+
+**Context:** Após implementar ou alterar código (componentes, hooks, APIs, tipos, etc.), o agente deve validar que o projeto compila e, quando aplicável, que não há violações de lint. Não considerar a tarefa finalizada com build ou lint falhando, salvo instrução explícita do usuário em contrário.
+
+**Required:**
+
+1. **Rodar o build**  
+   Usar o script de build do projeto, por exemplo:
+   - `npm run build` — build padrão (TypeScript + Vite).
+   - Para homologação: `npm run build:homolog`.
+   - Para desenvolvimento: `npm run build:dev`.
+
+2. **Interpretar a saída**  
+   - Erros de **TypeScript** (`tsc -b`): arquivo e linha indicados; corrigir tipos, imports ou implementações faltantes.
+   - Erros de **Vite** (bundler): dependências circulares, módulos não encontrados, assets; ajustar imports ou configuração.
+   - Erros de **ESLint** (se rodar `npm run lint`): regras quebradas; ajustar código conforme a regra reportada.
+
+3. **Corrigir os erros**  
+   - Corrigir cada erro reportado (ou justificar e documentar exceção, se o usuário concordar).
+   - Após correções, rodar o build (e lint, se aplicável) de novo até que terminem com sucesso.
+
+**Forbidden:**
+
+- Considerar a tarefa concluída com o build falhando, sem tentar corrigir ou sem explicar ao usuário o que falta.
+- Ignorar erros de TypeScript ou do bundler sem análise; cada mensagem deve ser tratada ou explicitamente deixada para o usuário decidir.
+- Alterar apenas mensagens de erro ou suprimir erros sem corrigir a causa (ex.: usar `// @ts-ignore` sem necessidade justificada).
+
+---
+
+## 2. Comandos e ordem sugerida
+
+| Ordem | Comando | Finalidade |
+|-------|---------|------------|
+| 1 | `npm run build` | Compilar TypeScript e gerar o bundle (detecta erros de tipo e de build). |
+| 2 | `npm run lint` | (Opcional) Verificar regras ESLint após o build passar. |
+| 3 | Repetir após correções | Garantir que não surgiram novos erros. |
+
+Se o projeto tiver scripts adicionais (ex.: testes), usá-los quando fizer sentido para o contexto da tarefa.
+
+---
+
+## 3. Interpretação rápida de erros
+
+| Tipo | Exemplo típico | Ação sugerida |
+|------|----------------|---------------|
+| Tipo inexistente / propriedade faltando | `Property 'x' does not exist on type 'T'` | Ajustar tipo ou entidade; garantir que a propriedade existe ou que o tipo está correto. |
+| Módulo não encontrado | `Cannot find module '@/...'` | Verificar path, alias (`@/`), ou se o arquivo existe no caminho indicado. |
+| Import não usado | `'X' is declared but its value is never read` | Remover import ou usar o símbolo; seguir regra de código morto se aplicável. |
+| Erro de sintaxe / JSX | Erro em linha/coluna específica | Corrigir sintaxe ou fechamento de tags/parênteses. |
+| ESLint | Regra nomeada + arquivo:linha | Ajustar código conforme a regra (ou desabilitar com justificativa em comentário). |
+
+---
+
+## 4. Checklist antes de finalizar
+
+- [ ] `npm run build` (ou `build:homolog` / `build:dev`, conforme o caso) termina com sucesso.
+- [ ] Erros reportados foram corrigidos ou documentados com justificativa.
+- [ ] Se `npm run lint` foi executado, os erros de lint foram resolvidos ou acordados com o usuário.
+- [ ] Não foram introduzidos `@ts-ignore` ou supressões de lint sem necessidade.
+
+---
+
+Output Requirement: The final output must be in Portuguese (PT-BR) with all file names, variables and code patterns following Brazilian Portuguese conventions.

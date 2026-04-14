@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX idx_cod_org_id ON tb_tbd_alocado (cod_tbd_alocado, tb_org_id);

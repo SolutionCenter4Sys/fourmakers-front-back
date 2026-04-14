@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.20" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.20" NoWarn="NU1605" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.12" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.9.0" />
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ApiClient.Domain\ApiClient.Domain.csproj" />
+    <ProjectReference Include="..\Aws.Infra\Aws.Infra.csproj" />
+    <ProjectReference Include="..\BotFourmakers.Domain\BotFourmakers.Domain.csproj" />
+    <ProjectReference Include="..\Colaboracao.Shared.CargaCore.Domain\Colaboracao.Shared.CargaCore.Domain.csproj" />
+    <ProjectReference Include="..\Colaboracao.Core\Colaboracao.Core.csproj" />
+    <ProjectReference Include="..\Colaboracao.Helper\Colaboracao.Helper.csproj" />
+    <ProjectReference Include="..\Colaboracao.Infra\Colaboracao.Infra.csproj" />
+    <ProjectReference Include="..\Colaborador.Domain\Colaborador.Domain.csproj" />
+    <ProjectReference Include="..\Competencia.Domain\Competencia.Domain.csproj" />
+    <ProjectReference Include="..\Foursys.Domain\Foursys.Domain.csproj" />
+    <ProjectReference Include="..\Usuario.Domain\Usuario.Domain.csproj" />
+    <ProjectReference Include="..\CRM.Infra\CRM.Infra.csproj" />
+    <ProjectReference Include="..\ApliClient.Infra\ApliClient.Infra.csproj" />
+    <ProjectReference Include="..\Labs.Domain\Labs.Domain.csproj" />
+    <ProjectReference Include="..\Labs.Infra\Labs.Infra.csproj" />
+    <ProjectReference Include="..\Financeiro.Domain\Financeiro.Domain.csproj" />
+    <ProjectReference Include="..\GestaoPessoa.Domain\GestaoPessoa.Domain.csproj" />
+    <ProjectReference Include="..\Marketing.Domain\Marketing.Domain.csproj" />
+    <ProjectReference Include="..\MapaDeAlocacao.Domain\MapaDeAlocacao.Domain.csproj" />
+    <ProjectReference Include="..\Questionario.Domain\Questionario.Domain.csproj" />
+  </ItemGroup>
+</Project>

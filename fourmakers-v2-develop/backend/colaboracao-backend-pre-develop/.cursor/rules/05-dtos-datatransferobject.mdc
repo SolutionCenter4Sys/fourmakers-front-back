@@ -1,0 +1,78 @@
+---
+description: Padrão obrigatório para DTOs, Inputs e Results em DataTransferObject.Domain no projeto Colaboração Backend
+globs: **/DataTransferObject.Domain/**/*.cs
+alwaysApply: false
+---
+
+# DTOs — DataTransferObject.Domain
+
+## Localização obrigatória
+
+Todos os DTOs devem estar em `DataTransferObject.Domain/{Contexto}/{Recurso}/`.
+
+```
+DataTransferObject.Domain/
+└── {Contexto}/
+    └── {Recurso}/
+        ├── {Recurso}Base.cs    ← campos compartilhados (opcional)
+        ├── {Recurso}Input.cs   ← request body (campos editáveis pelo usuário)
+        └── {Recurso}Result.cs  ← response (herda Base, adiciona Id/datas)
+```
+
+## Estrutura padrão
+
+```csharp
+// Base — campos compartilhados (criar quando Input e Result tiverem campos em comum)
+public class {Recurso}Base
+{
+    public string Descricao { get; set; }
+    public int OrgId { get; set; }
+    public bool Ativo { get; set; }
+}
+
+// Input — apenas campos que o usuário pode enviar
+public class {Recurso}Input
+{
+    public string Descricao { get; set; }
+}
+
+// Result — herda Base e adiciona metadados gerados pelo sistema
+public class {Recurso}Result : {Recurso}Base
+{
+    public Guid Id { get; set; }
+    public DateTime DataCriacao { get; set; }
+    public DateTime DataAlteracao { get; set; }
+}
+```
+
+## Resultado da API
+
+```csharp
+// Services retornam ApiGenericResult<T> (DataTransferObject.Domain.Base)
+public class ApiGenericResult<T> : StatusResult
+{
+    public T Retorno { get; set; }
+}
+// Controllers retornam Ok(result) sem modificar o objeto
+```
+
+## Dados sensíveis — LogMasked
+
+```csharp
+using Logs.Infra.Attributes;
+
+public class LoginInput
+{
+    public string Cpf { get; set; }
+
+    [LogMasked]   // ← oculta o valor nos logs
+    public string Senha { get; set; }
+}
+```
+
+## Regras
+
+- **Nunca** criar DTOs/Results duplicados no Domain ou na API.
+- **Sempre** centralizar em `DataTransferObject.Domain` e reutilizar entre projetos.
+- Usar `[LogMasked]` em campos sensíveis: senha, token, segredo, chave, credential.
+- Preferir classes (não records) para manter consistência com o padrão existente.

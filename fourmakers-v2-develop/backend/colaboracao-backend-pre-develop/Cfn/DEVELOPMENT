@@ -1,0 +1,10 @@
+competencia-api-task-dev.env
+competencia-api-task-dev.yaml
+competencia-api-service-dev.yaml
+alb-listener-rule-dev.yaml
+usuario-api-task-dev.yaml
+usuario-api-service-dev.yaml
+bi-api-task-dev.env
+bi-api-task-dev.yaml
+usuario-api-task-dev.env
+srs-api-task-dev.env

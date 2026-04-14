@@ -1,0 +1,54 @@
+# CI Pipeline
+# Mastria @ Foursys
+
+
+include:
+  - local: .gitlab-rules.yml
+  
+
+.is_draft: &is_draft
+  - !reference [._is_draft, rules]
+.is_config: &is_config
+  - !reference [._is_config, rules]
+.is_feature: &is_feature
+  - !reference [._is_feature, rules]
+.is_bugfix: &is_bugfix
+  - !reference [._is_bugfix, rules]
+.is_hotfix: &is_hotfix
+  - !reference [._is_hotfix, rules]
+.is_merge: &is_merge
+  - !reference [._is_merge, rules]
+.is_develop: &is_develop
+  - !reference [._is_develop, rules]
+
+.is_release: &is_release
+  - !reference [._is_release, rules]
+.is_new_protected_branch: &is_new_protected_branch
+  - !reference [._is_new_protected_branch, rules]
+
+
+stages:
+  - init
+  - setup
+  # - test
+  # - report
+  - delivery
+
+init:
+  stage: init
+  script:
+    - |
+      echo "Iniciando CI/CD do projeto Labs.API"
+
+      
+delivery:
+  stage: delivery
+  rules:
+    - *is_develop
+    - *is_release
+  trigger:
+    include: ColaboracaoBackend/Labs.API/.gitlab-cd.yml
+    strategy: depend
+
+
+

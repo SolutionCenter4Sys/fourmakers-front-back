@@ -1,0 +1,369 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================
+   DESIGN TOKENS FOURMAKERS.IO
+   =========================== */
+
+:root {
+  /* Brand Core */
+  --color-primary: #000000;
+  --color-primary-soft: #F1F5F9;
+  --color-primary-strong: #000000;
+
+  /* Accent: destaque (não status) */
+  --color-accent: #9A1BFF;
+  --color-accent-soft: #F4EBFF;
+
+  /* Textos */
+  --color-primary-text: #0F172A;
+  --color-secondary-text: #64748B;
+  --color-text-placeholder: #9CA3AF;
+  --color-text-inverse: #FFFFFF;
+
+  /* Superfícies */
+  --color-primary-background: #F0F5FA;
+  --color-secondary-background: #FFFFFF;
+  --color-surface-elevated: #FFFFFF;
+  --color-surface-subtle: #F9FAFB;
+
+  /* Faixa de marca */
+  --color-background-brand: linear-gradient(135deg, #9A1BFF 0%, #7B1CE5 40%, #4F46E5 100%);
+
+  /* Bordas */
+  --color-border-default: #E2E8F0;
+  --color-border-soft: #EEF2FF;
+  --color-field-001: #F9FAFB;
+
+  /* Botões */
+  --color-btn-primary: var(--color-primary);
+  --color-btn-primary-hover: #111827;
+  --color-btn-secondary: #FFFFFF;
+  --color-btn-secondary-text: #0F172A;
+  --color-btn-ghost-hover: #E5E7EB;
+
+  /* Status */
+  --color-success: #16A34A;
+  --color-warning: #F59E0B;
+  --color-error: #DC2626;
+  --color-info: #2563EB;
+
+  /* Elevações */
+  --elevation-soft: 0 10px 25px rgba(15, 23, 42, 0.06);
+  --elevation-card-hover: 0 18px 45px rgba(15, 23, 42, 0.1);
+
+  /* Radius */
+  --radius-xs: 0.375rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1.25rem;
+  --radius-pill: 999px;
+  --radius: var(--radius-md);
+
+  /* Espaçamentos */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+}
+
+html.dark {
+  --color-primary: #F9FAFB;
+  --color-primary-soft: #111827;
+  --color-primary-strong: #FFFFFF;
+
+  /* Accent: destaque (não status) */
+  --color-accent: #C084FF;
+  --color-accent-soft: #312E81;
+
+  --color-primary-text: #F9FAFB;
+  --color-secondary-text: #CBD5F5;
+  --color-text-placeholder: #6B7280;
+  --color-text-inverse: #020617;
+
+  --color-primary-background: #020617;
+  --color-secondary-background: #020617;
+  --color-surface-elevated: #0B1120;
+  --color-surface-subtle: #020617;
+
+  --color-background-brand: linear-gradient(135deg, #4C1D95 0%, #7C3AED 40%, #22C55E 100%);
+
+  --color-border-default: #1E293B;
+  --color-border-soft: #1E293B;
+  --color-field-001: #020617;
+
+  --color-btn-primary: var(--color-primary);
+  --color-btn-primary-hover: #E5E7EB;
+  --color-btn-secondary: #0B1120;
+  --color-btn-secondary-text: #E5E7EB;
+
+  --elevation-soft: 0 18px 45px rgba(15, 23, 42, 0.7);
+  --elevation-card-hover: 0 25px 60px rgba(15, 23, 42, 0.9);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border-default);
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+
+  body {
+    background: var(--color-primary-background);
+    color: var(--color-primary-text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Garantir que Material Symbols seja carregada corretamente */
+  .material-symbols-outlined {
+    font-family: "Material Symbols Outlined", sans-serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: "liga";
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Plus Jakarta Sans", "Inter", sans-serif;
+    font-weight: 700;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border-default);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-secondary-text);
+  }
+}
+
+@layer utilities {
+  /* Melhorar contraste do email quando CommandItem está selecionado */
+  [data-selected='true'] .email-text {
+    color: hsl(var(--accent-foreground) / 0.9);
+  }
+
+  .page-title {
+    @apply text-3xl font-bold leading-tight;
+    color: var(--color-primary-text);
+  }
+
+  .section-title {
+    @apply text-xl font-semibold;
+    color: var(--color-primary-text);
+  }
+
+  .dialog-title {
+    @apply text-xl font-semibold;
+    color: var(--color-primary-text);
+  }
+
+  .standard-table-wrapper {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border-soft);
+    background: var(--color-surface-elevated);
+    box-shadow: var(--elevation-soft);
+  }
+
+  /* Sombra fixa na borda esquerda da coluna congelada, virada para a esquerda */
+  .sticky-col-shadow-fixed {
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.08) 0%, transparent 12px) !important;
+    background-size: 12px 100% !important;
+    background-position: left top !important;
+    background-repeat: no-repeat !important;
+  }
+  html.dark .sticky-col-shadow-fixed {
+    background-image: linear-gradient(to left, rgba(0, 0, 0, 0.3) 0%, transparent 14px) !important;
+    background-size: 14px 100% !important;
+  }
+
+  .draggable-table-header {
+    @apply cursor-grab active:cursor-grabbing select-none;
+  }
+
+  .draggable-table-header:hover .grip-icon {
+    @apply opacity-100;
+  }
+
+  /* Estilos para container com scroll horizontal */
+  .horizontal-scroll-container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border-default) transparent;
+  }
+
+  .horizontal-scroll-container::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .horizontal-scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .horizontal-scroll-container::-webkit-scrollbar-thumb {
+    background-color: var(--color-border-default);
+    border-radius: 4px;
+  }
+
+  .horizontal-scroll-container::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-secondary-text);
+  }
+
+  /* Estilos para datas desabilitadas no calendário */
+  .rdp-day_disabled,
+  .day_disabled,
+  [role="gridcell"] button[disabled],
+  button[aria-disabled="true"],
+  button[disabled] {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    color: var(--color-secondary-text) !important;
+  }
+  
+  /* Garantir que botões desabilitados no calendário tenham estilo visual */
+  .rdp-button[disabled],
+  .rdp-day[disabled],
+  button.rdp-day_disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    color: var(--color-secondary-text) !important;
+  }
+
+  /* ============================================
+     SOLUÇÃO GLOBAL: Proteção CSS contra Google Translate
+     ============================================
+     
+     Estas regras CSS reforçam a proteção contra o Google Translate
+     usando a propriedade CSS 'translate' com valor 'no' e !important
+     para garantir que tenha prioridade sobre outros estilos.
+     
+     Aplicado a:
+     - Elementos HTML e body com atributo translate="no"
+     - Elementos com classe "notranslate"
+     - Qualquer elemento com atributo translate="no"
+     
+     Isso previne que o Google Translate modifique o DOM e cause
+     erros do React como insertBefore/removeChild.
+  */
+  html[translate="no"],
+  body[translate="no"],
+  .notranslate,
+  [translate="no"] {
+    -webkit-translate: no !important;
+    translate: no !important;
+  }
+}
+
+/* ===========================
+   SCROLL IMPROVEMENTS
+   =========================== */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar styles */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.3) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* Better touch scrolling on mobile */
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent horizontal scroll on body */
+body {
+  overflow-x: hidden;
+}
+
+/* Sonner toast: acima de todos os modais (Dialog z-[110], AlertDialog z-[120]) */
+.toaster {
+  z-index: 150 !important;
+}
+
+/* Improve select dropdown positioning */
+[data-radix-popper-content-wrapper] {
+  z-index: 9999 !important;
+}
+
+/* Ensure dropdowns don't overflow viewport */
+@media (max-height: 700px) {
+  [role="listbox"],
+  [data-radix-select-content] {
+    max-height: 50vh !important;
+  }
+}
+
+@media (max-height: 500px) {
+  [role="listbox"],
+  [data-radix-select-content] {
+    max-height: 40vh !important;
+  }
+}
+
+/* Barra de “em processamento” no StatusBadge */
+@keyframes status-badge-fill {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}

@@ -1,0 +1,71 @@
+---
+description: Padrão obrigatório para arquivos de deploy e CI/CD do projeto Colaboração Backend (Dockerfile, .gitlab-ci.yml, .gitlab-cd.yml, Cfn/.env)
+globs: "{**/Dockerfile,**/.gitlab-ci.yml,**/.gitlab-cd.yml,**/Cfn/.env}"
+alwaysApply: false
+---
+
+# Deploy e CI/CD — Colaboração Backend
+
+## Checklist para novo projeto implantável
+
+Todo projeto API ou Consumer que precisa de deploy deve conter **dentro da pasta do projeto**:
+
+| Arquivo | Obrigatório | Descrição |
+|---------|:-----------:|-----------|
+| `.gitlab-ci.yml` | ✅ | Stages `init`, `setup`, `delivery`; trigger para `.gitlab-cd.yml` do projeto |
+| `.gitlab-cd.yml` | ✅ | Variáveis de identidade + jobs de deploy herdados do CD central |
+| `Dockerfile` | ✅ | Multi-stage: `base` → `build` → `publish` → `final` |
+| `.dockerignore` | ✅ | Excluir `bin/`, `obj/`, `.vs/`, `.env` |
+| `Cfn/.env` | ✅ | `HOST_NAME_BASE`, `HEALTH_CHECK_PATH`, `PROJECT` + variáveis exclusivas |
+
+## Dockerfile — padrão multi-stage obrigatório
+
+```dockerfile
+# syntax=docker/dockerfile:1.7-labs
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY --parents */*.csproj /src/
+RUN dotnet restore "{Projeto}/{Projeto}.csproj"
+COPY . .
+WORKDIR "/src/{Projeto}"
+
+FROM build AS publish
+RUN dotnet publish "{Projeto}.csproj" -c Release -o /app/publish
+
+FROM base AS final
+EXPOSE 80
+ENV ASPNETCORE_HTTP_PORTS=80
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "{Projeto}.dll"]
+```
+
+## .gitlab-cd.yml — variáveis obrigatórias
+
+```yaml
+.cd_project_env: &cd_project_env
+  - export ECR_PROJECT_PATH=backoffice/{nome-api}
+  - export CI_AWS_ECS_SERVICE=srv-{nome-api}
+  - export PROJECT_CFN_PATH=Cfn/{nome-api}/
+  - export PROJECT_NAME={nome-api}
+  - export PROJECT_DOCKER_PATH={Projeto}/Dockerfile
+```
+
+## Cfn/.env — variáveis obrigatórias
+
+```bash
+HOST_NAME_BASE="{nome-api}"
+HEALTH_CHECK_PATH="/health"
+PROJECT="{nome-api}"
+```
+
+## Após criar os arquivos
+
+1. Adicionar entrada em `Cfn/projects.json` (`projectPath`, `serviceName`, `version: "1.0.0"`, `controllers`).
+2. Solicitar a um **administrador** que execute `python build-template.py develop` e `build-template.py main` em `Cfn/`.
+3. Commitar os templates gerados em `Cfn/{nome-api}/`.
+4. Adicionar o `trigger` do novo projeto no `.gitlab-pipeline.yml` raiz.
+5. Configurar variáveis sensíveis no **AWS Secrets Manager** (nunca em plain text no repositório).

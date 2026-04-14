@@ -1,0 +1,21 @@
+Controle Mensal de Execução de Scripts
+
+aws.gcolb_hml	aws.gcolb_prd	script
+
+[x]07/04/2025	[x]16/04/2025	03\9556\01_9556_UPDATE_PROC_spr_rpt_relatorio_colaboradores.sql
+[x]07/04/2025	[x]16/04/2025	07\9168\01_9168_ALTER_TABLE_VAGA_ADD_GESTOR_FOURSYS.sql
+[x]10/04/2025	[x]16/04/2025	08\9507\01_9507_ALTER_TABLE_TB_VAGA_SRS.sql
+[x]15/04/2025	[x]16/04/2025	10\9638\01_9638_CREATE_TABLE_TB_CHAT_BOT.sql
+[x]15/04/2025	[x]16/04/2025	10\9638\02_9638_CREATE_TABLE_TB_QUESTAO_CHAT_BOT.sql
+[x]14/04/2025	[x]14/04/2025	11\9395\01_9395_ALTER_TABLE_CLIENTE_ADD_VISIVEL_GESTAO_ALOCADOS.sql
+[x]14/04/2025	[x]14/04/2025	11\9395\02_9395_INSERT_TABLE_TB_PARAMETRO_E_CONFIGURACAO.sql
+[x]16/04/2025	[x]16/04/2025	14\9282\01_9282_ALTER_TABLE_TB_QUESTAO_CHAT_BOT.sql
+[x]16/04/2025	[x]16/04/2025	14\9282\02_9282_CREATE_TABLE_TB_CHAT_BOT_FEEDBACK.sql
+[x]16/04/2025	[x]16/04/2025	14\9493\1_create_table_recomendacao_profissionais_aderencia.sql
+[x]16/04/2025	[x]16/04/2025	15\9829\01_9829_AlterTable_tb_vagas_srs.sql
+[x]16/04/2025	[x]29/04/2025	22\9414\01_9414_insercao_migracao.sql
+[x]16/04/2025	[x]29/04/2025	25\9951\01_Alter Table tb_vaga.sql
+[x]16/04/2025	[x]29/04/2025	25\9951\02_Create Table tb_status_vaga com inserts.sql
+[x]16/04/2025	[x]29/04/2025	25\9951\03_CREATE TABLE tb_origem_vaga.sql
+[x]16/04/2025	[x]29/04/2025	25\9951\04_Create Table tb_vagas_status.sql
+[x]16/04/2025	[x]29/04/2025	28\9951\01_Alter Tables vag e origem vaga.sql

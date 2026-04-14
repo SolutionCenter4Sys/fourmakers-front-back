@@ -1,0 +1,11 @@
+-- ALTER TABLE tb_cnab_remessa
+    -- ADD COLUMN tb_org_id int AFTER id NOT NULL,
+
+    -- ADD COLUMN codigo_banco CHAR(3) AFTER tb_org_id int,
+    -- ADD COLUMN agencia CHAR(5) AFTER codigo_banco,
+    -- ADD COLUMN agencia_dv CHAR(1) AFTER agencia,
+    -- ADD COLUMN conta CHAR(12) AFTER agencia_dv,
+    -- ADD COLUMN conta_dv CHAR(1) AFTER conta,
+    -- ADD COLUMN convenio VARCHAR(20) AFTER conta_dv,
+    -- ADD COLUMN descricao VARCHAR(100) AFTER convenio,
+	-- ADD COLUMN competencia varchar(7) NOT NULL;

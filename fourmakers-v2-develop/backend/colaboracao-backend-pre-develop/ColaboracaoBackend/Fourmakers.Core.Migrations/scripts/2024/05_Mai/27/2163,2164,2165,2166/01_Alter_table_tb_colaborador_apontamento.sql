@@ -1,0 +1,1 @@
+ALTER TABLE tb_colaborador_apontamento ADD observacao VARCHAR(500);

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ApiClient.Domain\ApiClient.Domain.csproj" />
+      <ProjectReference Include="..\ApliClient.Infra\ApliClient.Infra.csproj" />
+      <ProjectReference Include="..\Rotina.Aws.Core\Rotina.Aws.Core.csproj" />
+      <ProjectReference Include="..\Rotina.Aws.Domain\Rotina.Aws.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

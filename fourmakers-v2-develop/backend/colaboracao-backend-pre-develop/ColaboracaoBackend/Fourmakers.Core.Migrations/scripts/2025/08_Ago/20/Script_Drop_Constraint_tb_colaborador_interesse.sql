@@ -1,0 +1,2 @@
+﻿ALTER TABLE tb_colaborador_interesse 
+DROP FOREIGN KEY fk_tb_colaborador_has_tb_interesse_tb_interesse1;

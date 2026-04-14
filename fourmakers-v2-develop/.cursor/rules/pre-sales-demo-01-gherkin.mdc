@@ -1,0 +1,73 @@
+---
+description: "Guardrail PRÉ-VENDAS — Etapa 1: Escrita de cenários BDD com GherkinFlow Agent para a tela de Reembolso. Acionar quando o usuário mencionar: cenários BDD, gherkin, tela de reembolso, escrever testes, GherkinFlow."
+alwaysApply: false
+---
+
+# Demo Pré-Vendas — Etapa 1: Cenários BDD com GherkinFlow
+
+## Contexto
+Esta regra guia a geração de cenários BDD para a tela de Reembolso do Fourmakers v2.
+
+## Protocolo de Ativação (OBRIGATÓRIO)
+
+1. **Arquivos-fonte da tela de Reembolso:**
+   - `src/presentation/pages/Reembolso.tsx`
+   - `src/presentation/pages/InserirReembolso.tsx`
+2. **Executar internamente** (sem exibir no output): Análise → Mapa de Visibilidade → Geração
+3. **Salvar saída** em `DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md` — verificar arquivos existentes e usar próximo N. Sem subpastas. Sem datas no nome.
+
+## Formato do arquivo gerado — EXATAMENTE 3 BLOCOS
+
+```
+# Cenários BDD — Módulo de Reembolso
+
+[Tabela de Sumário]
+
+## [Nome da Tela]
+[Tabela BDD 7 colunas]
+```
+
+**Bloco 1 — Título:** uma linha `# H1`. Nada mais.
+
+**Bloco 2 — Sumário:** tabela com colunas `Tipo` e `Qtd`, com emojis ✅ ❌ 🔁 e linha de Total.
+
+**Bloco 3 — Cenários:** uma seção `## H2` por tela + tabela de 7 colunas obrigatórias:
+`#` · `Funcionalidade (Feature)` · `Dado (Given)` · `Quando (When)` · `Então (Then)` · `E… (And)` · `Referência do Código`
+
+## Regras
+
+- **Modo padrão:** Curado — 13–18 cenários por tela
+- **Tipos:** [Positivo] · [Negativo] · [Regressivo] — obrigatório em todos os cenários
+- **Coluna `Referência do Código`:** SEMPRE preenchida com `Arquivo.tsx:linha — função()`
+- **NUNCA** usar "clico", "marco", "digito", "arrasto" na coluna Quando
+- **NUNCA** misturar mais de uma regra de negócio por cenário
+- **NUNCA** gerar mais de 30 cenários por tela sem solicitação explícita
+
+## O que NÃO vai no arquivo
+
+- Metadados (Projeto, Agente, Data, Versão, Organização)
+- Seção "Passo A — Análise das Telas"
+- Seção "Passo B — Mapa de Visibilidade"
+- Label "Passo C —" antes dos cenários
+- Linha "Contagem:" antes de cada tabela
+- "Sumário Final" ao final
+- reg-notes
+- Qualquer texto explicativo entre os blocos
+
+## Output esperado no chat (apenas o sumário de conclusão)
+
+```
+✅ Tela analisada: Reembolso (Dashboard) — X cenários
+✅ Tela analisada: Inserir Reembolso     — X cenários
+📁 DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md
+```
+
+## Próxima etapa
+
+Após concluir, o orquestrador lança o **DataForge** (Etapa 2) que lê os cenários gerados e cria constantes de dados de teste em JavaScript para o Cypress usar.
+
+## Proibido
+
+- Sobrescrever arquivos de versões anteriores
+- Salvar fora de `DEMO/cenarios-bdd/`
+- Exibir etapas de análise no chat ("Analisando...", "Mapeando...", "Gerando...")

@@ -1,0 +1,29 @@
+version: '3.5'
+
+services:   
+   vagassrs-api:  
+      image: rotinaintegracao
+      container_name: rotinaintegracao
+      env_file:
+         - ./.env_container_hml
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Docker
+         - ASPNETCORE_URLS=http://+:${ROTINAINTEGRACAO_PORT}
+         - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+         - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+         - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+         - AWS_REGION=${AWS_REGION}
+      ports:
+         - "${ROTINAINTEGRACAO_PORT}:${ROTINAINTEGRACAO_PORT}"
+      expose:
+         - "${ROTINAINTEGRACAO_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: RotinaIntegracao/Dockerfile
+networks:
+   docker-network:
+      external: true
+      name: docker-network
+      driver: bridge

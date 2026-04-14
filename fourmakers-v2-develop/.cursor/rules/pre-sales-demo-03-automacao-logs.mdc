@@ -1,0 +1,93 @@
+---
+description: "Guardrail PRÉ-VENDAS — Etapa 3: Automação de tela com Cypress fornecendo JSON da UI, com logs detalhados no terminal. Acionar quando o usuário mencionar: automatizar tela, json da tela, gerar testes, automação reembolso, logs de teste."
+alwaysApply: false
+---
+
+# Demo Pré-Vendas — Etapa 3: Automação com Cypress e Logs Detalhados
+
+## Contexto
+Esta regra guia a geração de código de automação Cypress a partir do JSON da UI, com logs visualmente ricos no terminal — ideal para demonstração ao cliente. Os testes rodam contra o **backend real**.
+
+## Inputs obrigatórios (todos lidos de arquivo — sem pedir ao usuário)
+
+| Input | Arquivo | Papel |
+|---|---|---|
+| JSON da UI | `DEMO/ui-elements/reembolso-ui.json` | Fonte dos seletores reais da tela |
+| Cenários BDD | `DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md` (mais recente) | Estrutura e IDs dos testes |
+| Dados de teste | `DEMO/automacao/reembolso/reembolso.data.js` | Constantes do DataForge |
+| Auth helper | `cypress/support/commands/fourmakers-auth.js` | Login OTP real |
+
+## Protocolo de Geração (OBRIGATÓRIO)
+
+### 1. Ler e interpretar o JSON da UI
+Mapear cada elemento do JSON para uma ação Cypress e para o seletor mais robusto:
+
+| Tipo no JSON | Ação Cypress | Seletor preferencial |
+|---|---|---|
+| `input / textarea` | `.type()` | `cy.get('#id')` ou `cy.get('[data-testid]')` |
+| `button / submit` | `.click()` + asserção pós-ação | `cy.contains('Texto')` ou `cy.get('[data-testid]')` |
+| `select / dropdown` | interagir com componente | `cy.get('[data-testid]')` |
+| `tab` | `.click()` + verificar painel | `cy.contains('Tab Name')` |
+| `table / list` | verificar linhas visíveis | `cy.get('[data-testid]')` |
+| `modal / dialog` | verificar abertura/fechamento | `cy.get('[data-testid]')` |
+
+**Prioridade de seletor:** `data-testid` → `id` → `contains(text)` → `role`
+**NUNCA** usar `nth-child`, XPath absoluto ou seletores CSS frágeis.
+
+### 2. Estrutura do arquivo gerado
+
+```javascript
+import { dadosR01, dadosI07 } from '../../DEMO/automacao/reembolso/reembolso.data.js';
+
+describe('Módulo de Reembolso — Testes E2E', () => {
+
+  beforeEach(() => {
+    cy.session('fourmakers-prd', () => {
+      cy.loginFourMakers();
+    });
+  });
+
+  it('[R-01] Colaborador solicita reembolso com dados completos', () => {
+    console.log('\n🧪 TESTANDO: R-01 — Solicitação completa');
+    console.log('   → Navegando para Inserir Reembolso...');
+    cy.visit('/inserir-reembolso');
+    console.log('   ✅ Formulário carregado');
+    // ... preenchimento e validação
+    console.log('🏁 R-01 CONCLUÍDO\n');
+  });
+
+});
+```
+
+### 3. Logs obrigatórios por bloco
+
+| Momento | Log no terminal |
+|---------|----------------|
+| Início do suite | `🎯 AUTOMAÇÃO INICIADA — [Nome da Tela]` |
+| Início de cada test | `🧪 TESTANDO: [ID] — [Nome do cenário]` |
+| Cada passo | `   → [Descrição da ação em andamento]...` |
+| Passo aprovado | `   ✅ [Resultado confirmado]` |
+| Passo com alerta | `   ⚠️  [Situação de atenção]` |
+| Fim do test | `🏁 [ID] CONCLUÍDO` |
+
+### 4. Arquivo de saída
+
+```
+cypress/e2e/reembolso.cy.js
+```
+
+## Regras da Demo
+
+- **SEMPRE** usar `cy.session()` com `cy.loginFourMakers()` para autenticação
+- **SEMPRE** usar `console.log` com emojis e prefixos padronizados
+- **NUNCA** gerar testes sem log de início e fim de cada cenário
+- **NUNCA** usar seletores frágeis como `nth-child` ou `xpath` absoluto
+- **NUNCA** usar `cy.wait(2000)` fixo — preferir `cy.intercept()` + `cy.wait('@alias')`
+- Cada `it()` deve mapear para exatamente 1 cenário Gherkin
+
+## Proibido durante a demo
+
+- Gerar testes com Playwright (framework é Cypress)
+- Misturar sintaxe Playwright e Cypress
+- Usar banco fictício ou SQL
+- Criar arquivos fora de `cypress/e2e/`

@@ -1,0 +1,2 @@
+ALTER TABLE tb_nota_fiscal
+ADD COLUMN valor_analise DECIMAL(15,2) DEFAULT NULL;

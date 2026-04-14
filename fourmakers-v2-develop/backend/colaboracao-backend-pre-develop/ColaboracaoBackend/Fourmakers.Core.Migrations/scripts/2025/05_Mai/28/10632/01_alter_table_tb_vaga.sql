@@ -1,0 +1,2 @@
+ALTER TABLE tb_vaga
+ADD COLUMN sla_contando BOOLEAN NOT NULL DEFAULT 0;

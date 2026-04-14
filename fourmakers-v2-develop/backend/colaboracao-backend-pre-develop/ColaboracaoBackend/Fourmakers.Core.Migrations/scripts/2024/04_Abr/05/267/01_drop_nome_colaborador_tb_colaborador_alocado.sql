@@ -1,0 +1,2 @@
+ALTER TABLE tb_colaborador_alocado
+DROP COLUMN nome_colaborador;

@@ -1,0 +1,16 @@
+export { PerfisTab } from './PerfisTab';
+export { GruposTab } from './GruposTab';
+export { AtribuicoesTab } from './AtribuicoesTab';
+export { AuditoriaTab } from './AuditoriaTab';
+export { ParametrosFuncionalidadesTab } from './ParametrosFuncionalidadesTab';
+export { FuncionalidadesSistemaTab } from './FuncionalidadesSistemaTab';
+export { CriarPerfilModal } from './CriarPerfilModal';
+export { AtribuirPerfilModal } from './AtribuirPerfilModal';
+export { CriarModuloModal } from './CriarModuloModal';
+export { CriarFuncionalidadeModal } from './CriarFuncionalidadeModal';
+export { CriarParametroModal } from './CriarParametroModal';
+export { CriarGrupoModal } from './CriarGrupoModal';
+export { CriarGrupoAcessoModal } from './CriarGrupoAcessoModal';
+export { AtribuirFuncionalidadeGrupoModal } from './AtribuirFuncionalidadeGrupoModal';
+export { AdicionarUsuarioGrupoModal } from './AdicionarUsuarioGrupoModal';
+export { VerMembrosModal } from './VerMembrosModal';

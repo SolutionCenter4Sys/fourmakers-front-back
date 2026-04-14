@@ -1,0 +1,1 @@
+DROP PROCEDURE spr_get_apontamento_vigencia;

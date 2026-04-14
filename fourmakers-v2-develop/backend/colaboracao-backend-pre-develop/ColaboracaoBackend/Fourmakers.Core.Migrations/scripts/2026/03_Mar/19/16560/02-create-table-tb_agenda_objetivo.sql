@@ -1,0 +1,11 @@
+CREATE TABLE tb_agenda_objetivo (
+    id INT NOT NULL AUTO_INCREMENT,
+    titulo VARCHAR(100) NOT NULL,
+    descricao VARCHAR(200) NOT NULL,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ativo TINYINT NOT NULL DEFAULT '1',
+    PRIMARY KEY (id)
+) 
+ENGINE=InnoDB 
+DEFAULT CHARSET=utf8mb4 
+COLLATE=utf8mb4_unicode_ci;

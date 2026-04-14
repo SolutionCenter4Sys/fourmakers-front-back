@@ -1,0 +1,20 @@
+/**
+ * Páginas da jornada Recrutamento.
+ * @example import { GestaoVagas } from '@presentation/pages/recrutamento'
+ */
+export { default as ParametrizacaoRecrutamento } from './ParametrizacaoRecrutamento'
+export { default as DashboardRecrutamento } from './DashboardRecrutamento'
+export { default as CandidaturasFMU } from './CandidaturasFMU'
+export { default as HistoricoCandidatura } from './HistoricoCandidatura'
+export { default as CriarPerfilAtuacao } from './CriarPerfilAtuacao'
+export { default as GestaoVagas } from './GestaoVagas'
+export { default as GestaoVagasCandidatos } from './GestaoVagasCandidatos'
+export { default as GerarMatchPromptPage } from './GerarMatchPromptPage'
+export { default as TemplateContratacaoCandidato } from './TemplateContratacaoCandidato'
+export { default as GestaoVagasRelatorios } from './GestaoVagasRelatorios'
+export { default as TalentosInscritos } from './TalentosInscritos'
+export { default as MinhasImportacoes } from './MinhasImportacoes'
+export { VagasDetalhePage } from './VagasDetalhePage'
+export { default as EditarVaga } from './EditarVaga'
+export { default as GestaoVagasAdmissao } from './GestaoVagasAdmissao'
+export { PublicVagaDetalhePage } from './PublicVagaDetalhePage'

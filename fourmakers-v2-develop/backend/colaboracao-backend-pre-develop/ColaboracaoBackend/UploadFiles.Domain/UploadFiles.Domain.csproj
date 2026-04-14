@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Colaboracao.Core\Colaboracao.Core.csproj" />
+    <ProjectReference Include="..\Colaboracao.Helper\Colaboracao.Helper.csproj" />
+    <ProjectReference Include="..\Colaboracao.Infra\Colaboracao.Infra.csproj" />
+    <ProjectReference Include="..\Core.DomainModel\Core.Domain.csproj" />
+    <ProjectReference Include="..\DataTransferObject.Domain\DataTransferObject.Domain.csproj" />
+    <ProjectReference Include="..\Logs.Infra\Logs.Infra.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,9 @@
+cfn-lint
+pydot
+minify_html
+PyYAML
+argparse
+python-dotenv
+regex
+pathlib
+dotenv

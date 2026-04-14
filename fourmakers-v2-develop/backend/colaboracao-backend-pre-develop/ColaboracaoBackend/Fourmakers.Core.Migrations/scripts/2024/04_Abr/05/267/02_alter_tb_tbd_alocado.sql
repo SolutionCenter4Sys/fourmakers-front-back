@@ -1,0 +1,1 @@
+ALTER TABLE tb_tbd_alocado add KEY `idx_tb_tbd_alocado_cod_tbd_alocado` (`cod_tbd_alocado`);

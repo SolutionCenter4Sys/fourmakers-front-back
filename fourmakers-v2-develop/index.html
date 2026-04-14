@@ -1,0 +1,47 @@
+<!doctype html>
+<!-- 
+  SOLUÇÃO GLOBAL: Desabilita Google Translate
+  O atributo translate="no" no elemento <html> impede que o Google Translate
+  modifique o DOM da aplicação, evitando erros do React como insertBefore/removeChild
+-->
+<html lang="en" translate="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Meta tag que instrui o Google a não traduzir esta página -->
+    <meta name="google" content="notranslate" />
+    <title>Fourmakers</title>
+    <meta name="description" content="Fourmakers">
+    
+    <!-- Preconnect para Google Analytics e Firebase -->
+    <link rel="preconnect" href="https://www.google-analytics.com">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://firebase.googleapis.com">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+    <link rel="icon" href="/fourmakers_favicon.svg" type="image/svg+xml">
+
+    
+    
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="og:title" content="Fourmakers">
+  <meta name="twitter:title" content="Fourmakers">
+  <meta property="og:description" content="Fourmakers">
+  <meta name="twitter:description" content="Fourmakers">
+</head>
+
+  <!-- 
+    SOLUÇÃO GLOBAL: Desabilita Google Translate no body
+    O atributo translate="no" e a classe "notranslate" garantem que
+    o Google Translate não modifique elementos dentro do body
+  -->
+  <body translate="no" class="notranslate">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

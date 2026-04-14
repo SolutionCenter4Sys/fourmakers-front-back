@@ -1,0 +1,63 @@
+{
+  "tela": "Reembolso",
+  "geradoEm": "08/04/2026",
+  "fonte": "Análise estática — Reembolso.tsx + InserirReembolso.tsx (sem data-testid no código; seletores por role+label)",
+  "paginas": [
+    {
+      "nome": "Reembolso Dashboard",
+      "url": "/reembolso",
+      "elementos": [
+        { "tipo": "tab",    "label": "Meus Reembolsos", "role": "tab",     "testId": null },
+        { "tipo": "tab",    "label": "Gestão ADM",      "role": "tab",     "testId": null, "condicional": "souGestor" },
+        { "tipo": "tab",    "label": "Aprovações",       "role": "tab",     "testId": null, "condicional": "souAprovador" },
+        { "tipo": "button", "label": "Solicitar Reembolso", "role": "button", "testId": null },
+        { "tipo": "button", "label": "Gerar Relatório",  "role": "button",  "testId": null, "condicional": "EXIBIR_BOTAO_GERAR_PAGAMENTOS + gestao-adm" },
+        { "tipo": "button", "label": "Remessa CNAB",     "role": "button",  "testId": null, "condicional": "HABILITA_BOTAO_REMESSA_CNAB_REEMBOLSO + gestao-adm" },
+        { "tipo": "button", "label": "Limpar",           "role": "button",  "testId": null, "condicional": "dataInicio OR dataFim" },
+        { "tipo": "input",  "label": "Busca",            "role": "textbox", "testId": null, "placeholder": "Busca" },
+        { "tipo": "button", "label": "Data Início",      "role": "button",  "testId": null, "descricao": "Popover trigger do calendário de data início" },
+        { "tipo": "button", "label": "Data Fim",         "role": "button",  "testId": null, "descricao": "Popover trigger do calendário de data fim" },
+        { "tipo": "table",  "label": "Meus Reembolsos",  "role": "table",   "testId": null,
+          "colunas": ["Objetivo", "Destino", "Periodo", "Cliente/Projeto", "Soma valores", "Data de solicitação", "Ações"] },
+        { "tipo": "button", "label": "Detalhes",         "role": "button",  "testId": null, "descricao": "Botão de ação em cada linha da tabela" },
+        { "tipo": "dialog", "label": "Detalhes da solicitação de reembolso", "role": "dialog", "testId": null,
+          "descricao": "Modal de detalhes — DialogTitle visível" },
+        { "tipo": "dialog", "label": "Documentos",       "role": "dialog",  "testId": null },
+        { "tipo": "button", "label": "Baixar",           "role": "button",  "testId": null, "contexto": "modal-documentos" },
+        { "tipo": "alertdialog", "label": "Gerar Relatório", "role": "alertdialog", "testId": null },
+        { "tipo": "button", "label": "Confirmar",        "role": "button",  "testId": null, "contexto": "alertdialog-relatorio" },
+        { "tipo": "button", "label": "Fechar",           "role": "button",  "testId": null, "contexto": "alertdialog-relatorio" }
+      ]
+    },
+    {
+      "nome": "Inserir Reembolso",
+      "url": "/inserir-reembolso",
+      "elementos": [
+        { "tipo": "input",    "label": "Objetivo",         "role": "textbox",  "testId": null, "obrigatorio": true },
+        { "tipo": "input",    "label": "Destino",          "role": "textbox",  "testId": null, "obrigatorio": false },
+        { "tipo": "button",   "label": "Data de início",   "role": "button",   "testId": null, "descricao": "Popover trigger calendário data início" },
+        { "tipo": "button",   "label": "Data final",       "role": "button",   "testId": null, "descricao": "Popover trigger calendário data final" },
+        { "tipo": "combobox", "label": "Cliente/Projeto",  "role": "combobox", "testId": null, "obrigatorio": "condicional" },
+        { "tipo": "input",    "label": "Buscar cliente/projeto...", "role": "textbox", "testId": null, "descricao": "Search input dentro do CommandInput" },
+        { "tipo": "select",   "label": "Categoria",        "role": "combobox", "testId": null, "obrigatorio": true },
+        { "tipo": "input",    "label": "file-upload",      "role": null,       "testId": null, "descricao": "Input file hidden — interagir via locator('input[type=file]')" },
+        { "tipo": "button",   "label": "Data da Despesa",  "role": "button",   "testId": null, "descricao": "Popover trigger calendário data despesa" },
+        { "tipo": "input",    "label": "Quantidade",       "role": "spinbutton","testId": null, "condicional": "tipoCodigo === 2", "obrigatorio": true },
+        { "tipo": "input",    "label": "Unidade",          "role": "textbox",  "testId": null, "condicional": "tipoCodigo === 2", "readonly": true },
+        { "tipo": "input",    "label": "Valor Unitário",   "role": "spinbutton","testId": null, "condicional": "tipoCodigo === 2", "readonly": true },
+        { "tipo": "input",    "label": "Valor",            "role": "textbox",  "testId": null, "condicional": "tipoCodigo !== 2", "placeholder": "0,00" },
+        { "tipo": "textarea", "label": "Descrição",        "role": "textbox",  "testId": null, "obrigatorio": true },
+        { "tipo": "button",   "label": "Limpar",           "role": "button",   "testId": null },
+        { "tipo": "button",   "label": "Adicionar ao Carrinho", "role": "button", "testId": null },
+        { "tipo": "button",   "label": "Atualizar Item",   "role": "button",   "testId": null, "condicional": "itemEditando !== null" },
+        { "tipo": "heading",  "label": "Carrinho de Solicitações", "role": "heading", "testId": null },
+        { "tipo": "button",   "label": "Enviar solicitações", "role": "button", "testId": null },
+        { "tipo": "alertdialog", "label": "Sucesso!",      "role": "alertdialog", "testId": null },
+        { "tipo": "button",   "label": "OK",               "role": "button",  "testId": null, "contexto": "alertdialog-sucesso" },
+        { "tipo": "dialog",   "label": "Erro ao enviar solicitações", "role": "dialog", "testId": null },
+        { "tipo": "button",   "label": "Fechar",           "role": "button",  "testId": null, "contexto": "dialog-erro" },
+        { "tipo": "text",     "label": "Nenhuma solicitação no carrinho", "role": null, "testId": null, "descricao": "Estado vazio do carrinho" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+version: '3.5'
+
+services:
+   backoffice-api-rf-hom:
+      image: sistemasinternos.foursys.com.br:5000/backoffice-api-rf-hom:homolog
+      container_name: backoffice-api-rf-hom
+      ports:
+         - 284:80
+      expose:
+         - 284
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+
+networks:
+   docker-network:
+      external: true
+      name: docker-network
+      driver: bridge

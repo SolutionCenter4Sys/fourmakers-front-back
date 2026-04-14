@@ -1,0 +1,2 @@
+INSERT INTO tb_status_apontamento_grupo (id,descricao, cod_status_grupo) VALUES (UUID(), 'Não Apontado', '5');
+UPDATE tb_status_apontamento SET tb_cod_status_grupo = 5 WHERE (cod_status_apontamento = 7);

@@ -1,0 +1,63 @@
+---
+description: Padrão obrigatório para Controllers da camada API do projeto Colaboração Backend
+globs: **/*Controller.cs
+alwaysApply: false
+---
+
+# Camada API — Controllers
+
+## Estrutura obrigatória
+
+```csharp
+[Authorize]
+[Route("api/{Contexto}/{Recurso}")]
+[HandleException]           // captura exceções → HTTP padronizado
+[ApiController]
+[LogAction]                 // log automático de toda requisição
+public class {Recurso}Controller : ControllerBase
+{
+    private readonly I{Recurso}Service _service;
+    private readonly UsuarioLogadoDTO _usuarioLogado;
+
+    public {Recurso}Controller(I{Recurso}Service service, IAspNetUser aspNetUser)
+    {
+        _service = service;
+        _usuarioLogado = aspNetUser.GetUsuarioLogado(); // obtém do JWT
+    }
+}
+```
+
+## Regras
+
+- Herdar de `ControllerBase` (nunca `Controller`).
+- **Sempre** aplicar `[Authorize]`, `[HandleException]` e `[LogAction]` na **classe**, não nos métodos.
+- Rota: `api/{Contexto}/{Recurso}` — ex.: `api/Gestao/Contrato`.
+- Obter usuário via `IAspNetUser.GetUsuarioLogado()` no **construtor**; repassar `Cpf` e `OrgId` ao Service.
+- Retornar `Ok(result)` — sem lógica de negócio ou manipulação de `ApiGenericResult` além de checar `result.Sucesso` quando necessário (ex.: `NotFound`).
+- Não injetar `IDBConnection`, repositórios ou qualquer outra dependência de Infra.
+
+## Exemplo de action
+
+```csharp
+[HttpGet("Listar")]
+public async Task<ActionResult> Listar([FromQuery] bool? somenteAtivos)
+{
+    var result = await _service.Listar(_usuarioLogado.Cpf, _usuarioLogado.OrgId, somenteAtivos ?? true);
+    return Ok(result);
+}
+
+[HttpDelete("Deletar")]
+public async Task<ActionResult> Deletar(Guid id)
+{
+    var result = await _service.Deletar(id, _usuarioLogado.Cpf, _usuarioLogado.OrgId);
+    if (!result.Sucesso) return NotFound(result);
+    return Ok(result);
+}
+```
+
+## Program.cs
+
+```csharp
+var initializer = new NomeDaApi.Application.Initializer();
+var app = ApplicationConfigurator.ConfigureApplication(builder, appName, initializer);
+```

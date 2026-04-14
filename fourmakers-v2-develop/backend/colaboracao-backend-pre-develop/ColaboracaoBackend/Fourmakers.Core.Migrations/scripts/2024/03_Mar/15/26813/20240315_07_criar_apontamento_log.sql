@@ -1,0 +1,23 @@
+CREATE TABLE `tb_colaborador_apontamento_log` (
+  `id` CHAR(36) PRIMARY KEY NOT NULL,
+  `data_criacao` datetime,
+  `colaborador_apontamento_id` CHAR(36),
+  `tb_status_apontamento_anterior_id` CHAR(36),
+  `tb_status_apontamento_novo_id` CHAR(36),
+  `justificativa` varchar(255),
+  `horas_anterior` BIGINT UNSIGNED,
+  `horas_novo` BIGINT UNSIGNED,
+  `horas_reprovadas` BIGINT UNSIGNED,
+  `tb_vigencia_id` CHAR(36),
+  `tb_projeto_org_cod_projeto` varchar(255),
+  `tb_org_id` integer,
+  `tb_colaborador_org_tb_colaborador_cpf` varchar(11),
+  `numero_semana` int,
+  `numero_semana_dia` int,
+  `tb_atividade_id` CHAR(36),
+  FOREIGN KEY (`tb_vigencia_id`) REFERENCES `tb_vigencia`(`id`),
+  FOREIGN KEY (`tb_atividade_id`) REFERENCES `tb_atividade`(`id`),
+  FOREIGN KEY (`tb_org_id`, `tb_colaborador_org_tb_colaborador_cpf`) REFERENCES `tb_colaborador_org`(`tb_org_id`, `tb_colaborador_cpf`),
+  FOREIGN KEY (`tb_status_apontamento_anterior_id`) REFERENCES `tb_status_apontamento`(`id`),
+  FOREIGN KEY (`tb_status_apontamento_novo_id`) REFERENCES `tb_status_apontamento`(`id`)
+);

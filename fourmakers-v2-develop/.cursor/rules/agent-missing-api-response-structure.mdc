@@ -1,0 +1,120 @@
+---
+name: agent-missing-api-response-structure
+description: "Apply when implementing API integrations, creating service classes, or when request/response structure is unclear. Triggers on: httpClient usage, @data/api imports, endpoint implementation, or when API patterns don't match existing project structure. Use for: ensuring API calls follow project patterns and preventing generic implementations."
+---
+
+**Version:** 1.2.0  
+**Last Updated:** 06/03/2026
+
+---
+
+# API Response Structure Verification
+
+Ensures API implementations match existing project patterns rather than generic assumptions.
+
+---
+
+## 1. Unknown API Response Structure
+
+**Context:** When implementing or modifying API calls without clear knowledge of the actual endpoint response format.
+
+**Problem:**
+The agent risks implementing a generic structure that doesn't match the actual Service/Endpoint structure from existing implementations.
+
+**Detection:**
+- Look for: New API files, modified endpoints, unclear response types
+- Check: `@data/api/*.ts` files for existing patterns
+- Verify: Previous implementations of similar endpoints
+
+**Required Action:**
+
+IN THIS CASE, **STOP** what you are doing and **ASK FOR THE RESPONSE** by specifying:
+
+1. The correct endpoint URL
+2. The HTTP method (GET/POST/PUT/DELETE)
+3. Request payload structure (if applicable)
+4. Expected response structure
+
+**Suggest that the user:**
+- Test the endpoint in Postman
+- Check the terminal/network tab for actual response
+- Provide a sample response from the backend
+
+**Example Request to User:**
+
+```
+I need to verify the API structure for this endpoint before proceeding.
+
+Could you provide:
+- The actual response structure from [ENDPOINT_URL]
+- Or test it in Postman/browser network tab and share the JSON response
+
+This ensures I implement the correct types and avoid generic assumptions.
+```
+
+**Why This Matters:**
+
+| Risk | Impact |
+|------|--------|
+| Wrong type assumptions | Runtime errors, undefined properties |
+| Missing fields | Data loss, incomplete functionality |
+| Extra generic fields | Unnecessary code, confusion |
+| Inconsistent patterns | Technical debt, maintenance issues |
+
+**Prevention:**
+
+Before implementing any API integration:
+- [ ] Check existing similar APIs in `src/data/api/`
+- [ ] Verify response structure with backend team or documentation
+- [ ] Look for OpenAPI/Swagger specs if available
+- [ ] Test endpoint and capture actual response
+
+---
+
+## 2. Matching Existing Project Patterns
+
+**Context:** When creating new API modules or services.
+
+**Required Pattern:**
+
+All APIs in this project follow this structure:
+
+```typescript
+// src/data/api/ExampleApi.ts
+import { createHttpClient } from './httpClient';
+import type { ApiResponse } from '@/shared/types/api';
+
+export interface ExampleRequest {
+  campo1: string;
+  campo2: number;
+}
+
+export interface ExampleResponse {
+  id: string;
+  campo1: string;
+  campo2: number;
+  dataCriacao: string;
+}
+
+export const exampleApi = {
+  async listar(): Promise<ApiResponse<ExampleResponse[]>> {
+    const httpClient = createHttpClient();
+    return httpClient.get('/api/Example/Listar');
+  },
+
+  async criar(dados: ExampleRequest): Promise<ApiResponse<ExampleResponse>> {
+    const httpClient = createHttpClient();
+    return httpClient.post('/api/Example/Criar', dados);
+  }
+};
+```
+
+**Key Patterns:**
+- Use `createHttpClient()` factory (not fetch/axios directly)
+- Response envelope: `{ retorno, sucesso, mensagem, erros }`
+- camelCase for all JSON properties
+- `dataCriacao` for timestamps (not `createdAt`, `criadoEm`)
+
+---
+
+Output Requirement: The final output must be in Portuguese (PT-BR) with all file names, variables and code patterns following Brazilian Portuguese conventions.

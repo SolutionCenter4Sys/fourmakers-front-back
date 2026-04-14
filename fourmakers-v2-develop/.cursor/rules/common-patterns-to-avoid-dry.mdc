@@ -1,0 +1,336 @@
+---
+name: common-patterns-to-avoid-dry
+description: "Apply when detecting code duplication, reviewing error handling patterns, or analyzing API service organization. Triggers on: repeated error handling code, validation logic copy-pasted across files, multiple service files for same API resource, manual header construction in multiple places. Use for: enforcing Don't Repeat Yourself principle and maintaining single sources of truth."
+---
+
+**Version:** 1.2.0  
+**Last Updated:** 06/03/2026
+
+---
+
+# DRY (Don't Repeat Yourself) Anti-Patterns
+
+Duplication of code, logic, or knowledge across the codebase.
+
+---
+
+## 1. Code or Rule Duplication
+
+**Context:** When the same logic appears in multiple places. Not just copying code — it's duplicating decision logic that will diverge over time.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Repeated error handling
+// src/data/api/CandidaturaApi.ts
+async function listarCandidaturas() {
+  try {
+    const response = await httpClient.get('/api/candidaturas');
+    return response.data;
+  } catch (error) {
+    if (error.response?.status === 401) {
+      console.error('Sessao expirada');
+      window.location.href = '/login';
+    } else if (error.response?.status >= 500) {
+      console.error('Erro no servidor');
+    } else {
+      console.error('Erro desconhecido', error);
+    }
+    throw error;
+  }
+}
+
+// ❌ BAD: Same error handling repeated
+// src/data/api/VagaApi.ts
+async function listarVagas() {
+  try {
+    const response = await httpClient.get('/api/vagas');
+    return response.data;
+  } catch (error) {
+    // EXACT same error handling as above!
+    if (error.response?.status === 401) {
+      console.error('Sessao expirada');
+      window.location.href = '/login';
+    } else if (error.response?.status >= 500) {
+      console.error('Erro no servidor');
+    } else {
+      console.error('Erro desconhecido', error);
+    }
+    throw error;
+  }
+}
+
+// ❌ BAD: Copy-pasted validation
+// src/presentation/components/vaga/CriarVagaModal.tsx
+const validar = (dados: VagaForm) => {
+  const erros: string[] = [];
+  if (!dados.titulo || dados.titulo.length < 5) {
+    erros.push('Titulo deve ter pelo menos 5 caracteres');
+  }
+  if (!dados.descricao) {
+    erros.push('Descricao e obrigatoria');
+  }
+  if (dados.salario && dados.salario < 0) {
+    erros.push('Salario nao pode ser negativo');
+  }
+  return erros;
+};
+
+// ❌ BAD: Same validation in another component
+// src/presentation/pages/EditarVaga.tsx
+const validar = (dados: VagaForm) => {
+  const erros: string[] = [];
+  if (!dados.titulo || dados.titulo.length < 5) {
+    erros.push('Titulo deve ter pelo menos 5 caracteres');
+  }
+  if (!dados.descricao) {
+    erros.push('Descricao e obrigatoria');
+  }
+  if (dados.salario && dados.salario < 0) {
+    erros.push('Salario nao pode ser negativo');
+  }
+  return erros;
+};
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Centralized error handling
+// src/data/api/errorHandler.ts
+export class ApiErrorHandler {
+  static handle(error: AxiosError): never {
+    if (error.response?.status === 401) {
+      console.error('Sessao expirada');
+      window.location.href = '/login';
+    } else if (error.response?.status >= 500) {
+      console.error('Erro no servidor');
+    } else {
+      console.error('Erro na requisicao', error);
+    }
+    throw error;
+  }
+}
+
+// ✅ GOOD: All APIs use centralized handler
+// src/data/api/CandidaturaApi.ts
+import { ApiErrorHandler } from './errorHandler';
+
+export const candidaturaApi = {
+  async listar(): Promise<Candidatura[]> {
+    try {
+      const response = await httpClient.get('/api/candidaturas');
+      return response.data.retorno;
+    } catch (error) {
+      ApiErrorHandler.handle(error as AxiosError);
+    }
+  }
+};
+
+// src/data/api/VagaApi.ts
+export const vagaApi = {
+  async listar(): Promise<Vaga[]> {
+    try {
+      const response = await httpClient.get('/api/vagas');
+      return response.data.retorno;
+    } catch (error) {
+      ApiErrorHandler.handle(error as AxiosError);
+    }
+  }
+};
+
+// ✅ GOOD: Centralized validation in domain
+// src/domain/validators/VagaValidator.ts
+@injectable()
+export class VagaValidator {
+  validar(dados: VagaForm): ValidacaoResult {
+    const erros: string[] = [];
+    
+    if (!dados.titulo || dados.titulo.length < 5) {
+      erros.push('Titulo deve ter pelo menos 5 caracteres');
+    }
+    if (!dados.descricao) {
+      erros.push('Descricao e obrigatoria');
+    }
+    if (dados.salario !== undefined && dados.salario < 0) {
+      erros.push('Salario nao pode ser negativo');
+    }
+    
+    return {
+      valido: erros.length === 0,
+      erros
+    };
+  }
+}
+
+// ✅ GOOD: UseCase uses centralized validator
+// src/domain/usecases/vaga/CriarVagaUseCase.ts
+@injectable()
+export class CriarVagaUseCase {
+  constructor(
+    @inject('VagaRepository') private repo: VagaRepository,
+    @inject('VagaValidator') private validator: VagaValidator
+  ) {}
+  
+  async execute(dados: CriarVagaDTO): Promise<Resultado<Vaga>> {
+    const validacao = this.validator.validar(dados);
+    if (!validacao.valido) {
+      return { sucesso: false, erros: validacao.erros };
+    }
+    
+    const vaga = await this.repo.criar(dados);
+    return { sucesso: true, dados: vaga };
+  }
+}
+```
+
+**Common Duplications to Extract:**
+
+| Duplication | Extract To |
+|-------------|------------|
+| Error handling | `data/api/errorHandler.ts` |
+| API response mapping | `data/mappers/` |
+| Validation logic | `domain/validators/` |
+| Header construction | `data/api/httpClient.ts` |
+| Date formatting | `shared/utils/dateUtils.ts` |
+| Currency formatting | `shared/utils/currencyUtils.ts` |
+| Status labels | `shared/constants/statusLabels.ts` |
+
+**Impact:**
+
+- Future divergence - one place changes, others don't
+- Complex maintenance - need to update N places instead of 1
+- Inconsistency - different versions of "same" logic
+- Bug multiplication - bug exists in every copy
+
+**Detection:**
+
+- Similar `catch` blocks across API files
+- Same validation functions in multiple components
+- Manual header construction: `headers: { Authorization: ... }` repeated
+- Copy-pasted mapping logic
+- Same error messages hardcoded in multiple places
+
+**Duplication vs. Coincidence:**
+
+| Duplication (DRY violation) | Coincidence (OK to repeat) |
+|-----------------------------|---------------------------|
+| Error handling strategy | Specific error messages |
+| Validation rules | Form field order |
+| API envelope structure | Component layout |
+| Data transformation | Styling values |
+
+---
+
+## 2. APIs Outside @data/api
+
+**Context:** When creating API services. All HTTP calls must be centralized in `src/data/api/`.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: API service in presentation
+// src/presentation/services/vagaService.ts
+export const vagaService = {
+  async buscarVagas() {
+    const response = await fetch('/api/vagas'); // Direct fetch!
+    return response.json();
+  }
+};
+
+// ❌ BAD: API service in shared
+// src/shared/api/usuarioApi.ts
+export const buscarUsuario = async (id: string) => {
+  const response = await axios.get(`/api/usuarios/${id}`); // Direct axios!
+  return response.data;
+};
+
+// ❌ BAD: Inline API calls in components
+// src/presentation/pages/Perfil.tsx
+useEffect(() => {
+  fetch('/api/perfil') // Direct fetch in component!
+    .then(r => r.json())
+    .then(setPerfil);
+}, []);
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: All APIs centralized in @data/api
+// src/data/api/VagaApi.ts
+import { createHttpClient } from './httpClient';
+import type { ApiResponse } from '@/shared/types/api';
+
+export interface VagaResponse {
+  id: string;
+  titulo: string;
+  descricao: string;
+}
+
+export const vagaApi = {
+  async listar(): Promise<ApiResponse<VagaResponse[]>> {
+    const httpClient = createHttpClient();
+    return httpClient.get('/api/Vaga/Listar');
+  },
+  
+  async obterPorId(id: string): Promise<ApiResponse<VagaResponse>> {
+    const httpClient = createHttpClient();
+    return httpClient.get(`/api/Vaga/Obter/${id}`);
+  },
+  
+  async criar(dados: CriarVagaRequest): Promise<ApiResponse<VagaResponse>> {
+    const httpClient = createHttpClient();
+    return httpClient.post('/api/Vaga/Criar', dados);
+  }
+};
+
+// ✅ GOOD: Presentation uses repository, not API directly
+// src/presentation/pages/Perfil.tsx
+const PerfilPage = () => {
+  const container = useContainer();
+  const obterPerfilUseCase = container.resolve(ObterPerfilUseCase);
+  
+  useEffect(() => {
+    obterPerfilUseCase.execute().then(setPerfil);
+  }, [obterPerfilUseCase]);
+};
+```
+
+**Structure:**
+
+```
+src/
+└── data/
+    └── api/
+        ├── httpClient.ts          # Centralized HTTP client factory
+        ├── errorHandler.ts        # Centralized error handling
+        ├── VagaApi.ts             # Vaga resource API
+        ├── CandidaturaApi.ts      # Candidatura resource API
+        ├── UsuarioApi.ts          # Usuario resource API
+        └── index.ts               # Re-exports
+```
+
+**Impact:**
+
+- Lack of standardization - different APIs do things differently
+- Multiple change points - fix auth, fix in N files
+- Inconsistent error handling - some APIs handle errors differently
+- Harder to add cross-cutting concerns (logging, auth, retries)
+
+**Detection:**
+
+- `fetch(` or `axios` outside of `src/data/api/`
+- Check: `grep -r "fetch\|axios" src/presentation/ src/shared/` (should be empty)
+- API-related files outside `data/api` folder
+- Direct HTTP calls in components or hooks
+
+**Architecture Reference:**
+
+See `@ARCHITECTURE.md` Section 5: "APIs em `@data/api` (CandidaturaApi, VagaApi, etc.) centralizam as requisicoes. Nao usar fetch/axios diretamente."
+
+See `@DESIGN_SYSTEM_AUDIT.md` Section 1.2: "APIs usando httpClient (nao fetch() direto)."
+
+---
+
+Output Requirement: The final output must be in Portuguese (PT-BR) with all file names, variables and code patterns following Brazilian Portuguese conventions.

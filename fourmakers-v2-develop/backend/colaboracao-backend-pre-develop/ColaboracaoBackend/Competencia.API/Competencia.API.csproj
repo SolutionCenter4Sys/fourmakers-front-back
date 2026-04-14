@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="prometheus-net.AspNetCore" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Competencia.Application\Competencia.Application.csproj" />
+    <ProjectReference Include="..\Competencia.Domain\Competencia.Domain.csproj" />
+    <ProjectReference Include="..\DataTransferObject.Domain\DataTransferObject.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Cfn\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Cfn\" />
+  </ItemGroup>
+</Project>

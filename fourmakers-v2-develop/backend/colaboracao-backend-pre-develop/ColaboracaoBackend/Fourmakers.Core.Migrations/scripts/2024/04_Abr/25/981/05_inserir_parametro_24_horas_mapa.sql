@@ -1,0 +1,2 @@
+INSERT INTO tb_parametro (id, nome_parametro, descricao_parametro, codigo_parametro, codigo_modulo_sistema, ativo) VALUES
+(UUID(), 'Permitir lançamento maior que 24 horas no mapa alocação', 'Esta parametrização permite que você lance mais de 24 horas em 1 dia no Mapa de Alocação',  'PERMITIR_LANCAMENTO_MAIOR_24_HORAS', 'MAPA_DE_ALOCACAO', 1);

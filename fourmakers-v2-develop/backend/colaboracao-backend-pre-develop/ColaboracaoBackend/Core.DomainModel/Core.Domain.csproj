@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Properties\InterfaceIdiomaRepository\**" />
+    <EmbeddedResource Remove="Properties\InterfaceIdiomaRepository\**" />
+    <None Remove="Properties\InterfaceIdiomaRepository\**" />
+    <None Remove="Usuario\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Colaboracao.Helper\Colaboracao.Helper.csproj" />
+    <ProjectReference Include="..\DataTransferObject.Domain\DataTransferObject.Domain.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
+</Project>

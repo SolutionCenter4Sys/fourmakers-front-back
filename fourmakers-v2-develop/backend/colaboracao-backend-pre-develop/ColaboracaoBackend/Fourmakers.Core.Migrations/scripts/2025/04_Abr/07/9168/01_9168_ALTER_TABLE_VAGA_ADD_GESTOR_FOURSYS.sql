@@ -1,0 +1,1 @@
+ALTER TABLE tb_vagas_srs ADD COLUMN gestor_foursys varchar(255);

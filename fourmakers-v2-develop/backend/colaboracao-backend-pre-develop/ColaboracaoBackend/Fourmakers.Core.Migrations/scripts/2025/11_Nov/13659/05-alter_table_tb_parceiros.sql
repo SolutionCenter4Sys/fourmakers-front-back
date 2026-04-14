@@ -1,0 +1,8 @@
+ALTER TABLE tb_parceiros 
+		MODIFY COLUMN url_site VARCHAR(1500) NULL,
+        MODIFY COLUMN url_linkedin VARCHAR(1500) NULL,
+        MODIFY COLUMN url_logo VARCHAR(1500) NULL,
+        MODIFY COLUMN url_nda VARCHAR(1500) NULL,
+        MODIFY COLUMN url_contrato VARCHAR(1500) NULL,
+        MODIFY COLUMN url_aditivos VARCHAR(1500) NULL;
+

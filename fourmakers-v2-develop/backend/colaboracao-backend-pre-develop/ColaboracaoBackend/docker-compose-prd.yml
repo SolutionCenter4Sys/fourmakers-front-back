@@ -1,0 +1,534 @@
+version: '3.5'
+
+services:
+   firebase-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/firebase-api-prd:latest
+      container_name: firebase-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${FIREBASE_API_PORT}
+      ports:
+         - "${FIREBASE_API_PORT}:${FIREBASE_API_PORT}"
+      expose:
+         - "${FIREBASE_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Firebase.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   competencia-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/competencia-api-prd:latest
+      container_name: competencia-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${COMPETENCIA_API_PORT}
+      ports:
+         - "${COMPETENCIA_API_PORT}:${COMPETENCIA_API_PORT}"
+      expose:
+         - "${COMPETENCIA_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Competencia.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   endosso-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/endosso-api-prd:latest
+      container_name: endosso-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${ENDOSSO_API_PORT}
+      ports:
+         - "${ENDOSSO_API_PORT}:${ENDOSSO_API_PORT}"
+      expose:
+         - "${ENDOSSO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Endosso.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   feed-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/feed-api-prd:latest
+      container_name: feed-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${FEED_API_PORT}
+      ports:
+         - "${FEED_API_PORT}:${FEED_API_PORT}"
+      expose:
+         - "${FEED_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: FeedAtualizacoes.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   noticia-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/noticia-api-prd:latest
+      container_name: noticia-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${NOTICIA_API_PORT}
+      ports:
+         - "${NOTICIA_API_PORT}:${NOTICIA_API_PORT}"
+      expose:
+         - "${NOTICIA_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Noticia.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   uploadfiles-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/uploadfiles-api-prd:latest
+      container_name: uploadfiles-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${UPLOADFILES_API_PORT}
+         - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+         - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+         - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION}
+         - AWS_REGION=${AWS_DEFAULT_REGION}
+      ports:
+         - "${UPLOADFILES_API_PORT}:${UPLOADFILES_API_PORT}"
+      expose:
+         - "${UPLOADFILES_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: UploadFiles.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   formacao-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/formacao-api-prd:latest
+      container_name: formacao-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${FORMACAO_API_PORT}
+      ports:
+         - "${FORMACAO_API_PORT}:${FORMACAO_API_PORT}"
+      expose:
+         - "${FORMACAO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Formacao.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   dominio-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/dominio-api-prd:latest
+      container_name: dominio-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${DOMINIO_API_PORT}
+      ports:
+         - "${DOMINIO_API_PORT}:${DOMINIO_API_PORT}"
+      expose:
+         - "${DOMINIO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Dominio.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   comentario-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/comentario-api-prd:latest
+      container_name: comentario-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${COMENTARIO_API_PORT}
+      ports:
+         - "${COMENTARIO_API_PORT}:${COMENTARIO_API_PORT}"
+      expose:
+         - "${COMENTARIO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Comentario.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   filtro-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/filtro-api-prd:latest
+      container_name: filtro-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${FILTRO_API_PORT}
+      ports:
+         - "${FILTRO_API_PORT}:${FILTRO_API_PORT}"
+      expose:
+         - "${FILTRO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Filtro.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   interesse-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/interesse-api-prd:latest
+      container_name: interesse-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${INTERESSE_API_PORT}
+      ports:
+         - "${INTERESSE_API_PORT}:${INTERESSE_API_PORT}"
+      expose:
+         - "${INTERESSE_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Interesse.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   metodologia-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/metodologia-api-prd:latest
+      container_name: metodologia-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${METODOLOGIA_API_PORT}
+      ports:
+         - "${METODOLOGIA_API_PORT}:${METODOLOGIA_API_PORT}"
+      expose:
+         - "${METODOLOGIA_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Metodologia.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   colaborador-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/colaborador-api-prd:latest
+      container_name: colaborador-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${COLABORADOR_API_PORT}
+      ports:
+         - "${COLABORADOR_API_PORT}:${COLABORADOR_API_PORT}"
+      expose:
+         - "${COLABORADOR_API_PORT}"
+
+      build:
+         context: .
+         dockerfile: Colaborador.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   usuario-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/usuario-api-prd:latest
+      container_name: usuario-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${USUARIO_API_PORT}
+      ports:
+         - "${USUARIO_API_PORT}:${USUARIO_API_PORT}"
+      expose:
+         - "${USUARIO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Usuario.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   foursys-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/foursys-api-prd:latest
+      container_name: foursys-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${FOURSYS_API_PORT}
+      ports:
+         - "${FOURSYS_API_PORT}:${FOURSYS_API_PORT}"
+      expose:
+         - "${FOURSYS_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Foursys.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   bi-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/bi-api-prd:latest
+      container_name: bi-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${BI_API_PORT}
+      ports:
+         - "${BI_API_PORT}:${BI_API_PORT}"
+      expose:
+         - "${BI_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: BI.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   prometheus:
+      image: sistemasinternos.foursys.com.br:5000/prometheus-colaboracao:latest
+      container_name: prometheus-colaboracao
+      build: 
+         context: .
+         dockerfile: Prometheus.Config/Dockerfile
+      ports:
+         - "${PROMETHEUS_PORT}:${PROMETHEUS_PORT}"
+      networks:
+         - "docker-network"
+      logging:
+        options:
+          max-size: 10m
+   consumer-application:
+      image: sistemasinternos.foursys.com.br:5000/consumer-application-kafka:latest
+      container_name: consumer-application-kafka
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${KAFKA_PORT}
+         - TOPIC_IN1=${TOPIC_IN1}
+         - TOPIC_IN2=${TOPIC_IN2}
+         - TOPIC_IN3=${TOPIC_IN3}
+         - PRODUCER_KEY1=${PRODUCER_KEY1}
+         - PRODUCER_KEY2=${PRODUCER_KEY2}
+      ports:
+         - "${KAFKA_PORT}:${KAFKA_PORT}"
+      expose:
+         - "${KAFKA_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: ConsumerApplication/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   srs-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/srs-api-prd:latest
+      container_name: srs-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${SRS_API_PORT}
+      ports:
+         - "${SRS_API_PORT}:${SRS_API_PORT}"
+      expose:
+         - "${SRS_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: SRS.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   softskill-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/softskill-api-prd:latest
+      container_name: softskill-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${SOFTSKILL_API_PORT}
+      ports:
+         - "${SOFTSKILL_API_PORT}:${SOFTSKILL_API_PORT}"
+      expose:
+         - "${SOFTSKILL_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Softskill.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   crm-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/crm-api-prd:latest
+      container_name: crm-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${CRM_API_PORT}
+      ports:
+         - "${CRM_API_PORT}:${CRM_API_PORT}"
+      expose:
+         - "${CRM_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: CRM.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   idioma-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/idioma-api-prd:latest
+      container_name: idioma-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${IDIOMA_API_PORT}
+      ports:
+         - "${IDIOMA_API_PORT}:${IDIOMA_API_PORT}"
+      expose:
+         - "${IDIOMA_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Idioma.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   projeto-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/projeto-api-prd:latest
+      container_name: projeto-api-prd
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${PROJETO_API_PORT}
+      ports:
+         - "${PROJETO_API_PORT}:${PROJETO_API_PORT}"
+      expose:
+         - "${PROJETO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Projeto.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+   mapaalocacao-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/mapaalocacao-api-prd:latest
+      container_name: mapaalocacao-api
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${MAPAALOCACAO_API_PORT}
+      ports:
+         - "${MAPAALOCACAO_API_PORT}:${MAPAALOCACAO_API_PORT}"
+      expose:
+         - "${MAPAALOCACAO_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: MapaDeAlocacao.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+
+   colaboracaobridge-api-prd:
+      image: sistemasinternos.foursys.com.br:5000/colaboracaobridge-api-prd:latest
+      container_name: colaboracaobridge-api
+      env_file:
+         - ./.env-prd
+      environment:
+         - ASPNETCORE_ENVIRONMENT=Producao
+         - ASPNETCORE_URLS=http://+:${COLABORACAO_BRIDGE_API_PORT}
+      ports:
+         - "${COLABORACAO_BRIDGE_API_PORT}:${COLABORACAO_BRIDGE_API_PORT}"
+      expose:
+         - "${COLABORACAO_BRIDGE_API_PORT}"
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: ColaboracaoBridge.API/Dockerfile
+      restart: unless-stopped
+      logging:
+        options:
+          max-size: 10m
+networks:
+   docker-network:
+      external: true
+      name: docker-network
+      driver: bridge

@@ -1,0 +1,35 @@
+USE `gcolb_prd`;
+DROP function IF EXISTS `fn_estatisticas_calcular_tempo_servico`;
+
+DELIMITER $$
+USE `gcolb_prd`$$
+CREATE FUNCTION `fn_estatisticas_calcular_tempo_servico`(data_admissao TIMESTAMP) RETURNS varchar(20)
+BEGIN
+    DECLARE diferenca_dias INT;
+    DECLARE faixa VARCHAR(20);
+    
+    SET diferenca_dias = DATEDIFF(CURDATE(), data_admissao);
+    
+    IF data_admissao IS NULL OR data_admissao = '0000-00-00 00:00:00' THEN
+		SET faixa = 'sem_resposta';
+    ELSEIF diferenca_dias <= 365 THEN
+        SET faixa = 'ate_1_ano';
+    ELSEIF diferenca_dias BETWEEN 366 AND 730 THEN
+        SET faixa = 'entre_1_e_2_anos';
+    ELSEIF diferenca_dias BETWEEN 731 AND 1825 THEN
+        SET faixa = 'entre_3_e_5_anos';
+    ELSEIF diferenca_dias BETWEEN 1826 AND 3650 THEN
+        SET faixa = 'entre_6_e_10_anos';
+    ELSEIF diferenca_dias BETWEEN 3651 AND 5475 THEN
+        SET faixa = 'entre_11_e_15_anos';
+    ELSEIF diferenca_dias BETWEEN 5476 AND 7300 THEN
+        SET faixa = 'entre_16_e_20_anos';
+    ELSEIF diferenca_dias > 7300 THEN
+        SET faixa = 'mais_de_20_anos';
+    END IF;
+    
+    RETURN faixa;
+END$$
+
+DELIMITER ;
+

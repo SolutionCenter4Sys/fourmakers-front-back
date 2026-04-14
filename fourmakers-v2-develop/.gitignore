@@ -1,0 +1,66 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Environment variables (templates com sufixo podem existir — não versionar valores reais)
+.env
+.env.local
+.env.*.local
+.env.*
+!.env.example
+
+# Credenciais Git (arquivo de referência fica no Desktop; não versionar)
+*git*credentials*.txt
+
+# Editor directories and files
+!.vscode/extensions.json
+.vscode/chrome-debug-profile/
+.idea
+.cursor/backup/
+# .cursor/agents/ — descomente para não versionar; comentado para versionar prompts de agents
+# Agent MR-agent: manter somente localmente (não versionar em nenhuma branch)
+.cursor/agents/MR-agent.md
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+
+# local tests (only ignore test output, not test source files)
+*.test.js
+*.test.js.map
+*.spec.js
+*.spec.js.map
+vitest.*
+coverage/
+.nyc_output/
+
+# Ignore IMPLEMENTATION assets
+IMPLEMENTATION/
+
+# PBI (documento fora do versionamento)
+PBI-Metricas-Board-Contratacao.md
+code-review*
+.cursor/backup/*
+# Backup temporário de arquivos movidos antes de merge (não versionar)
+.merge-backup/
+
+# Artefatos temporários de fluxos Git automatizados (agregação/relatórios)
+.aggregation_backup
+aggregation.log
+FILE_AGGREGATION_MANIFEST.txt
+FILE_AGGREGATION_REPORT.md
+STAGED_FILES.txt
+commit_message.txt

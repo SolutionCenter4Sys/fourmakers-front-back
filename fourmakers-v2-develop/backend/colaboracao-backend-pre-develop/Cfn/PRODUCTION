@@ -1,0 +1,16 @@
+competencia-api-task-prd.env
+colaborador-api-task-prd.env
+usuario-api-task-prd.env
+bi-api-task-prd.env
+bi-api-task-prd.yaml
+bi-api-service-prd.yaml
+BI-alb-listener-rule-prd.yaml
+Acesso-alb-listener-rule-prd.yaml
+competencia-api-task-dev.env
+botfourmakers-api-task-prd.env
+botfourmakers-api-task-prd.yaml
+botfourmakers-api-service-prd.yaml
+BotFourmakers-alb-listener-rule-prd.yaml
+srs-api-task-prd.env
+bancotalentosrs-consumer-task-prd.env
+curriculo-batch-consumer-task-prd.env

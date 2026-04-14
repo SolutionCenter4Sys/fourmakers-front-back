@@ -1,0 +1,286 @@
+stages:
+  - maintenance
+  - build
+  - deploy
+
+variables:
+  NODE_VERSION: "20"
+  AWS_DEFAULT_REGION: "us-east-1"
+  # Aumenta o heap do Node.js para 4GB (resolve problemas de memória em builds grandes)
+  NODE_OPTIONS: "--max-old-space-size=4096"
+
+# IMPORTANTE: Configure as seguintes variáveis no GitLab (Settings > CI/CD > Variables):
+# - CI_CREDENTIALS_FILE: Conteúdo do arquivo ~/.aws/credentials com as credenciais AWS
+# - CI_CONFIG_FILE: Conteúdo do arquivo ~/.aws/config com a configuração AWS
+# - S3_BUCKET: Nome do bucket S3 para deploy (defina por ambiente: DEVELOPMENT, PRODUCTION)
+# - CLOUDFRONT_ID: ID da distribuição CloudFront (defina por ambiente: DEVELOPMENT, PRODUCTION)
+
+cache:
+  key:
+    files:
+      - package-lock.json
+    prefix: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    - .npm/
+  policy: pull-push
+  when: on_success
+
+.build_template: &build_template
+  stage: build
+  image: node:${NODE_VERSION}
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+  artifacts:
+    paths:
+      - dist/
+    expire_in: 1 hour
+
+.deploy_template: &deploy_template
+  stage: deploy
+  image:
+    name: amazon/aws-cli:latest
+    entrypoint: [""]
+  before_script:
+    - apk add --no-cache curl bash 2>/dev/null || (apt-get update && apt-get install -y curl bash) 2>/dev/null || (yum install -y curl bash) 2>/dev/null || true
+    - mkdir -p ~/.aws
+    - |
+      if [ -z "$CI_CREDENTIALS_FILE" ]; then
+        echo "✗ Erro: Variável CI_CREDENTIALS_FILE não está definida"
+        echo "Configure a variável CI_CREDENTIALS_FILE no GitLab (Settings > CI/CD > Variables)"
+        exit 1
+      fi
+      echo "$CI_CREDENTIALS_FILE" > ~/.aws/credentials
+    - |
+      if [ -z "$CI_CONFIG_FILE" ]; then
+        echo "✗ Erro: Variável CI_CONFIG_FILE não está definida"
+        echo "Configure a variável CI_CONFIG_FILE no GitLab (Settings > CI/CD > Variables)"
+        exit 1
+      fi
+      echo "$CI_CONFIG_FILE" > ~/.aws/config
+    - |
+      if ! grep -q "^\[" ~/.aws/config; then
+        echo "AVISO: Arquivo config pode não ter formato INI válido"
+        exit 1
+      fi
+    - |
+      if [ -z "$S3_BUCKET" ] || [ -z "$CLOUDFRONT_ID" ]; then
+        echo "Erro: Variáveis de ambiente S3_BUCKET e CLOUDFRONT_ID devem estar configuradas para o ambiente"
+        echo "S3_BUCKET: ${S3_BUCKET:-não definida}"
+        echo "CLOUDFRONT_ID: ${CLOUDFRONT_ID:-não definida}"
+        exit 1
+      fi
+    - 'echo "Bucket S3: $S3_BUCKET"'
+    - 'echo "CloudFront ID: $CLOUDFRONT_ID"'
+  script:
+    - echo "🗑️  Limpando bucket S3..."
+    - aws s3 rm s3://${S3_BUCKET}/ --recursive || echo "Bucket já está vazio"
+    - echo "✅ Bucket limpo!"
+    - echo ""
+    - echo "📦 Sincronizando arquivos para o S3 com Content-Types corretos..."
+    - echo "📦 Enviando arquivos HTML..."
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.html" \
+        --content-type "text/html; charset=utf-8" \
+        --cache-control "public, max-age=0, must-revalidate"
+    - echo "📦 Enviando arquivos JavaScript..."
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.js" \
+        --include "*.mjs" \
+        --content-type "application/javascript; charset=utf-8" \
+        --cache-control "public, max-age=31536000, immutable"
+    - echo "📦 Enviando arquivos CSS..."
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.css" \
+        --content-type "text/css; charset=utf-8" \
+        --cache-control "public, max-age=31536000, immutable"
+    - echo "📦 Enviando SVGs..."
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.svg" \
+        --content-type "image/svg+xml" \
+        --cache-control "public, max-age=31536000, immutable"
+    - echo "📦 Enviando imagens..."
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.png" \
+        --content-type "image/png" \
+        --cache-control "public, max-age=31536000, immutable"
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.jpg" \
+        --include "*.jpeg" \
+        --content-type "image/jpeg" \
+        --cache-control "public, max-age=31536000, immutable"
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.gif" \
+        --content-type "image/gif" \
+        --cache-control "public, max-age=31536000, immutable"
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.webp" \
+        --content-type "image/webp" \
+        --cache-control "public, max-age=31536000, immutable"
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.ico" \
+        --content-type "image/x-icon" \
+        --cache-control "public, max-age=31536000, immutable"
+    - echo "📦 Enviando fontes..."
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.woff" \
+        --content-type "font/woff" \
+        --cache-control "public, max-age=31536000, immutable"
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.woff2" \
+        --content-type "font/woff2" \
+        --cache-control "public, max-age=31536000, immutable"
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.ttf" \
+        --content-type "font/ttf" \
+        --cache-control "public, max-age=31536000, immutable"
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.eot" \
+        --content-type "application/vnd.ms-fontobject" \
+        --cache-control "public, max-age=31536000, immutable"
+    - echo "📦 Enviando arquivos JSON..."
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.json" \
+        --content-type "application/json; charset=utf-8" \
+        --cache-control "public, max-age=0, must-revalidate"
+    - echo "📦 Enviando source maps..."
+    - |
+      aws s3 sync dist/ s3://${S3_BUCKET}/ \
+        --exclude "*" \
+        --include "*.map" \
+        --content-type "application/json; charset=utf-8" \
+        --cache-control "public, max-age=31536000, immutable"
+    - echo "✅ Todos os arquivos sincronizados com Content-Types corretos!"
+    - echo "🔄 Criando invalidação no CloudFront..."
+    - INVALIDATION_ID=$(aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths "/*" --query 'Invalidation.Id' --output text)
+    - 'echo "✅ Invalidação criada com sucesso. ID: $INVALIDATION_ID"'
+    - echo "⏳ Aguardando conclusão da invalidação..."
+    - aws cloudfront wait invalidation-completed --distribution-id ${CLOUDFRONT_ID} --id $INVALIDATION_ID || echo "⚠️ Invalidação em andamento..."
+
+# Job manual para corrigir Content-Types de arquivos já no S3
+fix-content-types:
+  stage: maintenance
+  image:
+    name: amazon/aws-cli:latest
+    entrypoint: [""]
+  cache: {}
+  when: manual
+  before_script:
+    - apk add --no-cache curl bash grep 2>/dev/null || (apt-get update && apt-get install -y curl bash grep) 2>/dev/null || true
+    - mkdir -p ~/.aws
+    - |
+      if [ -z "$CI_CREDENTIALS_FILE" ]; then
+        echo "✗ Erro: Variável CI_CREDENTIALS_FILE não está definida"
+        exit 1
+      fi
+      echo "$CI_CREDENTIALS_FILE" > ~/.aws/credentials
+    - |
+      if [ -z "$CI_CONFIG_FILE" ]; then
+        echo "✗ Erro: Variável CI_CONFIG_FILE não está definida"
+        exit 1
+      fi
+      echo "$CI_CONFIG_FILE" > ~/.aws/config
+    - |
+      if [ -z "$S3_BUCKET" ] || [ -z "$CLOUDFRONT_ID" ]; then
+        echo "Erro: Variáveis S3_BUCKET e CLOUDFRONT_ID devem estar configuradas"
+        exit 1
+      fi
+  script:
+    - echo "🔧 Corrigindo Content-Types dos arquivos no S3..."
+    # Corrige Content-Type para arquivos JavaScript
+    - |
+      for file in $(aws s3 ls s3://${S3_BUCKET}/assets/ --recursive | grep -E '\.(js|mjs)$' | awk '{print $4}'); do
+        aws s3 cp s3://${S3_BUCKET}/${file} s3://${S3_BUCKET}/${file} \
+          --metadata-directive REPLACE \
+          --content-type "application/javascript; charset=utf-8" \
+          --cache-control "public, max-age=31536000, immutable" || true
+      done
+    # Corrige Content-Type para arquivos CSS
+    - |
+      for file in $(aws s3 ls s3://${S3_BUCKET}/assets/ --recursive | grep -E '\.css$' | awk '{print $4}'); do
+        aws s3 cp s3://${S3_BUCKET}/${file} s3://${S3_BUCKET}/${file} \
+          --metadata-directive REPLACE \
+          --content-type "text/css; charset=utf-8" \
+          --cache-control "public, max-age=31536000, immutable" || true
+      done
+    # Corrige Content-Type para arquivos HTML
+    - |
+      for file in $(aws s3 ls s3://${S3_BUCKET}/ --recursive | grep -E '\.html$' | awk '{print $4}'); do
+        aws s3 cp s3://${S3_BUCKET}/${file} s3://${S3_BUCKET}/${file} \
+          --metadata-directive REPLACE \
+          --content-type "text/html; charset=utf-8" \
+          --cache-control "public, max-age=0, must-revalidate" || true
+      done
+    - echo "✅ Content-Types corrigidos!"
+    - echo "🔄 Criando invalidação no CloudFront..."
+    - INVALIDATION_ID=$(aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_ID} --paths "/*" --query 'Invalidation.Id' --output text)
+    - 'echo "✅ Invalidação criada com sucesso. ID: $INVALIDATION_ID"'
+    - echo "⏳ Aguardando conclusão da invalidação..."
+    - aws cloudfront wait invalidation-completed --distribution-id ${CLOUDFRONT_ID} --id $INVALIDATION_ID || echo "⚠️ Invalidação em andamento..."
+
+build:development:
+  <<: *build_template
+  script:
+    - npm run build:homolog
+  only:
+    - develop
+
+build:production:
+  <<: *build_template
+  script:
+    - npm run build
+  only:
+    - branches
+  except:
+    - develop
+
+deploy:development:
+  <<: *deploy_template
+  dependencies:
+    - build:development
+  only:
+    - develop
+  environment:
+    name: DEVELOPMENT
+    url: https://${CLOUDFRONT_ID}.cloudfront.net
+
+deploy:production:
+  <<: *deploy_template
+  dependencies:
+    - build:production
+  only:
+    - main
+    - master
+    - tags
+  environment:
+    name: PRODUCTION
+    url: https://${CLOUDFRONT_ID}.cloudfront.net
+

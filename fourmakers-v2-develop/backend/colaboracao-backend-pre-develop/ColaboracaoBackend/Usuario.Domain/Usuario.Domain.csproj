@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.20" NoWarn="NU1605" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Impl\Models\" />
+    <Folder Include="Interfaces\Models\" />
+    <Folder Include="Impl\Factorys\" />
+    <Folder Include="Interfaces\Factorys\" />
+    <Folder Include="Utils\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Colaborador.Domain\Colaborador.Domain.csproj" />
+    <ProjectReference Include="..\DataTransferObject.Domain\DataTransferObject.Domain.csproj" />
+    <ProjectReference Include="..\Core.DomainModel\Core.Domain.csproj" />
+    <ProjectReference Include="..\Colaboracao.Core\Colaboracao.Core.csproj" />
+    <ProjectReference Include="..\ApliClient.Infra\ApliClient.Infra.csproj" />
+    <ProjectReference Include="..\ApiClient.Domain\ApiClient.Domain.csproj" />
+    <ProjectReference Include="..\Colaboracao.Helper\Colaboracao.Helper.csproj" />
+    <ProjectReference Include="..\Colaboracao.Shared.TemplateOrg.Domain\Colaboracao.Shared.TemplateOrg.Domain.csproj" />
+    <ProjectReference Include="..\Logs.Infra\Logs.Infra.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Utils\" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,3 @@
+ALTER TABLE tb_holerite_colaborador
+ADD COLUMN assinado TINYINT(1) DEFAULT 0,
+ADD COLUMN assinado_em TIMESTAMP NULL DEFAULT NULL;

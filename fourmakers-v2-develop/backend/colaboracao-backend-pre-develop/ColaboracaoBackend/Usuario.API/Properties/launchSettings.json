@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "https://localhost/Usuario.API",
+      "sslPort": 443
+    },
+    "iisExpress": {
+      "applicationUrl": "http://localhost:26497",
+      "sslPort": 44307
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Usuario.API": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:58800;http://localhost:3000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "environmentVariables": {},
+      "useSSL": true,
+      "publishAllPorts": true
+    },
+    "IIS": {
+      "commandName": "IIS",
+      "workingDirectory": "C:\\Users\\tnmartinez\\Documents\\Projetos\\colaboracao-backend\\ColaboracaoBackend\\Usuario.API",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost/Usuario.API/swagger",
+      "environmentVariables": {}
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost:58800/swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "https://localhost:58800;http://localhost:39397"
+      },
+      "distributionName": ""
+    }
+  }
+}

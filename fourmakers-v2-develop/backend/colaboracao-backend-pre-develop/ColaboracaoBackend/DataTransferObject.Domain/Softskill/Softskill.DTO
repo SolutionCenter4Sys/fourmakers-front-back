@@ -1,0 +1,10 @@
+﻿using System;
+namespace DataTransferObject.Domain.Softskill
+{
+	public class Softskill
+	{
+		public Softskill()
+		{
+		}
+	}
+}

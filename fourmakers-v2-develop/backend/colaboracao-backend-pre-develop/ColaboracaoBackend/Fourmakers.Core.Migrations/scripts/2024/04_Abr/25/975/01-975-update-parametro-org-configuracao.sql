@@ -1,0 +1,1 @@
+UPDATE `tb_org_parametro_configuracao` SET `valor_parametro` = 'Usuario=eng.fourmakers@foursys.com.br;Senha=\"nFmbRxd*fFZc\";GuidTenant=CC118D00-6826-420E-89D3-CCFEE7F8E7C2;Ambiente=449' WHERE (`codigo_parametro` = 'CONFIGURACAO_API_SOAP_LG') AND `tb_org_id` = 2;

@@ -1,0 +1,66 @@
+
+# Build results
+*/[Bb]in/
+*/[Oo]bj/
+*/[Dd]ebug/
+*/[Dd]ebugPublic/
+*/[Rr]elease/
+*/[Rr]eleases/
+*/x64/
+*/x86/
+*/bld/
+# */[Ll]og/ -> can't exclude the 'log' folder because there are code folders inside it containing business rules.
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# VS2015/2017/2019/2022 cache
+.vs/
+
+# Package folders and temporary build files
+**/packages/*
+!**/packages/build/
+
+# Node.js tools (if any)
+node_modules/
+
+# Visual Studio test result folders
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# NuGet and other package manager files
+*.nupkg
+*.nuget.props
+*.nuget.targets
+
+# Published web output
+*.publishsettings
+PublishScripts/
+
+# Azure-related files
+*.azurePubxml
+*.pubxml
+*.publishproj
+
+# SQL Server files (if you're using SQL Server locally)
+*.mdf
+*.ldf
+
+# Miscellaneous
+*.log
+*.cache
+**/obj/
+**/bin/
+
+# Ignore IDE settings for JetBrains Rider, Visual Studio Code, and others
+.idea/
+.vscode/
+
+# Dockerfile
+Dockerfile
+
+# Environment variables 
+.env

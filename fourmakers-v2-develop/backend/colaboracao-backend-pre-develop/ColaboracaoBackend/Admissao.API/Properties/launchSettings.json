@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Admissao.API": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:56436;http://localhost:56437"
+    }
+  }
+}

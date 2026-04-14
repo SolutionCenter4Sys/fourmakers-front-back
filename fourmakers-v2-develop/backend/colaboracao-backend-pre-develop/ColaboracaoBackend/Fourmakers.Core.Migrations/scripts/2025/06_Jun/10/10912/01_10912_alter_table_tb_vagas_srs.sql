@@ -1,0 +1,4 @@
+ALTER TABLE tb_vagas_srs
+    ADD COLUMN maquina_cliente TINYINT(1) NOT NULL DEFAULT 0,
+    ADD COLUMN maquina_four TINYINT(1) NOT NULL DEFAULT 0,
+    ADD COLUMN notes VARCHAR(255) NULL;

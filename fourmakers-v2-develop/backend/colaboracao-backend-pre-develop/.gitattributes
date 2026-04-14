@@ -1,0 +1,7 @@
+# Estes ficheiros: em merge, Git mantém sempre a versão do ramo atual (HEAD) — não funde
+# conteúdo nem pede resolução manual. Evita conflitos recorrentes em ficheiros geridos
+# localmente (deploy-manager, esteira raiz, versões CFN).
+# "ours" = quem está checked out no momento do merge (ex.: na tua branch ao integrares main).
+deploy-manager.sh merge=ours
+.gitlab-ci.yml merge=ours
+Cfn/projects.json merge=ours

@@ -1,0 +1,1 @@
+INSERT INTO `tb_grupo_acesso_funcionalidade_sistema` (`tb_grupo_acesso_id`, `tb_funcionalidade_sistema_id`, `ativo`) VALUES ('20', '21', '1');

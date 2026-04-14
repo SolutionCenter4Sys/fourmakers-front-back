@@ -1,0 +1,660 @@
+---
+name: common-patterns-to-avoid-solid
+description: "Apply when reviewing dependency direction, analyzing testability, or detecting coupling issues. Triggers on: domain layer importing from app/redux, direct instantiation of dependencies in methods or constructors, new keyword usage outside DI container, hidden side effects in functions. Use for: enforcing SOLID principles, especially Dependency Inversion and testable code."
+---
+
+**Version:** 1.2.0  
+**Last Updated:** 06/03/2026
+
+---
+
+# SOLID Principles Anti-Patterns
+
+Violations of SOLID principles and dependency management.
+
+---
+
+## 1. Coupling Redux to Domain
+
+**Context:** When Domain layer knows about Redux or global state. Domain must remain pure and independent.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Domain importing Redux types
+// src/domain/usecases/vaga/ListarVagasUseCase.ts
+import { RootState } from '@/app/store'; // Domain knows Redux!
+
+@injectable()
+export class ListarVagasUseCase {
+  execute(state: RootState): Vaga[] { // Depends on Redux state shape
+    const filtros = state.vaga.filtros;
+    // ...
+  }
+}
+
+// ❌ BAD: Domain using Redux hooks
+// src/domain/entities/Feedback.ts
+import { useSelector } from 'react-redux'; // Domain knows React-Redux!
+
+export class Feedback {
+  get usuarioAtual(): Usuario {
+    return useSelector(state => state.auth.usuario); // Direct Redux access!
+  }
+}
+
+// ❌ BAD: Domain importing store
+// src/domain/services/NotificacaoService.ts
+import { store } from '@/app/store'; // Domain knows store!
+
+export class NotificacaoService {
+  enviar(notificacao: Notificacao): void {
+    const usuario = store.getState().auth.usuario; // Direct store access!
+    // ...
+  }
+}
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Domain receives dependencies via injection
+// src/domain/usecases/vaga/ListarVagasUseCase.ts
+export interface FiltroVaga {
+  status?: StatusVaga;
+  dataInicio?: Date;
+  dataFim?: Date;
+}
+
+@injectable()
+export class ListarVagasUseCase {
+  constructor(
+    @inject('VagaRepository') private repo: VagaRepository
+  ) {}
+  
+  async execute(filtro: FiltroVaga): Promise<Vaga[]> {
+    // Pure domain logic, no Redux dependency
+    return this.repo.listar(filtro);
+  }
+}
+
+// ✅ GOOD: Current user passed as parameter
+// src/domain/services/NotificacaoService.ts
+@injectable()
+export class NotificacaoService {
+  constructor(
+    @inject('EmailProvider') private email: EmailProvider,
+    @inject('PushProvider') private push: PushProvider
+  ) {}
+  
+  async enviar(
+    notificacao: Notificacao,
+    destinatario: Usuario // Passed as parameter, not from global state
+  ): Promise<void> {
+    await Promise.all([
+      this.email.enviar(destinatario.email, notificacao),
+      this.push.enviar(destinatario.id, notificacao)
+    ]);
+  }
+}
+
+// ✅ GOOD: App layer bridges Redux and Domain
+// src/app/store/vagaThunks.ts
+export const listarVagas = createAsyncThunk(
+  'vaga/listar',
+  async (_, { getState, rejectWithValue }) => {
+    const container = getContainer();
+    const useCase = container.resolve(ListarVagasUseCase);
+    
+    // Extract filter from Redux state here in App layer
+    const { filtros } = getState().vaga;
+    
+    // Pass as plain DTO to domain
+    const filtroDTO: FiltroVaga = {
+      status: filtros.status,
+      dataInicio: filtros.dataInicio ? new Date(filtros.dataInicio) : undefined,
+      dataFim: filtros.dataFim ? new Date(filtros.dataFim) : undefined
+    };
+    
+    try {
+      const vagas = await useCase.execute(filtroDTO);
+      return vagas;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+```
+
+**Layer Boundaries:**
+
+| Layer | Can Know About | Must NOT Know About |
+|-------|----------------|---------------------|
+| Domain | Shared types, domain interfaces | Redux, React, store, global state |
+| App | Domain, Redux | Presentation components |
+| Presentation | App (Redux), Domain types | Domain implementation details |
+
+**Impact:**
+
+- Reuse impossibility - domain tied to specific app state shape
+- Fragile tests - need Redux store to test domain logic
+- Testing difficulty - can't test UseCase without mocking store
+- Architecture violation - breaks Clean Architecture principles
+
+**Detection:**
+
+- `import { useSelector }` in `domain/` files
+- `import { store }` in `domain/` files
+- `import { RootState }` in `domain/` files
+- `getState()` calls outside of thunks/middleware
+- Check: `grep -r "from '@reduxjs\/toolkit'\|from 'react-redux'" src/domain/`
+
+**Architecture Reference:**
+
+See `@ARCHITECTURE.md` Section 5: "Domain nao deve conhecer estado global (Redux)."
+
+---
+
+## 2. Direct Instantiation (Breaking Dependency Inversion)
+
+**Context:** When classes create their own dependencies instead of receiving them. Violates Dependency Inversion Principle.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Class creates its own dependencies
+// src/domain/usecases/feedback/EnviarFeedbackUseCase.ts
+export class EnviarFeedbackUseCase {
+  private repository: FeedbackRepository;
+  private notificador: EmailService;
+  
+  constructor() {
+    // Direct instantiation!
+    this.repository = new FeedbackRepositoryImpl();
+    this.notificador = new EmailService(); // Depends on concrete implementation
+  }
+  
+  async execute(dados: FeedbackDTO): Promise<void> {
+    await this.repository.salvar(dados);
+    await this.notificador.enviar(dados);
+  }
+}
+
+// ❌ BAD: new keyword in method
+// src/domain/services/RelatorioService.ts
+export class RelatorioService {
+  async gerarRelatorio(dados: DadosRelatorio): Promise<Buffer> {
+    const gerador = new PdfGenerator(); // Direct instantiation in method!
+    return gerador.gerar(dados);
+  }
+}
+
+// ❌ BAD: Factory with hardcoded implementation
+// src/data/api/ApiFactory.ts
+export class ApiFactory {
+  static createUsuarioApi(): UsuarioApi {
+    return new UsuarioApiImpl(); // Hardcoded concrete class
+  }
+}
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Dependencies injected via constructor
+// src/domain/usecases/feedback/EnviarFeedbackUseCase.ts
+import { injectable, inject } from 'tsyringe';
+
+@injectable()
+export class EnviarFeedbackUseCase {
+  constructor(
+    @inject('FeedbackRepository') 
+    private repository: FeedbackRepository, // Interface, not concrete
+    
+    @inject('NotificacaoService') 
+    private notificador: NotificacaoService // Interface, not concrete
+  ) {}
+  
+  async execute(dados: FeedbackDTO): Promise<Resultado<Feedback>> {
+    const feedback = new Feedback(dados);
+    
+    await this.repository.salvar(feedback);
+    await this.notificador.enviar(feedback);
+    
+    return { sucesso: true, dados: feedback };
+  }
+}
+
+// ✅ GOOD: Dependency passed as parameter
+// src/domain/services/RelatorioService.ts
+@injectable()
+export class RelatorioService {
+  constructor(
+    @inject('PdfGenerator') private pdfGenerator: PdfGenerator
+  ) {}
+  
+  async gerarRelatorio(dados: DadosRelatorio): Promise<Buffer> {
+    // Uses injected dependency, doesn't create it
+    return this.pdfGenerator.gerar(dados);
+  }
+}
+
+// ✅ GOOD: Container resolves dependencies
+// src/core/di/container.ts
+import { container } from 'tsyringe';
+import { UsuarioRepositoryImpl } from '@/data/repositories/UsuarioRepositoryImpl';
+import { UsuarioApi } from '@/data/api/UsuarioApi';
+
+// Register implementations
+container.register('UsuarioRepository', {
+  useClass: UsuarioRepositoryImpl
+});
+
+container.register('UsuarioApi', {
+  useValue: usuarioApi
+});
+
+// Usage in component/page
+// src/presentation/pages/Perfil.tsx
+const PerfilPage = () => {
+  const container = useContainer();
+  const obterUsuarioUseCase = container.resolve(ObterUsuarioUseCase);
+  // Container injects all dependencies automatically
+};
+```
+
+**Dependency Inversion Principle:**
+
+| Violation | Solution |
+|-----------|----------|
+| `new ConcreteClass()` | Constructor injection |
+| Direct instantiation | DI container resolution |
+| Hardcoded dependencies | Interface abstraction |
+| `import { Impl } from '...'` | `import { Interface } from '@/domain/...'` |
+
+**Impact:**
+
+- Low test coverage - can't mock dependencies
+- High fragility - changing implementation breaks tests
+- Tight coupling - modules depend on concrete implementations
+- No flexibility - can't swap implementations (e.g., mock for testing)
+
+**Detection:**
+
+- `new` keyword in domain/usecase files (outside of factory methods)
+- Concrete class imports in domain: `import { RepoImpl }`
+- Constructor calling `new` to create dependencies
+- Hardcoded class names in "factory" functions
+
+**Testability Comparison:**
+
+```typescript
+// ❌ BAD: Hard to test - uses real repository
+class BadUseCase {
+  private repo = new VagaRepositoryImpl(); // Real API calls!
+}
+
+// ✅ GOOD: Easy to test - can inject mock
+class GoodUseCase {
+  constructor(
+    @inject('VagaRepository') private repo: VagaRepository
+  ) {}
+}
+
+// Test:
+const mockRepo = { listar: jest.fn().mockResolvedValue([]) };
+const useCase = new GoodUseCase(mockRepo);
+```
+
+**Architecture Reference:**
+
+See `@ARCHITECTURE.md` Section 6: "DI Container (TSyringe) - injetar dependencias via construtor."
+
+---
+
+## 3. Hidden Side Effects
+
+**Context:** When functions have unexpected side effects that aren't visible in their signature. Violates Principle of Least Astonishment.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Hidden side effect - modifies global state
+// src/domain/utils/calculadora.ts
+export const calcularTotal = (itens: Item[]): number => {
+  const total = itens.reduce((sum, item) => sum + item.valor, 0);
+  
+  // Hidden side effect!
+  localStorage.setItem('ultimoCalculo', total.toString());
+  
+  return total;
+};
+
+// ❌ BAD: Hidden API call
+// src/domain/services/CacheService.ts
+export class CacheService {
+  obter<T>(chave: string): T | null {
+    const cached = this.store.get(chave);
+    
+    if (!cached) {
+      // Hidden side effect - API call in getter!
+      this.refreshFromServer(chave);
+    }
+    
+    return cached;
+  }
+}
+
+// ❌ BAD: Modifies input parameter
+// src/domain/entities/Pedido.ts
+export const adicionarItem = (pedido: Pedido, item: Item): void => {
+  // Mutates the input object - side effect!
+  pedido.itens.push(item);
+  pedido.total += item.valor;
+};
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Pure function - no side effects
+// src/domain/utils/calculadora.ts
+export const calcularTotal = (itens: Item[]): number => {
+  return itens.reduce((sum, item) => sum + item.valor, 0);
+};
+
+// Side effect explicit in calling code
+const total = calcularTotal(itens);
+salvarNoHistorico(total); // Explicit, not hidden
+
+// ✅ GOOD: Side effects explicit and injectable
+// src/domain/services/CacheService.ts
+@injectable()
+export class CacheService {
+  constructor(
+    @inject('ApiClient') private api: ApiClient
+  ) {}
+  
+  // Getter is pure
+  obter<T>(chave: string): T | null {
+    return this.store.get(chave) || null;
+  }
+  
+  // Refresh is explicit operation
+  async refresh<T>(chave: string): Promise<T> {
+    const dados = await this.api.get<T>(chave);
+    this.store.set(chave, dados);
+    return dados;
+  }
+}
+
+// ✅ GOOD: Immutable operations return new objects
+// src/domain/entities/Pedido.ts
+export class Pedido {
+  constructor(
+    private readonly _id: string,
+    private readonly _itens: Item[],
+    private readonly _total: number
+  ) {}
+  
+  // Returns new Pedido, doesn't mutate
+  adicionarItem(novoItem: Item): Pedido {
+    const novosItens = [...this._itens, novoItem];
+    const novoTotal = this._total + novoItem.valor;
+    
+    return new Pedido(this._id, novosItens, novoTotal);
+  }
+  
+  get itens(): readonly Item[] { return this._itens; }
+  get total(): number { return this._total; }
+}
+
+// Usage:
+const pedidoAtualizado = pedido.adicionarItem(novoItem);
+// Original pedido unchanged
+```
+
+**Side Effect Transparency:**
+
+| Type | Indicator | Example |
+|------|-----------|---------|
+| Pure function | Returns value only | `calcularTotal(items)` |
+| Command | Returns void or Result | `salvar(dados)` |
+| Query | Returns data, no changes | `obterPorId(id)` |
+| Async | Returns Promise | `buscarDados()` |
+
+**Impact:**
+
+- Low test coverage - side effects make tests unpredictable
+- High fragility - functions behave differently based on external state
+- Debugging difficulty - don't know where state changes come from
+- Race conditions - hidden async operations
+
+**Detection:**
+
+- `localStorage`/`sessionStorage` access outside of dedicated services
+- API calls in getters
+- Array mutation: `.push()`, `.pop()`, `.splice()`
+- Object mutation: `obj.prop = value`
+- Global variable modifications
+- DOM manipulation outside of React components
+
+**Best Practices:**
+
+1. **Pure functions** for calculations and transformations
+2. **Explicit commands** for state changes (separate from queries)
+3. **Immutable updates** - return new objects instead of mutating
+4. **Dependency injection** for services that have side effects
+5. **Clear naming** - `obter` (query) vs `atualizar` (command)
+
+---
+
+## 4. Interface Segregation Violations
+
+**Context:** When interfaces are too large, forcing implementations to depend on methods they don't need.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Fat interface
+// src/domain/repositories/Repository.ts
+export interface Repository<T> {
+  criar(dados: T): Promise<T>;
+  obterPorId(id: string): Promise<T | null>;
+  listar(): Promise<T[]>;
+  atualizar(id: string, dados: T): Promise<T>;
+  deletar(id: string): Promise<void>;
+  buscar(filtro: Filtro): Promise<T[]>;
+  contar(): Promise<number>;
+  paginar(pagina: number, tamanho: number): Promise<Pagina<T>>;
+  ordenar(campo: string, direcao: 'asc' | 'desc'): Promise<T[]>;
+  exportar(): Promise<Buffer>;
+  importar(dados: Buffer): Promise<void>;
+}
+
+// ❌ BAD: Implementation forced to implement unused methods
+export class VagaRepositoryImpl implements Repository<Vaga> {
+  // Must implement all, even if not needed
+  async exportar(): Promise<Buffer> {
+    throw new Error('Not implemented'); // Dead code!
+  }
+  
+  async importar(): Promise<void> {
+    throw new Error('Not implemented'); // Dead code!
+  }
+}
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Segregated interfaces
+// src/domain/repositories/CrudRepository.ts
+export interface CrudRepository<T> {
+  criar(dados: T): Promise<T>;
+  obterPorId(id: string): Promise<T | null>;
+  listar(): Promise<T[]>;
+  atualizar(id: string, dados: T): Promise<T>;
+  deletar(id: string): Promise<void>;
+}
+
+// src/domain/repositories/QueryableRepository.ts
+export interface QueryableRepository<T> {
+  buscar(filtro: Filtro): Promise<T[]>;
+  paginar(pagina: number, tamanho: number): Promise<Pagina<T>>;
+  ordenar(campo: string, direcao: 'asc' | 'desc'): Promise<T[]>;
+  contar(): Promise<number>;
+}
+
+// src/domain/repositories/ExportableRepository.ts
+export interface ExportableRepository<T> {
+  exportar(): Promise<Buffer>;
+  importar(dados: Buffer): Promise<void>;
+}
+
+// ✅ GOOD: Implementation implements only what it needs
+@injectable()
+export class VagaRepositoryImpl 
+  implements CrudRepository<Vaga>, QueryableRepository<Vaga> {
+  // Only implements methods that make sense for Vaga
+  async criar(dados: Vaga): Promise<Vaga> { /* ... */ }
+  async obterPorId(id: string): Promise<Vaga | null> { /* ... */ }
+  // ... etc
+}
+
+// ✅ GOOD: UseCase depends on minimal interface
+@injectable()
+export class ListarVagasUseCase {
+  constructor(
+    @inject('VagaRepository') 
+    private repo: QueryableRepository<Vaga> // Only needs query methods
+  ) {}
+}
+
+@injectable()
+export class CriarVagaUseCase {
+  constructor(
+    @inject('VagaRepository') 
+    private repo: CrudRepository<Vaga> // Only needs CRUD methods
+  ) {}
+}
+```
+
+**Impact:**
+
+- Low cohesion - interfaces mix unrelated responsibilities
+- Implementation burden - must implement unused methods
+- Testing overhead - more methods to mock
+- Interface pollution - hard to understand what methods are actually used
+
+**Detection:**
+
+- Interfaces with > 5 methods
+- `throw new Error('Not implemented')` in implementations
+- Comments like "not used" or "placeholder" in implementations
+- Methods that return null/undefined always
+
+---
+
+## 5. Open/Closed Principle Violations
+n**Context:** When modifying existing code to add new features instead of extending. Open for extension, closed for modification.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Adding cases to existing switch
+// src/domain/services/CalculadoraSalario.ts
+export class CalculadoraSalario {
+  calcular(valor: number, tipo: TipoContrato): number {
+    switch (tipo) {
+      case 'CLT':
+        return valor * 1.3;
+      case 'PJ':
+        return valor;
+      case 'ESTAGIO': // Added later - modified existing class!
+        return valor * 0.8;
+      default:
+        return valor;
+    }
+  }
+}
+
+// ❌ BAD: Modifying enum and all usages
+// src/domain/enums/StatusCandidatura.ts
+export enum StatusCandidatura {
+  PENDENTE = 'PENDENTE',
+  APROVADO = 'APROVADO',
+  REPROVADO = 'REPROVADO',
+  // Added later - must modify all switch statements!
+  EM_ANALISE = 'EM_ANALISE'
+}
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Strategy pattern for extensibility
+// src/domain/strategies/SalarioStrategy.ts
+export interface SalarioStrategy {
+  calcular(valorBase: number): number;
+}
+
+@injectable()
+export class CltStrategy implements SalarioStrategy {
+  calcular(valorBase: number): number {
+    return valorBase * 1.3;
+  }
+}
+
+@injectable()
+export class PjStrategy implements SalarioStrategy {
+  calcular(valorBase: number): number {
+    return valorBase;
+  }
+}
+
+@injectable()
+export class EstagioStrategy implements SalarioStrategy {
+  calcular(valorBase: number): number {
+    return valorBase * 0.8;
+  }
+}
+
+// ✅ GOOD: Calculator uses strategy - open for extension
+@injectable()
+export class CalculadoraSalario {
+  constructor(
+    @injectAll('SalarioStrategy') 
+    private strategies: Map<string, SalarioStrategy>
+  ) {}
+  
+  calcular(valor: number, tipo: string): number {
+    const strategy = this.strategies.get(tipo);
+    if (!strategy) {
+      throw new Error(`Tipo de contrato desconhecido: ${tipo}`);
+    }
+    return strategy.calcular(valor);
+  }
+}
+
+// New contract type? Just add new strategy - no existing code modified!
+```
+
+**Impact:**
+
+- Regression risk - every modification can break existing code
+- Testing burden - must retest all existing functionality
+- Code instability - frequent changes to stable classes
+- Merge conflicts - multiple developers modifying same file
+
+**Detection:**
+
+- Frequent modifications to existing classes
+- Adding cases to switch statements
+- Modifying enums
+- Comments like "added for feature X"
+- Long methods with many conditionals
+
+---
+
+Output Requirement: The final output must be in Portuguese (PT-BR) with all file names, variables and code patterns following Brazilian Portuguese conventions.

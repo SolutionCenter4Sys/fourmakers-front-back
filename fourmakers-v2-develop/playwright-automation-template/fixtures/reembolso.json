@@ -1,0 +1,31 @@
+{
+  "credenciais": {
+    "email": "usuario@fourmakers.io"
+  },
+
+  "reembolsoValido": {
+    "objetivo"   : "Visita ao cliente",
+    "destino"    : "Alphaville - SP",
+    "dataInicio" : { "dia": "1", "mes": "abril" },
+    "dataFim"    : { "dia": "5", "mes": "abril" },
+    "dataDespesa": { "dia": "2", "mes": "abril" },
+    "valor"         : "15000",
+    "valorFormatado": "150,00",
+    "descricao"  : "Almoço de negócios com cliente na sede da empresa parceira"
+  },
+
+  "reembolsoKmRodado": {
+    "objetivo"   : "Deslocamento ao cliente",
+    "destino"    : "Alphaville - SP",
+    "dataInicio" : { "dia": "1", "mes": "abril" },
+    "dataFim"    : { "dia": "5", "mes": "abril" },
+    "dataDespesa": { "dia": "2", "mes": "abril" },
+    "quantidade" : "50",
+    "descricao"  : "Deslocamento de carro próprio para visita ao cliente"
+  },
+
+  "reembolsoSegundoItem": {
+    "dataDespesa": { "dia": "3", "mes": "abril" },
+    "descricao"  : "Jantar de alinhamento com equipe do cliente"
+  }
+}

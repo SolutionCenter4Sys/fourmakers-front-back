@@ -1,0 +1,2 @@
+export { ExportarRelatorioModal } from './ExportarRelatorioModal'
+

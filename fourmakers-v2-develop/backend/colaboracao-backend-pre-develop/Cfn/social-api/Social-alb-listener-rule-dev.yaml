@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: IaC Architectural Resources
+Parameters:
+  Env:
+    Default: dev
+    Type: String
+  HostName:
+    Default: social-api
+    Type: String
+  PathPattern:
+    Default: /api/Social/*
+    Type: String
+  Priority:
+    Default: 1615
+    Type: String
+  ProxyHostName:
+    Default: fourmakershub-api
+    Type: String
+Resources:
+  Stack:
+    Properties:
+      Parameters:
+        Env:
+          Fn::Sub: ${Env}
+        HostName:
+          Fn::Sub: ${HostName}
+        PathPattern:
+          Fn::Sub: ${PathPattern}
+        Priority:
+          Fn::Sub: ${Priority}
+        ProxyHostName:
+          Fn::Sub: ${ProxyHostName}
+        StackName:
+          Fn::Sub: ${AWS::StackName}
+      TemplateURL: https://fsys2-bucket-cfn-dev.s3.amazonaws.com/alb-listener-rule-template.yaml
+    Type: AWS::CloudFormation::Stack

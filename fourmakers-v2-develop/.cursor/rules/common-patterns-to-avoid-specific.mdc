@@ -1,0 +1,705 @@
+---
+name: common-patterns-to-avoid-specific
+description: "Apply when reviewing HTTP client usage, analyzing Design System compliance, or checking modal implementations. Triggers on: fetch() or axios direct usage, hardcoded Tailwind colors (bg-green-, text-red-, bg-blue-), Loader2 or RefreshCw usage for loading states, modals missing DialogTitle or DialogDescription, missing observability/logging. Use for: enforcing project-specific patterns from ARCHITECTURE.md and DESIGN_SYSTEM_AUDIT.md."
+---
+
+**Version:** 1.2.0  
+**Last Updated:** 06/03/2026
+
+---
+
+# Project-Specific Pattern Violations
+
+Mandatory patterns defined in `@ARCHITECTURE.md` and `@DESIGN_SYSTEM_AUDIT.md`.
+
+---
+
+## 1. Direct fetch Usage
+
+**Context:** When making HTTP requests. All API calls must use the centralized `httpClient` factory.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Direct fetch
+// src/data/api/UsuarioApi.ts
+export const buscarUsuario = async (id: string) => {
+  const response = await fetch(`/api/usuarios/${id}`);
+  return response.json();
+};
+
+// ❌ BAD: Direct axios
+// src/presentation/hooks/useVagas.ts
+import axios from 'axios';
+
+const useVagas = () => {
+  useEffect(() => {
+    axios.get('/api/vagas').then(response => {
+      setVagas(response.data);
+    });
+  }, []);
+};
+
+// ❌ BAD: fetch in component
+// src/presentation/pages/Perfil.tsx
+const carregarPerfil = async () => {
+  const res = await fetch('/api/perfil', {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+  return res.json();
+};
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: httpClient factory
+// src/data/api/httpClient.ts
+import axios, { AxiosInstance } from 'axios';
+
+export const createHttpClient = (): AxiosInstance => {
+  const client = axios.create({
+    baseURL: process.env.VITE_API_URL,
+    timeout: 30000
+  });
+  
+  // Centralized interceptors
+  client.interceptors.request.use(config => {
+    const token = store.getState().auth.token;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  });
+  
+  client.interceptors.response.use(
+    response => response,
+    error => {
+      // Centralized error handling
+      if (error.response?.status === 401) {
+        store.dispatch(logout());
+      }
+      return Promise.reject(error);
+    }
+  );
+  
+  return client;
+};
+
+// ✅ GOOD: API using httpClient
+// src/data/api/UsuarioApi.ts
+import { createHttpClient } from './httpClient';
+
+export const usuarioApi = {
+  async obterPorId(id: string): Promise<UsuarioResponse> {
+    const httpClient = createHttpClient();
+    const response = await httpClient.get(`/api/Usuario/Obter/${id}`);
+    return response.data.retorno;
+  },
+  
+  async listar(): Promise<UsuarioResponse[]> {
+    const httpClient = createHttpClient();
+    const response = await httpClient.get('/api/Usuario/Listar');
+    return response.data.retorno;
+  }
+};
+
+// ✅ GOOD: Repository uses API (not HTTP directly)
+// src/data/repositories/UsuarioRepositoryImpl.ts
+@injectable()
+export class UsuarioRepositoryImpl implements UsuarioRepository {
+  constructor(
+    @inject('UsuarioApi') private api: UsuarioApi
+  ) {}
+  
+  async obterPorId(id: string): Promise<Usuario | null> {
+    try {
+      const response = await this.api.obterPorId(id);
+      return this.mapToDomain(response);
+    } catch (error) {
+      if (error.response?.status === 404) {
+        return null;
+      }
+      throw error;
+    }
+  }
+}
+```
+
+**Why httpClient Factory:**
+
+| Benefit | Description |
+|---------|-------------|
+| Centralized auth | Token added to all requests automatically |
+| Centralized logging | All requests/responses logged consistently |
+| Error handling | 401, 500 errors handled in one place |
+| Base URL config | Environment-specific URLs in one place |
+| Observability | Firebase/analytics tracking in interceptors |
+| Retry logic | Can add retry strategies centrally |
+
+**Impact:**
+
+- Loss of traceability - can't track all API calls uniformly
+- Observability failure - inconsistent logging/metrics
+- Inconsistent logs - some APIs log differently than others
+- Security gaps - auth headers added inconsistently
+- Maintenance burden - change auth logic in N places
+
+**Detection:**
+
+- `fetch(` anywhere in codebase except core/httpClient
+- `axios` imported outside `data/api`
+- `import axios from 'axios'` in `.tsx` files
+- Check: `grep -r "fetch\|from 'axios'" src/presentation/ src/domain/ src/shared/`
+
+**Architecture Reference:**
+
+See `@ARCHITECTURE.md` Section 3.3: "HTTP Client Factory (createHttpClient) - obrigatorio, nao usar fetch/axios diretamente."
+
+See `@DESIGN_SYSTEM_AUDIT.md` Section 1.2: "APIs: Chamadas via httpClient (nao ha fetch() direto)."
+
+---
+
+## 2. Ignoring Observability
+
+**Context:** When implementing user actions or critical flows. Significant interactions must be logged.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: No logging on important action
+// src/presentation/components/feedback/EnviarFeedbackModal.tsx
+const handleSubmit = async (dados: FeedbackForm) => {
+  await feedbackApi.criar(dados);
+  toast.success('Feedback enviado');
+  onClose();
+};
+
+// ❌ BAD: Silent action
+// src/domain/usecases/candidatura/AprovarCandidatoUseCase.ts
+async execute(candidatoId: string): Promise<void> {
+  await this.repo.atualizarStatus(candidatoId, 'APROVADO');
+  await this.notificacao.enviar(candidatoId, 'APROVADO');
+  // No audit, no logging!
+}
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Firebase analytics logging
+// src/presentation/components/feedback/EnviarFeedbackModal.tsx
+import { logUserAction } from '@/core/analytics/firebase';
+
+const handleSubmit = async (dados: FeedbackForm) => {
+  try {
+    const resultado = await enviarFeedbackUseCase.execute(dados);
+    
+    // Log significant user action
+    logUserAction({
+      action: 'FEEDBACK_ENVIADO',
+      feature: 'Feedback360',
+      metadata: {
+        nivel: dados.nivel,
+        hasComentario: !!dados.comentario
+      }
+    });
+    
+    toast.success('Feedback enviado');
+    onClose();
+  } catch (error) {
+    logUserAction({
+      action: 'FEEDBACK_ERRO',
+      feature: 'Feedback360',
+      error: error.message
+    });
+    toast.error('Erro ao enviar feedback');
+  }
+};
+
+// ✅ GOOD: Audit logging in domain
+// src/domain/usecases/candidatura/AprovarCandidatoUseCase.ts
+@injectable()
+export class AprovarCandidatoUseCase {
+  constructor(
+    @inject('CandidaturaRepository') private repo: CandidaturaRepository,
+    @inject('NotificacaoService') private notificacao: NotificacaoService,
+    @inject('AuditoriaService') private auditoria: AuditoriaService,
+    @inject('Logger') private logger: Logger
+  ) {}
+  
+  async execute(candidatoId: string): Promise<Resultado<void>> {
+    this.logger.info('Iniciando aprovacao de candidato', { candidatoId });
+    
+    const candidatura = await this.repo.obterPorId(candidatoId);
+    if (!candidatura) {
+      this.logger.warn('Candidato nao encontrado', { candidatoId });
+      return { sucesso: false, erro: 'Candidato nao encontrado' };
+    }
+    
+    // Business action with audit
+    candidatura.aprovar();
+    await this.repo.salvar(candidatura);
+    
+    // Audit trail
+    await this.auditoria.registrar({
+      tipo: 'CANDIDATURA_APROVADA',
+      entidadeId: candidatoId,
+      usuarioId: this.getUsuarioAtual(),
+      dadosAnteriores: { status: 'EM_ANALISE' },
+      dadosNovos: { status: 'APROVADO' },
+      timestamp: new Date()
+    });
+    
+    // Notification
+    await this.notificacao.enviar(candidatura.candidatoEmail, {
+      tipo: 'APROVACAO',
+      dados: { vagaTitulo: candidatura.vagaTitulo }
+    });
+    
+    this.logger.info('Candidato aprovado com sucesso', { candidatoId });
+    
+    return { sucesso: true };
+  }
+}
+```
+
+**Actions That Must Be Logged:**
+
+| Action | Log Level | Data to Track |
+|--------|-----------|---------------|
+| Create/Update/Delete | Info | Entity type, ID, user |
+| State transitions | Info | From/To status, reason |
+| Login/Logout | Info | User ID, timestamp |
+| Errors | Warn/Error | Error message, context |
+| Security events | Warn | Failed auth, access denied |
+| Critical flows | Info | Feature name, success/failure |
+
+**Impact:**
+
+- Operational blind spot - can't debug production issues
+- Debugging difficulty - don't know what user did
+- Security gaps - can't audit who did what
+- Analytics missing - can't measure feature usage
+
+**Detection:**
+
+- API calls without any logging
+- Critical flows (payment, approval, deletion) without audit
+- Error handling without error logging
+- No `logUserAction` or similar in feature components
+
+---
+
+## 3. Breaking Modal Pattern
+
+**Context:** When implementing Dialog/Modal components. Must follow Design System modal structure.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Modal without DialogDescription
+// src/presentation/components/vaga/ConfirmarExclusaoModal.tsx
+<Dialog open={open} onOpenChange={onOpenChange}>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Confirmar Exclusao</DialogTitle>
+      {/* Missing DialogDescription! */}
+    </DialogHeader>
+    <p>Tem certeza que deseja excluir esta vaga?</p>
+    <DialogFooter>
+      <Button onClick={onClose}>Cancelar</Button>
+      <Button onClick={onConfirm} variant="destructive">Excluir</Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
+// ❌ BAD: Modal with external logic
+// src/presentation/components/feedback/FeedbackModal.tsx
+<Dialog open={open} onOpenChange={onOpenChange}>
+  <DialogContent>
+    {/* Modal contains business orchestration */}
+    <EnviarFeedbackFlow /> {/* Complex component inside modal */}
+  </DialogContent>
+</Dialog>
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Complete modal structure
+// src/presentation/components/vaga/ConfirmarExclusaoModal.tsx
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+
+interface ConfirmarExclusaoModalProps {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onConfirm: () => void;
+  tituloVaga: string;
+}
+
+export const ConfirmarExclusaoModal = ({
+  open,
+  onOpenChange,
+  onConfirm,
+  tituloVaga
+}: ConfirmarExclusaoModalProps) => {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Confirmar Exclusao</DialogTitle>
+          {/* Required for accessibility */}
+          <DialogDescription>
+            Tem certeza que deseja excluir a vaga "{tituloVaga}"? 
+            Esta acao nao pode ser desfeita.
+          </DialogDescription>
+        </DialogHeader>
+        
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Cancelar
+          </Button>
+          <Button variant="destructive" onClick={onConfirm}>
+            Excluir
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+// ✅ GOOD: Modal is thin wrapper, logic outside
+// src/presentation/components/feedback/EnviarFeedbackModal.tsx
+export const EnviarFeedbackModal = ({
+  open,
+  onOpenChange,
+  onEnviar
+}: EnviarFeedbackModalProps) => {
+  const [comentario, setComentario] = useState('');
+  const [nivel, setNivel] = useState<number>(3);
+  
+  const handleEnviar = () => {
+    onEnviar({ comentario, nivel });
+    onOpenChange(false);
+  };
+  
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Enviar Feedback</DialogTitle>
+          <DialogDescription>
+            Compartilhe seu feedback sobre este colaborador.
+          </DialogDescription>
+        </DialogHeader>
+        
+        {/* Form inside modal - not complex orchestration */}
+        <div className="space-y-4">
+          <NivelSelector value={nivel} onChange={setNivel} />
+          <Textarea 
+            value={comentario} 
+            onChange={e => setComentario(e.target.value)}
+            placeholder="Descreva seu feedback..."
+          />
+        </div>
+        
+        <DialogFooter>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Cancelar
+          </Button>
+          <Button onClick={handleEnviar}>
+            Enviar
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+```
+
+**Modal Pattern Requirements:**
+
+| Requirement | Implementation |
+|-------------|----------------|
+| Isolated | Single file per modal in `components/[feature]/modais/` |
+| Controlled | Must receive `open` and `onOpenChange` props |
+| Accessible | Must include `DialogTitle` and `DialogDescription` |
+| Thin | Complex logic delegated to UseCases, not in modal |
+| Consistent | Use DS Dialog components (not custom modals) |
+
+**Impact:**
+
+- UI inconsistent - modals look and behave differently
+- Difficult maintenance - modal logic scattered
+- Accessibility issues - screen readers can't understand modal purpose
+- Testing difficulty - complex modals hard to test
+
+**Detection:**
+
+- `<Dialog>` without `<DialogDescription>`
+- `grep -L "DialogDescription" src/presentation/components/*/modais/*.tsx`
+- Modals with > 100 lines of logic
+- Modals importing UseCases directly (should receive callbacks)
+
+**Design System Reference:**
+
+See `@DESIGN_SYSTEM_AUDIT.md` Section 1.1: "Modais com `DialogTitle` e `DialogDescription`."
+
+See `@DESIGN_SYSTEM_AUDIT.md` Section 1.3: "Modais sem DialogDescription - outros times."
+
+---
+
+## 4. Hardcoded Design System Colors
+
+**Context:** When styling components. Must use Design System tokens, not Tailwind colors.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Hardcoded Tailwind colors
+// src/presentation/components/status/StatusBadge.tsx
+const StatusBadge = ({ status }: { status: string }) => {
+  return (
+    <span className={`
+      ${status === 'ativo' ? 'bg-green-100 text-green-800' : ''}
+      ${status === 'inativo' ? 'bg-red-100 text-red-800' : ''}
+      ${status === 'pendente' ? 'bg-yellow-100 text-yellow-800' : ''}
+      ${status === 'info' ? 'bg-blue-100 text-blue-800' : ''}
+      px-2 py-1 rounded
+    `}>
+      {status}
+    </span>
+  );
+};
+
+// ❌ BAD: Direct color values
+// src/presentation/pages/recrutamento/GestaoVagas.tsx
+<div className="bg-white border-gray-200">
+  <h2 className="text-gray-800">Vagas</h2>
+</div>
+
+// ❌ BAD: bg-white everywhere
+// src/presentation/components/cards/VagaCard.tsx
+<Card className="bg-white shadow-md">
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Design System tokens
+// src/presentation/components/status/StatusBadge.tsx
+import { Badge } from '@/components/ui/badge';
+
+const StatusBadge = ({ status }: { status: StatusVaga }) => {
+  const variants: Record<StatusVaga, 'default' | 'secondary' | 'destructive' | 'outline'> = {
+    'ATIVA': 'default',
+    'PUBLICADA': 'default',
+    'RASCUNHO': 'secondary',
+    'EXPIRADA': 'destructive',
+    'CANCELADA': 'destructive'
+  };
+  
+  return <Badge variant={variants[status]}>{status}</Badge>;
+};
+
+// ✅ GOOD: Semantic tokens
+// src/presentation/pages/recrutamento/GestaoVagas.tsx
+<div className="bg-surfaceElevated border-borderSoft">
+  <h2 className="text-foreground">Vagas</h2>
+</div>
+
+// ✅ GOOD: Using Card component from DS
+// src/presentation/components/cards/VagaCard.tsx
+<Card className="border-borderSoft">
+  {/* Card already has correct bg from DS */}
+</Card>
+```
+
+**Token Mapping:**
+
+| Don't Use (Hardcoded) | Use (DS Token) |
+|----------------------|----------------|
+| `bg-green-100` | `bg-success/10` or `bg-success` |
+| `text-green-800` | `text-success` |
+| `bg-red-100` | `bg-destructive/10` |
+| `text-red-600` | `text-destructive` |
+| `bg-yellow-100` | `bg-warning/10` |
+| `bg-blue-100` | `bg-info/10` |
+| `bg-white` | `bg-surfaceElevated` or `bg-background` |
+| `bg-gray-100` | `bg-muted` |
+| `text-gray-800` | `text-foreground` |
+| `text-gray-500` | `text-muted-foreground` |
+| `border-gray-200` | `border-borderSoft` |
+
+**Impact:**
+
+- Inconsistent UI - some elements don't match DS
+- Dark mode breaks - hardcoded colors don't adapt
+- Maintenance burden - change requires finding all hardcoded values
+- Design debt - drift from approved design
+
+**Detection:**
+
+- `grep -r "bg-green-\|bg-red-\|bg-blue-\|bg-yellow-" src/`
+- `grep -r "text-green-\|text-red-\|text-blue-" src/`
+- `grep -r "bg-white" src/ --include="*.tsx" | grep -v "design-toolkit"`
+- Any color class ending in number (e.g., `-100`, `-800`)
+
+**Design System Reference:**
+
+See `@DESIGN_SYSTEM_AUDIT.md` Section 1.3: "Cores hardcoded (Alta prioridade) - outros times."
+
+See `@public/design-toolkit.md` Section 1.2: "Tokens Estruturais" for all color tokens.
+
+---
+
+## 5. Incorrect Loading Indicators
+
+**Context:** When showing loading states. Must use DS Spinner component.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Loader2 icon for loading
+// src/presentation/components/vaga/VagasList.tsx
+import { Loader2 } from 'lucide-react';
+
+{loading && <Loader2 className="animate-spin" />}
+
+// ❌ BAD: RefreshCw for loading
+// src/presentation/components/candidatura/CandidatosTab.tsx
+import { RefreshCw } from 'lucide-react';
+
+{loading && <RefreshCw className="animate-spin" />}
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Spinner component from DS
+// src/presentation/components/vaga/VagasList.tsx
+import { Spinner } from '@/components/ui/spinner';
+
+{loading && <Spinner size="md" />}
+
+// ✅ GOOD: Full screen loading
+// src/presentation/pages/recrutamento/GestaoVagas.tsx
+import { Spinner } from '@/components/ui/spinner';
+
+{loading && (
+  <div className="flex justify-center items-center h-64">
+    <Spinner size="lg" />
+    <span className="ml-2 text-muted-foreground">Carregando vagas...</span>
+  </div>
+)}
+```
+
+**Spinner Sizes:**
+
+| Size | Usage |
+|------|-------|
+| `sm` | Inline, buttons |
+| `md` | Cards, lists |
+| `lg` | Full page, modals |
+
+**Impact:**
+
+- UI inconsistent - different loading indicators
+- Design System non-compliance
+- User confusion - different spinners look like different states
+
+**Detection:**
+
+- `grep -r "Loader2\|RefreshCw" src/ --include="*.tsx"`
+- Check imports from `lucide-react` for loading indicators
+
+**Design System Reference:**
+
+See `@DESIGN_SYSTEM_AUDIT.md` Section 1.2: "Loading corrigido (Loader2 -> Spinner)."
+
+---
+
+## 6. Inconsistent Naming for Tracking
+
+**Context:** When implementing analytics/tracking. FlowIdentifier and FeatureName must follow consistent patterns.
+
+**Forbidden:**
+
+```typescript
+// ❌ BAD: Inconsistent feature naming
+// Feature A
+logUserAction({ feature: 'feedback360', action: 'enviar' });
+
+// Feature B (same feature, different name)
+logUserAction({ feature: 'Feedback360', action: 'criar' });
+
+// Feature C (another variation)
+logUserAction({ feature: 'feedback_360', action: 'submit' });
+
+// ❌ BAD: Inconsistent action naming
+logUserAction({ action: 'click' });
+logUserAction({ action: 'clique' });
+logUserAction({ action: 'button_click' });
+```
+
+**Required:**
+
+```typescript
+// ✅ GOOD: Consistent naming
+// src/core/analytics/tracking.ts
+export const FEATURES = {
+  FEEDBACK_360: 'Feedback360',
+  GESTAO_VAGAS: 'GestaoVagas',
+  CANDIDATURA: 'Candidatura',
+  PERMISSIONAMENTO: 'Permissionamento'
+} as const;
+
+export const ACTIONS = {
+  CREATE: 'Create',
+  UPDATE: 'Update',
+  DELETE: 'Delete',
+  VIEW: 'View',
+  SUBMIT: 'Submit',
+  APPROVE: 'Approve',
+  REJECT: 'Reject'
+} as const;
+
+// ✅ GOOD: Using constants
+logUserAction({
+  feature: FEATURES.FEEDBACK_360,
+  action: ACTIONS.SUBMIT,
+  metadata: { nivel: 4 }
+});
+```
+
+**Naming Conventions:**
+
+| Element | Format | Example |
+|---------|--------|---------|
+| FeatureName | PascalCase | `Feedback360`, `GestaoVagas` |
+| Action | PascalCase | `Create`, `Update`, `Approve` |
+| FlowIdentifier | camelCase or CONSTANT_CASE | `enviarFeedback`, `APROVACAO_CANDIDATO` |
+
+**Impact:**
+
+- Unusable metrics - can't aggregate by feature
+- Imprecise data - same feature counted separately
+- Analytics confusion - reports show wrong numbers
+
+**Detection:**
+
+- String literals for feature names
+- Inconsistent casing across files
+- Action names in different languages
+
+---
+
+Output Requirement: The final output must be in Portuguese (PT-BR) with all file names, variables and code patterns following Brazilian Portuguese conventions.

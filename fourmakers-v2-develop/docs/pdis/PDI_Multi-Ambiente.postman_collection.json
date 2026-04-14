@@ -1,0 +1,718 @@
+{
+  "info": {
+    "name": "PDI — Multi-Ambiente",
+    "description": "Collection PDI com endpoints para os 3 ambientes no mesmo arquivo.\n\n- **Desenvolvimento:** https://spw.app.foursys.com/backoffice-rf-hom\n- **Homologação:** https://fourmakershub-api.dev.fourmakers.io\n- **Produção:** https://api.fourmakers.io\n\nTodos os endpoints exigem **Authorization: Bearer {JWT}**.\nVariáveis da collection: `token`, `pdiId`, `actionPlanId`, `colaboradorId`, `evidenciaId`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{token}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "token", "value": "" },
+    { "key": "pdiId", "value": "" },
+    { "key": "actionPlanId", "value": "" },
+    { "key": "colaboradorId", "value": "" },
+    { "key": "evidenciaId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Desenvolvimento",
+      "description": "Base URL: https://spw.app.foursys.com/backoffice-rf-hom",
+      "item": [
+        {
+          "name": "1. Meus PDIs",
+          "item": [
+            {
+              "name": "Listar meus PDIs",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/MeusPdis",
+                "description": "Response 200: ApiGenericResult<IEnumerable<PdiResumoDTO>>"
+              }
+            },
+            {
+              "name": "Criar PDI",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Meu PDI\",\n  \"descricao\": \"Descrição do plano\",\n  \"skills\": [\n    { \"nomeSkill\": \"C#\", \"codigoSkill\": \"478\" },\n    { \"nomeSkill\": \"React\", \"codigoSkill\": \"2835\" }\n  ],\n  \"actionPlans\": [\n    { \"description\": \"Meta 1\", \"deadline\": \"2026-12-31T23:59:59Z\" }\n  ]\n}" },
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/MeusPdis",
+                "description": "PdiCriarRequestDTO. Response 201: ApiGenericResult<PdiCriarResponseDTO>"
+              }
+            },
+            {
+              "name": "Atualizar PDI",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Título atualizado\",\n  \"descricao\": \"Descrição\",\n  \"status\": \"IN_PROGRESS\"\n}" },
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}",
+                "description": "PdiAtualizarRequestDTO. Route: id = Guid do PDI. Response 200."
+              }
+            },
+            {
+              "name": "Adicionar action plan",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"description\": \"Nova meta\",\n  \"deadline\": \"2026-12-31T23:59:59Z\"\n}" },
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/action-plans",
+                "description": "PdiActionPlanInputDTO. Response 201."
+              }
+            },
+            {
+              "name": "Concluir action plan",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/action-plans/{{actionPlanId}}/complete",
+                "description": "Sem body. Response 200: PdiConcluirActionPlanResponseDTO"
+              }
+            },
+            {
+              "name": "Upload evidência",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": { "mode": "formdata", "formdata": [{ "key": "arquivo", "type": "file", "src": "", "description": "Arquivo (PDF, etc.)" }, { "key": "tipo", "value": "CERTIFICADO", "type": "text", "description": "Tipo da evidência" }] },
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/evidencias",
+                "description": "multipart/form-data. Response 201."
+              }
+            },
+            {
+              "name": "Listar evidências",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/evidencias",
+                "description": "Response 200: ApiGenericResult<IEnumerable<PdiEvidenciaDTO>>"
+              }
+            },
+            {
+              "name": "Baixar evidência",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/evidencias/{{evidenciaId}}",
+                "description": "evidenciaId = id retornado na listagem. Response 200: arquivo binário (download); 400 se não encontrada ou sem permissão."
+              }
+            }
+          ]
+        },
+        {
+          "name": "2. PDIs do Time",
+          "item": [
+            {
+              "name": "Listar PDIs do time (paginado)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": { "raw": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/PdisDoTime?pagina=1&tamanhoPagina=10", "host": ["https://spw.app.foursys.com/backoffice-rf-hom"], "path": ["api", "GestaoPessoa", "Pdi", "PdisDoTime"], "query": [{ "key": "pagina", "value": "1", "description": "Default 1" }, { "key": "tamanhoPagina", "value": "10", "description": "Default 10, máx. 100" }] },
+                "description": "Response 200: ApiGenericResult<PdiListagemTimeResult>"
+              }
+            },
+            {
+              "name": "Listar PDIs por colaborador",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}",
+                "description": "colaboradorId = codigo_interno_colaborador (ex.: CPF). Response 200: ApiGenericResult<IEnumerable<PdiResumoDTO>>"
+              }
+            },
+            {
+              "name": "Obter PDI completo do time",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/PdisDoTime/{{pdiId}}",
+                "description": "Response 200: ApiGenericResult<PdiCompletoTimeDTO>"
+              }
+            }
+          ]
+        },
+        {
+          "name": "3. Gestor — PDI do colaborador",
+          "item": [
+            {
+              "name": "Gestor: Criar PDI para colaborador",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"PDI 2026\",\n  \"descricao\": \"Plano do colaborador\",\n  \"skills\": [\n    { \"nomeSkill\": \".NET\", \"codigoSkill\": \"478\" },\n    { \"nomeSkill\": \"React\", \"codigoSkill\": \"2835\" }\n  ],\n  \"actionPlans\": [\n    { \"description\": \"Meta 1\", \"deadline\": \"2026-12-31T00:00:00Z\" }\n  ]\n}" },
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}",
+                "description": "colaboradorId = codigo_interno (ex.: CPF). Response 201."
+              }
+            },
+            {
+              "name": "Gestor: Atualizar PDI do colaborador",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Título atualizado\",\n  \"descricao\": \"Descrição\",\n  \"status\": \"IN_PROGRESS\"\n}" },
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}",
+                "description": "PdiAtualizarRequestDTO. Response 200."
+              }
+            },
+            {
+              "name": "Gestor: Adicionar action plan",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"description\": \"Nova meta\",\n  \"deadline\": \"2026-12-31T23:59:59Z\"\n}" },
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/action-plans",
+                "description": "Response 201."
+              }
+            },
+            {
+              "name": "Gestor: Concluir action plan",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/action-plans/{{actionPlanId}}/complete",
+                "description": "Sem body. Response 200."
+              }
+            },
+            {
+              "name": "Gestor: Aprovar PDI",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/aprovar",
+                "description": "Só para PDI criado pelo gestor (NOT_STARTED). Após aprovar → IN_PROGRESS. Response 200: PdiAprovarResponseDTO; 400 se criado pelo próprio ou já aprovado."
+              }
+            },
+            {
+              "name": "Gestor: Upload evidência",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": { "mode": "formdata", "formdata": [{ "key": "arquivo", "type": "file", "src": "", "description": "Arquivo" }, { "key": "tipo", "value": "CERTIFICADO", "type": "text" }] },
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/evidencias",
+                "description": "multipart/form-data. Response 201."
+              }
+            },
+            {
+              "name": "Gestor: Listar evidências do PDI",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/evidencias",
+                "description": "Response 200: ApiGenericResult<IEnumerable<PdiEvidenciaDTO>>"
+              }
+            },
+            {
+              "name": "Gestor: Baixar evidência",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/evidencias/{{evidenciaId}}",
+                "description": "evidenciaId = id da listagem. Response 200: arquivo binário (download); 400 se não for do time ou evidência não encontrada."
+              }
+            }
+          ]
+        },
+        {
+          "name": "4. Métricas PDI",
+          "item": [
+            {
+              "name": "Métricas (visão colaborador)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/Metricas",
+                "description": "Big numbers, ativos e históricos dos próprios PDIs. Response 200: ApiGenericResult<PdiMetricasResultDTO>"
+              }
+            },
+            {
+              "name": "Métricas (visão gestor — time)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/Metricas/gestor",
+                "description": "Métricas agregadas do time. Response 200: ApiGenericResult<PdiMetricasResultDTO>"
+              }
+            },
+            {
+              "name": "Métricas (visão gestor — um colaborador)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://spw.app.foursys.com/backoffice-rf-hom/api/GestaoPessoa/Pdi/Metricas/gestor/colaborador/{{colaboradorId}}",
+                "description": "colaboradorId = codigo_interno (ex.: CPF). Response 200: PdiMetricasResultDTO; 400 se não pertence ao time."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Homologação",
+      "description": "Base URL: https://fourmakershub-api.dev.fourmakers.io",
+      "item": [
+        {
+          "name": "1. Meus PDIs",
+          "item": [
+            {
+              "name": "Listar meus PDIs",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis",
+                "description": "Response 200: ApiGenericResult<IEnumerable<PdiResumoDTO>>"
+              }
+            },
+            {
+              "name": "Criar PDI",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Meu PDI\",\n  \"descricao\": \"Descrição do plano\",\n  \"skills\": [\n    { \"nomeSkill\": \"C#\", \"codigoSkill\": \"478\" },\n    { \"nomeSkill\": \"React\", \"codigoSkill\": \"2835\" }\n  ],\n  \"actionPlans\": [\n    { \"description\": \"Meta 1\", \"deadline\": \"2026-12-31T23:59:59Z\" }\n  ]\n}" },
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis",
+                "description": "PdiCriarRequestDTO. Response 201: ApiGenericResult<PdiCriarResponseDTO>"
+              }
+            },
+            {
+              "name": "Atualizar PDI",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Título atualizado\",\n  \"descricao\": \"Descrição\",\n  \"status\": \"IN_PROGRESS\"\n}" },
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}",
+                "description": "PdiAtualizarRequestDTO. Route: id = Guid do PDI. Response 200."
+              }
+            },
+            {
+              "name": "Adicionar action plan",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"description\": \"Nova meta\",\n  \"deadline\": \"2026-12-31T23:59:59Z\"\n}" },
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/action-plans",
+                "description": "PdiActionPlanInputDTO. Response 201."
+              }
+            },
+            {
+              "name": "Concluir action plan",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/action-plans/{{actionPlanId}}/complete",
+                "description": "Sem body. Response 200: PdiConcluirActionPlanResponseDTO"
+              }
+            },
+            {
+              "name": "Upload evidência",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": { "mode": "formdata", "formdata": [{ "key": "arquivo", "type": "file", "src": "", "description": "Arquivo (PDF, etc.)" }, { "key": "tipo", "value": "CERTIFICADO", "type": "text", "description": "Tipo da evidência" }] },
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/evidencias",
+                "description": "multipart/form-data. Response 201."
+              }
+            },
+            {
+              "name": "Listar evidências",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/evidencias",
+                "description": "Response 200: ApiGenericResult<IEnumerable<PdiEvidenciaDTO>>"
+              }
+            },
+            {
+              "name": "Baixar evidência",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/evidencias/{{evidenciaId}}",
+                "description": "evidenciaId = id retornado na listagem. Response 200: arquivo binário (download); 400 se não encontrada ou sem permissão."
+              }
+            }
+          ]
+        },
+        {
+          "name": "2. PDIs do Time",
+          "item": [
+            {
+              "name": "Listar PDIs do time (paginado)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": { "raw": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime?pagina=1&tamanhoPagina=10", "host": ["https://fourmakershub-api.dev.fourmakers.io"], "path": ["api", "GestaoPessoa", "Pdi", "PdisDoTime"], "query": [{ "key": "pagina", "value": "1", "description": "Default 1" }, { "key": "tamanhoPagina", "value": "10", "description": "Default 10, máx. 100" }] },
+                "description": "Response 200: ApiGenericResult<PdiListagemTimeResult>"
+              }
+            },
+            {
+              "name": "Listar PDIs por colaborador",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}",
+                "description": "colaboradorId = codigo_interno_colaborador (ex.: CPF). Response 200: ApiGenericResult<IEnumerable<PdiResumoDTO>>"
+              }
+            },
+            {
+              "name": "Obter PDI completo do time",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/{{pdiId}}",
+                "description": "Response 200: ApiGenericResult<PdiCompletoTimeDTO>"
+              }
+            }
+          ]
+        },
+        {
+          "name": "3. Gestor — PDI do colaborador",
+          "item": [
+            {
+              "name": "Gestor: Criar PDI para colaborador",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"PDI 2026\",\n  \"descricao\": \"Plano do colaborador\",\n  \"skills\": [\n    { \"nomeSkill\": \".NET\", \"codigoSkill\": \"478\" },\n    { \"nomeSkill\": \"React\", \"codigoSkill\": \"2835\" }\n  ],\n  \"actionPlans\": [\n    { \"description\": \"Meta 1\", \"deadline\": \"2026-12-31T00:00:00Z\" }\n  ]\n}" },
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}",
+                "description": "colaboradorId = codigo_interno (ex.: CPF). Response 201."
+              }
+            },
+            {
+              "name": "Gestor: Atualizar PDI do colaborador",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Título atualizado\",\n  \"descricao\": \"Descrição\",\n  \"status\": \"IN_PROGRESS\"\n}" },
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}",
+                "description": "PdiAtualizarRequestDTO. Response 200."
+              }
+            },
+            {
+              "name": "Gestor: Adicionar action plan",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"description\": \"Nova meta\",\n  \"deadline\": \"2026-12-31T23:59:59Z\"\n}" },
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/action-plans",
+                "description": "Response 201."
+              }
+            },
+            {
+              "name": "Gestor: Concluir action plan",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/action-plans/{{actionPlanId}}/complete",
+                "description": "Sem body. Response 200."
+              }
+            },
+            {
+              "name": "Gestor: Aprovar PDI",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/aprovar",
+                "description": "Só para PDI criado pelo gestor (NOT_STARTED). Após aprovar → IN_PROGRESS. Response 200: PdiAprovarResponseDTO; 400 se criado pelo próprio ou já aprovado."
+              }
+            },
+            {
+              "name": "Gestor: Upload evidência",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": { "mode": "formdata", "formdata": [{ "key": "arquivo", "type": "file", "src": "", "description": "Arquivo" }, { "key": "tipo", "value": "CERTIFICADO", "type": "text" }] },
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/evidencias",
+                "description": "multipart/form-data. Response 201."
+              }
+            },
+            {
+              "name": "Gestor: Listar evidências do PDI",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/evidencias",
+                "description": "Response 200: ApiGenericResult<IEnumerable<PdiEvidenciaDTO>>"
+              }
+            },
+            {
+              "name": "Gestor: Baixar evidência",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/evidencias/{{evidenciaId}}",
+                "description": "evidenciaId = id da listagem. Response 200: arquivo binário (download); 400 se não for do time ou evidência não encontrada."
+              }
+            }
+          ]
+        },
+        {
+          "name": "4. Métricas PDI",
+          "item": [
+            {
+              "name": "Métricas (visão colaborador)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/Metricas",
+                "description": "Big numbers, ativos e históricos dos próprios PDIs. Response 200: ApiGenericResult<PdiMetricasResultDTO>"
+              }
+            },
+            {
+              "name": "Métricas (visão gestor — time)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/Metricas/gestor",
+                "description": "Métricas agregadas do time. Response 200: ApiGenericResult<PdiMetricasResultDTO>"
+              }
+            },
+            {
+              "name": "Métricas (visão gestor — um colaborador)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://fourmakershub-api.dev.fourmakers.io/api/GestaoPessoa/Pdi/Metricas/gestor/colaborador/{{colaboradorId}}",
+                "description": "colaboradorId = codigo_interno (ex.: CPF). Response 200: PdiMetricasResultDTO; 400 se não pertence ao time."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Produção",
+      "description": "Base URL: https://api.fourmakers.io",
+      "item": [
+        {
+          "name": "1. Meus PDIs",
+          "item": [
+            {
+              "name": "Listar meus PDIs",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis",
+                "description": "Response 200: ApiGenericResult<IEnumerable<PdiResumoDTO>>"
+              }
+            },
+            {
+              "name": "Criar PDI",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Meu PDI\",\n  \"descricao\": \"Descrição do plano\",\n  \"skills\": [\n    { \"nomeSkill\": \"C#\", \"codigoSkill\": \"478\" },\n    { \"nomeSkill\": \"React\", \"codigoSkill\": \"2835\" }\n  ],\n  \"actionPlans\": [\n    { \"description\": \"Meta 1\", \"deadline\": \"2026-12-31T23:59:59Z\" }\n  ]\n}" },
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis",
+                "description": "PdiCriarRequestDTO. Response 201: ApiGenericResult<PdiCriarResponseDTO>"
+              }
+            },
+            {
+              "name": "Atualizar PDI",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Título atualizado\",\n  \"descricao\": \"Descrição\",\n  \"status\": \"IN_PROGRESS\"\n}" },
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}",
+                "description": "PdiAtualizarRequestDTO. Route: id = Guid do PDI. Response 200."
+              }
+            },
+            {
+              "name": "Adicionar action plan",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"description\": \"Nova meta\",\n  \"deadline\": \"2026-12-31T23:59:59Z\"\n}" },
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/action-plans",
+                "description": "PdiActionPlanInputDTO. Response 201."
+              }
+            },
+            {
+              "name": "Concluir action plan",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/action-plans/{{actionPlanId}}/complete",
+                "description": "Sem body. Response 200: PdiConcluirActionPlanResponseDTO"
+              }
+            },
+            {
+              "name": "Upload evidência",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": { "mode": "formdata", "formdata": [{ "key": "arquivo", "type": "file", "src": "", "description": "Arquivo (PDF, etc.)" }, { "key": "tipo", "value": "CERTIFICADO", "type": "text", "description": "Tipo da evidência" }] },
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/evidencias",
+                "description": "multipart/form-data. Response 201."
+              }
+            },
+            {
+              "name": "Listar evidências",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/evidencias",
+                "description": "Response 200: ApiGenericResult<IEnumerable<PdiEvidenciaDTO>>"
+              }
+            },
+            {
+              "name": "Baixar evidência",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/evidencias/{{evidenciaId}}",
+                "description": "evidenciaId = id retornado na listagem. Response 200: arquivo binário (download); 400 se não encontrada ou sem permissão."
+              }
+            }
+          ]
+        },
+        {
+          "name": "2. PDIs do Time",
+          "item": [
+            {
+              "name": "Listar PDIs do time (paginado)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": { "raw": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime?pagina=1&tamanhoPagina=10", "host": ["https://api.fourmakers.io"], "path": ["api", "GestaoPessoa", "Pdi", "PdisDoTime"], "query": [{ "key": "pagina", "value": "1", "description": "Default 1" }, { "key": "tamanhoPagina", "value": "10", "description": "Default 10, máx. 100" }] },
+                "description": "Response 200: ApiGenericResult<PdiListagemTimeResult>"
+              }
+            },
+            {
+              "name": "Listar PDIs por colaborador",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}",
+                "description": "colaboradorId = codigo_interno_colaborador (ex.: CPF). Response 200: ApiGenericResult<IEnumerable<PdiResumoDTO>>"
+              }
+            },
+            {
+              "name": "Obter PDI completo do time",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/{{pdiId}}",
+                "description": "Response 200: ApiGenericResult<PdiCompletoTimeDTO>"
+              }
+            }
+          ]
+        },
+        {
+          "name": "3. Gestor — PDI do colaborador",
+          "item": [
+            {
+              "name": "Gestor: Criar PDI para colaborador",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"PDI 2026\",\n  \"descricao\": \"Plano do colaborador\",\n  \"skills\": [\n    { \"nomeSkill\": \".NET\", \"codigoSkill\": \"478\" },\n    { \"nomeSkill\": \"React\", \"codigoSkill\": \"2835\" }\n  ],\n  \"actionPlans\": [\n    { \"description\": \"Meta 1\", \"deadline\": \"2026-12-31T00:00:00Z\" }\n  ]\n}" },
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}",
+                "description": "colaboradorId = codigo_interno (ex.: CPF). Response 201."
+              }
+            },
+            {
+              "name": "Gestor: Atualizar PDI do colaborador",
+              "request": {
+                "method": "PUT",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"titulo\": \"Título atualizado\",\n  \"descricao\": \"Descrição\",\n  \"status\": \"IN_PROGRESS\"\n}" },
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}",
+                "description": "PdiAtualizarRequestDTO. Response 200."
+              }
+            },
+            {
+              "name": "Gestor: Adicionar action plan",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": { "mode": "raw", "raw": "{\n  \"description\": \"Nova meta\",\n  \"deadline\": \"2026-12-31T23:59:59Z\"\n}" },
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/action-plans",
+                "description": "Response 201."
+              }
+            },
+            {
+              "name": "Gestor: Concluir action plan",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/action-plans/{{actionPlanId}}/complete",
+                "description": "Sem body. Response 200."
+              }
+            },
+            {
+              "name": "Gestor: Aprovar PDI",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/aprovar",
+                "description": "Só para PDI criado pelo gestor (NOT_STARTED). Após aprovar → IN_PROGRESS. Response 200: PdiAprovarResponseDTO; 400 se criado pelo próprio ou já aprovado."
+              }
+            },
+            {
+              "name": "Gestor: Upload evidência",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": { "mode": "formdata", "formdata": [{ "key": "arquivo", "type": "file", "src": "", "description": "Arquivo" }, { "key": "tipo", "value": "CERTIFICADO", "type": "text" }] },
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/evidencias",
+                "description": "multipart/form-data. Response 201."
+              }
+            },
+            {
+              "name": "Gestor: Listar evidências do PDI",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/evidencias",
+                "description": "Response 200: ApiGenericResult<IEnumerable<PdiEvidenciaDTO>>"
+              }
+            },
+            {
+              "name": "Gestor: Baixar evidência",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/evidencias/{{evidenciaId}}",
+                "description": "evidenciaId = id da listagem. Response 200: arquivo binário (download); 400 se não for do time ou evidência não encontrada."
+              }
+            }
+          ]
+        },
+        {
+          "name": "4. Métricas PDI",
+          "item": [
+            {
+              "name": "Métricas (visão colaborador)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/Metricas",
+                "description": "Big numbers, ativos e históricos dos próprios PDIs. Response 200: ApiGenericResult<PdiMetricasResultDTO>"
+              }
+            },
+            {
+              "name": "Métricas (visão gestor — time)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/Metricas/gestor",
+                "description": "Métricas agregadas do time. Response 200: ApiGenericResult<PdiMetricasResultDTO>"
+              }
+            },
+            {
+              "name": "Métricas (visão gestor — um colaborador)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": "https://api.fourmakers.io/api/GestaoPessoa/Pdi/Metricas/gestor/colaborador/{{colaboradorId}}",
+                "description": "colaboradorId = codigo_interno (ex.: CPF). Response 200: PdiMetricasResultDTO; 400 se não pertence ao time."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

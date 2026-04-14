@@ -1,0 +1,1 @@
+CREATE INDEX idx_tb_colab_org_cod_org ON tb_colaborador_org(cod_colaborador_externo, tb_org_id);

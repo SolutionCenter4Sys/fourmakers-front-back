@@ -1,0 +1,21 @@
+CREATE TABLE tb_perfil_corporativo_skill (
+  id 									char(36) NOT NULL,
+  tb_org_id 							int NOT NULL,
+  tb_perfil_corporativo_id 				char(36) DEFAULT NULL,
+  tb_item_perfil_id						bigint NOT NULL,
+  skill_id			        			bigint NOT NULL,
+  tb_nivel_id							bigint NOT NULL,
+  codigo_interno_colaborador_criacao   	varchar(36) DEFAULT NULL,
+  codigo_interno_colaborador_alteracao 	varchar(36) DEFAULT NULL,
+  data_criacao   						timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  data_alteracao 						timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  ativo 								tinyint DEFAULT 1,
+  PRIMARY KEY (id),
+  KEY idx_pfcorpskill_orgid (id, tb_org_id), 
+  CONSTRAINT fk_pfcorpskill_orgid FOREIGN KEY (tb_org_id) REFERENCES tb_org (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_pfcorpskill_perfilcorporativoid FOREIGN KEY (tb_perfil_corporativo_id) REFERENCES tb_perfil_corporativo (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT fk_pfcorpskill_itemperfilid FOREIGN KEY (tb_item_perfil_id) REFERENCES tb_item_perfil (id),
+  CONSTRAINT fk_pfcorpskill_nivelid FOREIGN KEY (tb_nivel_id) REFERENCES tb_nivel (id),
+  CONSTRAINT fk_pfcorpskill_codintcolaboradorcriacao   FOREIGN KEY (codigo_interno_colaborador_criacao)   REFERENCES tb_colaborador (codigo_interno_colaborador),
+  CONSTRAINT fk_pfcorpskill_codintcolaboradoralteracao FOREIGN KEY (codigo_interno_colaborador_alteracao) REFERENCES tb_colaborador (codigo_interno_colaborador)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 ;

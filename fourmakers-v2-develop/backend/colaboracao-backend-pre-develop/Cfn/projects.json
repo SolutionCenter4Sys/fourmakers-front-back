@@ -1,0 +1,249 @@
+[
+  {
+    "projectPath": "Admissao.API",
+    "serviceName": "admissao-api",
+    "version": {
+      "dev": "1.0.13",
+      "prd": "1.0.1"
+    },
+    "controllers": ["Admissao"]
+  },
+  {
+    "projectPath": "Apontamento.API",
+    "serviceName": "apontamento-api",
+    "version": {
+      "dev": "1.0.22",
+      "prd": "1.0.27"
+    },
+    "controllers": ["Apontamento"]
+  },
+  {
+    "projectPath": "BancoTalentoSRSConsumer",
+    "serviceName": "bancotalentosrs-consumer",
+    "version": {
+      "dev": "1.0.14",
+      "prd": "1.0.12"
+    },
+    "controllers": []
+  },
+  {
+    "projectPath": "BI.API",
+    "serviceName": "bi-api",
+    "version": {
+      "dev": "1.0.10",
+      "prd": "1.0.10"
+    },
+    "controllers": ["BI"]
+  },
+  {
+    "projectPath": "BotFourmakers.API",
+    "serviceName": "botfourmakers-api",
+    "version": {
+      "dev": "1.0.1",
+      "prd": "1.0.1"
+    },
+    "controllers": ["BotFourmakers"]
+  },
+  {
+    "projectPath": "Colaborador.API",
+    "serviceName": "colaborador-api",
+    "version": {
+      "dev": "1.0.53",
+      "prd": "1.0.45"
+    },
+    "controllers": [
+      "Colaborador",
+      "EscolaridadeColaborador",
+      "Dependente",
+      "ExperienciaProfissional",
+      "Curriculo",
+      "CurriculoColaborador",
+      "Estatisticas",
+      "Pais",
+      "Nacionalidade",
+      "PassaporteColaborador",
+      "VistoColaborador",
+      "BancoDeTalentos"
+    ]
+  },
+  {
+    "projectPath": "Competencia.API",
+    "serviceName": "competencia-api",
+    "version": {
+      "dev": "1.0.25",
+      "prd": "1.0.11"
+    },
+    "controllers": ["Competencia", "GestaoDeCompetencia"]
+  },
+  {
+    "projectPath": "CRM.API",
+    "serviceName": "crm-api",
+    "version": {
+      "dev": "1.0.1",
+      "prd": "1.0.0"
+    },
+    "controllers": ["Crm"]
+  },
+  {
+    "projectPath": "CurriculoBatchConsumer",
+    "serviceName": "curriculo-batch-consumer",
+    "version": {
+      "dev": "1.0.14",
+      "prd": "1.0.12"
+    },
+    "controllers": []
+  },
+  {
+    "projectPath": "Financeiro.API",
+    "serviceName": "financeiro-api",
+    "version": {
+      "dev": "1.0.100",
+      "prd": "1.0.56"
+    },
+    "controllers": ["Financeiro"]
+  },
+  {
+    "projectPath": "Firebase.API",
+    "serviceName": "firebase-api",
+    "version": {
+      "dev": "1.0.2",
+      "prd": "1.0.3"
+    },
+    "controllers": ["Firebase", "Notificacao"]
+  },
+  {
+    "projectPath": "FolhaColaboradorConsumer",
+    "serviceName": "folha-consumer",
+    "version": {
+      "dev": "1.0.38",
+      "prd": "1.0.28"
+    },
+    "controllers": []
+  },
+  {
+    "projectPath": "Foursys.API",
+    "serviceName": "foursys-api",
+    "version": {
+      "dev": "1.0.18",
+      "prd": "1.0.7"
+    },
+    "controllers": ["Foursys", "DadosPerfil", "Fourmakers", "Campanha"]
+  },
+  {
+    "projectPath": "GestaoPessoa.API",
+    "serviceName": "gestaopessoa-api",
+    "version": {
+      "dev": "1.0.23",
+      "prd": "1.0.10"
+    },
+    "controllers": ["GestaoPessoa"]
+  },
+  {
+    "projectPath": "Labs.API",
+    "serviceName": "labs-api",
+    "version": {
+      "dev": "1.0.5",
+      "prd": "1.0.5"
+    },
+    "controllers": ["Labs"]
+  },
+  {
+    "projectPath": "MapaDeAlocacao.API",
+    "serviceName": "mapaalocacao-api",
+    "version": {
+      "dev": "1.0.160",
+      "prd": "1.0.61"
+    },
+    "controllers": ["MapaDeAlocacao", "Tbd", "GestaoDeAlocados"]
+  },
+  {
+    "projectPath": "MapaDeRelacionamento.API",
+    "serviceName": "maparelacionamento-api",
+    "version": {
+      "dev": "1.0.17",
+      "prd": "1.0.6"
+    },
+    "controllers": ["MapaDeRelacionamento"]
+  },
+  {
+    "projectPath": "Marketing.API",
+    "serviceName": "marketing-api",
+    "version": {
+        "dev": "1.0.33",
+        "prd": "1.0.19"
+    },
+    "controllers": ["Marketing"]
+  },
+  {
+    "projectPath": "PerfilCorporativo.API",
+    "serviceName": "perfilcorporativo-api",
+    "version": {
+      "dev": "1.0.2",
+      "prd": "1.0.0"
+    },
+    "controllers": ["PerfilCorporativo"]
+  },
+  {
+    "projectPath": "Projeto.API",
+    "serviceName": "projeto-api",
+    "version": {
+      "dev": "1.0.10",
+      "prd": "1.0.5"
+    },
+    "controllers": ["Projeto"]
+  },
+  {
+    "projectPath": "RotinasBackoffice.API",
+    "serviceName": "rotinasbackoffice-api",
+    "version": {
+      "dev": "1.0.22",
+      "prd": "1.0.27"
+    },
+    "controllers": []
+  },
+  {
+    "projectPath": "Social.API",
+    "serviceName": "social-api",
+    "version": {
+      "dev": "1.0.95",
+      "prd": "1.0.18"
+    },
+    "controllers": ["Social"]
+  },
+  {
+    "projectPath": "Organograma.API",
+    "serviceName": "organograma-api",
+    "version": {
+      "dev": "1.0.28",
+      "prd": "1.0.12"
+    },
+    "controllers": ["Organograma"]
+  },
+  {
+    "projectPath": "SRS.API",
+    "serviceName": "srs-api",
+    "version": {
+      "dev": "1.0.218",
+      "prd": "1.0.68"
+    },
+    "controllers": ["Srs", "Vaga", "Candidatura"]
+  },
+  {
+    "projectPath": "UploadFiles.API",
+    "serviceName": "uploadfiles-api",
+    "version": {
+      "dev": "1.0.6",
+      "prd": "1.0.3"
+    },
+    "controllers": ["Archive"]
+  },
+  {
+    "projectPath": "Usuario.API",
+    "serviceName": "usuario-api",
+    "version": {
+      "dev": "1.0.21",
+      "prd": "1.0.15"
+    },
+    "controllers": ["Usuario", "Acesso"]
+  }
+]

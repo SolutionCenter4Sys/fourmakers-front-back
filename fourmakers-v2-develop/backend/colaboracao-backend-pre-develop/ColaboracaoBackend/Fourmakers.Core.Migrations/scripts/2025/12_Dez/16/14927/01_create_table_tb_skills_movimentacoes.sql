@@ -1,0 +1,13 @@
+CREATE TABLE tb_skills_movimentacao(
+id BIGINT PRIMARY KEY AUTO_INCREMENT,
+movimentacao VARCHAR(255) NOT NULL
+);
+
+INSERT INTO 
+tb_skills_movimentacao(movimentacao)
+VALUES 
+("ADICIONADO_PERFIL"),
+("NAO_INTERESSADO"),
+("ADICIONADO_PDI"),
+("SUGERIDO"),
+("ATUALIZADO");

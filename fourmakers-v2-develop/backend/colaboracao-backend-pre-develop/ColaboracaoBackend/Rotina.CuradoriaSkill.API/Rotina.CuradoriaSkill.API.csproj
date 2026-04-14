@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Rotina.Aws.Core\Rotina.Aws.Core.csproj" />
+      <ProjectReference Include="..\Rotina.Aws.Domain\Rotina.Aws.Domain.csproj" />
+      <ProjectReference Include="..\Rotina.CuradoriaSkill.Application\Rotina.CuradoriaSkill.Application.csproj" />
+      <ProjectReference Include="..\RotinasBackoffice.Application\RotinasBackoffice.Application.csproj" />
+    </ItemGroup>
+
+</Project>

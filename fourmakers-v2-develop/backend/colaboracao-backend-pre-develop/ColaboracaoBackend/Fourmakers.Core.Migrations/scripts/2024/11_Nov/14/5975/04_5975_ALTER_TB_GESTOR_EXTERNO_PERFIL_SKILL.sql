@@ -1,0 +1,9 @@
+ALTER TABLE tb_gestor_externo_perfil_skill
+DROP FOREIGN KEY tb_gestor_externo_perfil_skill_ibfk_1;
+
+ALTER TABLE tb_gestor_externo_perfil_skill
+CHANGE COLUMN tb_gestor_externo_perfil_id tb_gestor_externo_perfil_id CHAR(36) NOT NULL;
+
+ALTER TABLE tb_gestor_externo_perfil_skill
+ADD CONSTRAINT tb_gestor_externo_perfil_skill_ibfk_1 
+FOREIGN KEY (tb_gestor_externo_perfil_id) REFERENCES tb_gestor_externo_perfil(id);

@@ -1,0 +1,1 @@
+INSERT INTO tb_candidato_status (id, descricao, origem) values (6, 'Reprovado', 'Fourmakers');

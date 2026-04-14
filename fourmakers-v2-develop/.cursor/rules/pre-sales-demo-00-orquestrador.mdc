@@ -1,0 +1,116 @@
+---
+description: >
+  Guardrail PRÉ-VENDAS — Orquestrador da Demo Completa E2E (Etapa 1 + Etapa 2 + Etapa 3).
+  Acionar quando o usuário digitar: "demo reembolso", "iniciar demo", "rodar demo",
+  "demo completa", "demo e2e", "demo pré-vendas", "cenários + massa + automação",
+  "gherkin + dataforge + cypress", "jornada completa reembolso".
+  Executa em sequência: GherkinFlow → DataForge → Cypress (SEM pausas entre etapas).
+alwaysApply: false
+---
+
+# 🎬 Demo Pré-Vendas — Orquestrador E2E Completo
+
+> **Comando de ativação:** `demo reembolso` · `demo e2e` · `demo pré-vendas`
+> **Fluxo:** GherkinFlow → DataForge → Cypress (executar EM SEQUÊNCIA, sem pausas, sem pedir confirmação)
+> **Backend:** real (https://api.fourmakers.io) — sem banco fictício
+> **Duração esperada:** ~5 minutos de geração contínua
+
+### Estrutura de pastas da demo
+
+```
+DEMO/
+  cenarios-bdd/          ← output da Etapa 1 (GherkinFlow)
+  ui-elements/           ← JSON da extensão do Chrome (input da Etapa 3)
+    reembolso-ui.json
+  automacao/reembolso/   ← output da Etapa 2 (reembolso.data.js)
+  agentes/               ← documentação dos agentes
+
+cypress/
+  support/commands/
+    fourmakers-auth.js   ← helper OTP (já configurado)
+  e2e/
+    reembolso.cy.js      ← output da Etapa 3 (Cypress)
+```
+
+---
+
+## ETAPA 1 — Cenários BDD com GherkinFlow
+
+Sem alterações — lê o código-fonte real das telas e gera cenários BDD.
+
+### Ações obrigatórias:
+1. Analisar `src/presentation/pages/Reembolso.tsx` e `InserirReembolso.tsx`
+2. Gerar `DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md`
+3. Exibir sumário e seguir para Etapa 2
+
+---
+
+## ETAPA 2 — Dados de Teste com DataForge
+
+> Executar **imediatamente** após a Etapa 1, sem esperar confirmação.
+
+### O que mudou:
+- **NÃO gera SQL** — gera constantes JavaScript com dados realistas
+- **NÃO lê banco fictício** — lê o código das APIs reais e o formulário
+- **Output:** `DEMO/automacao/reembolso/reembolso.data.js`
+
+### Inputs:
+- Cenários BDD gerados na Etapa 1
+- `src/presentation/pages/InserirReembolso.tsx` (campos do formulário)
+- `src/data/api/ReembolsoSolicitacaoApi.ts` (contratos da API)
+
+### Regras:
+- Cada constante mapeada ao cenário BDD (dadosR01, dadosI07...)
+- Dados realistas brasileiros (nomes, cidades, valores em reais)
+- Para [Negativo]: dados que ativem validações do formulário
+
+---
+
+## ETAPA 3 — Testes Automatizados com Cypress
+
+> Executar **imediatamente** após a Etapa 2, sem esperar confirmação.
+
+### O que mudou:
+- **Framework: Cypress** (não Playwright)
+- **Login: OTP real** via `cy.loginFourMakers()` (já configurado)
+- **Backend: real** — testes rodam contra https://app.fourmakers.io
+- **Output:** `cypress/e2e/reembolso.cy.js`
+
+### Fluxo real de cada teste:
+1. `cy.loginFourMakers()` → autentica via API real
+2. `cy.visit('/inserir-reembolso')` → formulário real
+3. Preenche campos com dados do DataForge
+4. Submete → POST vai para o backend real
+5. `cy.visit('/reembolso')` → valida resultado no dashboard
+
+### Para rodar após a demo:
+```bash
+npx cypress run --spec "cypress/e2e/reembolso.cy.js" --browser chrome
+```
+
+---
+
+## Sumário Final
+
+```
+╔══════════════════════════════════════════════════════════╗
+║  🎬 DEMO PRÉ-VENDAS — JORNADA E2E CONCLUÍDA             ║
+╠══════════════════════════════════════════════════════════╣
+║  ✅ Etapa 1 — GherkinFlow  → XX cenários BDD gerados    ║
+║  ✅ Etapa 2 — DataForge    → XX constantes de dados     ║
+║  ✅ Etapa 3 — Cypress      → XX testes automatizados    ║
+╠══════════════════════════════════════════════════════════╣
+║  Backend: https://api.dev.fourmakers.io (homologação)   ║
+║  Da escrita à automação — em menos de 5 minutos.        ║
+╚══════════════════════════════════════════════════════════╝
+```
+
+## Proibido durante toda a demo
+
+- Pausar entre etapas pedindo confirmação do usuário
+- Gerar SQL para banco fictício
+- Referenciar MODELO-DADOS.sql ou DICIONARIO-DADOS.sql
+- Usar Playwright (framework atual é Cypress)
+- Deixar qualquer `it()` sem log de início e fim
+- Salvar testes fora de `cypress/e2e/`
+- Usar `cy.wait(2000)` fixo sem justificativa

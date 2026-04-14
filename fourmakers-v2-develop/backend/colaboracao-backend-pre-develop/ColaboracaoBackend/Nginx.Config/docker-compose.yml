@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+   nginx-colaboracao-backend:
+      image: nginx-colaboracao-backend
+      container_name: nginx-colaboracao-backend
+      ports:
+         - 84:80
+      expose:
+         - 84
+      networks:
+         - "docker-network"
+      build:
+         context: .
+         dockerfile: Dockerfile
+
+networks:
+   docker-network:
+      external: true
+      name: docker-network
+      driver: bridge

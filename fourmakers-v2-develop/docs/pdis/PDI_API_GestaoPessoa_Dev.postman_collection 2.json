@@ -1,0 +1,299 @@
+{
+  "info": {
+    "name": "PDI — API Gestão de Pessoa (Dev)",
+    "description": "Collection para endpoints PDI na API Gestão de Pessoa.\n\n**Base URL (dev):** fourmakershub-api.dev.fourmakers.io (ou a base da API GestaoPessoa)\nTodos os endpoints exigem **Authorization: Bearer {JWT}**.\n\nRotas: api/GestaoPessoa/Pdi/MeusPdis, api/GestaoPessoa/Pdi/PdisDoTime, api/GestaoPessoa/Pdi/Metricas.\n\nVariáveis da collection: `base_url`, `token`, `pdiId`, `actionPlanId`, `colaboradorId`, `evidenciaId`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{token}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "base_url", "value": "https://fourmakershub-api.dev.fourmakers.io" },
+    { "key": "token", "value": "" },
+    { "key": "pdiId", "value": "" },
+    { "key": "actionPlanId", "value": "" },
+    { "key": "colaboradorId", "value": "" },
+    { "key": "evidenciaId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "1. Meus PDIs",
+      "item": [
+        {
+          "name": "Listar meus PDIs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/MeusPdis",
+            "description": "Response 200: ApiGenericResult<IEnumerable<PdiResumoDTO>>"
+          }
+        },
+        {
+          "name": "Criar PDI",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Meu PDI\",\n  \"descricao\": \"Descrição do plano\",\n  \"skills\": [\n    { \"nomeSkill\": \"C#\", \"codigoSkill\": \"478\" },\n    { \"nomeSkill\": \"React\", \"codigoSkill\": \"2835\" }\n  ],\n  \"actionPlans\": [\n    { \"description\": \"Meta 1\", \"deadline\": \"2026-12-31T23:59:59Z\" }\n  ]\n}"
+            },
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/MeusPdis",
+            "description": "PdiCriarRequestDTO. Response 201: ApiGenericResult<PdiCriarResponseDTO>"
+          }
+        },
+        {
+          "name": "Atualizar PDI",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Título atualizado\",\n  \"descricao\": \"Descrição\",\n  \"status\": \"IN_PROGRESS\"\n}"
+            },
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}",
+            "description": "PdiAtualizarRequestDTO. Route: id = Guid do PDI. Response 200."
+          }
+        },
+        {
+          "name": "Adicionar action plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Nova meta\",\n  \"deadline\": \"2026-12-31T23:59:59Z\"\n}"
+            },
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/action-plans",
+            "description": "PdiActionPlanInputDTO. Response 201."
+          }
+        },
+        {
+          "name": "Concluir action plan",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/action-plans/{{actionPlanId}}/complete",
+            "description": "Sem body. Response 200: PdiConcluirActionPlanResponseDTO"
+          }
+        },
+        {
+          "name": "Upload evidência",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "arquivo", "type": "file", "src": "", "description": "Arquivo (PDF, etc.)" },
+                { "key": "tipo", "value": "CERTIFICADO", "type": "text", "description": "Tipo da evidência" }
+              ]
+            },
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/evidencias",
+            "description": "multipart/form-data. Response 201."
+          }
+        },
+        {
+          "name": "Listar evidências",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/evidencias",
+            "description": "Response 200: ApiGenericResult<IEnumerable<PdiEvidenciaDTO>>"
+          }
+        },
+        {
+          "name": "Baixar evidência",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/MeusPdis/{{pdiId}}/evidencias/{{evidenciaId}}",
+            "description": "evidenciaId = id retornado na listagem de evidências. Response 200: arquivo binário (download); 400 se não encontrada ou sem permissão."
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. PDIs do Time",
+      "item": [
+        {
+          "name": "Listar PDIs do time (paginado)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/GestaoPessoa/Pdi/PdisDoTime?pagina=1&tamanhoPagina=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "GestaoPessoa", "Pdi", "PdisDoTime"],
+              "query": [
+                { "key": "pagina", "value": "1", "description": "Default 1" },
+                { "key": "tamanhoPagina", "value": "10", "description": "Default 10, máx. 100" }
+              ]
+            },
+            "description": "Response 200: ApiGenericResult<PdiListagemTimeResult> (items, totalCount, pagina, tamanhoPagina, totalPaginas)"
+          }
+        },
+        {
+          "name": "Listar PDIs por colaborador",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}",
+            "description": "colaboradorId = codigo_interno_colaborador (ex.: CPF). Response 200: ApiGenericResult<IEnumerable<PdiResumoDTO>>"
+          }
+        },
+        {
+          "name": "Obter PDI completo do time",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/PdisDoTime/{{pdiId}}",
+            "description": "Response 200: ApiGenericResult<PdiCompletoTimeDTO>"
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Gestor — PDI do colaborador",
+      "item": [
+        {
+          "name": "Gestor: Criar PDI para colaborador",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"PDI 2026\",\n  \"descricao\": \"Plano do colaborador\",\n  \"skills\": [\n    { \"nomeSkill\": \".NET\", \"codigoSkill\": \"478\" },\n    { \"nomeSkill\": \"React\", \"codigoSkill\": \"2835\" }\n  ],\n  \"actionPlans\": [\n    { \"description\": \"Meta 1\", \"deadline\": \"2026-12-31T00:00:00Z\" }\n  ]\n}"
+            },
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}",
+            "description": "colaboradorId = codigo_interno (ex.: CPF). Mesmo body do POST MeusPdis. Response 201."
+          }
+        },
+        {
+          "name": "Gestor: Atualizar PDI do colaborador",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Título atualizado\",\n  \"descricao\": \"Descrição\",\n  \"status\": \"IN_PROGRESS\"\n}"
+            },
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}",
+            "description": "PdiAtualizarRequestDTO. Response 200."
+          }
+        },
+        {
+          "name": "Gestor: Adicionar action plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Nova meta\",\n  \"deadline\": \"2026-12-31T23:59:59Z\"\n}"
+            },
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/action-plans",
+            "description": "Response 201."
+          }
+        },
+        {
+          "name": "Gestor: Concluir action plan",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/action-plans/{{actionPlanId}}/complete",
+            "description": "Sem body. Response 200."
+          }
+        },
+        {
+          "name": "Gestor: Aprovar PDI",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/aprovar",
+            "description": "Sem body. Só para PDI criado pelo gestor (status NOT_STARTED). Após aprovar, PDI vai para IN_PROGRESS. Response 200: ApiGenericResult<PdiAprovarResponseDTO> (id, status, aprovadoEm); 400 se PDI criado pelo próprio ou já aprovado."
+          }
+        },
+        {
+          "name": "Gestor: Upload evidência",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "arquivo", "type": "file", "src": "", "description": "Arquivo" },
+                { "key": "tipo", "value": "CERTIFICADO", "type": "text" }
+              ]
+            },
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/evidencias",
+            "description": "multipart/form-data. Response 201."
+          }
+        },
+        {
+          "name": "Gestor: Listar evidências do PDI",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/evidencias",
+            "description": "Response 200: ApiGenericResult<IEnumerable<PdiEvidenciaDTO>>"
+          }
+        },
+        {
+          "name": "Gestor: Baixar evidência",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/PdisDoTime/colaborador/{{colaboradorId}}/pdi/{{pdiId}}/evidencias/{{evidenciaId}}",
+            "description": "evidenciaId = id da listagem. Response 200: arquivo binário (download); 400 se colaborador não é do time ou evidência não encontrada."
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Métricas PDI",
+      "item": [
+        {
+          "name": "Métricas (visão colaborador)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/Metricas",
+            "description": "Big numbers, ativos (em análise + em andamento) e históricos (finalizados + cancelados) dos próprios PDIs. Response 200: ApiGenericResult<PdiMetricasResultDTO> (bigNumbers, ativos, historicos)"
+          }
+        },
+        {
+          "name": "Métricas (visão gestor — time)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/Metricas/gestor",
+            "description": "Métricas agregadas do time (gestor + subordinados). Response 200: ApiGenericResult<PdiMetricasResultDTO>"
+          }
+        },
+        {
+          "name": "Métricas (visão gestor — um colaborador)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/GestaoPessoa/Pdi/Metricas/gestor/colaborador/{{colaboradorId}}",
+            "description": "colaboradorId = codigo_interno (ex.: CPF). Deve ser o próprio gestor ou subordinado. Response 200: ApiGenericResult<PdiMetricasResultDTO>; 400 se não pertence ao time."
+          }
+        }
+      ]
+    }
+  ]
+}
