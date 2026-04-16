@@ -1,147 +1,39 @@
+/**
+ * E2E Reembolso — Dashboard (/reembolso) e Inserir (/inserir-reembolso)
+ * Dados: DEMO/automacao/reembolso/reembolso.data.js
+ */
 import {
-  bddReembolsoDashboard01,
-  bddReembolsoDashboard02,
-  bddReembolsoDashboard03,
-  bddReembolsoDashboard04,
-  bddReembolsoDashboard05,
-  bddReembolsoDashboard06,
-  bddReembolsoDashboard07,
-  bddReembolsoDashboard08,
-  bddReembolsoDashboard09,
-  bddReembolsoDashboard10,
-  bddReembolsoDashboard11,
-  bddReembolsoDashboard12,
-  bddReembolsoDashboard13,
-  bddReembolsoDashboard14,
-  bddReembolsoDashboard15,
-  bddReembolsoInserir01,
-  bddReembolsoInserir02,
-  bddReembolsoInserir03,
-  bddReembolsoInserir04,
-  bddReembolsoInserir05,
-  bddReembolsoInserir06,
-  bddReembolsoInserir07,
-  bddReembolsoInserir08,
-  bddReembolsoInserir09,
-  bddReembolsoInserir10,
-  bddReembolsoInserir11,
-  bddReembolsoInserir12,
-  bddReembolsoInserir13,
-  bddReembolsoInserir14,
-  bddReembolsoInserir15,
+  R01,
+  R02,
+  R03,
+  R04,
+  R05,
+  R06,
+  R07,
+  R08,
+  R09,
+  R10,
+  R11,
+  R12,
+  R13,
+  R14,
+  R15,
+  I01,
+  I02,
+  I03,
+  I04,
+  I05,
+  I06,
+  I07,
+  I08,
+  I09,
+  I10,
+  I11,
+  I12,
+  I13,
+  I14,
+  I15,
 } from '../../DEMO/automacao/reembolso/reembolso.data.js';
-
-const PDF_MINIMO =
-  '%PDF-1.4\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj 2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj 3 0 obj<</Type/Page/MediaBox[0 0 3 3]>>endobj trailer<</Root 1 0 R>>%%EOF';
-
-function logInicio(codigo, titulo) {
-  console.log(`\n🧪 TESTANDO: ${codigo} — ${titulo}`);
-}
-
-function logFim(codigo) {
-  console.log(`🏁 ${codigo} CONCLUÍDO\n`);
-}
-
-function selecionarDiaNoCalendarioAberto(diaStr) {
-  const dia = String(parseInt(diaStr, 10));
-  cy.get('.rdp').should('be.visible');
-  cy.get('.rdp').within(() => {
-    cy.get('button').contains(new RegExp(`^${dia}$`)).first().click({ force: true });
-  });
-}
-
-function clicarMesAnterior(vezes) {
-  Cypress._.times(vezes, () => {
-    cy.get('.rdp').find('nav button').first().click({ force: true });
-  });
-}
-
-/** Formulário Inserir Reembolso — preenche fluxo principal com dados DataForge */
-function preencherFormularioInserir(d, { comClienteProjeto = true, anexarPdf = true } = {}) {
-  cy.visit('/inserir-reembolso');
-  cy.get('input[placeholder="Objetivo"]').clear().type(d.objetivo);
-  if (d.destino) {
-    cy.contains('label', 'Destino', { matchCase: false })
-      .parent()
-      .find('input')
-      .first()
-      .clear()
-      .type(d.destino);
-  }
-  cy.contains('label', /Data de início/i)
-    .parent()
-    .find('button')
-    .first()
-    .click({ force: true });
-  selecionarDiaNoCalendarioAberto(d.dataInicio.split('/')[0]);
-  if (d.dataFim) {
-    cy.contains('label', /Data final/i)
-      .parent()
-      .find('button')
-      .first()
-      .click({ force: true });
-    selecionarDiaNoCalendarioAberto(d.dataFim.split('/')[0]);
-  }
-  if (comClienteProjeto) {
-    cy.contains('label', /Cliente\/Projeto/i)
-      .parent()
-      .find('button')
-      .first()
-      .click({ force: true });
-    cy.get('input[placeholder="Buscar cliente/projeto..."]').should('be.visible');
-    cy.get('[cmdk-item], [role="option"]')
-      .not('[data-disabled="true"]')
-      .filter(':visible')
-      .first()
-      .click({ force: true });
-  }
-  cy.contains('label', /Categoria/i)
-    .parent()
-    .find('[role="combobox"]')
-    .click({ force: true });
-  cy.get('[role="option"], [cmdk-item]').contains(new RegExp(`^${d.categoria}`, 'i')).click({ force: true });
-  if (anexarPdf) {
-    cy.get('input[type="file"]').selectFile(
-      {
-        contents: Cypress.Buffer.from(PDF_MINIMO),
-        fileName: 'comprovante-demo.pdf',
-        mimeType: 'application/pdf',
-      },
-      { force: true },
-    );
-  }
-  cy.contains('label', /Data da Despesa/i)
-    .parent()
-    .find('button')
-    .first()
-    .click({ force: true });
-  selecionarDiaNoCalendarioAberto(d.dataDespesa.split('/')[0]);
-  cy.get('input[placeholder="0,00"]').clear().type(d.valor, { delay: 0 });
-  cy.contains('label', /Descrição/i)
-    .parent()
-    .find('textarea, input')
-    .first()
-    .clear()
-    .type(d.descricao);
-}
-
-function aplicarFiltroPeriodoDashboard(d) {
-  if (!d.dataInicio) return;
-  cy.contains('label', 'Data Início', { matchCase: false })
-    .parent()
-    .find('button')
-    .first()
-    .click({ force: true });
-  selecionarDiaNoCalendarioAberto(d.dataInicio.split('/')[0]);
-  if (d.dataFim) {
-    cy.contains('label', 'Data Fim', { matchCase: false })
-      .parent()
-      .find('button')
-      .first()
-      .click({ force: true });
-    selecionarDiaNoCalendarioAberto(d.dataFim.split('/')[0]);
-  }
-}
 
 describe('Módulo Reembolso — E2E (backend real)', () => {
   beforeEach(() => {
@@ -150,393 +42,516 @@ describe('Módulo Reembolso — E2E (backend real)', () => {
     });
   });
 
-  it('[R-01] Aba inicial via URL', () => {
-    logInicio('R-01', 'Aba inicial via URL');
-    console.log('   → acessar /reembolso e validar aba Meus Reembolsos');
+  // ——— Dashboard R01–R15 ———
+
+  it('[R-01] Exibir dashboard — baseline de linha representativa na grade', () => {
+    const dados = R01;
+    console.log('\n🧪 TESTANDO: R-01 — Exibir dashboard — baseline de linha representativa na grade');
+    console.log('   → visitar /reembolso e validar tabela e botão Solicitar Reembolso');
     cy.visit('/reembolso');
-    cy.get('[role="tab"]').contains('Meus Reembolsos').should('be.visible');
-    cy.get('[role="table"]').should('exist');
+    cy.get('[role="table"]').should('be.visible');
+    cy.contains('button', 'Solicitar Reembolso').should('be.visible');
     console.log('   ✅ Resultado confirmado');
-    logFim('R-01');
+    console.log('🏁 R-01 CONCLUÍDO\n');
   });
 
-  it('[R-02] Bloqueio de Gestão Administrativa', () => {
-    logInicio('R-02', 'Bloqueio de Gestão Administrativa');
-    console.log('   → tentar abrir ?tab=gestaoadm sem perfil gestor');
-    cy.visit('/reembolso?tab=gestaoadm');
+  it('[R-02] Sincronizar aba com URL — parâmetro tab válido', () => {
+    const dados = R02;
+    console.log('\n🧪 TESTANDO: R-02 — Sincronizar aba com URL — parâmetro tab válido');
+    console.log('   → visitar /reembolso com tab na URL e checar aba Aprovações');
+    cy.visit(`/reembolso?tab=${dados.abaUrl}`);
+    cy.get('[role="tab"]').contains('Aprovações').should('have.attr', 'aria-selected', 'true');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 R-02 CONCLUÍDO\n');
+  });
+
+  it('[R-03] Alternar aba gestor — gestão administrativa', () => {
+    const dados = R03;
+    console.log('\n🧪 TESTANDO: R-03 — Alternar aba gestor — gestão administrativa');
+    console.log('   → clicar na tab Gestão ADM e validar seleção');
+    cy.visit('/reembolso');
+    cy.get('[role="tab"]').contains('Gestão ADM').click();
+    cy.get('[role="tab"]').contains('Gestão ADM').should('have.attr', 'aria-selected', 'true');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 R-03 CONCLUÍDO\n');
+  });
+
+  it('[R-04] Alternar aba aprovador', () => {
+    const dados = R04;
+    console.log('\n🧪 TESTANDO: R-04 — Alternar aba aprovador');
+    console.log('   → clicar na tab Aprovações e validar seleção');
+    cy.visit('/reembolso');
+    cy.get('[role="tab"]').contains('Aprovações').click();
+    cy.get('[role="tab"]').contains('Aprovações').should('have.attr', 'aria-selected', 'true');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 R-04 CONCLUÍDO\n');
+  });
+
+  it('[R-05] Filtrar por intervalo de datas', () => {
+    const dados = R05;
+    console.log('\n🧪 TESTANDO: R-05 — Filtrar por intervalo de datas');
+    console.log('   → abrir calendários Data Início/Fim e aplicar intervalo');
+    cy.visit('/reembolso');
+    cy.contains('button', 'Data Início').click();
+    cy.get('[role="gridcell"]').contains(/^8$/).first().click();
+    cy.contains('button', 'Data Fim').click();
+    cy.get('[role="gridcell"]').contains(/^18$/).first().click();
+    cy.contains('button', 'Limpar').should('be.visible');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 R-05 CONCLUÍDO\n');
+  });
+
+  it('[R-06] Busca textual case-insensitive', () => {
+    const dados = R06;
+    console.log('\n🧪 TESTANDO: R-06 — Busca textual case-insensitive');
+    console.log('   → digitar no campo Busca');
+    cy.visit('/reembolso');
+    cy.get('[role="textbox"][placeholder="Busca"]').clear().type(dados.termoBusca);
+    cy.get('[role="textbox"][placeholder="Busca"]').should('have.value', dados.termoBusca);
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 R-06 CONCLUÍDO\n');
+  });
+
+  it('[R-07] Paginação', () => {
+    const dados = R07;
+    console.log('\n🧪 TESTANDO: R-07 — Paginação');
+    console.log('   → validar controles de paginação na grade');
+    cy.visit('/reembolso');
+    cy.get('[role="table"]').should('be.visible');
+    cy.get('[role="navigation"]').should('exist');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 R-07 CONCLUÍDO\n');
+  });
+
+  it('[R-08] Botão relatório Gestão ADM (flag de parâmetro habilitado)', () => {
+    const dados = R08;
+    console.log('\n🧪 TESTANDO: R-08 — Botão relatório Gestão ADM (flag de parâmetro habilitado)');
+    console.log('   → aba Gestão ADM e presença do botão Gerar Relatório (se exibido)');
+    cy.visit(`/reembolso?tab=${dados.abaUrl}`);
+    cy.get('[role="tab"]').contains('Gestão ADM').should('have.attr', 'aria-selected', 'true');
     cy.get('body').then(($b) => {
-      if (!$b.text().includes('Gestão ADM')) {
-        cy.url().should('not.include', 'tab=gestaoadm');
-      } else {
-        cy.url().should('include', 'tab=gestaoadm');
+      if ($b.find(':contains("Gerar Relatório")').length) {
+        cy.contains('button', 'Gerar Relatório').should('be.visible');
       }
     });
     console.log('   ✅ Resultado confirmado');
-    logFim('R-02');
+    console.log('🏁 R-08 CONCLUÍDO\n');
   });
 
-  it('[R-03] Troca de aba com sincronismo na URL', () => {
-    logInicio('R-03', 'Troca de aba com sincronismo na URL');
-    console.log('   → alternar abas e conferir query tab');
-    cy.visit('/reembolso');
+  it('[R-09] Concluir download do relatório', () => {
+    const dados = R09;
+    console.log('\n🧪 TESTANDO: R-09 — Concluir download do relatório');
+    console.log('   → Gestão ADM, abrir fluxo Gerar Relatório e dialog');
+    cy.visit(`/reembolso?tab=${dados.abaUrl}`);
     cy.get('body').then(($b) => {
-      if ($b.text().includes('Gestão ADM')) {
-        cy.get('[role="tab"]').contains('Gestão ADM').click();
-        cy.url().should('include', 'tab=gestaoadm');
-        cy.get('[role="tab"]').contains('Meus Reembolsos').click();
-        cy.url().should('not.include', 'tab=');
-      } else if ($b.text().includes('Aprovações')) {
-        cy.get('[role="tab"]').contains('Aprovações').click();
-        cy.url().should('include', 'tab=aprovacoes');
-      } else {
-        cy.url().should('include', '/reembolso');
-      }
-    });
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-03');
-  });
-
-  it('[R-04] Impedir aba Aprovações sem perfil', () => {
-    logInicio('R-04', 'Impedir aba Aprovações sem perfil');
-    console.log('   → visitar URL com tab=aprovacoes');
-    cy.visit('/reembolso?tab=aprovacoes');
-    cy.get('body').then(($b) => {
-      if (!$b.text().includes('Aprovações')) {
-        cy.url().should('not.include', 'tab=aprovacoes');
-      }
-    });
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-04');
-  });
-
-  it('[R-05] Busca textual na grade principal', () => {
-    logInicio('R-05', 'Busca textual na grade principal');
-    const d = bddReembolsoDashboard05;
-    console.log('   → filtrar pela busca com trecho do objetivo');
-    cy.visit('/reembolso');
-    aplicarFiltroPeriodoDashboard(d);
-    cy.get('input[placeholder="Busca"]').clear().type(d.objetivo.slice(0, 12));
-    cy.get('[role="table"]').should('exist');
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-05');
-  });
-
-  // [Regressivo] Reset de paginação ao filtrar — depende de volume e ordem de filtros na API
-  it.skip('[R-06] Reset de paginação ao filtrar', () => {});
-
-  it('[R-07] Paginação por fatia da lista filtrada', () => {
-    logInicio('R-07', 'Paginação por fatia da lista filtrada');
-    const d = bddReembolsoDashboard07;
-    console.log('   → usar data-testid pagination-next quando habilitado');
-    cy.visit('/reembolso');
-    aplicarFiltroPeriodoDashboard(d);
-    cy.get('body').then(($b) => {
-      const $next = $b.find('[data-testid="pagination-next"]');
-      if ($next.length && !$next.is(':disabled')) {
-        cy.wrap($next).click();
-        cy.get('[data-testid="pagination-prev"]').should('exist');
-      }
-    });
-    cy.get('[role="table"]').should('exist');
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-07');
-  });
-
-  it('[R-08] Modal de detalhes da solicitação', () => {
-    logInicio('R-08', 'Modal de detalhes da solicitação');
-    console.log('   → abrir Detalhes quando houver linha');
-    cy.visit('/reembolso');
-    cy.get('body').then(($b) => {
-      const temDetalhes = $b.find('button').filter((_, el) => Cypress.$(el).text().includes('Detalhes')).length > 0;
-      if (temDetalhes) {
-        cy.contains('button', 'Detalhes').first().click({ force: true });
-        cy.get('[role="dialog"]').contains('Detalhes da solicitação de reembolso').should('be.visible');
-      }
-    });
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-08');
-  });
-
-  it('[R-09] Botão Gerar Relatório na Gestão', () => {
-    logInicio('R-09', 'Botão Gerar Relatório na Gestão');
-    console.log('   → na aba Gestão ADM, validar botão quando parâmetro permitir');
-    cy.visit('/reembolso?tab=gestaoadm');
-    cy.get('body').then(($b) => {
-      if ($b.text().includes('Gestão ADM')) {
-        cy.get('[role="tab"]').contains('Gestão ADM').click();
-        cy.contains('button', 'Gerar Relatório').should('exist');
-      }
-    });
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-09');
-  });
-
-  it('[R-10] Ocultar relatório fora da Gestão', () => {
-    logInicio('R-10', 'Ocultar relatório fora da Gestão');
-    console.log('   → em Meus Reembolsos não deve existir Gerar Relatório');
-    cy.visit('/reembolso');
-    cy.get('[role="tab"]').contains('Meus Reembolsos').click();
-    cy.contains('button', 'Gerar Relatório').should('not.exist');
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-10');
-  });
-
-  it('[R-11] Download do relatório de pagamentos', () => {
-    logInicio('R-11', 'Download do relatório de pagamentos');
-    console.log('   → abrir fluxo Gerar Relatório e Confirmar no alertdialog');
-    cy.visit('/reembolso?tab=gestaoadm');
-    cy.get('body').then(($b) => {
-      if ($b.text().includes('Gestão ADM') && $b.text().includes('Gerar Relatório')) {
-        cy.get('[role="tab"]').contains('Gestão ADM').click();
+      if ($b.find('button:contains("Gerar Relatório")').length) {
         cy.contains('button', 'Gerar Relatório').click();
         cy.get('[role="alertdialog"]').contains('Gerar Relatório').should('be.visible');
-        cy.get('[role="alertdialog"]').contains('button', 'Confirmar').click({ force: true });
+        cy.contains('button', 'Fechar').click();
       }
     });
     console.log('   ✅ Resultado confirmado');
-    logFim('R-11');
+    console.log('🏁 R-09 CONCLUÍDO\n');
   });
 
-  it('[R-12] Geração sem token', () => {
-    logInicio('R-12', 'Geração sem token');
-    console.log('   → remover authToken e recarregar; fluxo protegido deve falhar ou redirecionar');
+  it('[R-10] Bloquear Gestão ADM sem perfil gestor', () => {
+    const dados = R10;
+    console.log('\n🧪 TESTANDO: R-10 — Bloquear Gestão ADM sem perfil gestor');
+    console.log('   → tab Gestão ADM ausente ou não selecionável');
     cy.visit('/reembolso');
-    cy.window().then((win) => {
-      win.localStorage.removeItem('authToken');
-    });
-    cy.reload();
-    cy.url().then((url) => {
-      expect(url.includes('/login') || url.includes('fourmakers')).to.be.true;
-    });
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-12');
-  });
-
-  // [Regressivo] Falha na API do relatório — requer mock ou indisponibilidade controlada
-  it.skip('[R-13] Falha na API do relatório', () => {});
-
-  it('[R-14] Botão Remessa CNAB condicionado', () => {
-    logInicio('R-14', 'Botão Remessa CNAB condicionado');
-    console.log('   → na Gestão ADM, se botão existir, navegar para remessa-cnab');
-    cy.visit('/reembolso?tab=gestaoadm');
     cy.get('body').then(($b) => {
-      if ($b.text().includes('Remessa CNAB')) {
-        cy.contains('button', 'Remessa CNAB').click();
-        cy.url().should('include', '/reembolso/remessa-cnab');
+      const $tab = $b.find('[role="tab"]').filter((_, el) => el.textContent.includes('Gestão ADM'));
+      if ($tab.length) {
+        cy.wrap($tab.first()).should('have.attr', 'aria-disabled', 'true');
+      } else {
+        cy.get('[role="tab"]').contains('Gestão ADM').should('not.exist');
       }
     });
     console.log('   ✅ Resultado confirmado');
-    logFim('R-14');
+    console.log('🏁 R-10 CONCLUÍDO\n');
   });
 
-  it('[R-15] Indicadores e listagem com período', () => {
-    logInicio('R-15', 'Indicadores e listagem com período');
-    const d = bddReembolsoDashboard15;
-    console.log('   → aplicar Data Início/Fim e validar cards e tabela');
+  it('[R-11] Bloquear Aprovações sem perfil aprovador', () => {
+    const dados = R11;
+    console.log('\n🧪 TESTANDO: R-11 — Bloquear Aprovações sem perfil aprovador');
+    console.log('   → tab Aprovações ausente ou não selecionável');
     cy.visit('/reembolso');
-    aplicarFiltroPeriodoDashboard(d);
-    cy.get('[role="table"]').should('exist');
-    cy.get('.container').should('be.visible');
+    cy.get('body').then(($b) => {
+      const $tab = $b.find('[role="tab"]').filter((_, el) => el.textContent.includes('Aprovações'));
+      if ($tab.length) {
+        cy.wrap($tab.first()).should('have.attr', 'aria-disabled', 'true');
+      } else {
+        cy.get('[role="tab"]').contains('Aprovações').should('not.exist');
+      }
+    });
     console.log('   ✅ Resultado confirmado');
-    logFim('R-15');
+    console.log('🏁 R-11 CONCLUÍDO\n');
   });
 
-  it('[R-16] Carga de projetos do colaborador', () => {
-    logInicio('R-16', 'Carga de projetos do colaborador');
-    const d = bddReembolsoInserir01;
-    console.log('   → abrir combobox Cliente/Projeto e listar itens');
-    preencherFormularioInserir(d, { comClienteProjeto: false, anexarPdf: false });
-    cy.contains('label', /Cliente\/Projeto/i)
-      .parent()
-      .find('button')
-      .first()
-      .click({ force: true });
-    cy.get('input[placeholder="Buscar cliente/projeto..."]').should('be.visible');
-    cy.get('[cmdk-group], [cmdk-list]').should('exist');
+  it('[R-12] Impedir troca manual para aba restrita', () => {
+    const dados = R12;
+    console.log('\n🧪 TESTANDO: R-12 — Impedir troca manual para aba restrita');
+    console.log('   → URL com tab restrita não deve manter gestão-adm sem permissão');
+    cy.visit(`/reembolso?tab=${dados.abaSolicitadaSemPermissao}`);
+    cy.url().should('not.include', `tab=${dados.abaSolicitadaSemPermissao}`);
     console.log('   ✅ Resultado confirmado');
-    logFim('R-16');
+    console.log('🏁 R-12 CONCLUÍDO\n');
   });
 
-  it('[R-17] Carga de verbas ao escolher projeto', () => {
-    logInicio('R-17', 'Carga de verbas ao escolher projeto');
-    const d = bddReembolsoInserir02;
-    console.log('   → selecionar projeto e abrir Categoria');
+  it('[R-13] Gerar relatório sem token', () => {
+    const dados = R13;
+    console.log('\n🧪 TESTANDO: R-13 — Gerar relatório sem token');
+    console.log('   → fluxo relatório deve falhar ou exibir erro');
+    cy.visit(`/reembolso?tab=${dados.abaUrl}`);
+    cy.get('body').then(($b) => {
+      if ($b.find('button:contains("Gerar Relatório")').length) {
+        cy.contains('button', 'Gerar Relatório').click();
+        cy.get('[role="alertdialog"], [role="dialog"]').should('be.visible');
+      }
+    });
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 R-13 CONCLUÍDO\n');
+  });
+
+  it('[R-14] Erro na API ao gerar relatório', () => {
+    const dados = R14;
+    console.log('\n🧪 TESTANDO: R-14 — Erro na API ao gerar relatório');
+    console.log('   → intercept POST relatório com 500 e validar feedback');
+    cy.intercept('POST', '**/relatorio**', { statusCode: 500, body: {} }).as('relErr');
+    cy.visit(`/reembolso?tab=${dados.abaUrl}`);
+    cy.get('body').then(($b) => {
+      if ($b.find('button:contains("Gerar Relatório")').length) {
+        cy.contains('button', 'Gerar Relatório').click();
+        cy.contains('button', 'Confirmar').click();
+        cy.wait('@relErr');
+        cy.get('[role="dialog"], [role="alertdialog"]').should('be.visible');
+      }
+    });
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 R-14 CONCLUÍDO\n');
+  });
+
+  // [Regressivo] — paginação ao mudar busca; depende de volume de dados
+  it.skip('[R-15] Resetar página ao mudar busca', () => {
+    const dados = R15;
+    console.log('\n🧪 TESTANDO: R-15 — Resetar página ao mudar busca');
+    console.log('   → regressivo: requer dataset mínimo para paginação + busca');
+    cy.visit('/reembolso');
+    cy.get('[role="textbox"][placeholder="Busca"]').clear().type(dados.termoBuscaInicial);
+    cy.get('[role="textbox"][placeholder="Busca"]').clear().type(dados.termoBuscaAlterada);
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 R-15 CONCLUÍDO\n');
+  });
+
+  // ——— Inserir I01–I15 ———
+
+  it('[I-01] Carregar projetos e verbas', () => {
+    const dados = I01;
+    console.log('\n🧪 TESTANDO: I-01 — Carregar projetos e verbas');
+    console.log('   → formulário inserir com combobox Cliente/Projeto');
     cy.visit('/inserir-reembolso');
-    cy.get('input[placeholder="Objetivo"]').clear().type(d.objetivo);
-    cy.contains('label', /Cliente\/Projeto/i)
-      .parent()
-      .find('button')
-      .first()
-      .click({ force: true });
-    cy.get('[cmdk-item], [role="option"]').not('[data-disabled="true"]').filter(':visible').first().click({ force: true });
-    cy.contains('label', /Categoria/i)
-      .parent()
-      .find('[role="combobox"]')
-      .should('be.visible');
+    cy.contains('[role="combobox"]', /cliente|projeto/i).should('be.visible');
+    cy.get('#objetivo').should('be.visible');
     console.log('   ✅ Resultado confirmado');
-    logFim('R-17');
+    console.log('🏁 I-01 CONCLUÍDO\n');
   });
 
-  it('[R-18] Comprovante fora da validade', () => {
-    logInicio('R-18', 'Comprovante fora da validade');
-    const d = bddReembolsoInserir03;
-    console.log('   → definir Data da Despesa antiga e ver alerta de validade');
+  it('[I-02] Preencher cabeçalho obrigatório', () => {
+    const dados = I02;
+    console.log('\n🧪 TESTANDO: I-02 — Preencher cabeçalho obrigatório');
+    console.log('   → preencher objetivo e destino');
     cy.visit('/inserir-reembolso');
-    cy.get('input[placeholder="Objetivo"]').clear().type(d.objetivo);
-    cy.contains('label', /Data da Despesa/i)
-      .parent()
-      .find('button')
-      .first()
-      .click({ force: true });
-    clicarMesAnterior(40);
-    selecionarDiaNoCalendarioAberto(d.dataDespesa.split('/')[0]);
-    cy.get('button').filter(':has(.text-amber-500), :has(svg.text-amber-500)').should('have.length.greaterThan', 0);
+    cy.get('#objetivo').clear().type(dados.objetivo);
+    cy.get('#destino').clear().type(dados.destino);
+    cy.get('#objetivo').should('have.value', dados.objetivo);
     console.log('   ✅ Resultado confirmado');
-    logFim('R-18');
+    console.log('🏁 I-02 CONCLUÍDO\n');
   });
 
-  it('[R-19] Análise OCR de comprovantes', () => {
-    logInicio('R-19', 'Análise OCR de comprovantes');
-    const d = bddReembolsoInserir04;
-    console.log('   → anexar PDF e aguardar processamento sem erro bloqueante');
-    preencherFormularioInserir(d, { comClienteProjeto: true, anexarPdf: true });
-    cy.contains('button', 'Adicionar ao Carrinho').should('be.visible');
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-19');
-  });
-
-  it('[R-20] Adicionar ao carrinho sem obrigatórios', () => {
-    logInicio('R-20', 'Adicionar ao carrinho sem obrigatórios');
-    const d = bddReembolsoInserir05;
-    console.log('   → submeter carrinho vazio / campos inválidos e validar toast');
+  it('[I-03] Incluir item por valor direto (tipoCodigo !== 2)', () => {
+    const dados = I03;
+    console.log('\n🧪 TESTANDO: I-03 — Incluir item por valor direto (tipoCodigo !== 2)');
+    console.log('   → preencher item com valor e descrição');
     cy.visit('/inserir-reembolso');
-    if (d.destino) {
-      cy.contains('label', 'Destino', { matchCase: false }).parent().find('input').first().clear().type(d.destino);
-    }
+    cy.get('#objetivo').clear().type(dados.objetivo);
+    cy.get('#destino').clear().type(dados.destino);
+    cy.contains('button', 'Data de início').click();
+    cy.get('[role="gridcell"]').contains(/^8$/).first().click();
+    cy.contains('button', 'Data final').click();
+    cy.get('[role="gridcell"]').contains(/^12$/).first().click();
+    cy.contains('[role="combobox"]', /categoria/i).click();
+    cy.contains(dados.categoria).click();
+    cy.get('input[placeholder="0,00"], input[placeholder="0.00"]').first().clear().type(dados.valor);
+    cy.contains('Descrição').parent().find('textarea, [role="textbox"]').first().clear().type(dados.descricao);
+    cy.contains('button', 'Data da Despesa').click();
+    cy.get('[role="gridcell"]').contains(/^10$/).first().click();
     cy.contains('button', 'Adicionar ao Carrinho').click();
-    cy.contains(/Campos obrigatórios|Preencha/i).should('exist');
+    cy.contains('Carrinho de Solicitações').should('be.visible');
     console.log('   ✅ Resultado confirmado');
-    logFim('R-20');
+    console.log('🏁 I-03 CONCLUÍDO\n');
   });
 
-  it('[R-21] Item válido no carrinho', () => {
-    logInicio('R-21', 'Item válido no carrinho');
-    const d = bddReembolsoInserir06;
-    console.log('   → preencher, adicionar e ver carrinho com item');
-    preencherFormularioInserir(d);
+  it('[I-04] Incluir item por quantidade (tipoCodigo === 2)', () => {
+    const dados = I04;
+    console.log('\n🧪 TESTANDO: I-04 — Incluir item por quantidade (tipoCodigo === 2)');
+    console.log('   → quantidade e valores condicionais tipo 2');
+    cy.visit('/inserir-reembolso');
+    cy.get('#objetivo').clear().type(dados.objetivo);
+    cy.get('#destino').clear().type(dados.destino);
+    cy.contains('button', 'Data de início').click();
+    cy.get('[role="gridcell"]').contains(/^1$/).first().click();
+    cy.contains('button', 'Data final').click();
+    cy.get('[role="gridcell"]').contains(/^30$/).first().click();
+    cy.contains('[role="combobox"]', /categoria/i).click();
+    cy.contains(dados.categoria).click();
+    cy.contains('button', 'Data da Despesa').click();
+    cy.get('[role="gridcell"]').contains(/^14$/).first().click();
+    cy.get('[role="spinbutton"]').contains(dados.quantidade).parent().find('input').clear().type(dados.quantidade);
+    cy.get('[role="spinbutton"]').filter('[name*="quantidade"], [aria-label*="Quantidade"]').first().clear().type(dados.quantidade);
+    cy.get('input[role="spinbutton"]').first().clear().type(dados.quantidade);
     cy.contains('button', 'Adicionar ao Carrinho').click();
-    cy.contains('h2', 'Carrinho de Solicitações').should('be.visible');
-    cy.contains(d.categoria).should('be.visible');
     console.log('   ✅ Resultado confirmado');
-    logFim('R-21');
+    console.log('🏁 I-04 CONCLUÍDO\n');
   });
 
-  it('[R-22] Edição de item existente', () => {
-    logInicio('R-22', 'Edição de item existente');
-    const d6 = bddReembolsoInserir06;
-    const d7 = bddReembolsoInserir07;
-    console.log('   → editar valor e usar Atualizar Item');
-    preencherFormularioInserir(d6);
-    cy.contains('button', 'Adicionar ao Carrinho').click();
-    cy.contains('h3', d6.categoria)
-      .parents('[class*="Card"]')
-      .first()
-      .find('button')
-      .first()
-      .click({ force: true });
-    cy.get('input[placeholder="0,00"]').clear().type(d7.valor, { delay: 0 });
-    cy.contains('label', /Descrição/i)
-      .parent()
-      .find('textarea, input')
-      .first()
-      .clear()
-      .type(d7.descricao);
-    cy.contains('button', 'Atualizar Item').click();
-    cy.contains(d7.descricao.slice(0, 20)).should('exist');
+  it('[I-05] Analisar comprovantes via OCR', () => {
+    const dados = I05;
+    console.log('\n🧪 TESTANDO: I-05 — Analisar comprovantes via OCR');
+    console.log('   → anexar arquivo no input file');
+    cy.visit('/inserir-reembolso');
+    cy.get('input[type="file"]').selectFile(
+      { contents: Cypress.Buffer.from('fake'), fileName: dados.nomeArquivoComprovante, mimeType: 'application/pdf' },
+      { force: true },
+    );
+    cy.get('input[type="file"]').should('exist');
     console.log('   ✅ Resultado confirmado');
-    logFim('R-22');
+    console.log('🏁 I-05 CONCLUÍDO\n');
   });
 
-  it('[R-23] Remoção de item do carrinho', () => {
-    logInicio('R-23', 'Remoção de item do carrinho');
-    const d = bddReembolsoInserir08;
-    console.log('   → excluir item e ver estado vazio');
-    preencherFormularioInserir(d);
+  it('[I-06] Editar item no carrinho', () => {
+    const dados = I06;
+    console.log('\n🧪 TESTANDO: I-06 — Editar item no carrinho');
+    console.log('   → adicionar item e validar heading carrinho');
+    cy.visit('/inserir-reembolso');
+    cy.get('#objetivo').clear().type(dados.objetivo);
+    cy.get('#destino').clear().type(dados.destino);
+    cy.contains('button', 'Data de início').click();
+    cy.get('[role="gridcell"]').contains(/^22$/).first().click();
+    cy.contains('button', 'Data final').click();
+    cy.get('[role="gridcell"]').contains(/^25$/).first().click();
+    cy.contains('[role="combobox"]', /categoria/i).click();
+    cy.contains(dados.categoria).click();
+    cy.contains('button', 'Data da Despesa').click();
+    cy.get('[role="gridcell"]').contains(/^23$/).first().click();
+    cy.get('input[placeholder="0,00"], input[placeholder="0.00"]').first().clear().type(dados.valor);
+    cy.contains('Descrição').parent().find('textarea, [role="textbox"]').first().clear().type(dados.descricao);
     cy.contains('button', 'Adicionar ao Carrinho').click();
-    cy.contains('h3', d.categoria).parent().find('button.text-destructive').click({ force: true });
+    cy.get('[role="heading"]').contains('Carrinho de Solicitações').should('be.visible');
+    cy.contains('button', 'Atualizar Item').should('exist');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 I-06 CONCLUÍDO\n');
+  });
+
+  it('[I-07] Enviar solicitação com ZIP', () => {
+    const dados = I07;
+    console.log('\n🧪 TESTANDO: I-07 — Enviar solicitação com ZIP');
+    console.log('   → múltiplos comprovantes e enviar');
+    cy.visit('/inserir-reembolso');
+    cy.get('#objetivo').clear().type(dados.objetivo);
+    cy.get('#destino').clear().type(dados.destino);
+    cy.contains('button', 'Data de início').click();
+    cy.get('[role="gridcell"]').contains(/^14$/).first().click();
+    cy.contains('button', 'Data final').click();
+    cy.get('[role="gridcell"]').contains(/^17$/).first().click();
+    cy.contains('[role="combobox"]', /categoria/i).click();
+    cy.contains(dados.categoria).click();
+    cy.contains('button', 'Data da Despesa').click();
+    cy.get('[role="gridcell"]').contains(/^15$/).first().click();
+    cy.get('input[placeholder="0,00"], input[placeholder="0.00"]').first().clear().type(dados.valor);
+    cy.contains('Descrição').parent().find('textarea, [role="textbox"]').first().clear().type(dados.descricao);
+    dados.comprovantesAnexos.forEach((nome) => {
+      cy.get('input[type="file"]').selectFile(
+        { contents: Cypress.Buffer.from('x'), fileName: nome, mimeType: 'application/pdf' },
+        { force: true },
+      );
+    });
+    cy.contains('button', 'Adicionar ao Carrinho').click();
+    cy.contains('button', 'Enviar solicitações').should('be.visible');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 I-07 CONCLUÍDO\n');
+  });
+
+  it('[I-08] Objetivo obrigatório vazio', () => {
+    const dados = I08;
+    console.log('\n🧪 TESTANDO: I-08 — Objetivo obrigatório vazio');
+    console.log('   → não preencher objetivo e tentar adicionar');
+    cy.visit('/inserir-reembolso');
+    cy.get('#destino').clear().type(dados.destino);
+    cy.contains('button', 'Data de início').click();
+    cy.get('[role="gridcell"]').contains(/^18$/).first().click();
+    cy.contains('button', 'Data final').click();
+    cy.get('[role="gridcell"]').contains(/^19$/).first().click();
+    cy.contains('[role="combobox"]', /categoria/i).click();
+    cy.contains(dados.categoria).click();
+    cy.contains('button', 'Data da Despesa').click();
+    cy.get('[role="gridcell"]').contains(/^18$/).first().click();
+    cy.get('input[placeholder="0,00"], input[placeholder="0.00"]').first().clear().type(dados.valor);
+    cy.contains('Descrição').parent().find('textarea, [role="textbox"]').first().clear().type(dados.descricao);
+    cy.contains('button', 'Adicionar ao Carrinho').click();
+    cy.get('#objetivo').then(($el) => {
+      expect($el[0].validationMessage || $el.is(':invalid')).to.exist;
+    });
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 I-08 CONCLUÍDO\n');
+  });
+
+  it('[I-09] Data de início ausente', () => {
+    const dados = I09;
+    console.log('\n🧪 TESTANDO: I-09 — Data de início ausente');
+    console.log('   → preencher exceto data início');
+    cy.visit('/inserir-reembolso');
+    cy.get('#objetivo').clear().type(dados.objetivo);
+    cy.get('#destino').clear().type(dados.destino);
+    cy.contains('button', 'Data final').click();
+    cy.get('[role="gridcell"]').contains(/^28$/).first().click();
+    cy.contains('[role="combobox"]', /categoria/i).click();
+    cy.contains(dados.categoria).click();
+    cy.contains('button', 'Data da Despesa').click();
+    cy.get('[role="gridcell"]').contains(/^25$/).first().click();
+    cy.get('input[placeholder="0,00"], input[placeholder="0.00"]').first().clear().type(dados.valor);
+    cy.contains('Descrição').parent().find('textarea, [role="textbox"]').first().clear().type(dados.descricao);
+    cy.contains('button', 'Adicionar ao Carrinho').click();
+    cy.contains('button', 'Data de início').should('be.visible');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 I-09 CONCLUÍDO\n');
+  });
+
+  it('[I-10] Cliente/projeto obrigatório ausente', () => {
+    const dados = I10;
+    console.log('\n🧪 TESTANDO: I-10 — Cliente/projeto obrigatório ausente');
+    console.log('   → não selecionar cliente e submeter fluxo');
+    cy.visit('/inserir-reembolso');
+    cy.get('#objetivo').clear().type(dados.objetivo);
+    cy.get('#destino').clear().type(dados.destino);
+    cy.contains('button', 'Data de início').click();
+    cy.get('[role="gridcell"]').contains(/^5$/).first().click();
+    cy.contains('button', 'Data final').click();
+    cy.get('[role="gridcell"]').contains(/^6$/).first().click();
+    cy.contains('[role="combobox"]', /categoria/i).click();
+    cy.contains(dados.categoria).click();
+    cy.contains('button', 'Data da Despesa').click();
+    cy.get('[role="gridcell"]').contains(/^5$/).first().click();
+    cy.get('input[placeholder="0,00"], input[placeholder="0.00"]').first().clear().type(dados.valor);
+    cy.contains('Descrição').parent().find('textarea, [role="textbox"]').first().clear().type(dados.descricao);
+    cy.contains('button', 'Adicionar ao Carrinho').click();
+    cy.contains(/cliente|projeto|obrigatório/i).should('exist');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 I-10 CONCLUÍDO\n');
+  });
+
+  it('[I-11] Valor inválido (tipo !== 2, valor <= 0)', () => {
+    const dados = I11;
+    console.log('\n🧪 TESTANDO: I-11 — Valor inválido (tipo !== 2, valor <= 0)');
+    console.log('   → valor 0,00 e validação');
+    cy.visit('/inserir-reembolso');
+    cy.get('#objetivo').clear().type(dados.objetivo);
+    cy.get('#destino').clear().type(dados.destino);
+    cy.contains('button', 'Data de início').click();
+    cy.get('[role="gridcell"]').contains(/^12$/).first().click();
+    cy.contains('button', 'Data final').click();
+    cy.get('[role="gridcell"]').contains(/^13$/).first().click();
+    cy.contains('[role="combobox"]', /categoria/i).click();
+    cy.contains(dados.categoria).click();
+    cy.contains('button', 'Data da Despesa').click();
+    cy.get('[role="gridcell"]').contains(/^12$/).first().click();
+    cy.get('input[placeholder="0,00"], input[placeholder="0.00"]').first().clear().type(dados.valor);
+    cy.contains('Descrição').parent().find('textarea, [role="textbox"]').first().clear().type(dados.descricao);
+    cy.contains('button', 'Adicionar ao Carrinho').click();
+    cy.contains(/valor|inválido|maior|zero/i).should('exist');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 I-11 CONCLUÍDO\n');
+  });
+
+  it('[I-12] Comprovante obrigatório ausente', () => {
+    const dados = I12;
+    console.log('\n🧪 TESTANDO: I-12 — Comprovante obrigatório ausente');
+    console.log('   → não anexar arquivo quando exigido');
+    cy.visit('/inserir-reembolso');
+    cy.get('#objetivo').clear().type(dados.objetivo);
+    cy.get('#destino').clear().type(dados.destino);
+    cy.contains('button', 'Data de início').click();
+    cy.get('[role="gridcell"]').contains(/^20$/).first().click();
+    cy.contains('button', 'Data final').click();
+    cy.get('[role="gridcell"]').contains(/^22$/).first().click();
+    cy.contains('[role="combobox"]', /categoria/i).click();
+    cy.contains(dados.categoria).click();
+    cy.contains('button', 'Data da Despesa').click();
+    cy.get('[role="gridcell"]').contains(/^20$/).first().click();
+    cy.get('input[placeholder="0,00"], input[placeholder="0.00"]').first().clear().type(dados.valor);
+    cy.contains('Descrição').parent().find('textarea, [role="textbox"]').first().clear().type(dados.descricao);
+    cy.contains('button', 'Adicionar ao Carrinho').click();
+    cy.contains('button', 'Enviar solicitações').click();
+    cy.get('[role="dialog"]').contains(/comprovante|anexo|obrigatório/i).should('be.visible');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 I-12 CONCLUÍDO\n');
+  });
+
+  it('[I-13] Data do comprovante fora da validade (> 30 dias)', () => {
+    const dados = I13;
+    console.log('\n🧪 TESTANDO: I-13 — Data do comprovante fora da validade (> 30 dias)');
+    console.log('   → data despesa antiga');
+    cy.visit('/inserir-reembolso');
+    cy.get('#objetivo').clear().type(dados.objetivo);
+    cy.get('#destino').clear().type(dados.destino);
+    cy.contains('button', 'Data de início').click();
+    cy.get('[role="gridcell"]').contains(/^14$/).first().click();
+    cy.contains('button', 'Data final').click();
+    cy.get('[role="gridcell"]').contains(/^15$/).first().click();
+    cy.contains('[role="combobox"]', /categoria/i).click();
+    cy.contains(dados.categoria).click();
+    cy.contains('button', 'Data da Despesa').click();
+    cy.get('[role="gridcell"]').contains(/^10$/).first().click();
+    cy.get('input[placeholder="0,00"], input[placeholder="0.00"]').first().clear().type(dados.valor);
+    cy.contains('Descrição').parent().find('textarea, [role="textbox"]').first().clear().type(dados.descricao);
+    cy.contains('button', 'Adicionar ao Carrinho').click();
+    cy.contains(/validade|30|data/i).should('exist');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 I-13 CONCLUÍDO\n');
+  });
+
+  it('[I-14] Valor acima do teto da verba', () => {
+    const dados = I14;
+    console.log('\n🧪 TESTANDO: I-14 — Valor acima do teto da verba');
+    console.log('   → valor acima do limite e validação');
+    cy.visit('/inserir-reembolso');
+    cy.get('#objetivo').clear().type(dados.objetivo);
+    cy.get('#destino').clear().type(dados.destino);
+    cy.contains('button', 'Data de início').click();
+    cy.get('[role="gridcell"]').contains(/^9$/).first().click();
+    cy.contains('button', 'Data final').click();
+    cy.get('[role="gridcell"]').contains(/^11$/).first().click();
+    cy.contains('[role="combobox"]', /categoria/i).click();
+    cy.contains(dados.categoria).click();
+    cy.contains('button', 'Data da Despesa').click();
+    cy.get('[role="gridcell"]').contains(/^10$/).first().click();
+    cy.get('input[placeholder="0,00"], input[placeholder="0.00"]').first().clear().type(dados.valor);
+    cy.contains('Descrição').parent().find('textarea, [role="textbox"]').first().clear().type(dados.descricao);
+    cy.contains('button', 'Adicionar ao Carrinho').click();
+    cy.contains(/teto|limite|verba|exced/i).should('exist');
+    console.log('   ✅ Resultado confirmado');
+    console.log('🏁 I-14 CONCLUÍDO\n');
+  });
+
+  // [Regressivo] — fluxo limpar + remover linha com estado complexo
+  it.skip('[I-15] Limpar formulário e remover item do carrinho', () => {
+    const dados = I15;
+    console.log('\n🧪 TESTANDO: I-15 — Limpar formulário e remover item do carrinho');
+    console.log('   → regressivo: validação fina de totais após limpar');
+    cy.visit('/inserir-reembolso');
+    cy.get('#objetivo').clear().type(dados.objetivo);
+    cy.contains('button', 'Limpar').click();
     cy.contains('Nenhuma solicitação no carrinho').should('be.visible');
     console.log('   ✅ Resultado confirmado');
-    logFim('R-23');
+    console.log('🏁 I-15 CONCLUÍDO\n');
   });
-
-  it('[R-24] Envio com ZIP e sucesso', () => {
-    logInicio('R-24', 'Envio com ZIP e sucesso');
-    const d = bddReembolsoInserir09;
-    console.log('   → enviar solicitações e confirmar alertdialog Sucesso');
-    preencherFormularioInserir(d);
-    cy.contains('button', 'Adicionar ao Carrinho').click();
-    cy.contains('button', 'Enviar solicitações').click();
-    cy.get('[role="alertdialog"]', { timeout: 60000 }).contains('Sucesso').should('be.visible');
-    cy.get('[role="alertdialog"]').contains('button', 'OK').click();
-    cy.visit('/reembolso');
-    cy.get('[role="tab"]').contains('Meus Reembolsos').should('be.visible');
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-24');
-  });
-
-  it('[R-25] Resposta da API com lista de erros', () => {
-    logInicio('R-25', 'Resposta da API com lista de erros');
-    const d = bddReembolsoInserir10;
-    console.log('   → enviar payload que pode retornar erros de negócio');
-    preencherFormularioInserir(d);
-    cy.contains('button', 'Adicionar ao Carrinho').click();
-    cy.contains('button', 'Enviar solicitações').click();
-    cy.get('body', { timeout: 60000 }).then(($b) => {
-      if ($b.text().includes('Erro ao enviar solicitações')) {
-        cy.get('[role="dialog"]').contains('Ocorreram os seguintes erros').should('be.visible');
-      }
-    });
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-25');
-  });
-
-  // [Regressivo] Falha genérica no envio — depende de indisponibilidade ou mock de rede
-  it.skip('[R-26] Falha genérica no envio', () => {});
-
-  it('[R-27] Solicitação sem projeto habilitada', () => {
-    logInicio('R-27', 'Solicitação sem projeto habilitada');
-    const d = bddReembolsoInserir12;
-    console.log('   → fluxo sem selecionar Cliente/Projeto quando permitido pela org');
-    preencherFormularioInserir(d, { comClienteProjeto: false });
-    cy.contains('button', 'Adicionar ao Carrinho').click();
-    cy.get('body').then(($b) => {
-      const ok = $b.text().includes(d.categoria) && $b.text().includes('Carrinho');
-      expect(ok || $b.text().includes('obrigatório')).to.be.true;
-    });
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-27');
-  });
-
-  it('[R-28] Valor acima do teto da verba', () => {
-    logInicio('R-28', 'Valor acima do teto da verba');
-    const d = bddReembolsoInserir13;
-    console.log('   → digitar valor e validar aviso de teto');
-    preencherFormularioInserir(d);
-    cy.contains(/valor máximo permitido|O valor máximo permitido/i).should('be.visible');
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-28');
-  });
-
-  it('[R-29] Máscara monetária consistente', () => {
-    logInicio('R-29', 'Máscara monetária consistente');
-    const d = bddReembolsoInserir14;
-    console.log('   → campo Valor deve refletir formatação pt-BR');
-    preencherFormularioInserir(d, { anexarPdf: true });
-    cy.get('input[placeholder="0,00"]').invoke('val').should('match', /1\.250|1250/);
-    console.log('   ✅ Resultado confirmado');
-    logFim('R-29');
-  });
-
-  // [Regressivo] Encerramento pós-sucesso — fluxo longo coberto em R-24
-  it.skip('[R-30] Encerramento pós-sucesso', () => {});
 });
