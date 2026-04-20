@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "demo": "start-server-and-test dev http://localhost:8080 \"npm --prefix playwright-automation-template run demo:only\"",
+    "demo:headed": "start-server-and-test dev http://localhost:8080 \"npm --prefix playwright-automation-template run demo:only:headed\"",
+    "demo:run": "npm --prefix playwright-automation-template run demo:only:headed",
     "homolog": "vite --mode homologation",
     "build": "tsc -b && vite build",
     "build:dev": "tsc -b && vite build --mode development",
@@ -94,6 +97,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
     "postcss": "^8.5.6",
+    "start-server-and-test": "^3.0.2",
     "tailwindcss": "^3.4.18",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "~5.9.3",

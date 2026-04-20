@@ -1,0 +1,153 @@
+{
+  "info": {
+    "_postman_id": "eb0d332b-20c9-4946-b613-36c37be01f69",
+    "name": "OTP login",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "35122764",
+    "_collection_link": "https://go.postman.co/collection/35122764-eb0d332b-20c9-4946-b613-36c37be01f69?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "EnviaTokenAcessoEmail",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "5YB40IzcB7x83WsFYK0qCioG6i3lFhP3qlYbCirzmc995KtB8B",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"gustavo.queiroz@foursys.com.br\",\r\n  \"orgId\": 8\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://spw.app.foursys.com/backoffice-rf-hom/api/Acesso/EnviaTokenAcessoEmail",
+          "protocol": "https",
+          "host": [
+            "spw",
+            "app",
+            "foursys",
+            "com"
+          ],
+          "path": [
+            "backoffice-rf-hom",
+            "api",
+            "Acesso",
+            "EnviaTokenAcessoEmail"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ObtemCodigoAcessoEmailQA",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "OHw1WUI0MEl6Y0I3eDgzV3NGWUswcUNpb0c2aTNsRmhQM3FsWWJDaXJ6bWM5OTVLdEI4Qg==",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://spw.app.foursys.com/backoffice-rf-hom/api/Acesso/ObtemCodigoAcessoEmailQA?email=gustavo.queiroz@foursys.com.br&orgId=8",
+          "protocol": "https",
+          "host": [
+            "spw",
+            "app",
+            "foursys",
+            "com"
+          ],
+          "path": [
+            "backoffice-rf-hom",
+            "api",
+            "Acesso",
+            "ObtemCodigoAcessoEmailQA"
+          ],
+          "query": [
+            {
+              "key": "email",
+              "value": "gustavo.queiroz@foursys.com.br"
+            },
+            {
+              "key": "orgId",
+              "value": "8"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "ValidaTokenAcessoEmail",
+      "request": {
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "OHw1WUI0MEl6Y0I3eDgzV3NGWUswcUNpb0c2aTNsRmhQM3FsWWJDaXJ6bWM5OTVLdEI4Qg==",
+              "type": "string"
+            }
+          ]
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"gustavo.queiroz@foursys.com.br\",\r\n  \"token\": \"754496\",\r\n  \"orgId\": 8\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://spw.app.foursys.com/backoffice-rf-hom/api/Acesso/ValidaTokenAcessoEmail",
+          "protocol": "https",
+          "host": [
+            "spw",
+            "app",
+            "foursys",
+            "com"
+          ],
+          "path": [
+            "backoffice-rf-hom",
+            "api",
+            "Acesso",
+            "ValidaTokenAcessoEmail"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

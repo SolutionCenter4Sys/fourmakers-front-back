@@ -2,18 +2,58 @@
 description: >
   Guardrail PRÉ-VENDAS — Orquestrador da Demo Completa E2E (Etapa 1 + Etapa 2 + Etapa 3).
   Acionar quando o usuário digitar: "demo reembolso", "iniciar demo", "rodar demo",
-  "demo completa", "demo e2e", "demo pré-vendas", "cenários + massa + automação",
-  "gherkin + dataforge + cypress", "jornada completa reembolso".
-  Executa em sequência: GherkinFlow → DataForge → Cypress (SEM pausas entre etapas).
+  "rodar a demo", "demo completa", "demo e2e", "demo pré-vendas", "cenários + massa + automação",
+  "gherkin + dataforge + playwright", "jornada completa reembolso".
+  Executa em sequência: GherkinFlow → DataForge → Playwright (SEM pausas entre etapas).
 alwaysApply: false
 ---
 
 # 🎬 Demo Pré-Vendas — Orquestrador E2E Completo
 
-> **Comando de ativação:** `demo reembolso` · `demo e2e` · `demo pré-vendas`
-> **Fluxo:** GherkinFlow → DataForge → Cypress (executar EM SEQUÊNCIA, sem pausas, sem pedir confirmação)
-> **Backend:** real (https://api.fourmakers.io) — sem banco fictício
-> **Duração esperada:** ~5 minutos de geração contínua
+> **Comando de ativação:** `demo reembolso` · `rodar demo` · `demo e2e` · `demo pré-vendas`
+> **Fluxo:** GherkinFlow → DataForge → Playwright (executar EM SEQUÊNCIA, sem pausas, sem pedir confirmação)
+> **Backend:** `https://spw.app.foursys.com/backoffice-rf-hom` (dev, acesso via rede Foursys)
+> **Front:** `http://localhost:8080` (Vite local com proxy pra API dev)
+> **Duração esperada:** ~5 minutos de geração contínua + ~1 min de execução da spec
+
+## 🎥 MODO CINEMA (OBRIGATÓRIO — Demo visível para apresentação)
+
+Regras do modo cinema — **enxuto, sem banners verbosos**. Cada agente faz seu trabalho e entrega o artefato, só isso.
+
+### SETUP (antes da Etapa 1 — silencioso)
+
+1. Verificar se Vite já está rodando em `http://localhost:8080`. Se NÃO estiver:
+   - Executar `npm run dev` **em background persistente** (com `block_until_ms: 0`) a partir da raiz do repo
+   - Aguardar `http://localhost:8080` responder HTTP 200 (via `AwaitShell`)
+2. NÃO dar instruções sobre Browser Tab, split view, nem sugestões de workflow ao usuário — o Vite estar UP é detalhe técnico. Seguir direto para a Etapa 1.
+
+O Vite **DEVE permanecer rodando** durante e DEPOIS da demo — não derrubar.
+
+### Em cada etapa
+
+1. **Anúncio curto** (1 linha) de qual agente está entrando em ação. Exemplos:
+   - `🎭 GherkinFlow lendo Reembolso.tsx + InserirReembolso.tsx...`
+   - `🧪 DataForge mapeando cenários para constantes JavaScript...`
+   - `🎬 Playwright atualizando spec com BDD + DataForge...`
+2. **Gerar/atualizar o arquivo** usando a tool apropriada (Write/Edit). O arquivo gerado aparece no histórico da conversa automaticamente — o usuário clica para ver.
+3. **Uma linha de confirmação** ao concluir: `✅ REEMBOLSO-BDD-v7.md — 30 cenários` (sem banners ASCII gigantes, sem caixas, sem sugestões de workflow).
+
+**NÃO fazer:**
+- ❌ Banners `╔══ ... ══╗` de abertura ou fechamento de etapa
+- ❌ Sugerir abrir arquivos no split view, Browser Tab, etc.
+- ❌ Descrever o que o agente "vai fazer" antes de fazer — só anunciar em 1 linha e ir direto ao trabalho
+- ❌ Dar sumários pós-execução que o próprio terminal já entrega
+
+### Etapa 3 — Playwright EXECUTA DE VERDADE
+
+Essa etapa **NÃO pode parar em "spec gerada"**. Ela DEVE:
+
+1. Atualizar a spec com os cenários do BDD + dados do DataForge
+2. **Executar `npm run demo:run`** (comando na raiz, SEM start-server-and-test pois o Vite já está rodando) — roda `--headed` com `slowMo`
+3. O Chromium abre numa janela separada visível na tela
+4. Aguardar a execução terminar e **apenas repetir a linha final do terminal** (`X passed`, tempo total) no chat
+
+**Nunca terminar a demo apenas com um sumário textual — sempre rodar a automação visível ao final.**
 
 ### Estrutura de pastas da demo
 
@@ -24,24 +64,29 @@ DEMO/
     reembolso-ui.json
   automacao/reembolso/   ← output da Etapa 2 (reembolso.data.js)
   agentes/               ← documentação dos agentes
+  integracao-acesso-qa/  ← docs OTP + Postman collection
 
-cypress/
-  support/commands/
-    fourmakers-auth.js   ← helper OTP (já configurado)
-  e2e/
-    reembolso.cy.js      ← output da Etapa 3 (Cypress)
+playwright-automation-template/
+  support/auth/fourmakers-auth.ts   ← helper OTP Gustavo (já configurado)
+  support/pages/ReembolsoPage.ts    ← Page Object
+  tests/reembolso/
+    reembolso-demo.spec.ts          ← happy path oficial (npm run demo)
 ```
 
 ---
 
 ## ETAPA 1 — Cenários BDD com GherkinFlow
 
-Sem alterações — lê o código-fonte real das telas e gera cenários BDD.
+Lê o código-fonte real das telas e gera cenários BDD.
 
 ### Ações obrigatórias:
-1. Analisar `src/presentation/pages/Reembolso.tsx` e `InserirReembolso.tsx`
-2. Gerar `DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md`
-3. Exibir sumário e seguir para Etapa 2
+1. **Anúncio curto:** 1 linha no chat → `🎭 GherkinFlow lendo Reembolso.tsx + InserirReembolso.tsx...`
+2. Analisar `src/presentation/pages/Reembolso.tsx` e `src/presentation/pages/InserirReembolso.tsx`
+3. Gerar `DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md` (arquivo aparece no histórico — sem precisar abrir manualmente)
+4. **Confirmação curta:** `✅ REEMBOLSO-BDD-vN.md — XX cenários gerados`
+5. Seguir IMEDIATAMENTE para Etapa 2 (sem pausa, sem sumário)
+
+Seguir integralmente as regras de `pre-sales-demo-01-gherkin.mdc`.
 
 ---
 
@@ -49,10 +94,11 @@ Sem alterações — lê o código-fonte real das telas e gera cenários BDD.
 
 > Executar **imediatamente** após a Etapa 1, sem esperar confirmação.
 
-### O que mudou:
-- **NÃO gera SQL** — gera constantes JavaScript com dados realistas
-- **NÃO lê banco fictício** — lê o código das APIs reais e o formulário
-- **Output:** `DEMO/automacao/reembolso/reembolso.data.js`
+### Ações obrigatórias:
+1. **Anúncio curto:** 1 linha no chat → `🧪 DataForge mapeando cenários para constantes JavaScript...`
+2. Gera constantes JavaScript com dados realistas (CPF/CNPJ válidos, valores em reais, datas dd/MM/yyyy)
+3. **Output:** `DEMO/automacao/reembolso/reembolso.data.js`
+4. **Confirmação curta:** `✅ reembolso.data.js — XX constantes mapeadas`
 
 ### Inputs:
 - Cenários BDD gerados na Etapa 1
@@ -64,33 +110,49 @@ Sem alterações — lê o código-fonte real das telas e gera cenários BDD.
 - Dados realistas brasileiros (nomes, cidades, valores em reais)
 - Para [Negativo]: dados que ativem validações do formulário
 
+Seguir integralmente as regras de `pre-sales-demo-02-dataforge.mdc`.
+
 ---
 
-## ETAPA 3 — Testes Automatizados com Cypress
+## ETAPA 3 — Testes Automatizados com Playwright
 
 > Executar **imediatamente** após a Etapa 2, sem esperar confirmação.
 
-### O que mudou:
-- **Framework: Cypress** (não Playwright)
-- **Login: OTP real** via `cy.loginFourMakers()` (já configurado)
-- **Backend: real** — testes rodam contra https://app.fourmakers.io
-- **Output:** `cypress/e2e/reembolso.cy.js`
+### Ações obrigatórias:
+1. **Anúncio curto:** 1 linha no chat → `🎬 Playwright atualizando spec com BDD + DataForge...`
+2. Atualizar/gerar `playwright-automation-template/tests/reembolso/reembolso-jornada.spec.ts` (jornada cinema) e/ou `reembolso-demo.spec.ts` (cobertura BDD 1:1) — importar constantes do DataForge, mapear cenários do BDD
+3. **Confirmação curta:** `✅ spec atualizada — executando...`
+4. **Executar `npm run demo:run`** (Vite já está UP — NÃO usar `demo:headed` que tentaria subir Vite de novo) — roda `--headed` com `slowMo`
+5. Chromium abre visível com a jornada do Gustavo
+6. Ao final, **1 linha de resumo**: `✅ X passed em Y.Ys` (ou o output final do Playwright)
 
-### Fluxo real de cada teste:
-1. `cy.loginFourMakers()` → autentica via API real
-2. `cy.visit('/inserir-reembolso')` → formulário real
-3. Preenche campos com dados do DataForge
-4. Submete → POST vai para o backend real
-5. `cy.visit('/reembolso')` → valida resultado no dashboard
+### Características do Playwright:
+- **Framework:** Playwright + TypeScript
+- **Login:** OTP real via `loginFourMakers(page, request)` (3 steps, credenciais do Gustavo fixas)
+- **Backend:** real em `https://spw.app.foursys.com/backoffice-rf-hom`
+- **Front:** Vite local (`http://localhost:8080`) configurado com proxy pra API dev
+- **Output:** `playwright-automation-template/tests/reembolso/reembolso-demo.spec.ts`
 
-### Para rodar após a demo:
+### Fluxo real de cada teste (visível em `--headed`):
+1. `await loginFourMakers(page, request)` → autentica via API real + injeta JWT em localhost:8080
+2. `await page.goto('/reembolso')` → dashboard real
+3. Ações de navegação/preenchimento com `slowMo=400ms` (digitação visível para apresentação)
+4. Assertions sobre a UI real + screenshot por cenário
+
+### Comandos disponíveis (se a usuária quiser rodar manualmente):
 ```bash
-npx cypress run --spec "cypress/e2e/reembolso.cy.js" --browser chrome
+# Na raiz do repo:
+npm run dev              # sobe Vite (persistente) — deixar rodando em outro terminal
+npm run demo:run         # ★ DEMO CINEMA ★ — só Playwright --headed (Vite já deve estar UP)
+npm run demo             # one-shot — sobe Vite, roda headless, desliga Vite (CI)
+npm run demo:headed      # one-shot headed (sobe Vite, roda, desliga)
 ```
+
+Seguir integralmente as regras de `pre-sales-demo-03-automacao-logs.mdc`.
 
 ---
 
-## Sumário Final
+## Sumário Final (depois que a automação terminar de rodar no navegador)
 
 ```
 ╔══════════════════════════════════════════════════════════╗
@@ -98,10 +160,12 @@ npx cypress run --spec "cypress/e2e/reembolso.cy.js" --browser chrome
 ╠══════════════════════════════════════════════════════════╣
 ║  ✅ Etapa 1 — GherkinFlow  → XX cenários BDD gerados    ║
 ║  ✅ Etapa 2 — DataForge    → XX constantes de dados     ║
-║  ✅ Etapa 3 — Cypress      → XX testes automatizados    ║
+║  ✅ Etapa 3 — Playwright   → XX cenários aprovados       ║
+║                             em YY.Ys no navegador real   ║
 ╠══════════════════════════════════════════════════════════╣
-║  Backend: https://api.dev.fourmakers.io (homologação)   ║
-║  Da escrita à automação — em menos de 5 minutos.        ║
+║  Backend: https://spw.app.foursys.com/backoffice-rf-hom ║
+║  Usuário: gustavo.queiroz@foursys.com.br (org 8)        ║
+║  Screenshots: evidencias/screenshots/reembolso/*.png    ║
 ╚══════════════════════════════════════════════════════════╝
 ```
 
@@ -110,7 +174,7 @@ npx cypress run --spec "cypress/e2e/reembolso.cy.js" --browser chrome
 - Pausar entre etapas pedindo confirmação do usuário
 - Gerar SQL para banco fictício
 - Referenciar MODELO-DADOS.sql ou DICIONARIO-DADOS.sql
-- Usar Playwright (framework atual é Cypress)
-- Deixar qualquer `it()` sem log de início e fim
-- Salvar testes fora de `cypress/e2e/`
-- Usar `cy.wait(2000)` fixo sem justificativa
+- Usar Cypress (framework atual é Playwright — migração concluída)
+- Deixar qualquer `test()` sem log de início e fim
+- Salvar specs fora de `playwright-automation-template/tests/`
+- Usar `page.waitForTimeout(2000)` fixo sem justificativa

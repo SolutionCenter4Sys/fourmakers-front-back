@@ -6,7 +6,7 @@ alwaysApply: false
 # Demo Pré-Vendas — Etapa 2: Dados de Teste com DataForge
 
 ## Contexto
-Esta regra guia a geração de dados de teste realistas em JavaScript para os cenários BDD da tela de Reembolso. Os dados são usados pelo Cypress para preencher o formulário real na UI.
+Esta regra guia a geração de dados de teste realistas em JavaScript para os cenários BDD da tela de Reembolso. Os dados são usados pelo Playwright para preencher o formulário real na UI.
 
 ## Pré-requisito OBRIGATÓRIO — verificar antes de qualquer geração
 

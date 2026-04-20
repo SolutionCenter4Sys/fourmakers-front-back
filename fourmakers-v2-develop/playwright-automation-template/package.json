@@ -1,22 +1,28 @@
 {
   "name": "playwright-automation-project",
   "version": "1.0.0",
-  "description": "Projeto de automação com Playwright e TypeScript — migrado do Cypress",
+  "description": "Projeto de automação com Playwright e TypeScript — demo do módulo Reembolso",
   "scripts": {
-    "demo": "playwright test tests/reembolso/reembolso-demo.spec.ts --headed",
-    "test": "playwright test",
-    "test:ui": "playwright test --ui",
-    "test:headed": "playwright test --headed",
-    "test:reembolso": "playwright test tests/reembolso/reembolso.spec.ts",
-    "test:jornada": "playwright test tests/reembolso/reembolso-jornada.spec.ts",
-    "test:jornada:unico": "playwright test tests/reembolso/reembolso-jornada-unico.spec.ts",
-    "test:reembolso:all": "playwright test tests/reembolso/",
+    "demo": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test tests/reembolso/reembolso-jornada.spec.ts --reporter=list",
+    "demo:headed": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 PLAYWRIGHT_SLOWMO=600 playwright test tests/reembolso/reembolso-jornada.spec.ts --headed --reporter=list",
+    "demo:only": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test tests/reembolso/reembolso-jornada.spec.ts --reporter=list",
+    "demo:only:headed": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 PLAYWRIGHT_SLOWMO=600 playwright test tests/reembolso/reembolso-jornada.spec.ts --headed --reporter=list",
+    "test:bdd": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test tests/reembolso/reembolso-demo.spec.ts --reporter=list",
+    "test:bdd:headed": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 PLAYWRIGHT_SLOWMO=300 playwright test tests/reembolso/reembolso-demo.spec.ts --headed --reporter=list",
+    "test": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test",
+    "test:ui": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test --ui",
+    "test:headed": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test --headed",
+    "test:reembolso": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test tests/reembolso/reembolso.spec.ts",
+    "test:jornada": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test tests/reembolso/reembolso-jornada.spec.ts",
+    "test:jornada:unico": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test tests/reembolso/reembolso-jornada-unico.spec.ts",
+    "test:reembolso:all": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test tests/reembolso/",
     "relatorio": "playwright show-report evidencias/relatorios",
     "install:browsers": "playwright install chromium"
   },
   "devDependencies": {
     "@playwright/test": "^1.44.0",
     "@types/node": "^20.0.0",
+    "cross-env": "^7.0.3",
     "typescript": "^5.0.0"
   }
 }

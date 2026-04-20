@@ -64,7 +64,7 @@ Esta regra guia a geração de cenários BDD para a tela de Reembolso do Fourmak
 
 ## Próxima etapa
 
-Após concluir, o orquestrador lança o **DataForge** (Etapa 2) que lê os cenários gerados e cria constantes de dados de teste em JavaScript para o Cypress usar.
+Após concluir, o orquestrador lança o **DataForge** (Etapa 2) que lê os cenários gerados e cria constantes de dados de teste em JavaScript para o Playwright usar.
 
 ## Proibido
 

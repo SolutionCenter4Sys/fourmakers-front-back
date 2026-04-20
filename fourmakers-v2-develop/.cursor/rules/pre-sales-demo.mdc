@@ -3,16 +3,16 @@ description: >
   Guardrail PRÉ-VENDAS — Demo E2E de QA para a tela de Reembolso.
   Acionar quando o usuário mencionar: demo reembolso, demo e2e, demo pré-vendas,
   iniciar demo, cenários BDD, gherkin, GherkinFlow, DataForge, dados de teste,
-  gerar testes, automação Cypress, automação reembolso.
-  Executa em sequência: GherkinFlow → DataForge → Cypress (contra backend real).
+  gerar testes, automação Playwright, automação reembolso, rodar a demo.
+  Executa em sequência: GherkinFlow → DataForge → Playwright (contra backend real).
 alwaysApply: false
 ---
 
 # Demo Pré-Vendas — Reembolso E2E
 
-**Ao ser acionada, leia e siga integralmente** o skill `demo-qa-orchestrator/SKILL.md`.
+**Ao ser acionada, leia e siga integralmente** o skill `demo-qa-orchestrator/SKILL.md` (se disponível) e os rules `pre-sales-demo-01-gherkin.mdc` → `pre-sales-demo-02-dataforge.mdc` → `pre-sales-demo-03-automacao-logs.mdc`.
 
-O skill contém as 3 etapas da demo (GherkinFlow → DataForge → Cypress) com todas as regras de geração, formatos de output e logs obrigatórios.
+As 3 etapas da demo (GherkinFlow → DataForge → Playwright) rodam em sequência, com regras de geração, formatos de output e logs obrigatórios definidas nos rules específicos.
 
 ## Guardrails gerais da demo
 
@@ -23,29 +23,39 @@ DEMO/
   cenarios-bdd/          ← Etapa 1 (REEMBOLSO-BDD-vN.md)
   automacao/reembolso/   ← Etapa 2 (reembolso.data.js)
   ui-elements/           ← input  (reembolso-ui.json)
+  integracao-acesso-qa/  ← docs OTP + Postman collection
 
-cypress/
-  e2e/                   ← Etapa 3 (reembolso.cy.js)
-  support/commands/      ← helper OTP (fourmakers-auth.js)
+playwright-automation-template/
+  support/auth/          ← helper OTP (fourmakers-auth.ts)
+  support/pages/         ← Page Objects (ReembolsoPage.ts)
+  tests/reembolso/       ← Etapa 3 (reembolso-demo.spec.ts)
+  fixtures/              ← dados JSON
+  evidencias/            ← screenshots + relatórios
 ```
 
 ### Versionamento
 
 - Cenários BDD usam sufixo `-vN` (próximo sequencial). **Nunca** sobrescrever versão anterior.
-- Dados de teste e testes Cypress são sempre sobrescritos (sem versionamento).
+- Dados de teste e specs Playwright são sempre sobrescritos (sem versionamento).
 
-### Backend
+### Backend & Front
 
-- **Real:** https://api.fourmakers.io
-- **App:** https://app.fourmakers.io
-- **Login:** OTP via `cy.loginFourMakers()` (já configurado)
+- **Backend (dev):** `https://spw.app.foursys.com/backoffice-rf-hom` — tem os módulos da plataforma Colaboração (Reembolso, Usuario, etc.)
+- **Front (local via Vite):** `http://localhost:8080` configurado com proxy pra API dev, para evitar CORS
+- **Usuário padrão:** `gustavo.queiroz@foursys.com.br` (orgId `8`)
+- **Login:** OTP via `loginFourMakers(page, request)` — 3 etapas (EnviaToken → ObtemCodigo → ValidaToken) — credenciais em `playwright-automation-template/support/auth/fourmakers-auth.ts`
 - **NÃO há banco fictício** — dados entram no sistema pelo formulário real
+
+### Pré-requisito para rodar
+
+- `.env.local` na raiz com `VITE_API_PROXY_TARGET=https://spw.app.foursys.com/backoffice-rf-hom`
+- Executar da raiz: `npm run demo` — sobe Vite, roda Playwright, desliga Vite
 
 ### Proibido durante toda a demo
 
 - Pausar entre etapas pedindo confirmação do usuário
 - Gerar SQL ou referenciar banco fictício
-- Usar Playwright (framework atual é Cypress)
-- Usar `cy.wait(2000)` fixo sem justificativa
-- Deixar qualquer `it()` sem log de início e fim
+- Usar Cypress (framework atual é Playwright — migração concluída)
+- Editar credenciais OTP em `fourmakers-auth.ts` sem autorização do time QA
+- Deixar qualquer `test()` sem log de início e fim
 - Sair do persona dos agentes durante a execução

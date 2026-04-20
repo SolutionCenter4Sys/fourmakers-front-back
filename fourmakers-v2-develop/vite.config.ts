@@ -31,7 +31,9 @@ const ignoreSourceMapErrors = () => {
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const apiTarget = env.VITE_API_FOURMAKERS_URL
+  // Permite apontar o proxy pra um backend diferente sem expor a URL ao client
+  // (quando VITE_API_FOURMAKERS_URL está vazio pra deixar API_BASE_URL relativo em dev).
+  const apiTarget = env.VITE_API_PROXY_TARGET || env.VITE_API_FOURMAKERS_URL
   const isCI = process.env.CI === 'true' || process.env.GITLAB_CI === 'true'
 
   return {

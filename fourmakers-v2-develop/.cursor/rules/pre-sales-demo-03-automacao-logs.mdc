@@ -1,62 +1,85 @@
 ---
-description: "Guardrail PRÉ-VENDAS — Etapa 3: Automação de tela com Cypress fornecendo JSON da UI, com logs detalhados no terminal. Acionar quando o usuário mencionar: automatizar tela, json da tela, gerar testes, automação reembolso, logs de teste."
+description: "Guardrail PRÉ-VENDAS — Etapa 3: Automação de tela com Playwright (backend real + front local via Vite + login OTP QA Master), com logs detalhados no terminal. Acionar quando o usuário mencionar: automatizar tela, json da tela, gerar testes, automação reembolso, logs de teste, playwright, rodar testes, demo playwright."
 alwaysApply: false
 ---
 
-# Demo Pré-Vendas — Etapa 3: Automação com Cypress e Logs Detalhados
+# Demo Pré-Vendas — Etapa 3: Automação com Playwright e Logs Detalhados
 
 ## Contexto
-Esta regra guia a geração de código de automação Cypress a partir do JSON da UI, com logs visualmente ricos no terminal — ideal para demonstração ao cliente. Os testes rodam contra o **backend real**.
+
+Esta regra guia a geração de código de automação Playwright a partir do JSON da UI, com logs visualmente ricos no terminal — ideal para demonstração ao cliente.
+
+- **Framework:** Playwright + TypeScript (migração do Cypress concluída)
+- **Backend real:** `https://spw.app.foursys.com/backoffice-rf-hom` (dev)
+- **Front local via Vite:** `http://localhost:8080` com proxy `VITE_API_PROXY_TARGET` apontando pro backend acima
+- **Login:** OTP real via `loginFourMakers(page, request)` — usuário `gustavo.queiroz@foursys.com.br` (orgId 8)
 
 ## Inputs obrigatórios (todos lidos de arquivo — sem pedir ao usuário)
 
-| Input | Arquivo | Papel |
+| Input | Arquivo | Como a spec consome |
 |---|---|---|
-| JSON da UI | `DEMO/ui-elements/reembolso-ui.json` | Fonte dos seletores reais da tela |
-| Cenários BDD | `DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md` (mais recente) | Estrutura e IDs dos testes |
-| Dados de teste | `DEMO/automacao/reembolso/reembolso.data.js` | Constantes do DataForge |
-| Auth helper | `cypress/support/commands/fourmakers-auth.js` | Login OTP real |
+| **Cenários BDD** | `DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md` (mais recente) | Cada `test()` tem o **ID do cenário no título** (ex.: `test('R-01 [Positivo] ...')`) e mapeia 1:1 com uma linha da tabela BDD |
+| **Dados de teste** | `DEMO/automacao/reembolso/reembolso.data.js` | Spec faz `import { dadosR01, dadosR09, ... } from '../../../DEMO/automacao/reembolso/reembolso.data.js'` e usa as constantes em `fill()`, `expect()`, etc. |
+| **JSON da UI** | `DEMO/ui-elements/reembolso-ui.json` | Informa quais `role`, `label`, `testId` a spec deve usar. Traduzidos para locators no Page Object `ReembolsoPage.ts` (prioridade: `getByRole` → `#id` → `getByText`) |
+| Auth helper | `playwright-automation-template/support/auth/fourmakers-auth.ts` | Login OTP real (3 steps + injeção JWT no localhost) |
+| Page Object | `playwright-automation-template/support/pages/ReembolsoPage.ts` | Locators + ações mapeados a partir do `reembolso-ui.json` |
+
+### Obrigatório: a spec DEVE referenciar explicitamente os 3 artefatos
+
+1. **BDD** → título de cada `test()` começa com o ID (`R-01`, `I-08`, etc.) do cenário
+2. **DataForge** → `import` do `reembolso.data.js` + uso das constantes (`dadosR01.abaEsperada`, `dadosI08.mensagemEsperada`, etc.)
+3. **ui-elements** → Page Object `ReembolsoPage.ts` deve ter um locator para cada elemento do `reembolso-ui.json` usando o seletor com maior robustez disponível
+
+**Se algum dos 3 artefatos estiver ausente, PARAR e reportar erro com path esperado — NUNCA improvisar dados inline.**
+
+### Cenários que não podem rodar no ambiente atual
+
+Se algum cenário do BDD depender de setup que o usuário da demo não tem (ex.: perfil gestor, verbas configuradas, reembolsos prévios), registrar como `test.skip('ID [Tipo] Nome — razão explícita', () => {})` ao final da spec. Isso mantém o CATÁLOGO completo visível no report do Playwright (apenas marca que não executou).
 
 ## Protocolo de Geração (OBRIGATÓRIO)
 
 ### 1. Ler e interpretar o JSON da UI
-Mapear cada elemento do JSON para uma ação Cypress e para o seletor mais robusto:
 
-| Tipo no JSON | Ação Cypress | Seletor preferencial |
+Mapear cada elemento do JSON para uma ação Playwright e para o seletor mais robusto:
+
+| Tipo no JSON | Ação Playwright | Seletor preferencial |
 |---|---|---|
-| `input / textarea` | `.type()` | `cy.get('#id')` ou `cy.get('[data-testid]')` |
-| `button / submit` | `.click()` + asserção pós-ação | `cy.contains('Texto')` ou `cy.get('[data-testid]')` |
-| `select / dropdown` | interagir com componente | `cy.get('[data-testid]')` |
-| `tab` | `.click()` + verificar painel | `cy.contains('Tab Name')` |
-| `table / list` | verificar linhas visíveis | `cy.get('[data-testid]')` |
-| `modal / dialog` | verificar abertura/fechamento | `cy.get('[data-testid]')` |
+| `input / textarea` | `.fill()` | `page.locator('#id')` ou `page.getByLabel('Texto')` |
+| `button / submit` | `.click()` + asserção pós-ação | `page.getByRole('button', { name: 'Texto' })` |
+| `select / dropdown` | interagir com combobox custom (Radix/cmdk) | `page.locator('button[role="combobox"]')` |
+| `tab` | `.click()` + verificar painel | `page.getByRole('tab', { name: 'Texto' })` |
+| `table / list` | verificar linhas visíveis | `page.locator('[data-testid]')` |
+| `modal / dialog` | verificar abertura/fechamento | `page.getByRole('dialog')` |
 
-**Prioridade de seletor:** `data-testid` → `id` → `contains(text)` → `role`
+**Prioridade de seletor:** `getByRole` → `#id` → `getByLabel` → `getByText` → `[data-testid]`.
 **NUNCA** usar `nth-child`, XPath absoluto ou seletores CSS frágeis.
 
 ### 2. Estrutura do arquivo gerado
 
-```javascript
-import { dadosR01, dadosI07 } from '../../DEMO/automacao/reembolso/reembolso.data.js';
+```typescript
+import { test, expect } from '@playwright/test'
+import { ReembolsoPage } from '../../support/pages/ReembolsoPage'
+import { loginFourMakers } from '../../support/auth/fourmakers-auth'
+import reembolsoFixture from '../../fixtures/reembolso.json'
 
-describe('Módulo de Reembolso — Testes E2E', () => {
+const dados = reembolsoFixture as any
 
-  beforeEach(() => {
-    cy.session('fourmakers-prd', () => {
-      cy.loginFourMakers();
-    });
-  });
+test.describe('Módulo de Reembolso — Testes E2E', () => {
+  test.beforeEach(async ({ page, request }) => {
+    await loginFourMakers(page, request)
+  })
 
-  it('[R-01] Colaborador solicita reembolso com dados completos', () => {
-    console.log('\n🧪 TESTANDO: R-01 — Solicitação completa');
-    console.log('   → Navegando para Inserir Reembolso...');
-    cy.visit('/inserir-reembolso');
-    console.log('   ✅ Formulário carregado');
+  test('[R-01] Colaborador solicita reembolso com dados completos', async ({ page }) => {
+    const p = new ReembolsoPage(page)
+
+    console.log('\n🧪 TESTANDO: R-01 — Solicitação completa')
+    console.log('   → Navegando para /reembolso...')
+    await p.visitarLista()
+    console.log('   ✅ Dashboard carregado')
     // ... preenchimento e validação
-    console.log('🏁 R-01 CONCLUÍDO\n');
-  });
-
-});
+    console.log('🏁 R-01 CONCLUÍDO\n')
+  })
+})
 ```
 
 ### 3. Logs obrigatórios por bloco
@@ -64,30 +87,49 @@ describe('Módulo de Reembolso — Testes E2E', () => {
 | Momento | Log no terminal |
 |---------|----------------|
 | Início do suite | `🎯 AUTOMAÇÃO INICIADA — [Nome da Tela]` |
+| Banner de demo | `╔══ DEMO FOURMAKERS — MÓDULO REEMBOLSO ══╗` |
+| Auth início | `🔐 AUTENTICAÇÃO: Login FourMakers via OTP` |
+| Auth passos | `   → [Step 1] Enviando OTP...` / `   ✅ JWT obtido com sucesso` |
 | Início de cada test | `🧪 TESTANDO: [ID] — [Nome do cenário]` |
 | Cada passo | `   → [Descrição da ação em andamento]...` |
 | Passo aprovado | `   ✅ [Resultado confirmado]` |
 | Passo com alerta | `   ⚠️  [Situação de atenção]` |
-| Fim do test | `🏁 [ID] CONCLUÍDO` |
+| Fim do test | `🏁 [ID] CONCLUÍDO` / `⏱  Tempo total: X.Xs` |
+| Fim da demo | `╚══ ✅ DEMO CONCLUÍDA ══╝` |
 
 ### 4. Arquivo de saída
 
 ```
-cypress/e2e/reembolso.cy.js
+playwright-automation-template/tests/reembolso/reembolso-demo.spec.ts
 ```
+
+## Para rodar (comando único, da raiz do repo)
+
+```bash
+cd fourmakers-v2-develop
+npm run demo            # sobe Vite → roda Playwright → desliga Vite
+npm run demo:headed     # idem, com navegador visível (apresentação)
+```
+
+Pré-requisito: `.env.local` na raiz com `VITE_API_PROXY_TARGET=https://spw.app.foursys.com/backoffice-rf-hom`.
 
 ## Regras da Demo
 
-- **SEMPRE** usar `cy.session()` com `cy.loginFourMakers()` para autenticação
+- **SEMPRE** usar `await loginFourMakers(page, request)` no `beforeEach` para autenticação
+- **SEMPRE** usar Page Object `ReembolsoPage` para locators e ações
 - **SEMPRE** usar `console.log` com emojis e prefixos padronizados
+- **SEMPRE** gerar evidências (screenshots) por cenário via `page.screenshot()`
+- **NUNCA** misturar imports Cypress com Playwright no mesmo arquivo
 - **NUNCA** gerar testes sem log de início e fim de cada cenário
-- **NUNCA** usar seletores frágeis como `nth-child` ou `xpath` absoluto
-- **NUNCA** usar `cy.wait(2000)` fixo — preferir `cy.intercept()` + `cy.wait('@alias')`
-- Cada `it()` deve mapear para exatamente 1 cenário Gherkin
+- **NUNCA** editar as credenciais OTP em `fourmakers-auth.ts` sem autorização do time QA
+- **NUNCA** usar seletores frágeis como `nth-child` ou XPath absoluto
+- **NUNCA** usar `page.waitForTimeout(2000)` fixo — preferir `page.waitForResponse()` / `page.waitForLoadState()`
+- Cada `test()` deve mapear para exatamente 1 cenário Gherkin
 
 ## Proibido durante a demo
 
-- Gerar testes com Playwright (framework é Cypress)
-- Misturar sintaxe Playwright e Cypress
+- Gerar testes com Cypress (framework é Playwright)
+- Misturar sintaxe Playwright e Cypress no mesmo arquivo
 - Usar banco fictício ou SQL
-- Criar arquivos fora de `cypress/e2e/`
+- Criar arquivos fora de `playwright-automation-template/tests/`
+- Apontar `apiBase` pra `api.fourmakers.io` (era a config antiga; atual é `spw.app.foursys.com/backoffice-rf-hom`)
