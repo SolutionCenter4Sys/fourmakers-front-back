@@ -18,19 +18,27 @@ Esta regra guia a geração de código de automação Playwright a partir do JSO
 
 | Input | Arquivo | Como a spec consome |
 |---|---|---|
-| **Cenários BDD** | `DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md` (mais recente) | Cada `test()` tem o **ID do cenário no título** (ex.: `test('R-01 [Positivo] ...')`) e mapeia 1:1 com uma linha da tabela BDD |
-| **Dados de teste** | `DEMO/automacao/reembolso/reembolso.data.js` | Spec faz `import { dadosR01, dadosR09, ... } from '../../../DEMO/automacao/reembolso/reembolso.data.js'` e usa as constantes em `fill()`, `expect()`, etc. |
-| **JSON da UI** | `DEMO/ui-elements/reembolso-ui.json` | Informa quais `role`, `label`, `testId` a spec deve usar. Traduzidos para locators no Page Object `ReembolsoPage.ts` (prioridade: `getByRole` → `#id` → `getByText`) |
-| Auth helper | `playwright-automation-template/support/auth/fourmakers-auth.ts` | Login OTP real (3 steps + injeção JWT no localhost) |
-| Page Object | `playwright-automation-template/support/pages/ReembolsoPage.ts` | Locators + ações mapeados a partir do `reembolso-ui.json` |
+| **Cenários BDD** | `frontend/DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md` (mais recente) | Cada `test()` tem o **ID do cenário no título** (ex.: `test('R-01 [Positivo] ...')`) e mapeia 1:1 com uma linha da tabela BDD |
+| **Dados de teste** | `frontend/DEMO/automacao/reembolso/versionadas/reembolso.data.vN.js` | Spec faz `import { dadosR01, dadosR09, ... } from '../../../DEMO/automacao/reembolso/versionadas/reembolso.data.vN.js'` e usa as constantes em `fill()`, `expect()`, etc. |
+| **JSON da UI** | `frontend/DEMO/ui-elements/reembolso-ui.json` | Informa quais `role`, `label`, `testId` a spec deve usar. Traduzidos para locators no Page Object `ReembolsoPage.ts` (prioridade: `getByRole` → `#id` → `getByText`) |
+| Auth helper | `frontend/playwright-automation-template/support/auth/fourmakers-auth.ts` | Login OTP real (3 steps + injeção JWT no localhost) |
+| Page Object | `frontend/playwright-automation-template/support/pages/ReembolsoPage.ts` | Locators + ações mapeados a partir do `reembolso-ui.json` |
 
 ### Obrigatório: a spec DEVE referenciar explicitamente os 3 artefatos
 
 1. **BDD** → título de cada `test()` começa com o ID (`R-01`, `I-08`, etc.) do cenário
-2. **DataForge** → `import` do `reembolso.data.js` + uso das constantes (`dadosR01.abaEsperada`, `dadosI08.mensagemEsperada`, etc.)
+2. **DataForge** → `import` do `reembolso.data.vN.js` + uso das constantes (`dadosR01.abaEsperada`, `dadosI08.mensagemEsperada`, etc.)
 3. **ui-elements** → Page Object `ReembolsoPage.ts` deve ter um locator para cada elemento do `reembolso-ui.json` usando o seletor com maior robustez disponível
 
 **Se algum dos 3 artefatos estiver ausente, PARAR e reportar erro com path esperado — NUNCA improvisar dados inline.**
+
+### Política de versionamento (OBRIGATÓRIA)
+
+- A spec da execução deve ser criada como `frontend/playwright-automation-template/tests/reembolso/versionadas/reembolso-demo-vN.spec.ts`
+- O `vN` da spec deve ser o mesmo do BDD e do DataForge da mesma execução
+- Nunca sobrescrever spec versionada já existente
+- Manter no máximo 10 versões em `frontend/playwright-automation-template/tests/reembolso/versionadas/`
+- Se já existir `v10` (ou superior), apagar versões antigas e reiniciar em `v1`
 
 ### Cenários que não podem rodar no ambiente atual
 
@@ -100,18 +108,18 @@ test.describe('Módulo de Reembolso — Testes E2E', () => {
 ### 4. Arquivo de saída
 
 ```
-playwright-automation-template/tests/reembolso/reembolso-demo.spec.ts
+frontend/playwright-automation-template/tests/reembolso/versionadas/reembolso-demo-vN.spec.ts
 ```
 
-## Para rodar (comando único, da raiz do repo)
+## Para rodar (spec versionada, da raiz do repo)
 
 ```bash
 cd fourmakers-v2-develop
-npm run demo            # sobe Vite → roda Playwright → desliga Vite
-npm run demo:headed     # idem, com navegador visível (apresentação)
+npm run dev             # manter Vite ativo
+npm --prefix frontend/playwright-automation-template exec cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 PLAYWRIGHT_SLOWMO=300 playwright test tests/reembolso/versionadas/reembolso-demo-vN.spec.ts --headed --reporter=list
 ```
 
-Pré-requisito: `.env.local` na raiz com `VITE_API_PROXY_TARGET=https://spw.app.foursys.com/backoffice-rf-hom`.
+Pré-requisito: `frontend/.env.local` com `VITE_API_PROXY_TARGET=https://spw.app.foursys.com/backoffice-rf-hom`.
 
 ## Regras da Demo
 
@@ -131,5 +139,5 @@ Pré-requisito: `.env.local` na raiz com `VITE_API_PROXY_TARGET=https://spw.app.
 - Gerar testes com Cypress (framework é Playwright)
 - Misturar sintaxe Playwright e Cypress no mesmo arquivo
 - Usar banco fictício ou SQL
-- Criar arquivos fora de `playwright-automation-template/tests/`
+- Criar arquivos fora de `frontend/playwright-automation-template/tests/`
 - Apontar `apiBase` pra `api.fourmakers.io` (era a config antiga; atual é `spw.app.foursys.com/backoffice-rf-hom`)

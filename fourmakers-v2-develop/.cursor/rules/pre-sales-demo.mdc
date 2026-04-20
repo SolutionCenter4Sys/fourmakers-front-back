@@ -1,9 +1,7 @@
 ---
 description: >
   Guardrail PRÉ-VENDAS — Demo E2E de QA para a tela de Reembolso.
-  Acionar quando o usuário mencionar: demo reembolso, demo e2e, demo pré-vendas,
-  iniciar demo, cenários BDD, gherkin, GherkinFlow, DataForge, dados de teste,
-  gerar testes, automação Playwright, automação reembolso, rodar a demo.
+  Acionar EXCLUSIVAMENTE quando o usuário digitar "demo reembolso" (case-insensitive).
   Executa em sequência: GherkinFlow → DataForge → Playwright (contra backend real).
 alwaysApply: false
 ---
@@ -19,36 +17,41 @@ As 3 etapas da demo (GherkinFlow → DataForge → Playwright) rodam em sequênc
 ### Estrutura de pastas
 
 ```
-DEMO/
+frontend/DEMO/
   cenarios-bdd/          ← Etapa 1 (REEMBOLSO-BDD-vN.md)
-  automacao/reembolso/   ← Etapa 2 (reembolso.data.js)
+  automacao/reembolso/versionadas/ ← Etapa 2 (reembolso.data.vN.js)
   ui-elements/           ← input  (reembolso-ui.json)
   integracao-acesso-qa/  ← docs OTP + Postman collection
 
-playwright-automation-template/
+frontend/playwright-automation-template/
   support/auth/          ← helper OTP (fourmakers-auth.ts)
   support/pages/         ← Page Objects (ReembolsoPage.ts)
-  tests/reembolso/       ← Etapa 3 (reembolso-demo.spec.ts)
+  tests/reembolso/versionadas/ ← Etapa 3 (reembolso-demo-vN.spec.ts)
   fixtures/              ← dados JSON
   evidencias/            ← screenshots + relatórios
 ```
 
 ### Versionamento
 
-- Cenários BDD usam sufixo `-vN` (próximo sequencial). **Nunca** sobrescrever versão anterior.
-- Dados de teste e specs Playwright são sempre sobrescritos (sem versionamento).
+- A demo SEMPRE gera 3 artefatos versionados no mesmo número `vN`:
+  - `frontend/DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md`
+  - `frontend/DEMO/automacao/reembolso/versionadas/reembolso.data.vN.js`
+  - `frontend/playwright-automation-template/tests/reembolso/versionadas/reembolso-demo-vN.spec.ts`
+- **Nunca sobrescrever** arquivos existentes.
+- Política de retenção: manter no máximo 10 versões por artefato.
+- Se já existir `v10` (ou superior), apagar versões antigas das 3 pastas versionadas e reiniciar em `v1`.
 
 ### Backend & Front
 
 - **Backend (dev):** `https://spw.app.foursys.com/backoffice-rf-hom` — tem os módulos da plataforma Colaboração (Reembolso, Usuario, etc.)
 - **Front (local via Vite):** `http://localhost:8080` configurado com proxy pra API dev, para evitar CORS
 - **Usuário padrão:** `gustavo.queiroz@foursys.com.br` (orgId `8`)
-- **Login:** OTP via `loginFourMakers(page, request)` — 3 etapas (EnviaToken → ObtemCodigo → ValidaToken) — credenciais em `playwright-automation-template/support/auth/fourmakers-auth.ts`
+- **Login:** OTP via `loginFourMakers(page, request)` — 3 etapas (EnviaToken → ObtemCodigo → ValidaToken) — credenciais em `frontend/playwright-automation-template/support/auth/fourmakers-auth.ts`
 - **NÃO há banco fictício** — dados entram no sistema pelo formulário real
 
 ### Pré-requisito para rodar
 
-- `.env.local` na raiz com `VITE_API_PROXY_TARGET=https://spw.app.foursys.com/backoffice-rf-hom`
+- `.env.local` em `frontend/.env.local` com `VITE_API_PROXY_TARGET=https://spw.app.foursys.com/backoffice-rf-hom`
 - Executar da raiz: `npm run demo` — sobe Vite, roda Playwright, desliga Vite
 
 ### Proibido durante toda a demo
