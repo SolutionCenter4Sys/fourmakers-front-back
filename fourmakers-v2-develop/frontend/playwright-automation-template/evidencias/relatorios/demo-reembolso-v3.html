@@ -1,0 +1,1433 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Demo Reembolso v3 - Resultado Final</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; background: #0f172a; color: #e2e8f0; }
+    h1, h2 { margin: 0 0 12px; }
+    .card { background: #111827; border: 1px solid #334155; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .muted { color: #94a3b8; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .metric { background: #0b1220; border: 1px solid #334155; border-radius: 10px; padding: 12px; }
+    .metric strong { display: block; font-size: 28px; margin-bottom: 4px; }
+    ul { margin: 0; padding-left: 18px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #334155; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #1f2937; }
+    pre { white-space: pre-wrap; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 12px; }
+    .badge { display: inline-block; border-radius: 10px; padding: 2px 8px; border: 1px solid #64748b; }
+    .ok { border-color: #22c55e; color: #22c55e; }
+    .fail { border-color: #ef4444; color: #ef4444; }
+    .skip { border-color: #f59e0b; color: #f59e0b; }
+  </style>
+</head>
+<body>
+  <h1>Demo Reembolso v3 - Resultado Final</h1>
+  <p class="muted">Gerado automaticamente em 23/04/2026, 11:38:52</p>
+
+  <div class="card">
+    <h2>Artefatos utilizados</h2>
+    <ul>
+      <li><strong>BDD:</strong> DEMO/cenarios-bdd/REEMBOLSO-BDD-v3.md</li>
+      <li><strong>Massa DataForge:</strong> DEMO/automacao/reembolso/versionadas/reembolso.data.v3.js</li>
+      <li><strong>Spec Playwright:</strong> tests/reembolso/versionadas/reembolso-demo-v3.spec.ts</li>
+      <li><strong>JSON de campos da tela:</strong> DEMO/ui-elements/reembolso-ui.json (usado)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Resumo da execução</h2>
+    <div class="grid">
+      <div class="metric"><strong>1</strong><span>passed</span></div>
+      <div class="metric"><strong>8</strong><span>failed</span></div>
+      <div class="metric"><strong>21</strong><span>skipped</span></div>
+      <div class="metric"><strong>30</strong><span>total</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Cobertura declarada</h2>
+    <ul>
+      <li><strong>Cenários do BDD (30):</strong> R-01, R-02, R-03, R-04, R-05, R-06, R-07, R-08, R-09, R-10, R-11, R-12, R-13, R-14, R-15, I-01, I-02, I-03, I-04, I-05, I-06, I-07, I-08, I-09, I-10, I-11, I-12, I-13, I-14, I-15</li>
+      <li><strong>Cenários da massa (30):</strong> R-01, R-02, R-03, R-04, R-05, R-06, R-07, R-08, R-09, R-10, R-11, R-12, R-13, R-14, R-15, I-01, I-02, I-03, I-04, I-05, I-06, I-07, I-08, I-09, I-10, I-11, I-12, I-13, I-14, I-15</li>
+      <li><strong>Cenários mapeados na spec (30):</strong> R-01, R-09, R-12, R-13, I-08, I-11, I-12, I-13, I-15, R-02, R-03, R-04, R-05, R-06, R-07, R-08, R-10, R-11, R-14, R-15, I-01, I-02, I-03, I-04, I-05, I-06, I-07, I-09, I-10, I-14</li>
+      <li><strong>Cenários testados na execução (30):</strong> R-01, R-09, R-12, R-13, I-08, I-11, I-12, I-13, I-15, R-02, R-03, R-04, R-05, R-06, R-07, R-08, R-10, R-11, R-14, R-15, I-01, I-02, I-03, I-04, I-05, I-06, I-07, I-09, I-10, I-14</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Resultados por cenário</h2>
+    <table>
+      <thead>
+        <tr><th>Status</th><th>Cenário</th><th>Duração</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="badge fail">failed</span></td><td>R-01 [Positivo] Visão padrão do módulo</td><td>19362 ms</td></tr>
+<tr><td><span class="badge fail">failed</span></td><td>R-09 [Positivo] Início de nova solicitação</td><td>17220 ms</td></tr>
+<tr><td><span class="badge fail">failed</span></td><td>R-12 [Negativo] Busca sem resultados</td><td>16982 ms</td></tr>
+<tr><td><span class="badge ok">passed</span></td><td>R-13 [Regressivo] Limpeza dos filtros de data</td><td>27263 ms</td></tr>
+<tr><td><span class="badge fail">failed</span></td><td>I-08 [Negativo] Submissão com campos obrigatórios vazios</td><td>25695 ms</td></tr>
+<tr><td><span class="badge fail">failed</span></td><td>I-11 [Negativo] Anexo em formato não suportado</td><td>27443 ms</td></tr>
+<tr><td><span class="badge fail">failed</span></td><td>I-12 [Negativo] Envio com carrinho vazio</td><td>14889 ms</td></tr>
+<tr><td><span class="badge fail">failed</span></td><td>I-13 [Regressivo] Limpeza do formulário</td><td>31304 ms</td></tr>
+<tr><td><span class="badge fail">failed</span></td><td>I-15 [Regressivo] Navegação de retorno ao dashboard</td><td>17924 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>R-02 [Positivo] Visão do gestor no dashboard — requer perfil gestor</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>R-03 [Positivo] Visão do aprovador — requer perfil aprovador</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>R-04 [Positivo] Indicadores de reembolsos — requer reembolsos cadastrados</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>R-05 [Positivo] Filtragem por período — requer reembolsos cadastrados</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>R-06 [Positivo] Busca textual com resultado — requer reembolsos cadastrados</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>R-07 [Positivo] Consulta de detalhes — requer reembolsos cadastrados</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>R-08 [Positivo] Download de documentos — requer reembolsos com comprovantes</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>R-10 [Negativo] Acesso indevido à Gestão ADM — requer perfil não-gestor vs URL direta</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>R-11 [Negativo] Acesso indevido às Aprovações — requer perfil não-aprovador vs URL direta</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>R-14 [Regressivo] Persistência da aba na URL — requer múltiplas abas visíveis</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>R-15 [Regressivo] Paginação da tabela — requer volume &gt; página</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>I-01 [Positivo] Adição de item completo — requer verbas configuradas</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>I-02 [Positivo] Preenchimento automático por OCR — requer verbas e OCR habilitado</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>I-03 [Positivo] Carregamento dinâmico de categorias — requer projetos e verbas</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>I-04 [Positivo] Envio do carrinho — requer verbas + item no carrinho</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>I-05 [Positivo] Edição de item no carrinho — requer item prévio</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>I-06 [Positivo] Remoção de item do carrinho — requer itens prévios</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>I-07 [Positivo] Cálculo por quantidade × valor — requer verba de quilometragem</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>I-09 [Negativo] Comprovante com prazo excedido — requer verba com prazo configurado</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>I-10 [Negativo] Valor acima do teto — requer verba com teto configurado</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>I-14 [Regressivo] Atualização do total do carrinho — requer adicionar múltiplos itens (depende I-01)</td><td>0 ms</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Falhas e erros (quando houver)</h2>
+    <details><summary>R-01 [Positivo] Visão padrão do módulo</summary><pre>Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+Locator: getByRole(&#39;tab&#39;, { name: &#39;Meus Reembolsos&#39; })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+[2m  - Expect &quot;toBeVisible&quot; with timeout 5000ms[22m
+[2m  - waiting for getByRole(&#39;tab&#39;, { name: &#39;Meus Reembolsos&#39; })[22m
+</pre></details>
+<details><summary>R-09 [Positivo] Início de nova solicitação</summary><pre>Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+Locator: getByRole(&#39;button&#39;, { name: &#39;Solicitar Reembolso&#39; })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+[2m  - Expect &quot;toBeVisible&quot; with timeout 5000ms[22m
+[2m  - waiting for getByRole(&#39;button&#39;, { name: &#39;Solicitar Reembolso&#39; })[22m
+</pre></details>
+<details><summary>R-12 [Negativo] Busca sem resultados</summary><pre>Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+Locator: getByPlaceholder(/busca/i).first()
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+[2m  - Expect &quot;toBeVisible&quot; with timeout 5000ms[22m
+[2m  - waiting for getByPlaceholder(/busca/i).first()[22m
+</pre></details>
+<details><summary>I-08 [Negativo] Submissão com campos obrigatórios vazios</summary><pre>TimeoutError: locator.scrollIntoViewIfNeeded: Timeout 15000ms exceeded.
+Call log:
+[2m  - waiting for getByRole(&#39;button&#39;, { name: &#39;Adicionar ao Carrinho&#39; })[22m
+</pre></details>
+<details><summary>I-11 [Negativo] Anexo em formato não suportado</summary><pre>TimeoutError: locator.clear: Timeout 15000ms exceeded.
+Call log:
+[2m  - waiting for locator(&#39;#objetivo&#39;)[22m
+</pre></details>
+<details><summary>I-12 [Negativo] Envio com carrinho vazio</summary><pre>Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+Locator: getByText(/Nenhuma solicita/i)
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+[2m  - Expect &quot;toBeVisible&quot; with timeout 5000ms[22m
+[2m  - waiting for getByText(/Nenhuma solicita/i)[22m
+</pre></details>
+<details><summary>I-13 [Regressivo] Limpeza do formulário</summary><pre>TimeoutError: locator.clear: Timeout 15000ms exceeded.
+Call log:
+[2m  - waiting for locator(&#39;#objetivo&#39;)[22m
+</pre></details>
+<details><summary>I-15 [Regressivo] Navegação de retorno ao dashboard</summary><pre>Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveURL[2m([22m[32mexpected[39m[2m)[22m failed
+
+Expected pattern: [32m/\/inserir-reembolso/[39m
+Received string:  [31m&quot;https://app.fourmakers.io/login?redirect=%2Finserir-reembolso&quot;[39m
+Timeout: 5000ms
+
+Call log:
+[2m  - Expect &quot;toHaveURL&quot; with timeout 5000ms[22m
+[2m    8 × unexpected value &quot;https://app.fourmakers.io/login?redirect=%2Finserir-reembolso&quot;[22m
+</pre></details>
+  </div>
+
+  <div class="card">
+    <h2>Logs completos da execução</h2>
+    <pre>
+Running 30 tests using 1 worker
+
+
+╔══════════════════════════════════════════════════════════════════╗
+║  🎬 DEMO FOURMAKERS — MÓDULO REEMBOLSO (v3)                      ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  Bem-vindo(a) à jornada E2E automatizada pela esteira            ║
+║  pré-vendas da Foursys. Três agentes de IA produziram, em         ║
+║  sequência, os artefatos desta execução:                          ║
+║                                                                  ║
+║    1️⃣  GherkinFlow → REEMBOLSO-BDD-v3.md (30 cenários)             ║
+║    2️⃣  DataForge   → reembolso.data.v3.js (30 constantes)          ║
+║    3️⃣  Playwright  → reembolso-demo-v3.spec.ts (esta spec)         ║
+║                                                                  ║
+║  Ambiente alvo (backend REAL, sem mocks):                        ║
+║    • Backend : spw.app.foursys.com/backoffice-rf-hom             ║
+║    • Front   : http://localhost:8080 (Vite + proxy)              ║
+║    • Usuário : solutioncenter@foursys.com.br (orgId 8)           ║
+║    • Login   : OTP real via Solution Center Auth                 ║
+║                                                                  ║
+║  O que vamos ver em seguida:                                     ║
+║    ✅ 9 cenários executáveis (Dashboard + Inserir)               ║
+║    ⏭️  21 cenários catalogados (aguardam setup do tenant)        ║
+║    📊 Cobertura planejada: 30 cenários (BDD completo)            ║
+║                                                                  ║
+║  Ao final: relatório consolidado com métricas + duração.         ║
+╚══════════════════════════════════════════════════════════════════╝
+
+📋 Roteiro de execução desta run
+──────────────────────────────────────────────────────────────────
+  Dashboard  (/reembolso)
+    • R-01  [Positivo  ] Visão padrão do módulo
+    • R-09  [Positivo  ] Início de nova solicitação
+    • R-12  [Negativo  ] Busca sem resultados
+    • R-13  [Regressivo] Limpeza dos filtros de data
+  Inserir Reembolso  (/inserir-reembolso)
+    • I-08  [Negativo  ] Submissão com campos obrigatórios vazios
+    • I-11  [Negativo  ] Anexo em formato não suportado
+    • I-12  [Negativo  ] Envio com carrinho vazio
+    • I-13  [Regressivo] Limpeza do formulário
+    • I-15  [Regressivo] Navegação de retorno ao dashboard
+──────────────────────────────────────────────────────────────────
+  Legenda: [Positivo] caminho feliz · [Negativo] validação · [Regressivo] regressão
+──────────────────────────────────────────────────────────────────
+
+▶ Iniciando execução em modo headed. O navegador Chromium será aberto
+  em tempo real para visualização da jornada. Cada cenário começa com
+  autenticação OTP e termina com evidência (screenshot).
+
+
+🧪 TESTANDO: R-01 [Positivo] Visão padrão do módulo
+
+──────────────────────────────────────────────
+🔐 AUTENTICAÇÃO: Login Solution Center via OTP
+   usuário: solutioncenter@foursys.com.br
+   orgId:   8
+   apiBase: https://spw.app.foursys.com/backoffice-rf-hom
+   appUrl:  http://localhost:8080
+──────────────────────────────────────────────
+   → [Step 1..3] Executando fluxo OTP Solution Center...
+   ✅ JWT obtido com sucesso
+   → Injetando JWT no localStorage de http://localhost:8080...
+   ✅ Sessão iniciada com sucesso
+──────────────────────────────────────────────
+
+
+┌─────────────────────────────────────────────────────
+│ R-01 · [Positivo]  Visão padrão do módulo de Reembolso
+└─────────────────────────────────────────────────────
+   → Validando que apenas a aba &quot;Meus Reembolsos&quot; está visível...
+🏁 R-01 [Positivo] Visão padrão do módulo CONCLUÍDO
+
+╔══════════════════════════════════════════════════════════╗
+║  🎬 DEMO REEMBOLSO v3 — RELATÓRIO FINAL                  ║
+╠══════════════════════════════════════════════════════════╣
+║  ✅ Passed        : 0                                   ║
+║  ❌ Failed        : 1                                   ║
+║  ⏭️  Catalogados   : 21                                  ║
+║  📊 Cobertura     : 22                                  ║
+║  ⏱  Tempo total   : 19.6s                               ║
+╚══════════════════════════════════════════════════════════╝
+
+📋 Cenários executados — Dashboard
+──────────────────────────────────────────────────────────
+  ❌ R-01  [Positivo]    Visão padrão do módulo                      18.8s
+
+📋 Cenários catalogados (aguardam setup no ambiente)
+──────────────────────────────────────────────────────────
+  ⏭️  R-02  [Positivo]    Visão do gestor no dashboard               — requer perfil gestor
+  ⏭️  R-03  [Positivo]    Visão do aprovador                         — requer perfil aprovador
+  ⏭️  R-04  [Positivo]    Indicadores de reembolsos                  — requer reembolsos cadastrados
+  ⏭️  R-05  [Positivo]    Filtragem por período                      — requer reembolsos cadastrados
+  ⏭️  R-06  [Positivo]    Busca textual com resultado                — requer reembolsos cadastrados
+  ⏭️  R-07  [Positivo]    Consulta de detalhes                       — requer reembolsos cadastrados
+  ⏭️  R-08  [Positivo]    Download de documentos                     — requer reembolsos com comprovantes
+  ⏭️  R-10  [Negativo]    Acesso indevido à Gestão ADM               — requer perfil não-gestor
+  ⏭️  R-11  [Negativo]    Acesso indevido às Aprovações              — requer perfil não-aprovador
+  ⏭️  R-14  [Regressivo]  Persistência da aba na URL                 — requer múltiplas abas visíveis
+  ⏭️  R-15  [Regressivo]  Paginação da tabela                        — requer volume maior que a página
+  ⏭️  I-01  [Positivo]    Adição de item completo                    — requer verbas configuradas
+  ⏭️  I-02  [Positivo]    Preenchimento automático por OCR           — requer verbas + OCR habilitado
+  ⏭️  I-03  [Positivo]    Carregamento dinâmico de categorias        — requer projetos + verbas
+  ⏭️  I-04  [Positivo]    Envio do carrinho                          — requer verbas + item no carrinho
+  ⏭️  I-05  [Positivo]    Edição de item no carrinho                 — requer item prévio
+  ⏭️  I-06  [Positivo]    Remoção de item do carrinho                — requer itens prévios
+  ⏭️  I-07  [Positivo]    Cálculo por quantidade × valor             — requer verba de quilometragem
+  ⏭️  I-09  [Negativo]    Comprovante com prazo excedido             — requer verba com prazo configurado
+  ⏭️  I-10  [Negativo]    Valor acima do teto                        — requer verba com teto configurado
+  ⏭️  I-14  [Regressivo]  Atualização do total do carrinho           — depende de I-01 (verbas configuradas)
+
+╚══ ✅ DEMO CONCLUÍDA — 0/1 cenários executados com sucesso ══╝
+
+  x   1 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:283:5 › R-01 [Positivo] Visão padrão do módulo (19.4s)
+
+╔══════════════════════════════════════════════════════════════════╗
+║  🎬 DEMO FOURMAKERS — MÓDULO REEMBOLSO (v3)                      ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  Bem-vindo(a) à jornada E2E automatizada pela esteira            ║
+║  pré-vendas da Foursys. Três agentes de IA produziram, em         ║
+║  sequência, os artefatos desta execução:                          ║
+║                                                                  ║
+║    1️⃣  GherkinFlow → REEMBOLSO-BDD-v3.md (30 cenários)             ║
+║    2️⃣  DataForge   → reembolso.data.v3.js (30 constantes)          ║
+║    3️⃣  Playwright  → reembolso-demo-v3.spec.ts (esta spec)         ║
+║                                                                  ║
+║  Ambiente alvo (backend REAL, sem mocks):                        ║
+║    • Backend : spw.app.foursys.com/backoffice-rf-hom             ║
+║    • Front   : http://localhost:8080 (Vite + proxy)              ║
+║    • Usuário : solutioncenter@foursys.com.br (orgId 8)           ║
+║    • Login   : OTP real via Solution Center Auth                 ║
+║                                                                  ║
+║  O que vamos ver em seguida:                                     ║
+║    ✅ 9 cenários executáveis (Dashboard + Inserir)               ║
+║    ⏭️  21 cenários catalogados (aguardam setup do tenant)        ║
+║    📊 Cobertura planejada: 30 cenários (BDD completo)            ║
+║                                                                  ║
+║  Ao final: relatório consolidado com métricas + duração.         ║
+╚══════════════════════════════════════════════════════════════════╝
+
+📋 Roteiro de execução desta run
+──────────────────────────────────────────────────────────────────
+  Dashboard  (/reembolso)
+    • R-01  [Positivo  ] Visão padrão do módulo
+    • R-09  [Positivo  ] Início de nova solicitação
+    • R-12  [Negativo  ] Busca sem resultados
+    • R-13  [Regressivo] Limpeza dos filtros de data
+  Inserir Reembolso  (/inserir-reembolso)
+    • I-08  [Negativo  ] Submissão com campos obrigatórios vazios
+    • I-11  [Negativo  ] Anexo em formato não suportado
+    • I-12  [Negativo  ] Envio com carrinho vazio
+    • I-13  [Regressivo] Limpeza do formulário
+    • I-15  [Regressivo] Navegação de retorno ao dashboard
+──────────────────────────────────────────────────────────────────
+  Legenda: [Positivo] caminho feliz · [Negativo] validação · [Regressivo] regressão
+──────────────────────────────────────────────────────────────────
+
+▶ Iniciando execução em modo headed. O navegador Chromium será aberto
+  em tempo real para visualização da jornada. Cada cenário começa com
+  autenticação OTP e termina com evidência (screenshot).
+
+
+🧪 TESTANDO: R-09 [Positivo] Início de nova solicitação
+
+──────────────────────────────────────────────
+🔐 AUTENTICAÇÃO: Login Solution Center via OTP
+   usuário: solutioncenter@foursys.com.br
+   orgId:   8
+   apiBase: https://spw.app.foursys.com/backoffice-rf-hom
+   appUrl:  http://localhost:8080
+──────────────────────────────────────────────
+   → [Step 1..3] Executando fluxo OTP Solution Center...
+   ✅ JWT obtido com sucesso
+   → Injetando JWT no localStorage de http://localhost:8080...
+   ✅ Sessão iniciada com sucesso
+──────────────────────────────────────────────
+
+
+┌─────────────────────────────────────────────────────
+│ R-09 · [Positivo]  Início de nova solicitação
+└─────────────────────────────────────────────────────
+   → Navegando para /reembolso...
+🏁 R-09 [Positivo] Início de nova solicitação CONCLUÍDO
+
+╔══════════════════════════════════════════════════════════╗
+║  🎬 DEMO REEMBOLSO v3 — RELATÓRIO FINAL                  ║
+╠══════════════════════════════════════════════════════════╣
+║  ✅ Passed        : 0                                   ║
+║  ❌ Failed        : 1                                   ║
+║  ⏭️  Catalogados   : 21                                  ║
+║  📊 Cobertura     : 22                                  ║
+║  ⏱  Tempo total   : 17.4s                               ║
+╚══════════════════════════════════════════════════════════╝
+
+📋 Cenários executados — Dashboard
+──────────────────────────────────────────────────────────
+  ❌ R-09  [Positivo]    Início de nova solicitação                  16.9s
+
+📋 Cenários catalogados (aguardam setup no ambiente)
+──────────────────────────────────────────────────────────
+  ⏭️  R-02  [Positivo]    Visão do gestor no dashboard               — requer perfil gestor
+  ⏭️  R-03  [Positivo]    Visão do aprovador                         — requer perfil aprovador
+  ⏭️  R-04  [Positivo]    Indicadores de reembolsos                  — requer reembolsos cadastrados
+  ⏭️  R-05  [Positivo]    Filtragem por período                      — requer reembolsos cadastrados
+  ⏭️  R-06  [Positivo]    Busca textual com resultado                — requer reembolsos cadastrados
+  ⏭️  R-07  [Positivo]    Consulta de detalhes                       — requer reembolsos cadastrados
+  ⏭️  R-08  [Positivo]    Download de documentos                     — requer reembolsos com comprovantes
+  ⏭️  R-10  [Negativo]    Acesso indevido à Gestão ADM               — requer perfil não-gestor
+  ⏭️  R-11  [Negativo]    Acesso indevido às Aprovações              — requer perfil não-aprovador
+  ⏭️  R-14  [Regressivo]  Persistência da aba na URL                 — requer múltiplas abas visíveis
+  ⏭️  R-15  [Regressivo]  Paginação da tabela                        — requer volume maior que a página
+  ⏭️  I-01  [Positivo]    Adição de item completo                    — requer verbas configuradas
+  ⏭️  I-02  [Positivo]    Preenchimento automático por OCR           — requer verbas + OCR habilitado
+  ⏭️  I-03  [Positivo]    Carregamento dinâmico de categorias        — requer projetos + verbas
+  ⏭️  I-04  [Positivo]    Envio do carrinho                          — requer verbas + item no carrinho
+  ⏭️  I-05  [Positivo]    Edição de item no carrinho                 — requer item prévio
+  ⏭️  I-06  [Positivo]    Remoção de item do carrinho                — requer itens prévios
+  ⏭️  I-07  [Positivo]    Cálculo por quantidade × valor             — requer verba de quilometragem
+  ⏭️  I-09  [Negativo]    Comprovante com prazo excedido             — requer verba com prazo configurado
+  ⏭️  I-10  [Negativo]    Valor acima do teto                        — requer verba com teto configurado
+  ⏭️  I-14  [Regressivo]  Atualização do total do carrinho           — depende de I-01 (verbas configuradas)
+
+╚══ ✅ DEMO CONCLUÍDA — 0/1 cenários executados com sucesso ══╝
+
+  x   2 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:303:5 › R-09 [Positivo] Início de nova solicitação (17.2s)
+
+╔══════════════════════════════════════════════════════════════════╗
+║  🎬 DEMO FOURMAKERS — MÓDULO REEMBOLSO (v3)                      ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  Bem-vindo(a) à jornada E2E automatizada pela esteira            ║
+║  pré-vendas da Foursys. Três agentes de IA produziram, em         ║
+║  sequência, os artefatos desta execução:                          ║
+║                                                                  ║
+║    1️⃣  GherkinFlow → REEMBOLSO-BDD-v3.md (30 cenários)             ║
+║    2️⃣  DataForge   → reembolso.data.v3.js (30 constantes)          ║
+║    3️⃣  Playwright  → reembolso-demo-v3.spec.ts (esta spec)         ║
+║                                                                  ║
+║  Ambiente alvo (backend REAL, sem mocks):                        ║
+║    • Backend : spw.app.foursys.com/backoffice-rf-hom             ║
+║    • Front   : http://localhost:8080 (Vite + proxy)              ║
+║    • Usuário : solutioncenter@foursys.com.br (orgId 8)           ║
+║    • Login   : OTP real via Solution Center Auth                 ║
+║                                                                  ║
+║  O que vamos ver em seguida:                                     ║
+║    ✅ 9 cenários executáveis (Dashboard + Inserir)               ║
+║    ⏭️  21 cenários catalogados (aguardam setup do tenant)        ║
+║    📊 Cobertura planejada: 30 cenários (BDD completo)            ║
+║                                                                  ║
+║  Ao final: relatório consolidado com métricas + duração.         ║
+╚══════════════════════════════════════════════════════════════════╝
+
+📋 Roteiro de execução desta run
+──────────────────────────────────────────────────────────────────
+  Dashboard  (/reembolso)
+    • R-01  [Positivo  ] Visão padrão do módulo
+    • R-09  [Positivo  ] Início de nova solicitação
+    • R-12  [Negativo  ] Busca sem resultados
+    • R-13  [Regressivo] Limpeza dos filtros de data
+  Inserir Reembolso  (/inserir-reembolso)
+    • I-08  [Negativo  ] Submissão com campos obrigatórios vazios
+    • I-11  [Negativo  ] Anexo em formato não suportado
+    • I-12  [Negativo  ] Envio com carrinho vazio
+    • I-13  [Regressivo] Limpeza do formulário
+    • I-15  [Regressivo] Navegação de retorno ao dashboard
+──────────────────────────────────────────────────────────────────
+  Legenda: [Positivo] caminho feliz · [Negativo] validação · [Regressivo] regressão
+──────────────────────────────────────────────────────────────────
+
+▶ Iniciando execução em modo headed. O navegador Chromium será aberto
+  em tempo real para visualização da jornada. Cada cenário começa com
+  autenticação OTP e termina com evidência (screenshot).
+
+
+🧪 TESTANDO: R-12 [Negativo] Busca sem resultados
+
+──────────────────────────────────────────────
+🔐 AUTENTICAÇÃO: Login Solution Center via OTP
+   usuário: solutioncenter@foursys.com.br
+   orgId:   8
+   apiBase: https://spw.app.foursys.com/backoffice-rf-hom
+   appUrl:  http://localhost:8080
+──────────────────────────────────────────────
+   → [Step 1..3] Executando fluxo OTP Solution Center...
+   ✅ JWT obtido com sucesso
+   → Injetando JWT no localStorage de http://localhost:8080...
+   ✅ Sessão iniciada com sucesso
+──────────────────────────────────────────────
+
+
+┌─────────────────────────────────────────────────────
+│ R-12 · [Negativo]  Busca sem resultados
+└─────────────────────────────────────────────────────
+   → Informando termo de busca: &quot;ZZXPTO404_INEXISTENTE&quot;...
+🏁 R-12 [Negativo] Busca sem resultados CONCLUÍDO
+
+╔══════════════════════════════════════════════════════════╗
+║  🎬 DEMO REEMBOLSO v3 — RELATÓRIO FINAL                  ║
+╠══════════════════════════════════════════════════════════╣
+║  ✅ Passed        : 0                                   ║
+║  ❌ Failed        : 1                                   ║
+║  ⏭️  Catalogados   : 21                                  ║
+║  📊 Cobertura     : 22                                  ║
+║  ⏱  Tempo total   : 17.2s                               ║
+╚══════════════════════════════════════════════════════════╝
+
+📋 Cenários executados — Dashboard
+──────────────────────────────────────────────────────────
+  ❌ R-12  [Negativo]    Busca sem resultados                        16.6s
+
+📋 Cenários catalogados (aguardam setup no ambiente)
+──────────────────────────────────────────────────────────
+  ⏭️  R-02  [Positivo]    Visão do gestor no dashboard               — requer perfil gestor
+  ⏭️  R-03  [Positivo]    Visão do aprovador                         — requer perfil aprovador
+  ⏭️  R-04  [Positivo]    Indicadores de reembolsos                  — requer reembolsos cadastrados
+  ⏭️  R-05  [Positivo]    Filtragem por período                      — requer reembolsos cadastrados
+  ⏭️  R-06  [Positivo]    Busca textual com resultado                — requer reembolsos cadastrados
+  ⏭️  R-07  [Positivo]    Consulta de detalhes                       — requer reembolsos cadastrados
+  ⏭️  R-08  [Positivo]    Download de documentos                     — requer reembolsos com comprovantes
+  ⏭️  R-10  [Negativo]    Acesso indevido à Gestão ADM               — requer perfil não-gestor
+  ⏭️  R-11  [Negativo]    Acesso indevido às Aprovações              — requer perfil não-aprovador
+  ⏭️  R-14  [Regressivo]  Persistência da aba na URL                 — requer múltiplas abas visíveis
+  ⏭️  R-15  [Regressivo]  Paginação da tabela                        — requer volume maior que a página
+  ⏭️  I-01  [Positivo]    Adição de item completo                    — requer verbas configuradas
+  ⏭️  I-02  [Positivo]    Preenchimento automático por OCR           — requer verbas + OCR habilitado
+  ⏭️  I-03  [Positivo]    Carregamento dinâmico de categorias        — requer projetos + verbas
+  ⏭️  I-04  [Positivo]    Envio do carrinho                          — requer verbas + item no carrinho
+  ⏭️  I-05  [Positivo]    Edição de item no carrinho                 — requer item prévio
+  ⏭️  I-06  [Positivo]    Remoção de item do carrinho                — requer itens prévios
+  ⏭️  I-07  [Positivo]    Cálculo por quantidade × valor             — requer verba de quilometragem
+  ⏭️  I-09  [Negativo]    Comprovante com prazo excedido             — requer verba com prazo configurado
+  ⏭️  I-10  [Negativo]    Valor acima do teto                        — requer verba com teto configurado
+  ⏭️  I-14  [Regressivo]  Atualização do total do carrinho           — depende de I-01 (verbas configuradas)
+
+╚══ ✅ DEMO CONCLUÍDA — 0/1 cenários executados com sucesso ══╝
+
+  x   3 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:321:5 › R-12 [Negativo] Busca sem resultados (17.0s)
+
+╔══════════════════════════════════════════════════════════════════╗
+║  🎬 DEMO FOURMAKERS — MÓDULO REEMBOLSO (v3)                      ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  Bem-vindo(a) à jornada E2E automatizada pela esteira            ║
+║  pré-vendas da Foursys. Três agentes de IA produziram, em         ║
+║  sequência, os artefatos desta execução:                          ║
+║                                                                  ║
+║    1️⃣  GherkinFlow → REEMBOLSO-BDD-v3.md (30 cenários)             ║
+║    2️⃣  DataForge   → reembolso.data.v3.js (30 constantes)          ║
+║    3️⃣  Playwright  → reembolso-demo-v3.spec.ts (esta spec)         ║
+║                                                                  ║
+║  Ambiente alvo (backend REAL, sem mocks):                        ║
+║    • Backend : spw.app.foursys.com/backoffice-rf-hom             ║
+║    • Front   : http://localhost:8080 (Vite + proxy)              ║
+║    • Usuário : solutioncenter@foursys.com.br (orgId 8)           ║
+║    • Login   : OTP real via Solution Center Auth                 ║
+║                                                                  ║
+║  O que vamos ver em seguida:                                     ║
+║    ✅ 9 cenários executáveis (Dashboard + Inserir)               ║
+║    ⏭️  21 cenários catalogados (aguardam setup do tenant)        ║
+║    📊 Cobertura planejada: 30 cenários (BDD completo)            ║
+║                                                                  ║
+║  Ao final: relatório consolidado com métricas + duração.         ║
+╚══════════════════════════════════════════════════════════════════╝
+
+📋 Roteiro de execução desta run
+──────────────────────────────────────────────────────────────────
+  Dashboard  (/reembolso)
+    • R-01  [Positivo  ] Visão padrão do módulo
+    • R-09  [Positivo  ] Início de nova solicitação
+    • R-12  [Negativo  ] Busca sem resultados
+    • R-13  [Regressivo] Limpeza dos filtros de data
+  Inserir Reembolso  (/inserir-reembolso)
+    • I-08  [Negativo  ] Submissão com campos obrigatórios vazios
+    • I-11  [Negativo  ] Anexo em formato não suportado
+    • I-12  [Negativo  ] Envio com carrinho vazio
+    • I-13  [Regressivo] Limpeza do formulário
+    • I-15  [Regressivo] Navegação de retorno ao dashboard
+──────────────────────────────────────────────────────────────────
+  Legenda: [Positivo] caminho feliz · [Negativo] validação · [Regressivo] regressão
+──────────────────────────────────────────────────────────────────
+
+▶ Iniciando execução em modo headed. O navegador Chromium será aberto
+  em tempo real para visualização da jornada. Cada cenário começa com
+  autenticação OTP e termina com evidência (screenshot).
+
+
+🧪 TESTANDO: R-13 [Regressivo] Limpeza dos filtros de data
+
+──────────────────────────────────────────────
+🔐 AUTENTICAÇÃO: Login Solution Center via OTP
+   usuário: solutioncenter@foursys.com.br
+   orgId:   8
+   apiBase: https://spw.app.foursys.com/backoffice-rf-hom
+   appUrl:  http://localhost:8080
+──────────────────────────────────────────────
+   → [Step 1..3] Executando fluxo OTP Solution Center...
+   ✅ JWT obtido com sucesso
+   → Injetando JWT no localStorage de http://localhost:8080...
+   ✅ Sessão iniciada com sucesso
+──────────────────────────────────────────────
+
+
+┌─────────────────────────────────────────────────────
+│ R-13 · [Regressivo]  Limpeza dos filtros de data
+└─────────────────────────────────────────────────────
+   → Aplicando filtro de período: 01/04/2026 → 23/04/2026...
+   ⚠️  Filtros não estão aplicados no momento — botão &quot;Limpar&quot; ausente (comportamento esperado quando sem filtros)
+   📸 [EVIDÊNCIA] evidencias/screenshots/reembolso/r13-filtros-limpos.png
+🏁 R-13 [Regressivo] Limpeza dos filtros de data CONCLUÍDO
+  ok  4 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:338:5 › R-13 [Regressivo] Limpeza dos filtros de data (27.3s)
+
+🧪 TESTANDO: I-08 [Negativo] Submissão com campos obrigatórios vazios
+
+──────────────────────────────────────────────
+🔐 AUTENTICAÇÃO: Login Solution Center via OTP
+   usuário: solutioncenter@foursys.com.br
+   orgId:   8
+   apiBase: https://spw.app.foursys.com/backoffice-rf-hom
+   appUrl:  http://localhost:8080
+──────────────────────────────────────────────
+   → [Step 1..3] Executando fluxo OTP Solution Center...
+   ✅ JWT obtido com sucesso
+   → Injetando JWT no localStorage de http://localhost:8080...
+   ✅ Sessão iniciada com sucesso
+──────────────────────────────────────────────
+
+
+┌─────────────────────────────────────────────────────
+│ I-08 · [Negativo]  Submissão com campos obrigatórios vazios
+└─────────────────────────────────────────────────────
+   → Acionando &quot;Adicionar ao Carrinho&quot; sem preencher nada...
+🏁 I-08 [Negativo] Submissão com campos obrigatórios vazios CONCLUÍDO
+
+╔══════════════════════════════════════════════════════════╗
+║  🎬 DEMO REEMBOLSO v3 — RELATÓRIO FINAL                  ║
+╠══════════════════════════════════════════════════════════╣
+║  ✅ Passed        : 1                                   ║
+║  ❌ Failed        : 1                                   ║
+║  ⏭️  Catalogados   : 21                                  ║
+║  📊 Cobertura     : 23                                  ║
+║  ⏱  Tempo total   : 53.3s                               ║
+╚══════════════════════════════════════════════════════════╝
+
+📋 Cenários executados — Dashboard
+──────────────────────────────────────────────────────────
+  ✅ R-13  [Regressivo]  Limpeza dos filtros de data                 26.9s
+
+📋 Cenários executados — Inserir Reembolso
+──────────────────────────────────────────────────────────
+  ❌ I-08  [Negativo]    Submissão com campos obrigatórios vazios    25.0s
+
+📋 Cenários catalogados (aguardam setup no ambiente)
+──────────────────────────────────────────────────────────
+  ⏭️  R-02  [Positivo]    Visão do gestor no dashboard               — requer perfil gestor
+  ⏭️  R-03  [Positivo]    Visão do aprovador                         — requer perfil aprovador
+  ⏭️  R-04  [Positivo]    Indicadores de reembolsos                  — requer reembolsos cadastrados
+  ⏭️  R-05  [Positivo]    Filtragem por período                      — requer reembolsos cadastrados
+  ⏭️  R-06  [Positivo]    Busca textual com resultado                — requer reembolsos cadastrados
+  ⏭️  R-07  [Positivo]    Consulta de detalhes                       — requer reembolsos cadastrados
+  ⏭️  R-08  [Positivo]    Download de documentos                     — requer reembolsos com comprovantes
+  ⏭️  R-10  [Negativo]    Acesso indevido à Gestão ADM               — requer perfil não-gestor
+  ⏭️  R-11  [Negativo]    Acesso indevido às Aprovações              — requer perfil não-aprovador
+  ⏭️  R-14  [Regressivo]  Persistência da aba na URL                 — requer múltiplas abas visíveis
+  ⏭️  R-15  [Regressivo]  Paginação da tabela                        — requer volume maior que a página
+  ⏭️  I-01  [Positivo]    Adição de item completo                    — requer verbas configuradas
+  ⏭️  I-02  [Positivo]    Preenchimento automático por OCR           — requer verbas + OCR habilitado
+  ⏭️  I-03  [Positivo]    Carregamento dinâmico de categorias        — requer projetos + verbas
+  ⏭️  I-04  [Positivo]    Envio do carrinho                          — requer verbas + item no carrinho
+  ⏭️  I-05  [Positivo]    Edição de item no carrinho                 — requer item prévio
+  ⏭️  I-06  [Positivo]    Remoção de item do carrinho                — requer itens prévios
+  ⏭️  I-07  [Positivo]    Cálculo por quantidade × valor             — requer verba de quilometragem
+  ⏭️  I-09  [Negativo]    Comprovante com prazo excedido             — requer verba com prazo configurado
+  ⏭️  I-10  [Negativo]    Valor acima do teto                        — requer verba com teto configurado
+  ⏭️  I-14  [Regressivo]  Atualização do total do carrinho           — depende de I-01 (verbas configuradas)
+
+╚══ ✅ DEMO CONCLUÍDA — 1/2 cenários executados com sucesso ══╝
+
+  x   5 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:362:5 › I-08 [Negativo] Submissão com campos obrigatórios vazios (25.7s)
+
+╔══════════════════════════════════════════════════════════════════╗
+║  🎬 DEMO FOURMAKERS — MÓDULO REEMBOLSO (v3)                      ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  Bem-vindo(a) à jornada E2E automatizada pela esteira            ║
+║  pré-vendas da Foursys. Três agentes de IA produziram, em         ║
+║  sequência, os artefatos desta execução:                          ║
+║                                                                  ║
+║    1️⃣  GherkinFlow → REEMBOLSO-BDD-v3.md (30 cenários)             ║
+║    2️⃣  DataForge   → reembolso.data.v3.js (30 constantes)          ║
+║    3️⃣  Playwright  → reembolso-demo-v3.spec.ts (esta spec)         ║
+║                                                                  ║
+║  Ambiente alvo (backend REAL, sem mocks):                        ║
+║    • Backend : spw.app.foursys.com/backoffice-rf-hom             ║
+║    • Front   : http://localhost:8080 (Vite + proxy)              ║
+║    • Usuário : solutioncenter@foursys.com.br (orgId 8)           ║
+║    • Login   : OTP real via Solution Center Auth                 ║
+║                                                                  ║
+║  O que vamos ver em seguida:                                     ║
+║    ✅ 9 cenários executáveis (Dashboard + Inserir)               ║
+║    ⏭️  21 cenários catalogados (aguardam setup do tenant)        ║
+║    📊 Cobertura planejada: 30 cenários (BDD completo)            ║
+║                                                                  ║
+║  Ao final: relatório consolidado com métricas + duração.         ║
+╚══════════════════════════════════════════════════════════════════╝
+
+📋 Roteiro de execução desta run
+──────────────────────────────────────────────────────────────────
+  Dashboard  (/reembolso)
+    • R-01  [Positivo  ] Visão padrão do módulo
+    • R-09  [Positivo  ] Início de nova solicitação
+    • R-12  [Negativo  ] Busca sem resultados
+    • R-13  [Regressivo] Limpeza dos filtros de data
+  Inserir Reembolso  (/inserir-reembolso)
+    • I-08  [Negativo  ] Submissão com campos obrigatórios vazios
+    • I-11  [Negativo  ] Anexo em formato não suportado
+    • I-12  [Negativo  ] Envio com carrinho vazio
+    • I-13  [Regressivo] Limpeza do formulário
+    • I-15  [Regressivo] Navegação de retorno ao dashboard
+──────────────────────────────────────────────────────────────────
+  Legenda: [Positivo] caminho feliz · [Negativo] validação · [Regressivo] regressão
+──────────────────────────────────────────────────────────────────
+
+▶ Iniciando execução em modo headed. O navegador Chromium será aberto
+  em tempo real para visualização da jornada. Cada cenário começa com
+  autenticação OTP e termina com evidência (screenshot).
+
+
+🧪 TESTANDO: I-11 [Negativo] Anexo em formato não suportado
+
+──────────────────────────────────────────────
+🔐 AUTENTICAÇÃO: Login Solution Center via OTP
+   usuário: solutioncenter@foursys.com.br
+   orgId:   8
+   apiBase: https://spw.app.foursys.com/backoffice-rf-hom
+   appUrl:  http://localhost:8080
+──────────────────────────────────────────────
+   → [Step 1..3] Executando fluxo OTP Solution Center...
+   ✅ JWT obtido com sucesso
+   → Injetando JWT no localStorage de http://localhost:8080...
+   ✅ Sessão iniciada com sucesso
+──────────────────────────────────────────────
+
+
+┌─────────────────────────────────────────────────────
+│ I-11 · [Negativo]  Anexo em formato não suportado
+└─────────────────────────────────────────────────────
+🏁 I-11 [Negativo] Anexo em formato não suportado CONCLUÍDO
+
+╔══════════════════════════════════════════════════════════╗
+║  🎬 DEMO REEMBOLSO v3 — RELATÓRIO FINAL                  ║
+╠══════════════════════════════════════════════════════════╣
+║  ✅ Passed        : 0                                   ║
+║  ❌ Failed        : 1                                   ║
+║  ⏭️  Catalogados   : 21                                  ║
+║  📊 Cobertura     : 22                                  ║
+║  ⏱  Tempo total   : 27.7s                               ║
+╚══════════════════════════════════════════════════════════╝
+
+📋 Cenários executados — Inserir Reembolso
+──────────────────────────────────────────────────────────
+  ❌ I-11  [Negativo]    Anexo em formato não suportado              26.8s
+
+📋 Cenários catalogados (aguardam setup no ambiente)
+──────────────────────────────────────────────────────────
+  ⏭️  R-02  [Positivo]    Visão do gestor no dashboard               — requer perfil gestor
+  ⏭️  R-03  [Positivo]    Visão do aprovador                         — requer perfil aprovador
+  ⏭️  R-04  [Positivo]    Indicadores de reembolsos                  — requer reembolsos cadastrados
+  ⏭️  R-05  [Positivo]    Filtragem por período                      — requer reembolsos cadastrados
+  ⏭️  R-06  [Positivo]    Busca textual com resultado                — requer reembolsos cadastrados
+  ⏭️  R-07  [Positivo]    Consulta de detalhes                       — requer reembolsos cadastrados
+  ⏭️  R-08  [Positivo]    Download de documentos                     — requer reembolsos com comprovantes
+  ⏭️  R-10  [Negativo]    Acesso indevido à Gestão ADM               — requer perfil não-gestor
+  ⏭️  R-11  [Negativo]    Acesso indevido às Aprovações              — requer perfil não-aprovador
+  ⏭️  R-14  [Regressivo]  Persistência da aba na URL                 — requer múltiplas abas visíveis
+  ⏭️  R-15  [Regressivo]  Paginação da tabela                        — requer volume maior que a página
+  ⏭️  I-01  [Positivo]    Adição de item completo                    — requer verbas configuradas
+  ⏭️  I-02  [Positivo]    Preenchimento automático por OCR           — requer verbas + OCR habilitado
+  ⏭️  I-03  [Positivo]    Carregamento dinâmico de categorias        — requer projetos + verbas
+  ⏭️  I-04  [Positivo]    Envio do carrinho                          — requer verbas + item no carrinho
+  ⏭️  I-05  [Positivo]    Edição de item no carrinho                 — requer item prévio
+  ⏭️  I-06  [Positivo]    Remoção de item do carrinho                — requer itens prévios
+  ⏭️  I-07  [Positivo]    Cálculo por quantidade × valor             — requer verba de quilometragem
+  ⏭️  I-09  [Negativo]    Comprovante com prazo excedido             — requer verba com prazo configurado
+  ⏭️  I-10  [Negativo]    Valor acima do teto                        — requer verba com teto configurado
+  ⏭️  I-14  [Regressivo]  Atualização do total do carrinho           — depende de I-01 (verbas configuradas)
+
+╚══ ✅ DEMO CONCLUÍDA — 0/1 cenários executados com sucesso ══╝
+
+  x   6 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:380:5 › I-11 [Negativo] Anexo em formato não suportado (27.4s)
+
+╔══════════════════════════════════════════════════════════════════╗
+║  🎬 DEMO FOURMAKERS — MÓDULO REEMBOLSO (v3)                      ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  Bem-vindo(a) à jornada E2E automatizada pela esteira            ║
+║  pré-vendas da Foursys. Três agentes de IA produziram, em         ║
+║  sequência, os artefatos desta execução:                          ║
+║                                                                  ║
+║    1️⃣  GherkinFlow → REEMBOLSO-BDD-v3.md (30 cenários)             ║
+║    2️⃣  DataForge   → reembolso.data.v3.js (30 constantes)          ║
+║    3️⃣  Playwright  → reembolso-demo-v3.spec.ts (esta spec)         ║
+║                                                                  ║
+║  Ambiente alvo (backend REAL, sem mocks):                        ║
+║    • Backend : spw.app.foursys.com/backoffice-rf-hom             ║
+║    • Front   : http://localhost:8080 (Vite + proxy)              ║
+║    • Usuário : solutioncenter@foursys.com.br (orgId 8)           ║
+║    • Login   : OTP real via Solution Center Auth                 ║
+║                                                                  ║
+║  O que vamos ver em seguida:                                     ║
+║    ✅ 9 cenários executáveis (Dashboard + Inserir)               ║
+║    ⏭️  21 cenários catalogados (aguardam setup do tenant)        ║
+║    📊 Cobertura planejada: 30 cenários (BDD completo)            ║
+║                                                                  ║
+║  Ao final: relatório consolidado com métricas + duração.         ║
+╚══════════════════════════════════════════════════════════════════╝
+
+📋 Roteiro de execução desta run
+──────────────────────────────────────────────────────────────────
+  Dashboard  (/reembolso)
+    • R-01  [Positivo  ] Visão padrão do módulo
+    • R-09  [Positivo  ] Início de nova solicitação
+    • R-12  [Negativo  ] Busca sem resultados
+    • R-13  [Regressivo] Limpeza dos filtros de data
+  Inserir Reembolso  (/inserir-reembolso)
+    • I-08  [Negativo  ] Submissão com campos obrigatórios vazios
+    • I-11  [Negativo  ] Anexo em formato não suportado
+    • I-12  [Negativo  ] Envio com carrinho vazio
+    • I-13  [Regressivo] Limpeza do formulário
+    • I-15  [Regressivo] Navegação de retorno ao dashboard
+──────────────────────────────────────────────────────────────────
+  Legenda: [Positivo] caminho feliz · [Negativo] validação · [Regressivo] regressão
+──────────────────────────────────────────────────────────────────
+
+▶ Iniciando execução em modo headed. O navegador Chromium será aberto
+  em tempo real para visualização da jornada. Cada cenário começa com
+  autenticação OTP e termina com evidência (screenshot).
+
+
+🧪 TESTANDO: I-12 [Negativo] Envio com carrinho vazio
+
+──────────────────────────────────────────────
+🔐 AUTENTICAÇÃO: Login Solution Center via OTP
+   usuário: solutioncenter@foursys.com.br
+   orgId:   8
+   apiBase: https://spw.app.foursys.com/backoffice-rf-hom
+   appUrl:  http://localhost:8080
+──────────────────────────────────────────────
+   → [Step 1..3] Executando fluxo OTP Solution Center...
+   ✅ JWT obtido com sucesso
+   → Injetando JWT no localStorage de http://localhost:8080...
+   ✅ Sessão iniciada com sucesso
+──────────────────────────────────────────────
+
+
+┌─────────────────────────────────────────────────────
+│ I-12 · [Negativo]  Envio com carrinho vazio
+└─────────────────────────────────────────────────────
+   → Verificando estado inicial do carrinho (deve estar vazio)...
+🏁 I-12 [Negativo] Envio com carrinho vazio CONCLUÍDO
+
+╔══════════════════════════════════════════════════════════╗
+║  🎬 DEMO REEMBOLSO v3 — RELATÓRIO FINAL                  ║
+╠══════════════════════════════════════════════════════════╣
+║  ✅ Passed        : 0                                   ║
+║  ❌ Failed        : 1                                   ║
+║  ⏭️  Catalogados   : 21                                  ║
+║  📊 Cobertura     : 22                                  ║
+║  ⏱  Tempo total   : 15.1s                               ║
+╚══════════════════════════════════════════════════════════╝
+
+📋 Cenários executados — Inserir Reembolso
+──────────────────────────────────────────────────────────
+  ❌ I-12  [Negativo]    Envio com carrinho vazio                    14.5s
+
+📋 Cenários catalogados (aguardam setup no ambiente)
+──────────────────────────────────────────────────────────
+  ⏭️  R-02  [Positivo]    Visão do gestor no dashboard               — requer perfil gestor
+  ⏭️  R-03  [Positivo]    Visão do aprovador                         — requer perfil aprovador
+  ⏭️  R-04  [Positivo]    Indicadores de reembolsos                  — requer reembolsos cadastrados
+  ⏭️  R-05  [Positivo]    Filtragem por período                      — requer reembolsos cadastrados
+  ⏭️  R-06  [Positivo]    Busca textual com resultado                — requer reembolsos cadastrados
+  ⏭️  R-07  [Positivo]    Consulta de detalhes                       — requer reembolsos cadastrados
+  ⏭️  R-08  [Positivo]    Download de documentos                     — requer reembolsos com comprovantes
+  ⏭️  R-10  [Negativo]    Acesso indevido à Gestão ADM               — requer perfil não-gestor
+  ⏭️  R-11  [Negativo]    Acesso indevido às Aprovações              — requer perfil não-aprovador
+  ⏭️  R-14  [Regressivo]  Persistência da aba na URL                 — requer múltiplas abas visíveis
+  ⏭️  R-15  [Regressivo]  Paginação da tabela                        — requer volume maior que a página
+  ⏭️  I-01  [Positivo]    Adição de item completo                    — requer verbas configuradas
+  ⏭️  I-02  [Positivo]    Preenchimento automático por OCR           — requer verbas + OCR habilitado
+  ⏭️  I-03  [Positivo]    Carregamento dinâmico de categorias        — requer projetos + verbas
+  ⏭️  I-04  [Positivo]    Envio do carrinho                          — requer verbas + item no carrinho
+  ⏭️  I-05  [Positivo]    Edição de item no carrinho                 — requer item prévio
+  ⏭️  I-06  [Positivo]    Remoção de item do carrinho                — requer itens prévios
+  ⏭️  I-07  [Positivo]    Cálculo por quantidade × valor             — requer verba de quilometragem
+  ⏭️  I-09  [Negativo]    Comprovante com prazo excedido             — requer verba com prazo configurado
+  ⏭️  I-10  [Negativo]    Valor acima do teto                        — requer verba com teto configurado
+  ⏭️  I-14  [Regressivo]  Atualização do total do carrinho           — depende de I-01 (verbas configuradas)
+
+╚══ ✅ DEMO CONCLUÍDA — 0/1 cenários executados com sucesso ══╝
+
+  x   7 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:412:5 › I-12 [Negativo] Envio com carrinho vazio (14.9s)
+
+╔══════════════════════════════════════════════════════════════════╗
+║  🎬 DEMO FOURMAKERS — MÓDULO REEMBOLSO (v3)                      ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  Bem-vindo(a) à jornada E2E automatizada pela esteira            ║
+║  pré-vendas da Foursys. Três agentes de IA produziram, em         ║
+║  sequência, os artefatos desta execução:                          ║
+║                                                                  ║
+║    1️⃣  GherkinFlow → REEMBOLSO-BDD-v3.md (30 cenários)             ║
+║    2️⃣  DataForge   → reembolso.data.v3.js (30 constantes)          ║
+║    3️⃣  Playwright  → reembolso-demo-v3.spec.ts (esta spec)         ║
+║                                                                  ║
+║  Ambiente alvo (backend REAL, sem mocks):                        ║
+║    • Backend : spw.app.foursys.com/backoffice-rf-hom             ║
+║    • Front   : http://localhost:8080 (Vite + proxy)              ║
+║    • Usuário : solutioncenter@foursys.com.br (orgId 8)           ║
+║    • Login   : OTP real via Solution Center Auth                 ║
+║                                                                  ║
+║  O que vamos ver em seguida:                                     ║
+║    ✅ 9 cenários executáveis (Dashboard + Inserir)               ║
+║    ⏭️  21 cenários catalogados (aguardam setup do tenant)        ║
+║    📊 Cobertura planejada: 30 cenários (BDD completo)            ║
+║                                                                  ║
+║  Ao final: relatório consolidado com métricas + duração.         ║
+╚══════════════════════════════════════════════════════════════════╝
+
+📋 Roteiro de execução desta run
+──────────────────────────────────────────────────────────────────
+  Dashboard  (/reembolso)
+    • R-01  [Positivo  ] Visão padrão do módulo
+    • R-09  [Positivo  ] Início de nova solicitação
+    • R-12  [Negativo  ] Busca sem resultados
+    • R-13  [Regressivo] Limpeza dos filtros de data
+  Inserir Reembolso  (/inserir-reembolso)
+    • I-08  [Negativo  ] Submissão com campos obrigatórios vazios
+    • I-11  [Negativo  ] Anexo em formato não suportado
+    • I-12  [Negativo  ] Envio com carrinho vazio
+    • I-13  [Regressivo] Limpeza do formulário
+    • I-15  [Regressivo] Navegação de retorno ao dashboard
+──────────────────────────────────────────────────────────────────
+  Legenda: [Positivo] caminho feliz · [Negativo] validação · [Regressivo] regressão
+──────────────────────────────────────────────────────────────────
+
+▶ Iniciando execução em modo headed. O navegador Chromium será aberto
+  em tempo real para visualização da jornada. Cada cenário começa com
+  autenticação OTP e termina com evidência (screenshot).
+
+
+🧪 TESTANDO: I-13 [Regressivo] Limpeza do formulário
+
+──────────────────────────────────────────────
+🔐 AUTENTICAÇÃO: Login Solution Center via OTP
+   usuário: solutioncenter@foursys.com.br
+   orgId:   8
+   apiBase: https://spw.app.foursys.com/backoffice-rf-hom
+   appUrl:  http://localhost:8080
+──────────────────────────────────────────────
+   → [Step 1..3] Executando fluxo OTP Solution Center...
+   ✅ JWT obtido com sucesso
+   → Injetando JWT no localStorage de http://localhost:8080...
+   ✅ Sessão iniciada com sucesso
+──────────────────────────────────────────────
+
+
+┌─────────────────────────────────────────────────────
+│ I-13 · [Regressivo]  Limpeza do formulário
+└─────────────────────────────────────────────────────
+   → Preenchendo Objetivo: &quot;Diagnóstico de performance em ambiente produtivo&quot;...
+🏁 I-13 [Regressivo] Limpeza do formulário CONCLUÍDO
+
+╔══════════════════════════════════════════════════════════╗
+║  🎬 DEMO REEMBOLSO v3 — RELATÓRIO FINAL                  ║
+╠══════════════════════════════════════════════════════════╣
+║  ✅ Passed        : 0                                   ║
+║  ❌ Failed        : 1                                   ║
+║  ⏭️  Catalogados   : 21                                  ║
+║  📊 Cobertura     : 22                                  ║
+║  ⏱  Tempo total   : 31.7s                               ║
+╚══════════════════════════════════════════════════════════╝
+
+📋 Cenários executados — Inserir Reembolso
+──────────────────────────────────────────────────────────
+  ❌ I-13  [Regressivo]  Limpeza do formulário                       30.3s
+
+📋 Cenários catalogados (aguardam setup no ambiente)
+──────────────────────────────────────────────────────────
+  ⏭️  R-02  [Positivo]    Visão do gestor no dashboard               — requer perfil gestor
+  ⏭️  R-03  [Positivo]    Visão do aprovador                         — requer perfil aprovador
+  ⏭️  R-04  [Positivo]    Indicadores de reembolsos                  — requer reembolsos cadastrados
+  ⏭️  R-05  [Positivo]    Filtragem por período                      — requer reembolsos cadastrados
+  ⏭️  R-06  [Positivo]    Busca textual com resultado                — requer reembolsos cadastrados
+  ⏭️  R-07  [Positivo]    Consulta de detalhes                       — requer reembolsos cadastrados
+  ⏭️  R-08  [Positivo]    Download de documentos                     — requer reembolsos com comprovantes
+  ⏭️  R-10  [Negativo]    Acesso indevido à Gestão ADM               — requer perfil não-gestor
+  ⏭️  R-11  [Negativo]    Acesso indevido às Aprovações              — requer perfil não-aprovador
+  ⏭️  R-14  [Regressivo]  Persistência da aba na URL                 — requer múltiplas abas visíveis
+  ⏭️  R-15  [Regressivo]  Paginação da tabela                        — requer volume maior que a página
+  ⏭️  I-01  [Positivo]    Adição de item completo                    — requer verbas configuradas
+  ⏭️  I-02  [Positivo]    Preenchimento automático por OCR           — requer verbas + OCR habilitado
+  ⏭️  I-03  [Positivo]    Carregamento dinâmico de categorias        — requer projetos + verbas
+  ⏭️  I-04  [Positivo]    Envio do carrinho                          — requer verbas + item no carrinho
+  ⏭️  I-05  [Positivo]    Edição de item no carrinho                 — requer item prévio
+  ⏭️  I-06  [Positivo]    Remoção de item do carrinho                — requer itens prévios
+  ⏭️  I-07  [Positivo]    Cálculo por quantidade × valor             — requer verba de quilometragem
+  ⏭️  I-09  [Negativo]    Comprovante com prazo excedido             — requer verba com prazo configurado
+  ⏭️  I-10  [Negativo]    Valor acima do teto                        — requer verba com teto configurado
+  ⏭️  I-14  [Regressivo]  Atualização do total do carrinho           — depende de I-01 (verbas configuradas)
+
+╚══ ✅ DEMO CONCLUÍDA — 0/1 cenários executados com sucesso ══╝
+
+  x   8 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:441:5 › I-13 [Regressivo] Limpeza do formulário (31.3s)
+
+╔══════════════════════════════════════════════════════════════════╗
+║  🎬 DEMO FOURMAKERS — MÓDULO REEMBOLSO (v3)                      ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║  Bem-vindo(a) à jornada E2E automatizada pela esteira            ║
+║  pré-vendas da Foursys. Três agentes de IA produziram, em         ║
+║  sequência, os artefatos desta execução:                          ║
+║                                                                  ║
+║    1️⃣  GherkinFlow → REEMBOLSO-BDD-v3.md (30 cenários)             ║
+║    2️⃣  DataForge   → reembolso.data.v3.js (30 constantes)          ║
+║    3️⃣  Playwright  → reembolso-demo-v3.spec.ts (esta spec)         ║
+║                                                                  ║
+║  Ambiente alvo (backend REAL, sem mocks):                        ║
+║    • Backend : spw.app.foursys.com/backoffice-rf-hom             ║
+║    • Front   : http://localhost:8080 (Vite + proxy)              ║
+║    • Usuário : solutioncenter@foursys.com.br (orgId 8)           ║
+║    • Login   : OTP real via Solution Center Auth                 ║
+║                                                                  ║
+║  O que vamos ver em seguida:                                     ║
+║    ✅ 9 cenários executáveis (Dashboard + Inserir)               ║
+║    ⏭️  21 cenários catalogados (aguardam setup do tenant)        ║
+║    📊 Cobertura planejada: 30 cenários (BDD completo)            ║
+║                                                                  ║
+║  Ao final: relatório consolidado com métricas + duração.         ║
+╚══════════════════════════════════════════════════════════════════╝
+
+📋 Roteiro de execução desta run
+──────────────────────────────────────────────────────────────────
+  Dashboard  (/reembolso)
+    • R-01  [Positivo  ] Visão padrão do módulo
+    • R-09  [Positivo  ] Início de nova solicitação
+    • R-12  [Negativo  ] Busca sem resultados
+    • R-13  [Regressivo] Limpeza dos filtros de data
+  Inserir Reembolso  (/inserir-reembolso)
+    • I-08  [Negativo  ] Submissão com campos obrigatórios vazios
+    • I-11  [Negativo  ] Anexo em formato não suportado
+    • I-12  [Negativo  ] Envio com carrinho vazio
+    • I-13  [Regressivo] Limpeza do formulário
+    • I-15  [Regressivo] Navegação de retorno ao dashboard
+──────────────────────────────────────────────────────────────────
+  Legenda: [Positivo] caminho feliz · [Negativo] validação · [Regressivo] regressão
+──────────────────────────────────────────────────────────────────
+
+▶ Iniciando execução em modo headed. O navegador Chromium será aberto
+  em tempo real para visualização da jornada. Cada cenário começa com
+  autenticação OTP e termina com evidência (screenshot).
+
+
+🧪 TESTANDO: I-15 [Regressivo] Navegação de retorno ao dashboard
+
+──────────────────────────────────────────────
+🔐 AUTENTICAÇÃO: Login Solution Center via OTP
+   usuário: solutioncenter@foursys.com.br
+   orgId:   8
+   apiBase: https://spw.app.foursys.com/backoffice-rf-hom
+   appUrl:  http://localhost:8080
+──────────────────────────────────────────────
+   → [Step 1..3] Executando fluxo OTP Solution Center...
+   ✅ JWT obtido com sucesso
+   → Injetando JWT no localStorage de http://localhost:8080...
+   ✅ Sessão iniciada com sucesso
+──────────────────────────────────────────────
+
+
+┌─────────────────────────────────────────────────────
+│ I-15 · [Regressivo]  Navegação de retorno ao dashboard
+└─────────────────────────────────────────────────────
+   → Passando por /reembolso antes de abrir /inserir-reembolso (pra existir histórico)...
+   → Abrindo /inserir-reembolso...
+🏁 I-15 [Regressivo] Navegação de retorno ao dashboard CONCLUÍDO
+
+╔══════════════════════════════════════════════════════════╗
+║  🎬 DEMO REEMBOLSO v3 — RELATÓRIO FINAL                  ║
+╠══════════════════════════════════════════════════════════╣
+║  ✅ Passed        : 0                                   ║
+║  ❌ Failed        : 1                                   ║
+║  ⏭️  Catalogados   : 21                                  ║
+║  📊 Cobertura     : 22                                  ║
+║  ⏱  Tempo total   : 18.1s                               ║
+╚══════════════════════════════════════════════════════════╝
+
+📋 Cenários executados — Inserir Reembolso
+──────────────────────────────────────────────────────────
+  ❌ I-15  [Regressivo]  Navegação de retorno ao dashboard           17.5s
+
+📋 Cenários catalogados (aguardam setup no ambiente)
+──────────────────────────────────────────────────────────
+  ⏭️  R-02  [Positivo]    Visão do gestor no dashboard               — requer perfil gestor
+  ⏭️  R-03  [Positivo]    Visão do aprovador                         — requer perfil aprovador
+  ⏭️  R-04  [Positivo]    Indicadores de reembolsos                  — requer reembolsos cadastrados
+  ⏭️  R-05  [Positivo]    Filtragem por período                      — requer reembolsos cadastrados
+  ⏭️  R-06  [Positivo]    Busca textual com resultado                — requer reembolsos cadastrados
+  ⏭️  R-07  [Positivo]    Consulta de detalhes                       — requer reembolsos cadastrados
+  ⏭️  R-08  [Positivo]    Download de documentos                     — requer reembolsos com comprovantes
+  ⏭️  R-10  [Negativo]    Acesso indevido à Gestão ADM               — requer perfil não-gestor
+  ⏭️  R-11  [Negativo]    Acesso indevido às Aprovações              — requer perfil não-aprovador
+  ⏭️  R-14  [Regressivo]  Persistência da aba na URL                 — requer múltiplas abas visíveis
+  ⏭️  R-15  [Regressivo]  Paginação da tabela                        — requer volume maior que a página
+  ⏭️  I-01  [Positivo]    Adição de item completo                    — requer verbas configuradas
+  ⏭️  I-02  [Positivo]    Preenchimento automático por OCR           — requer verbas + OCR habilitado
+  ⏭️  I-03  [Positivo]    Carregamento dinâmico de categorias        — requer projetos + verbas
+  ⏭️  I-04  [Positivo]    Envio do carrinho                          — requer verbas + item no carrinho
+  ⏭️  I-05  [Positivo]    Edição de item no carrinho                 — requer item prévio
+  ⏭️  I-06  [Positivo]    Remoção de item do carrinho                — requer itens prévios
+  ⏭️  I-07  [Positivo]    Cálculo por quantidade × valor             — requer verba de quilometragem
+  ⏭️  I-09  [Negativo]    Comprovante com prazo excedido             — requer verba com prazo configurado
+  ⏭️  I-10  [Negativo]    Valor acima do teto                        — requer verba com teto configurado
+  ⏭️  I-14  [Regressivo]  Atualização do total do carrinho           — depende de I-01 (verbas configuradas)
+
+╚══ ✅ DEMO CONCLUÍDA — 0/1 cenários executados com sucesso ══╝
+
+  x   9 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:467:5 › I-15 [Regressivo] Navegação de retorno ao dashboard (17.9s)
+  -  10 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:506:6 › R-02 [Positivo] Visão do gestor no dashboard — requer perfil gestor
+  -  11 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:507:6 › R-03 [Positivo] Visão do aprovador — requer perfil aprovador
+  -  12 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:508:6 › R-04 [Positivo] Indicadores de reembolsos — requer reembolsos cadastrados
+  -  13 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:509:6 › R-05 [Positivo] Filtragem por período — requer reembolsos cadastrados
+  -  14 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:510:6 › R-06 [Positivo] Busca textual com resultado — requer reembolsos cadastrados
+  -  15 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:511:6 › R-07 [Positivo] Consulta de detalhes — requer reembolsos cadastrados
+  -  16 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:512:6 › R-08 [Positivo] Download de documentos — requer reembolsos com comprovantes
+  -  17 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:513:6 › R-10 [Negativo] Acesso indevido à Gestão ADM — requer perfil não-gestor vs URL direta
+  -  18 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:514:6 › R-11 [Negativo] Acesso indevido às Aprovações — requer perfil não-aprovador vs URL direta
+  -  19 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:515:6 › R-14 [Regressivo] Persistência da aba na URL — requer múltiplas abas visíveis
+  -  20 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:516:6 › R-15 [Regressivo] Paginação da tabela — requer volume &gt; página
+  -  21 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:517:6 › I-01 [Positivo] Adição de item completo — requer verbas configuradas
+  -  22 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:518:6 › I-02 [Positivo] Preenchimento automático por OCR — requer verbas e OCR habilitado
+  -  23 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:519:6 › I-03 [Positivo] Carregamento dinâmico de categorias — requer projetos e verbas
+  -  24 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:520:6 › I-04 [Positivo] Envio do carrinho — requer verbas + item no carrinho
+  -  25 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:521:6 › I-05 [Positivo] Edição de item no carrinho — requer item prévio
+  -  26 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:522:6 › I-06 [Positivo] Remoção de item do carrinho — requer itens prévios
+  -  27 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:523:6 › I-07 [Positivo] Cálculo por quantidade × valor — requer verba de quilometragem
+  -  28 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:524:6 › I-09 [Negativo] Comprovante com prazo excedido — requer verba com prazo configurado
+  -  29 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:525:6 › I-10 [Negativo] Valor acima do teto — requer verba com teto configurado
+  -  30 [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:526:6 › I-14 [Regressivo] Atualização do total do carrinho — requer adicionar múltiplos itens (depende I-01)
+
+
+  1) [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:283:5 › R-01 [Positivo] Visão padrão do módulo 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole(&#39;tab&#39;, { name: &#39;Meus Reembolsos&#39; })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect &quot;toBeVisible&quot; with timeout 5000ms
+      - waiting for getByRole(&#39;tab&#39;, { name: &#39;Meus Reembolsos&#39; })
+
+
+      287 |   LOG.passo(`Validando que apenas a aba &quot;${dadosR01.abaEsperada}&quot; está visível...`)
+      288 |   await p.visitarLista()
+    &gt; 289 |   await expect(p.tabMeusReembolsos).toBeVisible()
+          |                                     ^
+      290 |   LOG.ok(`Aba &quot;${dadosR01.abaEsperada}&quot; visível`)
+      291 |
+      292 |   for (const abaRestrita of dadosR01.abasRestritas) {
+        at C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\frontend\playwright-automation-template\tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:289:37
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-730fd-tivo-Visão-padrão-do-módulo-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-730fd-tivo-Visão-padrão-do-módulo-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-730fd-tivo-Visão-padrão-do-módulo-chromium\error-context.md
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-730fd-tivo-Visão-padrão-do-módulo-chromium\error-context.md
+
+  2) [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:303:5 › R-09 [Positivo] Início de nova solicitação 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole(&#39;button&#39;, { name: &#39;Solicitar Reembolso&#39; })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect &quot;toBeVisible&quot; with timeout 5000ms
+      - waiting for getByRole(&#39;button&#39;, { name: &#39;Solicitar Reembolso&#39; })
+
+
+      307 |   LOG.passo(&#39;Navegando para /reembolso...&#39;)
+      308 |   await p.visitarLista()
+    &gt; 309 |   await expect(p.btnSolicitarReembolso).toBeVisible()
+          |                                         ^
+      310 |
+      311 |   LOG.passo(`Clicando no botão &quot;${dadosR09.botao}&quot;...`)
+      312 |   await p.clicarSolicitarReembolso()
+        at C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\frontend\playwright-automation-template\tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:309:41
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-1d5bf--Início-de-nova-solicitação-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-1d5bf--Início-de-nova-solicitação-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-1d5bf--Início-de-nova-solicitação-chromium\error-context.md
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-1d5bf--Início-de-nova-solicitação-chromium\error-context.md
+
+  3) [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:321:5 › R-12 [Negativo] Busca sem resultados 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByPlaceholder(/busca/i).first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect &quot;toBeVisible&quot; with timeout 5000ms
+      - waiting for getByPlaceholder(/busca/i).first()
+
+
+      327 |   LOG.passo(`Informando termo de busca: &quot;${dadosR12.termoBusca}&quot;...`)
+      328 |   const inputBusca = page.getByPlaceholder(/busca/i).first()
+    &gt; 329 |   await expect(inputBusca).toBeVisible()
+          |                            ^
+      330 |   await inputBusca.fill(dadosR12.termoBusca)
+      331 |
+      332 |   LOG.passo(`Validando mensagem: &quot;${dadosR12.mensagemEsperada}&quot;...`)
+        at C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\frontend\playwright-automation-template\tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:329:28
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-3a238-gativo-Busca-sem-resultados-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-3a238-gativo-Busca-sem-resultados-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-3a238-gativo-Busca-sem-resultados-chromium\error-context.md
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-3a238-gativo-Busca-sem-resultados-chromium\error-context.md
+
+  4) [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:362:5 › I-08 [Negativo] Submissão com campos obrigatórios vazios 
+
+    TimeoutError: locator.scrollIntoViewIfNeeded: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for getByRole(&#39;button&#39;, { name: &#39;Adicionar ao Carrinho&#39; })
+
+
+      367 |
+      368 |   LOG.passo(&#39;Acionando &quot;Adicionar ao Carrinho&quot; sem preencher nada...&#39;)
+    &gt; 369 |   await p.btnAdicionarCarrinho.scrollIntoViewIfNeeded()
+          |                                ^
+      370 |   await p.clicarAdicionarCarrinho()
+      371 |
+      372 |   LOG.passo(`Validando notificação: &quot;${dadosI08.mensagemEsperada}&quot;...`)
+        at C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\frontend\playwright-automation-template\tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:369:32
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-fec69--campos-obrigatórios-vazios-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-fec69--campos-obrigatórios-vazios-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-fec69--campos-obrigatórios-vazios-chromium\error-context.md
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-fec69--campos-obrigatórios-vazios-chromium\error-context.md
+
+  5) [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:380:5 › I-11 [Negativo] Anexo em formato não suportado 
+
+    TimeoutError: locator.clear: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for locator(&#39;#objetivo&#39;)
+
+
+       at ..\support\pages\ReembolsoPage.ts:88
+
+      86 |
+      87 |   async preencherObjetivo(texto: string) {
+    &gt; 88 |     await this.objetivo.clear()
+         |                         ^
+      89 |     await this.objetivo.fill(texto)
+      90 |   }
+      91 |
+        at ReembolsoPage.preencherObjetivo (C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\frontend\playwright-automation-template\support\pages\ReembolsoPage.ts:88:25)
+        at C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\frontend\playwright-automation-template\tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:385:11
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-dbe67-xo-em-formato-não-suportado-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-dbe67-xo-em-formato-não-suportado-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-dbe67-xo-em-formato-não-suportado-chromium\error-context.md
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-dbe67-xo-em-formato-não-suportado-chromium\error-context.md
+
+  6) [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:412:5 › I-12 [Negativo] Envio com carrinho vazio 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText(/Nenhuma solicita/i)
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect &quot;toBeVisible&quot; with timeout 5000ms
+      - waiting for getByText(/Nenhuma solicita/i)
+
+
+      417 |
+      418 |   LOG.passo(&#39;Verificando estado inicial do carrinho (deve estar vazio)...&#39;)
+    &gt; 419 |   await expect(page.getByText(/Nenhuma solicita/i)).toBeVisible()
+          |                                                     ^
+      420 |
+      421 |   LOG.passo(&#39;Tentando acionar &quot;Enviar Solicitações&quot; com carrinho vazio...&#39;)
+      422 |   const btnEnviar = p.btnEnviarSolicitacoes
+        at C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\frontend\playwright-automation-template\tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:419:53
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-0f3b0-vo-Envio-com-carrinho-vazio-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-0f3b0-vo-Envio-com-carrinho-vazio-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-0f3b0-vo-Envio-com-carrinho-vazio-chromium\error-context.md
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-0f3b0-vo-Envio-com-carrinho-vazio-chromium\error-context.md
+
+  7) [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:441:5 › I-13 [Regressivo] Limpeza do formulário 
+
+    TimeoutError: locator.clear: Timeout 15000ms exceeded.
+    Call log:
+      - waiting for locator(&#39;#objetivo&#39;)
+
+
+       at ..\support\pages\ReembolsoPage.ts:88
+
+      86 |
+      87 |   async preencherObjetivo(texto: string) {
+    &gt; 88 |     await this.objetivo.clear()
+         |                         ^
+      89 |     await this.objetivo.fill(texto)
+      90 |   }
+      91 |
+        at ReembolsoPage.preencherObjetivo (C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\frontend\playwright-automation-template\support\pages\ReembolsoPage.ts:88:25)
+        at C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\frontend\playwright-automation-template\tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:448:11
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-6f6d0-ssivo-Limpeza-do-formulário-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-6f6d0-ssivo-Limpeza-do-formulário-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-6f6d0-ssivo-Limpeza-do-formulário-chromium\error-context.md
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-6f6d0-ssivo-Limpeza-do-formulário-chromium\error-context.md
+
+  8) [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:467:5 › I-15 [Regressivo] Navegação de retorno ao dashboard 
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /\/inserir-reembolso/
+    Received string:  &quot;https://app.fourmakers.io/login?redirect=%2Finserir-reembolso&quot;
+    Timeout: 5000ms
+
+    Call log:
+      - Expect &quot;toHaveURL&quot; with timeout 5000ms
+        8 × unexpected value &quot;https://app.fourmakers.io/login?redirect=%2Finserir-reembolso&quot;
+
+
+      475 |   LOG.passo(`Abrindo ${dadosI15.urlOrigem}...`)
+      476 |   await p.visitarFormulario()
+    &gt; 477 |   await expect(page).toHaveURL(new RegExp(dadosI15.urlOrigem))
+          |                      ^
+      478 |
+      479 |   LOG.passo(&#39;Acionando botão de voltar (breadcrumb ou seta)...&#39;)
+      480 |   const btnVoltar = page
+        at C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\frontend\playwright-automation-template\tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:477:22
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-e96c8-ção-de-retorno-ao-dashboard-chromium\test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: video (video/webm) ──────────────────────────────────────────────────────────────
+    evidencias\test-results\reembolso-versionadas-reem-e96c8-ção-de-retorno-ao-dashboard-chromium\video.webm
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-e96c8-ção-de-retorno-ao-dashboard-chromium\error-context.md
+
+    Error Context: evidencias\test-results\reembolso-versionadas-reem-e96c8-ção-de-retorno-ao-dashboard-chromium\error-context.md
+
+  8 failed
+    [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:283:5 › R-01 [Positivo] Visão padrão do módulo 
+    [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:303:5 › R-09 [Positivo] Início de nova solicitação 
+    [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:321:5 › R-12 [Negativo] Busca sem resultados 
+    [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:362:5 › I-08 [Negativo] Submissão com campos obrigatórios vazios 
+    [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:380:5 › I-11 [Negativo] Anexo em formato não suportado 
+    [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:412:5 › I-12 [Negativo] Envio com carrinho vazio 
+    [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:441:5 › I-13 [Regressivo] Limpeza do formulário 
+    [chromium] › tests\reembolso\versionadas\reembolso-demo-v3.spec.ts:467:5 › I-15 [Regressivo] Navegação de retorno ao dashboard 
+  21 skipped
+  1 passed (3.6m)
+(node:16044) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:16044) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32336) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:32336) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35356) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:35356) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:36436) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:36436) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:17324) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:17324) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30504) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:30504) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13080) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13080) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24072) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:24072) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+</pre>
+  </div>
+</body>
+</html>
