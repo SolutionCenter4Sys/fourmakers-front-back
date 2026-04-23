@@ -12,6 +12,7 @@ description: "Agente Playwright — executa testes E2E automatizados com login O
 
 Executa testes E2E com Playwright usando:
 - **Login OTP real** via `loginFourMakers(page, request)` — 3 etapas: `EnviaTokenAcessoEmail` → `ObtemCodigoAcessoEmailQA` (polling) → `ValidaTokenAcessoEmail` → JWT no `localStorage`
+- **Servico OTP API-only do Solution Center** via `SolutionCenterAuth` para validacao e reaproveitamento de JWT em cenarios de API
 - **Front local via Vite** (`npm run dev` na raiz do repo → http://localhost:8080) configurado com proxy pra API de dev
 - **Page Object `ReembolsoPage`** — seletores mapeados do DOM real
 - **Fixtures JSON** — dados de teste tipados
@@ -28,7 +29,7 @@ demo reembolso
 
 **Essa é a frase padronizada única** para disparar a demo completa (GherkinFlow → DataForge → Playwright). Digite exatamente `demo reembolso` no chat e o orquestrador executa as 3 etapas em sequência.
 
-> Para rodar apenas o Playwright sem os outros agentes (útil pra re-executar a automação já gerada), use o terminal: `npm run demo:run` a partir da raiz do repo.
+> Para rodar apenas o Playwright sem os outros agentes (útil pra re-executar a automação já gerada), use o terminal: `npm run demo:run` a partir da raiz do repo. Esse comando executa a spec versionada mais recente e valida alinhamento de versão entre BDD + massa + spec.
 
 ---
 
@@ -37,7 +38,13 @@ demo reembolso
 ```
 frontend/playwright-automation-template/
 ├── playwright.config.ts              ← config (baseURL, reporter, evidências)
+├── playwright.solution-center.config.ts ← config isolada do smoke OTP API
 ├── package.json                      ← scripts npm para rodar os testes
+├── e2e/
+│   ├── support/auth/solution-center-otp.ts ← servico OTP API-only (3 passos)
+│   ├── fixtures/solution-center.ts   ← fixture worker-scoped para reaproveitar JWT
+│   ├── debug/solution-center-smoke.spec.ts ← smoke de autenticacao OTP (4 testes)
+│   └── exemplo-autenticado.spec.ts   ← exemplo de chamada autenticada com Bearer
 ├── fixtures/
 │   ├── reembolso.json                ← dados de teste (objetivo, datas, valores)
 │   └── comprovante-teste.jpg         ← arquivo para upload
@@ -62,6 +69,9 @@ frontend/playwright-automation-template/
 | Arquivo | Para que serve |
 |---|---|
 | `frontend/playwright-automation-template/support/auth/fourmakers-auth.ts` | **Login OTP QA Master** (credenciais fixas, endpoint real) |
+| `frontend/playwright-automation-template/e2e/support/auth/solution-center-otp.ts` | **Servico OTP Solution Center** para cenarios API-only com JWT reutilizavel |
+| `frontend/playwright-automation-template/e2e/fixtures/solution-center.ts` | **Fixture worker-scoped** para compartilhar JWT por worker |
+| `frontend/playwright-automation-template/e2e/debug/solution-center-smoke.spec.ts` | **Smoke OTP** dos 3 passos + validacao do Bearer |
 | `frontend/playwright-automation-template/support/pages/ReembolsoPage.ts` | **Page Object** — locators e ações mapeados do DOM |
 | `frontend/playwright-automation-template/fixtures/reembolso.json` | **Dados de teste** — objetivo, datas, valores, descrição |
 | `frontend/DEMO/ui-elements/reembolso-ui.json` | Referência dos seletores reais capturados da UI |
@@ -95,6 +105,28 @@ loginFourMakers(page, request, appUrl?)
 > **Usuário padrão:** `gustavo.queiroz@foursys.com.br` (orgId 8)
 > **Credenciais fixas** — NÃO editar sem autorização do time QA.
 > **Ref. completa:** `frontend/DEMO/integracao-acesso-qa/`
+
+---
+
+## Smoke OTP Solution Center (obrigatorio no roteiro da demonstracao)
+
+Antes de apresentar a jornada E2E no navegador, execute o smoke API-only para validar autenticacao:
+
+```bash
+cd fourmakers-v2-develop/frontend/playwright-automation-template
+npm run test:solution-center:smoke
+```
+
+Checklist minimo para seguir com a demo:
+- `4 passed` no final da execucao
+- payload JWT com `Email=solutioncenter@foursys.com.br`
+- payload JWT com `OrgId=8`
+- claim `exp` no futuro
+
+Esse smoke cobre os 3 passos oficiais da autenticacao OTP:
+1. `POST /api/Acesso/EnviaTokenAcessoEmail`
+2. `GET /api/Acesso/ObtemCodigoAcessoEmailQA`
+3. `POST /api/Acesso/ValidaTokenAcessoEmail`
 
 ---
 
@@ -215,11 +247,14 @@ npm run demo:headed     # idem, com navegador visível pra apresentação
 # Opção: rodar separado (precisa ter Vite rodando antes em localhost:8080)
 cd fourmakers-v2-develop/frontend/playwright-automation-template
 
-# Demo happy path (~11s de execução — sem contar o Vite)
+# Demo versionada (usa automaticamente o ultimo vN comum entre BDD + DataForge + spec)
 npm run demo
 
 # Com navegador visível
 npm run demo:headed
+
+# Smoke OTP do Solution Center (API-only)
+npm run test:solution-center:smoke
 
 # Todos os testes
 npm test

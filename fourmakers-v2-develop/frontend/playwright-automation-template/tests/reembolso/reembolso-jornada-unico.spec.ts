@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import * as fs from 'fs'
 import { ReembolsoPage } from '../../support/pages/ReembolsoPage'
-import { loginFourMakers } from '../../support/auth/fourmakers-auth'
+import { loginSolutionCenter } from '../../support/auth/fourmakers-auth'
 import reembolsoFixture from '../../fixtures/reembolso.json'
 
 /**
@@ -44,7 +44,7 @@ test('Jornada Completa de Reembolso — Positivos e Negativos', async ({ page, r
   console.log('\n╔══════════════════════════════════════════════════════╗')
   console.log('║   JORNADA COMPLETA DE REEMBOLSO — INÍCIO             ║')
   console.log('╚══════════════════════════════════════════════════════╝')
-  await loginFourMakers(page, request)
+  await loginSolutionCenter(page, request)
 
   // ══════════════════════════════════════════════════════════════════════
   // R-01 · [Positivo] Dashboard — aba padrão "Meus Reembolsos"

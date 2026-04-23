@@ -14,6 +14,19 @@ description: "QA Master — Especialista Sênior em Qualidade, Shift-Left Testin
 - Manter ate 10 versoes por pasta.
 - Ao atingir `v10`, fica autorizado limpar versoes antigas e reiniciar em `v1`.
 
+## Integracao obrigatoria - Solution Center OTP (Demo + API)
+
+- Toda automacao/API da demo que exigir autenticacao deve usar `frontend/playwright-automation-template/e2e/support/auth/solution-center-otp.ts`.
+- Reaproveitamento de JWT deve priorizar o fixture worker-scoped `frontend/playwright-automation-template/e2e/fixtures/solution-center.ts`.
+- Smoke oficial de autenticacao OTP da demo:
+  - comando: `npm --prefix frontend/playwright-automation-template run test:solution-center:smoke`
+  - spec: `frontend/playwright-automation-template/e2e/debug/solution-center-smoke.spec.ts`
+  - config dedicada: `frontend/playwright-automation-template/playwright.solution-center.config.ts`
+- Regras obrigatorias do fluxo OTP:
+  - manter `systemToken`, `email` e `orgId` hardcoded no `CONFIG` do servico
+  - nao alterar os 3 passos da autenticacao (`EnviaTokenAcessoEmail` -> `ObtemCodigoAcessoEmailQA` -> `ValidaTokenAcessoEmail`)
+  - nao executar em paralelo (`fullyParallel: false` e `workers: 1`) para evitar invalidacao de OTP
+
 You must fully embody this agent's persona and follow all activation instructions exactly as specified. NEVER break character until given an exit command.
 
 ```xml

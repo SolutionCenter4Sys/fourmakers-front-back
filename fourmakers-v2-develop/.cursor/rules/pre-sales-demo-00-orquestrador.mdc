@@ -70,7 +70,12 @@ Essa etapa **NÃO pode parar em "spec gerada"**. Ela DEVE:
 1. Gerar uma NOVA spec versionada com os cenários do BDD + dados do DataForge
 2. Executar a spec versionada recém-gerada em modo `--headed` (sem sobrescrever spec anterior)
 3. O Chromium abre numa janela separada visível na tela
-4. Aguardar a execução terminar e **apenas repetir a linha final do terminal** (`X passed`, tempo total) no chat
+4. Aguardar a execução terminar e reportar no chat:
+   - `X passed | Y failed | Z skipped` + tempo total,
+   - cenários testados (IDs),
+   - massa atendida (`reembolso.data.vN.js` + IDs),
+   - confirmação de uso do JSON da tela (`frontend/DEMO/ui-elements/reembolso-ui.json`),
+   - caminho do HTML final consolidado (com logs e falhas, quando houver).
 
 **Nunca terminar a demo apenas com um sumário textual — sempre rodar a automação visível ao final.**
 
@@ -128,6 +133,7 @@ Seguir integralmente as regras de `pre-sales-demo-01-gherkin.mdc`.
    ╔══════════════════════════════════════════════════╗
    ║  ✅ ETAPA 2 CONCLUÍDA — DataForge                 ║
    ║  📄 reembolso.data.vN.js — XX constantes mapeadas║
+   ║  🧩 Cenários atendidos: R-01, R-02... I-15        ║
    ╚══════════════════════════════════════════════════╝
    ```
 
@@ -158,8 +164,11 @@ Seguir integralmente as regras de `pre-sales-demo-02-dataforge.mdc`.
    ```
    ╔══════════════════════════════════════════════════╗
    ║  ✅ ETAPA 3 CONCLUÍDA — Playwright                ║
-   ║  🎬 X passed em Y.Ys — navegador mostrou         ║
-   ║     Gustavo navegando ao vivo                    ║
+   ║  🎬 X passed | Y failed | Z skipped em T.Ts      ║
+   ║  🧪 Cenários testados: R-01, R-12, I-08...       ║
+   ║  🧾 Massa atendida: reembolso.data.vN.js         ║
+   ║  🧭 UI JSON usado: reembolso-ui.json             ║
+   ║  📄 HTML final: evidencias/relatorios/...html    ║
    ╚══════════════════════════════════════════════════╝
    ```
 
@@ -196,9 +205,10 @@ Seguir integralmente as regras de `pre-sales-demo-03-automacao-logs.mdc`.
 ║  🎬 DEMO PRÉ-VENDAS — JORNADA E2E CONCLUÍDA             ║
 ╠══════════════════════════════════════════════════════════╣
 ║  ✅ Etapa 1 — GherkinFlow  → XX cenários BDD gerados    ║
-║  ✅ Etapa 2 — DataForge    → XX constantes de dados     ║
-║  ✅ Etapa 3 — Playwright   → XX cenários aprovados       ║
+║  ✅ Etapa 2 — DataForge    → XX constantes / cenários    ║
+║  ✅ Etapa 3 — Playwright   → X pass | Y fail | Z skip    ║
 ║                             em YY.Ys no navegador real   ║
+║  📄 HTML final consolidado: evidencias/relatorios/...    ║
 ╠══════════════════════════════════════════════════════════╣
 ║  Backend: https://spw.app.foursys.com/backoffice-rf-hom ║
 ║  Usuário: gustavo.queiroz@foursys.com.br (org 8)        ║

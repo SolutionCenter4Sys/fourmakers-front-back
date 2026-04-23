@@ -74,27 +74,49 @@ npm run demo
 npm run demo:headed
 ```
 
+## Roteiro da demonstracao (passo a passo)
+
+1. **Preparacao tecnica**
+   - Garanta `npm install` na raiz e em `frontend/playwright-automation-template`.
+   - Garanta navegadores Playwright instalados (`npx playwright install chromium` no template).
+2. **Validacao de autenticacao OTP (API-only)**
+   - Execute em `frontend/playwright-automation-template`:
+   - `npm run test:solution-center:smoke`
+   - Siga apenas se o resultado for `4 passed`.
+3. **Disparo da demo completa no chat**
+   - No Cursor Chat, execute `demo reembolso`.
+   - A etapa Playwright passa a executar automaticamente a spec versionada mais recente (`reembolso-demo-vN.spec.ts`) com o mesmo `vN` do BDD e da massa.
+4. **Execucao visual da jornada E2E**
+   - O Playwright abre Chromium em modo visivel e executa a jornada de Reembolso.
+5. **Fechamento com evidencias**
+   - Mostrar os arquivos versionados (`vN`) e as evidencias em `frontend/playwright-automation-template/evidencias/`.
+   - Mostrar o HTML final consolidado em `frontend/playwright-automation-template/evidencias/relatorios/demo-reembolso-vN.html`.
+
 ## O que acontece durante a execucao
 
 1. O front local sobe em `http://localhost:8080` (Vite com proxy para backend dev).
-2. O GherkinFlow gera um novo arquivo de BDD da jornada de Reembolso.
-3. O DataForge gera `reembolso.data.vN.js` com dados realistas para os cenarios.
-4. O Playwright:
+2. O smoke OTP Solution Center valida autenticacao API-only (`EnviaTokenAcessoEmail` -> `ObtemCodigoAcessoEmailQA` -> `ValidaTokenAcessoEmail`) com `4 passed`.
+3. O GherkinFlow gera um novo arquivo de BDD da jornada de Reembolso.
+4. O DataForge gera `reembolso.data.vN.js` com dados realistas para os cenarios.
+5. O Playwright:
    - faz login OTP real (`EnviaTokenAcessoEmail` -> `ObtemCodigoAcessoEmailQA` -> `ValidaTokenAcessoEmail`);
    - injeta JWT no `localStorage`;
    - abre o Chromium em modo visivel (`headed`) com `slowMo`;
    - executa a jornada de Reembolso.
-5. Ao final, sao exibidos banners de etapa concluida no chat e logs no terminal.
+6. Ao final, sao exibidos banners de etapa concluida no chat e logs no terminal.
+7. A etapa Playwright gera um HTML consolidado com resumo da execucao, cenarios testados, massa atendida, uso do JSON da tela e logs completos (incluindo falhas, quando houver).
 
 ## O que voce ve no Cursor
 
 - Arquivos versionados gerados aparecem no historico da conversa e podem ser clicados.
 - A etapa do Playwright abre o navegador para visualizacao da jornada.
 - Evidencias (screenshots/relatorios) ficam em `frontend/playwright-automation-template/evidencias/`.
+- O HTML final consolidado fica em `frontend/playwright-automation-template/evidencias/relatorios/demo-reembolso-vN.html`.
 
 ## Comandos uteis
 
-- Rodar apenas a automacao Playwright (com Vite ja ligado): `npm run demo:run`
+- Rodar smoke OTP Solution Center (obrigatorio no roteiro): `npm --prefix frontend/playwright-automation-template run test:solution-center:smoke`
+- Rodar apenas a automacao Playwright (com Vite ja ligado, usando spec/massa versionadas mais recentes): `npm run demo:run`
 - Rodar fluxo completo de uma vez: `npm run demo`
 - Rodar fluxo completo com navegador visivel: `npm run demo:headed`
 
@@ -102,4 +124,5 @@ npm run demo:headed
 
 - Se o navegador abrir e fechar rapido, prefira `npm run demo:run` com `npm run dev` ja ativo.
 - Se houver erro de autenticacao, valide se o ambiente dev e as credenciais de demo estao corretos.
+- Se o smoke OTP nao passar com `4 passed`, corrigir autenticacao antes de iniciar a demonstracao E2E.
 - Se houver erro de API/CORS, confira `.env.local` e o valor de `VITE_API_PROXY_TARGET`.

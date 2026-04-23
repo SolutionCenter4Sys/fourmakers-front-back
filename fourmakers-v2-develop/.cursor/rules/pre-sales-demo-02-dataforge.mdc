@@ -78,6 +78,7 @@ export const dadosR01 = {
 ║  ✅ ETAPA 2 CONCLUÍDA — DataForge                ║
 ║  Formato: JavaScript (constantes de dados)       ║
 ║  Cenários cobertos: XX                           ║
+║  IDs atendidos: R-01, R-02... I-15              ║
 ║  📁 frontend/DEMO/automacao/reembolso/versionadas/reembolso.data.vN.js ║
 ╚══════════════════════════════════════════════════╝
 ```

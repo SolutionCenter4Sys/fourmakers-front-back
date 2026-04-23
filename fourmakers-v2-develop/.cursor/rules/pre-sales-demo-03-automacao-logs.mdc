@@ -111,12 +111,28 @@ test.describe('Módulo de Reembolso — Testes E2E', () => {
 frontend/playwright-automation-template/tests/reembolso/versionadas/reembolso-demo-vN.spec.ts
 ```
 
+### 5. Relatório HTML final (OBRIGATÓRIO)
+
+Após a execução da spec, gerar um HTML consolidado com:
+
+- resumo da execução (`passed`, `failed`, `skipped`, tempo total),
+- cenários testados (IDs) e cenários com erro,
+- massa DataForge atendida (`reembolso.data.vN.js` + IDs),
+- confirmação do uso do JSON da tela (`frontend/DEMO/ui-elements/reembolso-ui.json`),
+- logs completos do terminal (incluindo falhas, quando existirem).
+
+Output esperado:
+
+```
+frontend/playwright-automation-template/evidencias/relatorios/demo-reembolso-vN.html
+```
+
 ## Para rodar (spec versionada, da raiz do repo)
 
 ```bash
 cd fourmakers-v2-develop
 npm run dev             # manter Vite ativo
-npm --prefix frontend/playwright-automation-template exec cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 PLAYWRIGHT_SLOWMO=300 playwright test tests/reembolso/versionadas/reembolso-demo-vN.spec.ts --headed --reporter=list
+npm --prefix frontend/playwright-automation-template exec cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 PLAYWRIGHT_SLOWMO=300 playwright test tests/reembolso/versionadas/reembolso-demo-vN.spec.ts --headed --reporter=list,html,json
 ```
 
 Pré-requisito: `frontend/.env.local` com `VITE_API_PROXY_TARGET=https://spw.app.foursys.com/backoffice-rf-hom`.
@@ -127,6 +143,8 @@ Pré-requisito: `frontend/.env.local` com `VITE_API_PROXY_TARGET=https://spw.app
 - **SEMPRE** usar Page Object `ReembolsoPage` para locators e ações
 - **SEMPRE** usar `console.log` com emojis e prefixos padronizados
 - **SEMPRE** gerar evidências (screenshots) por cenário via `page.screenshot()`
+- **SEMPRE** publicar no final do chat: cenários testados, massa atendida e status de uso do UI JSON
+- **SEMPRE** gerar o HTML final consolidado mesmo quando houver falhas
 - **NUNCA** misturar imports Cypress com Playwright no mesmo arquivo
 - **NUNCA** gerar testes sem log de início e fim de cada cenário
 - **NUNCA** editar as credenciais OTP em `fourmakers-auth.ts` sem autorização do time QA
