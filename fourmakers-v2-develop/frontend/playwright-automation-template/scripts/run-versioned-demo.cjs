@@ -417,10 +417,18 @@ async function main() {
 
   console.log(`[demo-versionada] Executando: node ${playwrightArgs.join(' ')}`);
 
-  const execution = await runCommandStream(process.execPath, playwrightArgs, {
+  const executionEnv = {
     ...process.env,
     PLAYWRIGHT_JSON_OUTPUT_NAME: jsonReportFile,
-  });
+    PLAYWRIGHT_BASE_URL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:8080',
+    PLAYWRIGHT_SLOWMO: process.env.PLAYWRIGHT_SLOWMO || '300',
+  };
+
+  console.log(
+    `[demo-versionada] BASE_URL=${executionEnv.PLAYWRIGHT_BASE_URL} | SLOWMO=${executionEnv.PLAYWRIGHT_SLOWMO}`,
+  );
+
+  const execution = await runCommandStream(process.execPath, playwrightArgs, executionEnv);
 
   const playReport = safeReadJson(jsonReportFile);
   const parsedTests = playReport ? parsePlaywrightJsonReport(playReport) : [];

@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "demo": "start-server-and-test dev http://localhost:8080 \"npm --prefix playwright-automation-template run demo:only\"",
-    "demo:headed": "start-server-and-test dev http://localhost:8080 \"npm --prefix playwright-automation-template run demo:only:headed\"",
+    "demo": "node scripts/demo-headed-smart.cjs",
+    "demo:headed": "node scripts/demo-headed-smart.cjs",
     "demo:run": "npm --prefix playwright-automation-template run demo:only:headed",
     "homolog": "vite --mode homologation",
     "build": "tsc -b && vite build",

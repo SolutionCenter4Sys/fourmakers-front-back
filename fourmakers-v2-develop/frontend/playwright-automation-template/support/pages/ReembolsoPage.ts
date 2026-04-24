@@ -16,15 +16,24 @@ export class ReembolsoPage {
 
   readonly urlLista      = '/reembolso'
   readonly urlFormulario = '/inserir-reembolso'
+  readonly baseUrl: string
+  readonly navTimeoutMs = 20_000
 
   constructor(page: Page) {
     this.page = page
+    this.baseUrl = process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:8080'
+    this.page.setDefaultNavigationTimeout(this.navTimeoutMs)
+    this.page.setDefaultTimeout(30_000)
   }
 
   // ── Locators — Dashboard (/reembolso) ─────────────────────────────
 
   get tabMeusReembolsos() {
     return this.page.getByRole('tab', { name: 'Meus Reembolsos' })
+  }
+
+  get tabGestaoAdm() {
+    return this.page.getByRole('tab', { name: /Gestão ADM/i })
   }
 
   get btnSolicitarReembolso() {
@@ -62,6 +71,59 @@ export class ReembolsoPage {
     return this.page.getByText('Nenhuma solicitação no carrinho')
   }
 
+  // ── Locators — Gestão ADM (/reembolso?tab=gestao-adm) ───────────────
+
+  get buscaGestao() {
+    return this.page.getByPlaceholder('Busca')
+  }
+
+  get btnBuscarGestao() {
+    return this.page.getByRole('button', { name: /^Buscar$/ })
+  }
+
+  get btnLimparGestao() {
+    return this.page.getByRole('button', { name: /^Limpar$/ })
+  }
+
+  get mensagemNenhumColaborador() {
+    return this.page.getByText('Nenhum colaborador encontrado', { exact: false })
+  }
+
+  get tituloColaboradores() {
+    return this.page.getByRole('heading', { name: /Colaboradores/i })
+  }
+
+  // Campos de filtro (botões de calendário com label textual)
+  get filtroDataInicioBotao() {
+    return this.page.locator('div').filter({ hasText: /^Data Início/ }).locator('button').first()
+  }
+
+  get filtroDataFimBotao() {
+    return this.page.locator('div').filter({ hasText: /^Data Fim/ }).locator('button').first()
+  }
+
+  get selectCliente() {
+    return this.page.locator('label:has-text("Cliente")').locator('xpath=..').locator('button[role="combobox"],button')
+  }
+
+  get selectProjeto() {
+    return this.page.locator('label:has-text("Projeto")').locator('xpath=..').locator('button[role="combobox"],button')
+  }
+
+  get selectStatus() {
+    return this.page.locator('label:has-text("Status")').locator('xpath=..').locator('button[role="combobox"],button')
+  }
+
+  async abrirGestaoAdm(): Promise<boolean> {
+    await this.visitarLista()
+    if (await this.tabGestaoAdm.count() === 0) {
+      return false
+    }
+    await this.tabGestaoAdm.click()
+    await this.tituloColaboradores.waitFor({ timeout: 15_000 }).catch(() => {})
+    return true
+  }
+
   get itemCarrinhoLinha() {
     return this.page.locator('tbody tr, [data-testid*="item-carrinho"], .carrinho-item')
   }
@@ -69,11 +131,17 @@ export class ReembolsoPage {
   // ── Navegação ──────────────────────────────────────────────────────
 
   async visitarLista() {
-    await this.page.goto(this.urlLista, { waitUntil: 'domcontentloaded' })
+    await this.page.goto(`${this.baseUrl}${this.urlLista}`, {
+      waitUntil: 'domcontentloaded',
+      timeout: this.navTimeoutMs,
+    })
   }
 
   async visitarFormulario() {
-    await this.page.goto(this.urlFormulario, { waitUntil: 'domcontentloaded' })
+    await this.page.goto(`${this.baseUrl}${this.urlFormulario}`, {
+      waitUntil: 'domcontentloaded',
+      timeout: this.navTimeoutMs,
+    })
   }
 
   // ── Ações no Dashboard ─────────────────────────────────────────────

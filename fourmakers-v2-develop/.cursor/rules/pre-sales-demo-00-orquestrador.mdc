@@ -75,7 +75,7 @@ Essa etapa **NÃO pode parar em "spec gerada"**. Ela DEVE:
    - cenários testados (IDs),
    - massa atendida (`reembolso.data.vN.js` + IDs),
    - confirmação de uso do JSON da tela (`frontend/DEMO/ui-elements/reembolso-ui.json`),
-   - caminho do HTML final consolidado (com logs e falhas, quando houver).
+   - **link/caminho explícito** do HTML final consolidado (com logs e falhas, quando houver).
 
 **Nunca terminar a demo apenas com um sumário textual — sempre rodar a automação visível ao final.**
 

@@ -1,0 +1,1129 @@
+{
+  "config": {
+    "configFile": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\playwright.config.ts",
+    "rootDir": "C:/Users/LetíciaGonçalvesdeOl/OneDrive - Foursys/Área de Trabalho/fourmakers-front-back/fourmakers-v2-develop/frontend/playwright-automation-template/tests",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "C:/Users/LetíciaGonçalvesdeOl/OneDrive - Foursys/Área de Trabalho/fourmakers-front-back/fourmakers-v2-develop/frontend/playwright-automation-template/evidencias/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "C:/Users/LetíciaGonçalvesdeOl/OneDrive - Foursys/Área de Trabalho/fourmakers-front-back/fourmakers-v2-develop/frontend/playwright-automation-template/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list"
+      ],
+      [
+        "html"
+      ],
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.59.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+      "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "G-12 [Negativo] Busca sem correspondência",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 31431,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "\n╔══════════════════════════════════════════════════════════╗\n"
+                    },
+                    {
+                      "text": "║  🎬 DEMO FOURMAKERS — GESTÃO ADM REEMBOLSO (v4)           ║\n"
+                    },
+                    {
+                      "text": "╚══════════════════════════════════════════════════════════╝\n"
+                    },
+                    {
+                      "text": "📄 BDD     : frontend/DEMO/cenarios-bdd/REEMBOLSO-BDD-v4.md\n"
+                    },
+                    {
+                      "text": "📄 Massa   : frontend/DEMO/automacao/reembolso/versionadas/reembolso.data.v4.js\n"
+                    },
+                    {
+                      "text": "📄 UI JSON : frontend/DEMO/ui-elements/dom-elements-2026-04-08.json\n"
+                    },
+                    {
+                      "text": "   Ambiente: front local http://localhost:8080 → backend dev spw.app.foursys.com/backoffice-rf-hom\n"
+                    },
+                    {
+                      "text": "   Usuário : solutioncenter@foursys.com.br (orgId 8) — login OTP real\n\n"
+                    },
+                    {
+                      "text": "📋 Roteiro desta execução (cenários tentados)\n"
+                    },
+                    {
+                      "text": "  • G-12 [Negativo] Busca sem correspondência\n"
+                    },
+                    {
+                      "text": "\n🧪 TESTANDO: G-12 [Negativo] Busca sem correspondência\n"
+                    },
+                    {
+                      "text": "\n──────────────────────────────────────────────\n"
+                    },
+                    {
+                      "text": "🔐 AUTENTICAÇÃO: Login Solution Center via OTP\n"
+                    },
+                    {
+                      "text": "   usuário: solutioncenter@foursys.com.br\n"
+                    },
+                    {
+                      "text": "   orgId:   8\n"
+                    },
+                    {
+                      "text": "   apiBase: https://spw.app.foursys.com/backoffice-rf-hom\n"
+                    },
+                    {
+                      "text": "   appUrl:  http://localhost:8080\n"
+                    },
+                    {
+                      "text": "──────────────────────────────────────────────\n"
+                    },
+                    {
+                      "text": "   → [Step 1..3] Executando fluxo OTP Solution Center...\n"
+                    },
+                    {
+                      "text": "   ✅ JWT obtido com sucesso\n"
+                    },
+                    {
+                      "text": "   → Injetando JWT no localStorage de http://localhost:8080...\n"
+                    },
+                    {
+                      "text": "   ✅ Sessão iniciada com sucesso\n"
+                    },
+                    {
+                      "text": "──────────────────────────────────────────────\n\n"
+                    },
+                    {
+                      "text": "\n┌────────────────────────────────────────────────────────────\n"
+                    },
+                    {
+                      "text": "│ G-12 · [Negativo]  Busca sem correspondência\n"
+                    },
+                    {
+                      "text": "└────────────────────────────────────────────────────────────\n"
+                    },
+                    {
+                      "text": "   → Aplicando termo de busca inexistente: ZZ-FORA-ESCOPO-404\n"
+                    },
+                    {
+                      "text": "   ✅ Mensagem esperada visível: Nenhum colaborador encontrado\n"
+                    },
+                    {
+                      "text": "   📸 [EVIDÊNCIA] evidencias/screenshots/gestao-adm/g12-busca-sem-correspondencia.png\n"
+                    },
+                    {
+                      "text": "🏁 G-12 [Negativo] Busca sem correspondência CONCLUÍDO\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:16.959Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-a6ed748eb3938ba6f738",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 167,
+          "column": 5
+        },
+        {
+          "title": "G-01 [Positivo] Filtro por período, cliente e status — requer base de gestão com dados e perfil gestor",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.493Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-8979dbf22949be7257cf",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-02 [Positivo] Carregamento de projetos por cliente — requer lista de clientes/projetos disponíveis",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.495Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-9962f3d6a5feaf80ce54",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-03 [Positivo] Busca textual de solicitações — requer colaboradores carregados",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.496Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-dcbf23fdd5a7d20f3527",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-04 [Positivo] Visão de indicadores da gestão — requer dados consolidados de gestão",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.497Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-77a8d54ab5fb3cf34ea3",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-05 [Positivo] Distribuição de status por colaborador — requer itens com status variados",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.499Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-96234c04acf841e1acdc",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-06 [Positivo] Consulta detalhada de solicitação — requer solicitação aprovada cadastrada",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.500Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-2a502d6d4786d9222b4b",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-07 [Positivo] Visualização de comprovantes anexados — requer documentos anexados",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.501Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-99e367ddc2dd4b0ac672",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-08 [Positivo] Habilitação do modo Baixa — requer itens aprovados",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.501Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-667bca9b974dd71c5e25",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-09 [Positivo] Seleção em massa de itens aprovados — requer itens aprovados para baixa",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.503Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-4462c05bbf95db295661",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-10 [Positivo] Confirmação de baixas com sucesso — requer API liberando baixa para gestor",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.503Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-48a57bb03259527eb994",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-11 [Positivo] Paginação e tamanho da página — requer volume de colaboradores > page size",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.504Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-f25ac072342f0005dd00",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-13 [Negativo] Solicitação sem documentos anexados — requer item sem anexos",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.505Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-f576060de8f01fb23291",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-14 [Negativo] Ausência de itens aprovados para baixa — requer lista sem itens aprovados",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.506Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-f2b111f09120ff36870a",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-15 [Regressivo] Limpeza completa dos filtros — requer filtros aplicados + dataset",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.507Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-28f95d628c703ecd0e88",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-16 [Regressivo] Reset ao fechar modal de detalhes — requer modal de detalhes com itens aprovados",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.507Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-7120007c4c11a4a001f4",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        },
+        {
+          "title": "G-17 [Regressivo] Busca reinicia paginação — requer tabela com múltiplas páginas",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [
+                {
+                  "type": "skip",
+                  "location": {
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                    "line": 186,
+                    "column": 8
+                  }
+                }
+              ],
+              "expectedStatus": "skipped",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "skipped",
+                  "duration": 0,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "\n╔════════════════════════════════════════════════════════════╗\n"
+                    },
+                    {
+                      "text": "║  🎬 DEMO GESTÃO ADM v4 — RELATÓRIO FINAL                   ║\n"
+                    },
+                    {
+                      "text": "╠════════════════════════════════════════════════════════════╣\n"
+                    },
+                    {
+                      "text": "║  ✅ Passed        : 1                                       ║\n"
+                    },
+                    {
+                      "text": "║  ❌ Failed        : 0                                       ║\n"
+                    },
+                    {
+                      "text": "║  ⏭️  Catalogados   : 16                                      ║\n"
+                    },
+                    {
+                      "text": "║  📊 Cobertura     : 17                                      ║\n"
+                    },
+                    {
+                      "text": "║  ⏱  Tempo total   : 32.5s                                   ║\n"
+                    },
+                    {
+                      "text": "╚════════════════════════════════════════════════════════════╝\n"
+                    },
+                    {
+                      "text": "\n📋 Cenários executados\n"
+                    },
+                    {
+                      "text": "────────────────────────────────────────────────────────────\n"
+                    },
+                    {
+                      "text": "  ✅ G-12  [Negativo]    Busca sem correspondência                   31.2s\n"
+                    },
+                    {
+                      "text": "\n📋 Cenários catalogados (aguardam setup no ambiente)\n"
+                    },
+                    {
+                      "text": "────────────────────────────────────────────────────────────\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-01  [Positivo]    Filtro por período, cliente e status       — requer base de gestão com dados e perfil gestor\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-02  [Positivo]    Carregamento de projetos por cliente       — requer lista de clientes/projetos disponíveis\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-03  [Positivo]    Busca textual de solicitações              — requer colaboradores carregados\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-04  [Positivo]    Visão de indicadores da gestão             — requer dados consolidados de gestão\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-05  [Positivo]    Distribuição de status por colaborador     — requer itens com status variados\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-06  [Positivo]    Consulta detalhada de solicitação          — requer solicitação aprovada cadastrada\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-07  [Positivo]    Visualização de comprovantes anexados      — requer documentos anexados\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-08  [Positivo]    Habilitação do modo Baixa                  — requer itens aprovados\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-09  [Positivo]    Seleção em massa de itens aprovados        — requer itens aprovados para baixa\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-10  [Positivo]    Confirmação de baixas com sucesso          — requer API liberando baixa para gestor\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-11  [Positivo]    Paginação e tamanho da página              — requer volume de colaboradores > page size\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-13  [Negativo]    Solicitação sem documentos anexados        — requer item sem anexos\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-14  [Negativo]    Ausência de itens aprovados para baixa     — requer lista sem itens aprovados\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-15  [Regressivo]  Limpeza completa dos filtros               — requer filtros aplicados + dataset\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-16  [Regressivo]  Reset ao fechar modal de detalhes          — requer modal de detalhes com itens aprovados\n"
+                    },
+                    {
+                      "text": "  ⏭️  G-17  [Regressivo]  Busca reinicia paginação                   — requer tabela com múltiplas páginas\n"
+                    },
+                    {
+                      "text": "\n╚══ ✅ DEMO FINALIZADA — 1/1 cenários executados ══╝\n\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-04-23T19:19:49.507Z",
+                  "annotations": [
+                    {
+                      "type": "skip",
+                      "location": {
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\frontend\\playwright-automation-template\\tests\\reembolso\\versionadas\\reembolso-demo-v4.spec.ts",
+                        "line": 186,
+                        "column": 8
+                      }
+                    }
+                  ],
+                  "attachments": []
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "88f56bb5a9aa636b2ce4-c925dc65fd61230bd77b",
+          "file": "reembolso/versionadas/reembolso-demo-v4.spec.ts",
+          "line": 186,
+          "column": 8
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-04-23T19:19:14.495Z",
+    "duration": 36298.951,
+    "expected": 1,
+    "skipped": 16,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
