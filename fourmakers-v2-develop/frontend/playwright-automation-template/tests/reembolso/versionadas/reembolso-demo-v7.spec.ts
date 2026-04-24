@@ -4,10 +4,10 @@ import { loginFourMakers } from '../../../support/auth/fourmakers-auth'
 
 // ─── Dados do DataForge (Etapa 2) ───────────────────────────────────────
 // @ts-ignore — import JS sem types
-import { dadosI12, dadosI13 } from '../../../../DEMO/automacao/reembolso/versionadas/reembolso.data.v6.js'
+import { dadosI12, dadosI13 } from '../../../../DEMO/automacao/reembolso/versionadas/reembolso.data.v7.js'
 
 test.describe.configure({ retries: 0, timeout: 60_000 })
-test.use({ headless: true, video: 'on' })
+test.use({ headless: false, video: 'on' })
 
 const LOG = {
   banner: (msg: string) => {
@@ -50,7 +50,7 @@ const CATALOGO_SKIP: Array<Omit<TestResultado, 'status' | 'duracaoMs'> & { razao
   { id: 'R-11', tipo: 'Positivo',   titulo: 'Resetar paginação ao alterar busca',             razao: 'precisa de dataset com múltiplas páginas' },
   { id: 'R-12', tipo: 'Positivo',   titulo: 'Alternar carregamento entre skeleton e cards',   razao: 'depende de telemetria de loading inicial' },
   { id: 'R-13', tipo: 'Positivo',   titulo: 'Acesso rápido para criar novo reembolso',        razao: 'coberto implicitamente nos fluxos de formulário' },
-  { id: 'R-14', tipo: 'Negativo',   titulo: 'Impedir data fim futura',                        razao: 'validado por lógica de componente, não executado neste roteiro' },
+  { id: 'R-14', tipo: 'Negativo',   titulo: 'Impedir data fim futura',                        razao: 'validado por lógica de componente, não executado nesta rodada' },
   { id: 'I-01', tipo: 'Positivo',   titulo: 'Adicionar item tipo 1 ao carrinho',              razao: 'requer verbas disponíveis para seleção' },
   { id: 'I-02', tipo: 'Positivo',   titulo: 'Calcular valor total para tipo 2',               razao: 'depende de categoria km rodado carregada' },
   { id: 'I-03', tipo: 'Positivo',   titulo: 'OCR de comprovante pré-preenche data e valor',   razao: 'necessita OCR ativo no backend' },
@@ -82,9 +82,9 @@ let demoInicioMs = 0
 
 test.beforeAll(async () => {
   demoInicioMs = Date.now()
-  LOG.banner('🎬 DEMO REEMBOLSO v6 — ROTEIRO NEGATIVOS RÁPIDOS')
-  console.log('📄 BDD     : frontend/DEMO/cenarios-bdd/REEMBOLSO-BDD-v6.md')
-  console.log('📄 Massa   : frontend/DEMO/automacao/reembolso/versionadas/reembolso.data.v6.js')
+  LOG.banner('🎬 DEMO REEMBOLSO v7 — ROTEIRO NEGATIVOS RÁPIDOS')
+  console.log('📄 BDD     : frontend/DEMO/cenarios-bdd/REEMBOLSO-BDD-v7.md')
+  console.log('📄 Massa   : frontend/DEMO/automacao/reembolso/versionadas/reembolso.data.v7.js')
   console.log('📄 UI JSON : frontend/DEMO/ui-elements/reembolso-ui.json')
   console.log('   Ambiente: front local http://localhost:8080 → backend dev spw.app.foursys.com/backoffice-rf-hom')
   console.log('   Usuário : solutioncenter@foursys.com.br (orgId 8) — login OTP real\n')
@@ -135,7 +135,7 @@ test.afterAll(async () => {
   const linhaInf = '─'.repeat(60)
 
   console.log(`\n╔${linhaSup}╗`)
-  console.log(`║  🎬 DEMO REEMBOLSO v6 — RELATÓRIO FINAL                     ║`)
+  console.log(`║  🎬 DEMO REEMBOLSO v7 — RELATÓRIO FINAL                     ║`)
   console.log(`╠${linhaSup}╣`)
   console.log(`║  ✅ Passed        : ${String(passados).padEnd(40)}║`)
   console.log(`║  ❌ Failed        : ${String(falhados).padEnd(40)}║`)
@@ -195,7 +195,7 @@ test('I-12 [Negativo] Impedir envio com carrinho vazio', async ({ page }) => {
   LOG.ok('Botão de envio não aparece sem itens no carrinho')
 
   // Evidência visual do estado vazio
-  await p.evidencia('i12-carrinho-vazio-v6')
+  await p.evidencia('i12-carrinho-vazio-v7')
 })
 
 test('I-13 [Negativo] Bloquear inclusão sem campos obrigatórios', async ({ page }) => {
@@ -218,7 +218,7 @@ test('I-13 [Negativo] Bloquear inclusão sem campos obrigatórios', async ({ pag
   LOG.ok('Nenhum item foi incluído no carrinho após tentativa inválida')
 
   // Evidência visual do bloqueio
-  await p.evidencia('i13-campos-obrigatorios-v6')
+  await p.evidencia('i13-campos-obrigatorios-v7')
 })
 
 // Cenários restantes catalogados (não executados nesta rodada)
