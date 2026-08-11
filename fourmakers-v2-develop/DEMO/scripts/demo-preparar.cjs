@@ -27,6 +27,8 @@ const {
   loadCredenciais,
   syncAuthFiles,
   ensureEnvLocal,
+  DEMO_AMBIENTE,
+  describeAmbiente,
 } = require('./demo-credenciais.cjs');
 
 const { repoRoot, frontendRoot } = demoBug.paths;
@@ -166,7 +168,8 @@ function printBanner(prepared, cred) {
   console.log(`\n╔${linha}╗`);
   console.log('║  ✅ PRÉ-SETUP DA DEMO CONCLUÍDO                         ║');
   console.log('╠' + linha + '╣');
-  console.log(`║  Backend: ${(cred.backend || '').slice(0, 45)}`.padEnd(59) + '║');
+  console.log(`║  Ambiente: ${DEMO_AMBIENTE.label} (FIXO — nao e "dev")`.padEnd(59) + '║');
+  console.log(`║  Backend: ${(cred.backend || DEMO_AMBIENTE.backend).slice(0, 45)}`.padEnd(59) + '║');
   console.log(`║  Usuario: ${cred.email}`.padEnd(59) + '║');
   console.log(`║  orgId:   ${cred.orgId} (${cred.orgNome || ''})`.padEnd(59) + '║');
   console.log(`║  Smoke OTP: ${smoke}`.padEnd(59) + '║');
@@ -195,12 +198,13 @@ function printBanner(prepared, cred) {
 }
 
 async function main() {
-  console.log('\n🛠️  DEMO REEMBOLSO — PRÉ-SETUP (executar antes do cliente)\n');
+  console.log('\n🛠️  DEMO REEMBOLSO — PRÉ-SETUP (executar antes do cliente)');
+  console.log(`   Ambiente FIXO: ${describeAmbiente()}\n`);
 
   const cred = loadCredenciais();
   log(
     'OK',
-    `Credenciais: ${cred.email} | orgId ${cred.orgId} (${cred.orgNome}) | ${cred.ambiente}`,
+    `Credenciais: ${cred.email} | orgId ${cred.orgId} (${cred.orgNome}) | ${cred.ambiente} (HML fixo)`,
   );
 
   log('INFO', 'Validando instalacao na maquina (Node/npm/disco/porta/estrutura)...');

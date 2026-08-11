@@ -14,7 +14,7 @@
     "VITE_FLUTTERFLOW_BASE_URL": "https://wf.dev.fourmakers.io"
   },
   "notas": [
-    "Ambiente da demo = HML (backoffice-rf-hom).",
+    "Ambiente da demo = HML FIXO (backoffice-rf-hom). demo-ambiente.cjs sobrescreve 'dev' legado.",
     "usuario_qa@foursys.com.br existe no orgId 5 (Showcase).",
     "OTP: no máximo 1 EnviaToken por execução — preferir E2E_REUSE_SESSION / storageState."
   ]

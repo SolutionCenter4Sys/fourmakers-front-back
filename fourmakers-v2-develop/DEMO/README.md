@@ -8,6 +8,17 @@ Esteira E2E de pré-vendas no Cursor (**uma demo só**, ~2–4 min no Playwright
 
 Tudo roda no chat. Você prepara o ambiente, cola o bug (opcional) e digita o comando.
 
+### Ambiente FIXO — sempre HML
+
+| | |
+|--|--|
+| **Nome** | `homolog` (HML) — **não** é "dev" |
+| **Backend** | `https://spw.app.foursys.com/backoffice-rf-hom` |
+| **Front** | Vite local `:8080` → proxy `/api/*` pro HML |
+| **Fonte** | `DEMO/scripts/demo-ambiente.cjs` (pré-setup força e corrige JSON legado) |
+
+`demo preparar reembolso` / `npm run demo:preparar` sempre sincroniza auth + `.env.local` pra esse backend.
+
 ---
 
 ## Visão rápida do fluxo

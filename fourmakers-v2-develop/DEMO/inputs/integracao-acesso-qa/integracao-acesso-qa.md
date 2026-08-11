@@ -19,7 +19,10 @@ Este documento descreve o fluxo completo de autenticação por código de e-mail
 | Ambiente | Base URL |
 |---|---|
 | **Produção (PRD)** | `https://api.fourmakers.io` |
-| **Homologação (HML)** | `https://fourmakershub-api.dev.fourmakers.io` |
+| **Homologação (HML) — Hub genérico** | `https://fourmakershub-api.dev.fourmakers.io` |
+| **Homologação (HML) — Demo Reembolso (FIXO)** | `https://spw.app.foursys.com/backoffice-rf-hom` |
+
+> **Demo pré-vendas:** use sempre `backoffice-rf-hom` (`DEMO/scripts/demo-ambiente.cjs`). O host `fourmakershub-api.dev` é outra entrada HML do produto — **não** é o backend desta demo. O trecho `dev` no hostname do Hub **não** significa “ambiente de desenvolvimento da demo”.
 
 Todos os endpoints estão sob o prefixo `/api/Acesso`.
 

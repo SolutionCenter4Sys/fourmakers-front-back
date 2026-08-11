@@ -1,21 +1,41 @@
 /**
- * Fonte única de credenciais da Demo Reembolso (HML).
+ * Fonte única de credenciais da Demo Reembolso (HML fixo).
  * Arquivo: DEMO/setup/demo-credenciais.json (gitignored — tem OTP_SYSTEM_TOKEN)
+ *
+ * Ambiente sempre normalizado para homolog via demo-ambiente.cjs — ignora "dev" legado.
  */
 const fs = require('node:fs');
 const path = require('node:path');
+const { DEMO_AMBIENTE, forceAmbienteHml, describeAmbiente } = require('./demo-ambiente.cjs');
 
 const demoRoot = path.resolve(__dirname, '..');
 const repoRoot = path.resolve(demoRoot, '..');
 const frontendRoot = path.join(repoRoot, 'frontend');
 const playwrightRoot = path.join(frontendRoot, 'playwright-automation-template');
 const credenciaisPath = path.join(demoRoot, 'setup', 'demo-credenciais.json');
+const examplePath = path.join(demoRoot, 'setup', 'demo-credenciais.example.json');
 
 function loadCredenciais() {
   if (!fs.existsSync(credenciaisPath)) {
-    throw new Error(`Credenciais ausentes: ${credenciaisPath}`);
+    throw new Error(
+      `Credenciais ausentes: ${credenciaisPath}\n` +
+        `Copie ${path.relative(repoRoot, examplePath)} → demo-credenciais.json e preencha o token.`,
+    );
   }
-  return JSON.parse(fs.readFileSync(credenciaisPath, 'utf8'));
+  const raw = JSON.parse(fs.readFileSync(credenciaisPath, 'utf8'));
+  const forced = forceAmbienteHml(raw);
+
+  // Persistência: evita JSON local com "dev" voltar a confundir no próximo run.
+  const precisaGravar =
+    raw.ambiente !== forced.ambiente ||
+    String(raw.backend || '').replace(/\/$/, '') !== forced.backend ||
+    (raw.envLocal && raw.envLocal.VITE_API_PROXY_TARGET) !== forced.envLocal.VITE_API_PROXY_TARGET;
+
+  if (precisaGravar) {
+    fs.writeFileSync(credenciaisPath, `${JSON.stringify(forced, null, 2)}\n`, 'utf8');
+  }
+
+  return forced;
 }
 
 function replaceLiteral(content, pattern, replacement) {
@@ -229,6 +249,9 @@ module.exports = {
   syncAuthFiles,
   ensureEnvLocal,
   ensurePlaywrightEnv,
+  DEMO_AMBIENTE,
+  forceAmbienteHml,
+  describeAmbiente,
   demoRoot,
   repoRoot,
   frontendRoot,

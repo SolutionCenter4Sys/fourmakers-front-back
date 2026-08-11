@@ -271,7 +271,8 @@ Seguir integralmente as regras de `pre-sales-demo-02-dataforge.mdc`.
 - **Framework:** Playwright + TypeScript
 - **Login:** OTP real UMA vez por execução via project `setup` (`tests/_setup/demo-auth.setup.ts`) → grava `storageState`. As specs herdam a sessão (nada de login por teste). NÃO chamar `loginFourMakers` no `beforeEach`.
 - **Backend:** real em `https://spw.app.foursys.com/backoffice-rf-hom`
-- **Front:** Vite local (`http://localhost:8080`) configurado com proxy pra API dev
+- **Ambiente FIXO:** HML / homolog (`backoffice-rf-hom`) — ver `DEMO/scripts/demo-ambiente.cjs`
+- **Front:** Vite local (`http://localhost:8080`) com proxy pra API HML
 - **Output:** `DEMO/outputs/playwright/reembolso/specs/reembolso-demo-vN.spec.ts`
 
 ### Fluxo real da execução (visível em `--headed`):

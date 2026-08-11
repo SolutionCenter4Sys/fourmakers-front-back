@@ -85,8 +85,9 @@ frontend/playwright-automation-template/
 
 ### Backend & Front
 
-- **Backend (HML / homolog):** `https://spw.app.foursys.com/backoffice-rf-hom` — módulos Colaboração (Reembolso, Usuario, etc.)
-- **Front (local via Vite):** `http://localhost:8080` configurado com proxy pra API dev, para evitar CORS
+- **Ambiente FIXO:** HML / homolog — `DEMO/scripts/demo-ambiente.cjs` (pré-setup força; nunca "dev")
+- **Backend (HML):** `https://spw.app.foursys.com/backoffice-rf-hom` — Colaboração (Reembolso, Usuario, etc.)
+- **Front (local via Vite):** `http://localhost:8080` com proxy pra API HML (evita CORS)
 - **Usuário padrão:** `usuario_qa@foursys.com.br` (orgId `5` / Showcase) — fonte: `DEMO/setup/demo-credenciais.json`
 - **Login:** project `setup` + `storageState` (`E2E_REUSE_SESSION=true` por default). OTP só quando sessão inválida — **não** `loginFourMakers` por teste. Doc: `frontend/playwright-automation-template/e2e/docs/OTP_AUTH.md`
 - **Volume:** demo única enxuta — 8–12 BDD · 3–4 testes (R-01, R-04, I-08, I-13)

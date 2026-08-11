@@ -7,6 +7,7 @@ const net = require('node:net');
 const path = require('node:path');
 
 const { loadCredenciais } = require('./demo-credenciais.cjs');
+const { DEMO_AMBIENTE } = require('./demo-ambiente.cjs');
 
 const demoRoot = path.resolve(__dirname, '..');
 const repoRoot = path.resolve(demoRoot, '..');
@@ -18,20 +19,20 @@ const CRED = (() => {
     return loadCredenciais();
   } catch {
     return {
-      backend: 'https://spw.app.foursys.com/backoffice-rf-hom',
-      email: 'usuario_qa@foursys.com.br',
-      orgId: 5,
-      systemTokenRaw: '5YB40IzcB7x83WsFYK0qCioG6i3lFhP3qlYbCirzmc995KtB8B',
-      orgNome: 'Showcase',
+      ambiente: DEMO_AMBIENTE.nome,
+      backend: DEMO_AMBIENTE.backend,
+      email: DEMO_AMBIENTE.email,
+      orgId: DEMO_AMBIENTE.orgId,
+      orgNome: DEMO_AMBIENTE.orgNome,
     };
   }
 })();
 
-const DEFAULT_HOM_URL = CRED.backend;
-const DEMO_EMAIL = CRED.email;
-const DEMO_SYSTEM_TOKEN_RAW = CRED.systemTokenRaw;
-const DEMO_ORG_ID = Number(CRED.orgId);
-const DEMO_ORG_NOME = CRED.orgNome || 'Showcase';
+const DEFAULT_HOM_URL = CRED.backend || DEMO_AMBIENTE.backend;
+const DEMO_EMAIL = CRED.email || DEMO_AMBIENTE.email;
+const DEMO_SYSTEM_TOKEN_RAW = CRED.systemTokenRaw || '';
+const DEMO_ORG_ID = Number(CRED.orgId ?? DEMO_AMBIENTE.orgId);
+const DEMO_ORG_NOME = CRED.orgNome || DEMO_AMBIENTE.orgNome;
 const VITE_DEV_PORT = 8080;
 const REQUEST_TIMEOUT_MS = 20_000;
 
@@ -219,14 +220,15 @@ async function runEnvChecks(options = {}) {
     pushCheck(checks, 'env-local', '.env.local', 'ok', 'Arquivo encontrado em frontend/');
   }
 
-  const proxyTarget = (env.VITE_API_PROXY_TARGET || '').trim();
+  const proxyTarget = (env.VITE_API_PROXY_TARGET || '').trim().replace(/\/$/, '');
+  const hmlFixo = DEMO_AMBIENTE.backend.replace(/\/$/, '');
   if (!proxyTarget) {
     pushCheck(
       checks,
       'env-proxy',
       'VITE_API_PROXY_TARGET',
       'falha',
-      'Variavel ausente — proxy do Vite nao aponta para o backend hom.',
+      'Variavel ausente — proxy do Vite nao aponta para o backend HML.',
     );
   } else if (!/^https?:\/\//.test(proxyTarget)) {
     pushCheck(
@@ -236,13 +238,21 @@ async function runEnvChecks(options = {}) {
       'falha',
       `Valor invalido: ${proxyTarget}`,
     );
+  } else if (proxyTarget !== hmlFixo) {
+    pushCheck(
+      checks,
+      'env-proxy',
+      'VITE_API_PROXY_TARGET',
+      'falha',
+      `Demo exige HML fixo (${hmlFixo}). Atual: ${proxyTarget}. Rode npm run demo:preparar.`,
+    );
   } else {
     pushCheck(
       checks,
       'env-proxy',
       'VITE_API_PROXY_TARGET',
       'ok',
-      proxyTarget,
+      `${proxyTarget} (HML fixo)`,
     );
   }
 
@@ -253,7 +263,7 @@ async function runEnvChecks(options = {}) {
       'env-api-base',
       'VITE_API_FOURMAKERS_URL',
       'aviso',
-      'Definido como URL absoluta — em dev local prefira vazio para usar proxy do Vite.',
+      'Definido como URL absoluta — no front local prefira vazio para usar proxy do Vite (HML).',
     );
   } else {
     pushCheck(

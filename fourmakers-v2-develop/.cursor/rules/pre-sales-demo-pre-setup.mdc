@@ -28,18 +28,24 @@ Preparar a máquina para que `demo reembolso` rode rápido na apresentação:
 9. Rodar smoke OTP e **revalidar automaticamente** enquanto houver rate limit
 10. Salvar estado em `DEMO/setup/.demo-preparada.json` (inclui `selfHealing: true`, credenciais, install e `front`)
 
-## Credenciais oficiais (fonte única)
+## Ambiente FIXO — sempre HML (homolog)
 
-Arquivo: `DEMO/setup/demo-credenciais.json`
+A demo **não** usa "dev" genérico nem PRD. Fonte da verdade: `DEMO/scripts/demo-ambiente.cjs`.
 
-| Campo | Valor padrão |
+| Campo | Valor (travado no pré-setup) |
 |-------|----------------|
-| Backend (HML) | `https://spw.app.foursys.com/backoffice-rf-hom` |
+| Ambiente | `homolog` (label: **HML / homolog**) |
+| Backend | `https://spw.app.foursys.com/backoffice-rf-hom` |
+| Front local | `http://localhost:8080` (proxy → HML) |
 | E-mail OTP | `usuario_qa@foursys.com.br` |
 | orgId | `5` (Showcase) |
 | Flutterflow | `https://wf.dev.fourmakers.io` |
 
-> `usuario_qa` **não** existe no orgId 8 (Trial). Usar org **5**.
+Credenciais locais: `DEMO/setup/demo-credenciais.json` (gitignored).  
+`loadCredenciais()` **força** `ambiente` + `backend` + `VITE_API_PROXY_TARGET` para HML mesmo se o JSON disser `dev`.
+
+> `usuario_qa` **não** existe no orgId 8 (Trial). Usar org **5**.  
+> URL com `hom` no path = **homologação**, não desenvolvimento.
 
 ## Ação obrigatória (1 comando)
 
@@ -118,7 +124,7 @@ node DEMO/scripts/demo-env-check.cjs
 
 | Verificação | O que detecta |
 |-------------|----------------|
-| `.env.local` | Arquivo + `VITE_API_PROXY_TARGET` apontando para backend dev |
+| `.env.local` | Arquivo + `VITE_API_PROXY_TARGET` apontando para backend HML (`backoffice-rf-hom`) |
 | `VITE_API_FOURMAKERS_URL` | Deve estar vazio em local (proxy relativo) |
 | `VITE_FLUTTERFLOW_BASE_URL` | Ausente → dashboard em branco após login (pré-setup preenche) |
 | Firebase (`VITE_FIREBASE_*`) | Ausentes → analytics limitado |
