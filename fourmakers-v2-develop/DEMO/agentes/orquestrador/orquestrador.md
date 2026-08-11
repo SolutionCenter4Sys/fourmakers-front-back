@@ -276,7 +276,7 @@ Após automação (ou NOGO), **Playwright** encerra no chat. Orquestrador não c
 ║  📸 Evidências: frontend/.../evidencias/                ║
 ║  📄 HTML: frontend/.../demo-reembolso-v{N}.html         ║
 ╠══════════════════════════════════════════════════════════╣
-║  Backend: https://spw.app.foursys.com/backoffice-rf-hom ║
+║  Backend HML: https://spw.app.foursys.com/backoffice-rf-hom ║
 ║  Front: http://localhost:8080                           ║
 ╚══════════════════════════════════════════════════════════╝
 ```

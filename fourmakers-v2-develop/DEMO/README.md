@@ -202,7 +202,8 @@ Credenciais oficiais: `DEMO/setup/demo-credenciais.json`
 | Smoke OTP rate limit | Aguarde ~2 min; pré-setup retenta 3×. Ou `--sem-smoke` + reuso de sessão depois |
 | Rate limit na demo | Confirme `E2E_REUSE_SESSION=true`; use storageState existente; **não** force OTP em loop |
 | Dashboard em branco | Confirme `VITE_FLUTTERFLOW_BASE_URL` no `.env.local` |
-| CORS / API | `VITE_API_PROXY_TARGET=https://spw.app.foursys.com/backoffice-rf-hom` |
+| CORS / API | `VITE_API_PROXY_TARGET=https://spw.app.foursys.com/backoffice-rf-hom` (HML) |
+| OTP rate limit | Preferir `E2E_REUSE_SESSION` — JWT válido no storageState **não** dispara EnviaToken |
 | Usuário não encontrado | Org **5** (Showcase), e-mail `usuario_qa@foursys.com.br` |
 | Diagnóstico geral | `node DEMO/scripts/demo-env-check.cjs` |
 
@@ -214,6 +215,7 @@ Credenciais oficiais: `DEMO/setup/demo-credenciais.json`
 - **Não** injete bug pela esteira — cole o arquivo de `bug-self-healing/` você mesma.
 - **Não** gere dezenas de cenários BDD — volume enxuto (8–12).
 - **Não** chame OTP por teste — só setup / reuso de `storageState`.
-- Sem SQL fictício / banco fake — massa entra pelo formulário real no backend hom.
+- Sem SQL fictício / banco fake — massa entra pelo formulário real no backend HML (`backoffice-rf-hom`).
+- Auth: storageState + `E2E_REUSE_SESSION` (OTP 0–1×). Doc: `frontend/playwright-automation-template/e2e/docs/OTP_AUTH.md`
 - Framework da demo: **Playwright** (não Cypress).
 - Versões: cada run cria um trio novo `vN` (BDD + data + spec). Nunca sobrescreve.

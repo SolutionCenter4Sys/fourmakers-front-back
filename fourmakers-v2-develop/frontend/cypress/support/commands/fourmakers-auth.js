@@ -20,8 +20,8 @@
 
 const FM = {
   apiBase: 'https://spw.app.foursys.com/backoffice-rf-hom',
-  email:   'usuario_qa@foursys.com.br',
-  orgId:   5,
+  email: 'usuario_qa@foursys.com.br',
+  orgId: 5,
   token:   'OHw1WUI0MEl6Y0I3eDgzV3NGWUswcUNpb0c2aTNsRmhQM3FsWWJDaXJ6bWM5OTVLdEI4Qg==',
 };
 

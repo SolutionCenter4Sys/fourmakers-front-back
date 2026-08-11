@@ -1,0 +1,21 @@
+{
+  "ambiente": "homolog",
+  "backend": "https://spw.app.foursys.com/backoffice-rf-hom",
+  "frontLocal": "http://localhost:8080",
+  "email": "usuario_qa@foursys.com.br",
+  "orgId": 5,
+  "orgNome": "Showcase",
+  "systemTokenRaw": "PREENCHER_LOCAL_NAO_COMMIT",
+  "systemTokenBase64": "PREENCHER_LOCAL_NAO_COMMIT",
+  "systemTokenNota": "Bearer QA = Base64('{orgIdSistema}|{systemTokenRaw}'). Copie valores reais só em DEMO/setup/demo-credenciais.json (gitignored).",
+  "envLocal": {
+    "VITE_API_PROXY_TARGET": "https://spw.app.foursys.com/backoffice-rf-hom",
+    "VITE_API_FOURMAKERS_URL": "",
+    "VITE_FLUTTERFLOW_BASE_URL": "https://wf.dev.fourmakers.io"
+  },
+  "notas": [
+    "Ambiente da demo = HML (backoffice-rf-hom).",
+    "usuario_qa@foursys.com.br existe no orgId 5 (Showcase).",
+    "OTP: no máximo 1 EnviaToken por execução — preferir E2E_REUSE_SESSION / storageState."
+  ]
+}

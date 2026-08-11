@@ -34,7 +34,7 @@ Arquivo: `DEMO/setup/demo-credenciais.json`
 
 | Campo | Valor padrão |
 |-------|----------------|
-| Backend (dev) | `https://spw.app.foursys.com/backoffice-rf-hom` |
+| Backend (HML) | `https://spw.app.foursys.com/backoffice-rf-hom` |
 | E-mail OTP | `usuario_qa@foursys.com.br` |
 | orgId | `5` (Showcase) |
 | Flutterflow | `https://wf.dev.fourmakers.io` |

@@ -132,7 +132,7 @@ async function checkBackendComOtp(checks, homBase, demoEmail, demoOrgId) {
         pushCheck(
           checks,
           'hom-api',
-          'Backend dev (API Acesso)',
+          'Backend HML (API Acesso)',
           'ok',
           `API alcancavel; rate limit OTP ativo para "${demoEmail}" (orgId ${demoOrgId}). Aguarde alguns minutos antes do smoke.`,
         );
@@ -140,7 +140,7 @@ async function checkBackendComOtp(checks, homBase, demoEmail, demoOrgId) {
         pushCheck(
           checks,
           'hom-api',
-          'Backend dev (API Acesso)',
+          'Backend HML (API Acesso)',
           isUserMissing ? 'falha' : 'aviso',
           isUserMissing
             ? `${msg} — usuario demo "${demoEmail}" indisponivel no backend (orgId ${demoOrgId}).`
@@ -151,7 +151,7 @@ async function checkBackendComOtp(checks, homBase, demoEmail, demoOrgId) {
       pushCheck(
         checks,
         'hom-api',
-        'Backend dev (API Acesso)',
+        'Backend HML (API Acesso)',
         'ok',
         `Respondeu; usuario demo "${demoEmail}" encontrado (orgId ${demoOrgId} / ${DEMO_ORG_NOME}).`,
       );
@@ -159,7 +159,7 @@ async function checkBackendComOtp(checks, homBase, demoEmail, demoOrgId) {
       pushCheck(
         checks,
         'hom-api',
-        'Backend dev (API Acesso)',
+        'Backend HML (API Acesso)',
         'aviso',
         body.mensagem || 'API retornou sucesso=false sem mensagem.',
       );
@@ -169,7 +169,7 @@ async function checkBackendComOtp(checks, homBase, demoEmail, demoOrgId) {
       error.name === 'AbortError'
         ? `Timeout apos ${REQUEST_TIMEOUT_MS}ms — verifique VPN/rede para ${homBase}.`
         : error.message;
-    pushCheck(checks, 'hom-api', 'Backend dev (API Acesso)', 'falha', detail);
+    pushCheck(checks, 'hom-api', 'Backend HML (API Acesso)', 'falha', detail);
   }
 }
 
@@ -186,7 +186,7 @@ async function checkBackendSemOtp(checks, homBase) {
     pushCheck(
       checks,
       'hom-api',
-      'Backend dev (alcance)',
+      'Backend HML (alcance)',
       'ok',
       `Backend respondeu HTTP ${response.status} (sem consumir OTP — smoke valida o login).`,
     );
@@ -195,7 +195,7 @@ async function checkBackendSemOtp(checks, homBase) {
       error.name === 'AbortError'
         ? `Timeout apos ${REQUEST_TIMEOUT_MS}ms — verifique VPN/rede para ${homBase}.`
         : error.message;
-    pushCheck(checks, 'hom-api', 'Backend dev (alcance)', 'falha', detail);
+    pushCheck(checks, 'hom-api', 'Backend HML (alcance)', 'falha', detail);
   }
 }
 

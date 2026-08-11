@@ -128,6 +128,7 @@
     "nota": "Bug injetado manualmente pelo apresentador — a demo NAO injeta bug no codigo. Gate GO/NOGO obrigatorio antes do Dev."
   },
   "ambiente": {
+    "nome": "homolog",
     "backend": "https://spw.app.foursys.com/backoffice-rf-hom",
     "frontLocal": "http://localhost:8080",
     "usuarioDemo": "usuario_qa@foursys.com.br",

@@ -1,5 +1,7 @@
 /**
  * Helpers de reuso de sessão E2E — evita EnviaTokenAcessoEmail quando JWT/storageState ainda vale.
+ *
+ * Regra: OTP só quando sessão inválida/expirada (ou force). Idade do arquivo NÃO invalida JWT válido.
  */
 import * as fs from 'node:fs'
 import * as path from 'node:path'
@@ -30,6 +32,7 @@ export function isForceAuthRefresh(): boolean {
   })
 }
 
+/** Idade máxima do arquivo — só informativa quando JWT ainda é válido. */
 export function reuseMaxAgeMs(): number {
   const minutes = Number(process.env.E2E_REUSE_SESSION_MAX_AGE_MIN || 30)
   if (!Number.isFinite(minutes) || minutes <= 0) return 30 * 60_000
@@ -86,6 +89,7 @@ export type SessionReuseDecision = {
 
 /**
  * Decide se o setup pode pular OTP e reusar o storageState em disco.
+ * Prioridade: JWT válido → reusa. Não dispara EnviaToken só porque o arquivo é “velho”.
  */
 export function decideSessionReuse(authFile = DEFAULT_AUTH_STATE): SessionReuseDecision {
   if (isForceAuthRefresh()) {
@@ -99,15 +103,6 @@ export function decideSessionReuse(authFile = DEFAULT_AUTH_STATE): SessionReuseD
   }
 
   const ageMs = Date.now() - fs.statSync(authFile).mtimeMs
-  const maxAge = reuseMaxAgeMs()
-  if (ageMs > maxAge) {
-    return {
-      reuse: false,
-      reason: `storageState velho (${Math.round(ageMs / 60_000)} min > max ${Math.round(maxAge / 60_000)} min)`,
-      ageMs,
-    }
-  }
-
   const token = extractAuthTokenFromStorageState(authFile)
   if (!token) {
     return { reuse: false, reason: 'storageState sem authToken', ageMs }
@@ -124,9 +119,15 @@ export function decideSessionReuse(authFile = DEFAULT_AUTH_STATE): SessionReuseD
   }
 
   const payload = decodeJwtPayload(token)
+  const maxAge = reuseMaxAgeMs()
+  const ageNote =
+    ageMs > maxAge
+      ? ` (arquivo ${Math.round(ageMs / 60_000)} min > max ${Math.round(maxAge / 60_000)} — JWT ainda válido, OTP não disparado)`
+      : ''
+
   return {
     reuse: true,
-    reason: 'storageState válido (JWT + idade OK)',
+    reason: `storageState válido (JWT OK)${ageNote}`,
     token,
     exp: payload?.exp,
     ageMs,

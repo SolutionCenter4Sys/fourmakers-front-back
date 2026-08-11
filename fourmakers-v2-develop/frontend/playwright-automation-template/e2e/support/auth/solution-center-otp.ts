@@ -1,8 +1,8 @@
 /**
-* OTP Auth Service — Solution Center (FourSys)
+* OTP Auth Service — Solution Center (FourSys) — ambiente HML (`backoffice-rf-hom`)
 *
-* Preferir variáveis de ambiente (OTP_*). Fallbacks só para demo local alinhada a
-* DEMO/setup/demo-credenciais.json — em CI use secrets (OTP_SYSTEM_TOKEN).
+* Preferir variáveis de ambiente (OTP_*). `OTP_SYSTEM_TOKEN` só via `.env` / CI secrets
+* ou `DEMO/setup/demo-credenciais.json` (gitignored) — nunca hardcode no source.
 *
 * ─── Fluxo ───────────────────────────────────────────────────────────────────
 *  1. POST /api/Acesso/EnviaTokenAcessoEmail   → dispara OTP (só quando necessário)
@@ -15,23 +15,47 @@
 *  - Preferir storageState / cache JWT (E2E_REUSE_SESSION) em vez de OTP a cada run.
 */
 import type { APIRequestContext, Page } from '@playwright/test';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 
-/** Fallbacks alinhados a DEMO/setup/demo-credenciais.json (pré-setup sincroniza). */
+/** Fallbacks públicos (sem segredo) — HML Showcase. */
 const FALLBACK = {
-  appUrl:      'https://spw.app.foursys.com/backoffice-rf-hom',
-  email:       'usuario_qa@foursys.com.br',
-  orgId:       5,
-  systemToken: 'OHw1WUI0MEl6Y0I3eDgzV3NGWUswcUNpb0c2aTNsRmhQM3FsWWJDaXJ6bWM5OTVLdEI4Qg==',
+  appUrl: 'https://spw.app.foursys.com/backoffice-rf-hom',
+  email: 'usuario_qa@foursys.com.br',
+  orgId: 5,
   pollTimeoutMs: 8_000,
   pollIntervalMs: 500,
 } as const;
 
+/** Lê systemToken só de arquivo gitignored — nunca do source. */
+function loadSystemTokenFromCredenciais(): string {
+  const candidates = [
+    path.resolve(__dirname, '../../../../../DEMO/setup/demo-credenciais.json'),
+    path.resolve(process.cwd(), '../../DEMO/setup/demo-credenciais.json'),
+    path.resolve(process.cwd(), 'DEMO/setup/demo-credenciais.json'),
+  ];
+  for (const credPath of candidates) {
+    try {
+      if (!fs.existsSync(credPath)) continue;
+      const cred = JSON.parse(fs.readFileSync(credPath, 'utf8')) as {
+        systemTokenBase64?: string;
+      };
+      if (cred.systemTokenBase64) return String(cred.systemTokenBase64);
+    } catch {
+      /* ignore */
+    }
+  }
+  return '';
+}
+
 function loadConfig() {
+  const systemToken =
+    (process.env.OTP_SYSTEM_TOKEN || '').trim() || loadSystemTokenFromCredenciais();
   return {
     appUrl: (process.env.OTP_API_BASE_URL || FALLBACK.appUrl).replace(/\/$/, ''),
     email: process.env.OTP_EMAIL || FALLBACK.email,
     orgId: Number(process.env.OTP_ORG_ID || FALLBACK.orgId),
-    systemToken: process.env.OTP_SYSTEM_TOKEN || FALLBACK.systemToken,
+    systemToken,
     pollTimeoutMs: Number(process.env.OTP_POLL_TIMEOUT_MS || FALLBACK.pollTimeoutMs),
     pollIntervalMs: Number(process.env.OTP_POLL_INTERVAL_MS || FALLBACK.pollIntervalMs),
   };
@@ -130,6 +154,12 @@ export class SolutionCenterAuth {
   }
 
   async obterCodigoAcessoQa(): Promise<string> {
+    if (!this.cfg.systemToken) {
+      throw new Error(
+        `[ObtemCodigoAcessoEmailQA] OTP_SYSTEM_TOKEN ausente.\n` +
+          `Defina no .env / CI secret, ou rode npm run demo:preparar (grava DEMO/setup/demo-credenciais.json).`,
+      );
+    }
     const url =
       `${this.cfg.appUrl}/api/Acesso/ObtemCodigoAcessoEmailQA` +
       `?email=${encodeURIComponent(this.cfg.email)}&orgId=${this.cfg.orgId}`;

@@ -10,7 +10,7 @@ alwaysApply: false
 Esta regra guia a geração de código de automação Playwright a partir do JSON da UI, com logs visualmente ricos no terminal — ideal para demonstração ao cliente.
 
 - **Framework:** Playwright + TypeScript (migração do Cypress concluída)
-- **Backend real:** `https://spw.app.foursys.com/backoffice-rf-hom` (dev)
+- **Backend real:** `https://spw.app.foursys.com/backoffice-rf-hom` (HML / homolog)
 - **Front local via Vite:** `http://localhost:8080` com proxy `VITE_API_PROXY_TARGET` apontando pro backend acima
 - **Login:** OTP real **uma vez por execução** via project `setup` (`tests/_setup/demo-auth.setup.ts`) que grava `storageState`. As specs herdam a sessão — **sem login por teste** (evita rate limit e acelera a demo)
 - **Volume enxuto:** spec com **3-4 testes** (obrigatório R-04). Cenários extras do BDD ficam como `test.skip` documentado

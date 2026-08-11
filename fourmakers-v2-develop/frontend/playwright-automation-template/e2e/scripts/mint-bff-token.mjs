@@ -17,9 +17,42 @@ const path = require('node:path');
 const root = path.resolve(__dirname, '../..');
 const cacheFile = path.join(root, 'e2e', '.bff-token-cache.json');
 
+/** Carrega .env local sem dotenv. */
+function loadEnvFile(filePath) {
+  if (!fs.existsSync(filePath)) return;
+  for (const line of fs.readFileSync(filePath, 'utf8').split(/\r?\n/)) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const eq = trimmed.indexOf('=');
+    if (eq === -1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    const value = trimmed.slice(eq + 1).trim();
+    if (key && process.env[key] === undefined) process.env[key] = value;
+  }
+}
+loadEnvFile(path.join(root, '.env'));
+
 const force =
   process.argv.includes('--force') ||
   ['1', 'true', 'yes'].includes(String(process.env.BFF_FORCE_REFRESH || '').toLowerCase());
+
+function loadSystemTokenFromCredenciais() {
+  const candidates = [
+    path.resolve(root, '../../DEMO/setup/demo-credenciais.json'),
+    path.resolve(root, '../../../DEMO/setup/demo-credenciais.json'),
+    path.resolve(process.cwd(), 'DEMO/setup/demo-credenciais.json'),
+  ];
+  for (const credPath of candidates) {
+    try {
+      if (!fs.existsSync(credPath)) continue;
+      const cred = JSON.parse(fs.readFileSync(credPath, 'utf8'));
+      if (cred.systemTokenBase64) return String(cred.systemTokenBase64);
+    } catch {
+      /* ignore */
+    }
+  }
+  return '';
+}
 
 const cfg = {
   baseUrl: (process.env.OTP_API_BASE_URL || 'https://spw.app.foursys.com/backoffice-rf-hom').replace(
@@ -28,9 +61,7 @@ const cfg = {
   ),
   email: process.env.OTP_EMAIL || 'usuario_qa@foursys.com.br',
   orgId: Number(process.env.OTP_ORG_ID || 5),
-  systemToken:
-    process.env.OTP_SYSTEM_TOKEN ||
-    'OHw1WUI0MEl6Y0I3eDgzV3NGWUswcUNpb0c2aTNsRmhQM3FsWWJDaXJ6bWM5OTVLdEI4Qg==',
+  systemToken: (process.env.OTP_SYSTEM_TOKEN || '').trim() || loadSystemTokenFromCredenciais(),
   pollTimeoutMs: 8_000,
   pollIntervalMs: 500,
 };
@@ -151,6 +182,12 @@ async function main() {
     }
   } else {
     console.log('[mint] --force / BFF_FORCE_REFRESH: gerando OTP novo...');
+  }
+
+  if (!cfg.systemToken) {
+    throw new Error(
+      'OTP_SYSTEM_TOKEN ausente. Defina no .env / CI ou rode npm run demo:preparar.',
+    );
   }
 
   const token = await mint();

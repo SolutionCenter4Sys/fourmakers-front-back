@@ -26,23 +26,25 @@ Artefatos de referência para a automação autenticar via OTP de 3 passos (com 
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-## Credenciais usadas pela demo (dev)
+## Credenciais usadas pela demo (HML / homolog)
 
 | Campo | Valor |
 |---|---|
+| **Ambiente** | `homolog` (HML) |
 | **Usuário** | `usuario_qa@foursys.com.br` |
 | **orgId** | `5` (Showcase) |
-| **Backend (dev)** | `https://spw.app.foursys.com/backoffice-rf-hom` |
+| **Backend (HML)** | `https://spw.app.foursys.com/backoffice-rf-hom` |
 | **Front (local via Vite)** | `http://localhost:8080` |
 | **Fonte única** | `DEMO/setup/demo-credenciais.json` (sincronizada por `npm run demo:preparar`) |
-| **Segredo RAW** | ver `demo-credenciais.json` → `systemTokenRaw` |
+| **Template** | `DEMO/setup/demo-credenciais.example.json` |
+| **Segredo RAW** | ver `demo-credenciais.json` → `systemTokenRaw` (gitignored) |
 | **Token Base64** (ObtemCodigo QA) | ver `demo-credenciais.json` → `systemTokenBase64` |
 
-> **Atenção:** `usuario_qa` existe no **orgId 5** (Showcase), não no orgId 8 (Trial). Credenciais restritas a automação/QA no ambiente dev.
+> **Atenção:** `usuario_qa` existe no **orgId 5** (Showcase), não no orgId 8 (Trial). Credenciais restritas a automação/QA no ambiente HML. Preferir `E2E_REUSE_SESSION` para não bater rate limit.
 
 ## Por que o front roda local via Vite
 
-O deploy `spw.app.foursys.com/backoffice-rf-hom` serve apenas **API** — não hospeda o front-end. Por isso a demo sobe o front do próprio repo via `npm run dev` (Vite), configurado para **proxiar** as chamadas `/api/*` direto pro backend dev. Isso:
+O deploy `spw.app.foursys.com/backoffice-rf-hom` serve apenas **API** — não hospeda o front-end. Por isso a demo sobe o front do próprio repo via `npm run dev` (Vite), configurado para **proxiar** as chamadas `/api/*` direto pro backend HML. Isso:
 
 - Resolve CORS (tudo vira same-origin do ponto de vista do browser).
 - Permite que qualquer mudança no front-end seja testada antes de chegar em produção.

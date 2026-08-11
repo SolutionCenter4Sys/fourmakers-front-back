@@ -1,6 +1,6 @@
 /**
- * Fonte única de credenciais da Demo Reembolso.
- * Arquivo: DEMO/setup/demo-credenciais.json
+ * Fonte única de credenciais da Demo Reembolso (HML).
+ * Arquivo: DEMO/setup/demo-credenciais.json (gitignored — tem OTP_SYSTEM_TOKEN)
  */
 const fs = require('node:fs');
 const path = require('node:path');
@@ -8,6 +8,7 @@ const path = require('node:path');
 const demoRoot = path.resolve(__dirname, '..');
 const repoRoot = path.resolve(demoRoot, '..');
 const frontendRoot = path.join(repoRoot, 'frontend');
+const playwrightRoot = path.join(frontendRoot, 'playwright-automation-template');
 const credenciaisPath = path.join(demoRoot, 'setup', 'demo-credenciais.json');
 
 function loadCredenciais() {
@@ -23,53 +24,57 @@ function replaceLiteral(content, pattern, replacement) {
 }
 
 /**
- * Sincroniza e-mail/orgId/backend/token nos arquivos de auth da demo.
- * Pré-setup chama isto para garantir que Playwright/Cypress/smoke batem com demo-credenciais.json.
+ * Grava OTP_* no .env do Playwright (gitignored) — nunca no source TypeScript.
+ */
+function ensurePlaywrightEnv(cred = loadCredenciais()) {
+  const envPath = path.join(playwrightRoot, '.env');
+  const backend = String(cred.backend).replace(/\/$/, '');
+  const lines = [
+    '# Gerado por npm run demo:preparar — NÃO commit',
+    `# Ambiente: ${cred.ambiente || 'homolog'} (HML) | ${cred.email} | org ${cred.orgId}`,
+    `PLAYWRIGHT_BASE_URL=http://localhost:8080`,
+    `PLAYWRIGHT_SLOWMO=150`,
+    `E2E_REUSE_SESSION=true`,
+    `E2E_REUSE_SESSION_MAX_AGE_MIN=30`,
+    `OTP_API_BASE_URL=${backend}`,
+    `OTP_EMAIL=${cred.email}`,
+    `OTP_ORG_ID=${cred.orgId}`,
+    `OTP_SYSTEM_TOKEN=${cred.systemTokenBase64 || ''}`,
+  ];
+  fs.writeFileSync(envPath, `${lines.join('\n')}\n`, 'utf8');
+  return path.relative(repoRoot, envPath).replace(/\\/g, '/');
+}
+
+/**
+ * Sincroniza e-mail/orgId/backend nos arquivos de auth da demo.
+ * OTP_SYSTEM_TOKEN → só .env (gitignored) + demo-credenciais.json.
  */
 function syncAuthFiles(cred = loadCredenciais()) {
   const email = cred.email;
   const orgId = Number(cred.orgId);
   const backend = String(cred.backend).replace(/\/$/, '');
-  const systemToken = cred.systemTokenBase64;
   const updated = [];
 
   const targets = [
     {
-      file: path.join(
-        frontendRoot,
-        'playwright-automation-template',
-        'e2e',
-        'support',
-        'auth',
-        'solution-center-otp.ts',
-      ),
+      file: path.join(playwrightRoot, 'e2e', 'support', 'auth', 'solution-center-otp.ts'),
       patches: [
         {
           pattern: /appUrl:\s*'[^']*'/,
-          replacement: `appUrl:      '${backend}'`,
+          replacement: `appUrl: '${backend}'`,
         },
         {
           pattern: /email:\s*'[^']*'/,
-          replacement: `email:       '${email}'`,
+          replacement: `email: '${email}'`,
         },
         {
           pattern: /orgId:\s*\d+/,
-          replacement: `orgId:       ${orgId}`,
-        },
-        {
-          pattern: /systemToken:\s*'[^']*'/,
-          replacement: `systemToken: '${systemToken}'`,
+          replacement: `orgId: ${orgId}`,
         },
       ],
     },
     {
-      file: path.join(
-        frontendRoot,
-        'playwright-automation-template',
-        'support',
-        'auth',
-        'fourmakers-auth.ts',
-      ),
+      file: path.join(playwrightRoot, 'support', 'auth', 'fourmakers-auth.ts'),
       patches: [
         {
           pattern: /apiBase:\s*'[^']*'/,
@@ -86,13 +91,7 @@ function syncAuthFiles(cred = loadCredenciais()) {
       ],
     },
     {
-      file: path.join(
-        frontendRoot,
-        'playwright-automation-template',
-        'e2e',
-        'debug',
-        'solution-center-smoke.spec.ts',
-      ),
+      file: path.join(playwrightRoot, 'e2e', 'debug', 'solution-center-smoke.spec.ts'),
       patches: [
         {
           pattern: /expect\(resultado\.usuario\?\.email\)\.toBe\('[^']*'\)/,
@@ -117,13 +116,7 @@ function syncAuthFiles(cred = loadCredenciais()) {
       ],
     },
     {
-      file: path.join(
-        frontendRoot,
-        'cypress',
-        'support',
-        'commands',
-        'fourmakers-auth.js',
-      ),
+      file: path.join(frontendRoot, 'cypress', 'support', 'commands', 'fourmakers-auth.js'),
       patches: [
         {
           pattern: /apiBase:\s*'[^']*'/,
@@ -131,28 +124,11 @@ function syncAuthFiles(cred = loadCredenciais()) {
         },
         {
           pattern: /email:\s*'[^']*'/,
-          replacement: `email:   '${email}'`,
+          replacement: `email: '${email}'`,
         },
         {
           pattern: /orgId:\s*\d+/,
-          replacement: `orgId:   ${orgId}`,
-        },
-        {
-          pattern: /token:\s*'[^']*'/,
-          replacement: `token:   '${systemToken}'`,
-        },
-      ],
-    },
-    {
-      file: path.join(
-        frontendRoot,
-        'playwright-automation-template',
-        'playwright.solution-center.config.ts',
-      ),
-      patches: [
-        {
-          pattern: /baseURL:\s*'[^']*'/,
-          replacement: `baseURL:           '${backend}'`,
+          replacement: `orgId: ${orgId}`,
         },
       ],
     },
@@ -173,12 +149,14 @@ function syncAuthFiles(cred = loadCredenciais()) {
     }
   }
 
-  // Manifesto
+  updated.push(ensurePlaywrightEnv(cred));
+
   const manifestPath = path.join(demoRoot, 'modulos', 'reembolso.manifest.json');
   if (fs.existsSync(manifestPath)) {
     const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
     manifest.ambiente = {
       ...(manifest.ambiente || {}),
+      nome: cred.ambiente || 'homolog',
       backend,
       frontLocal: cred.frontLocal,
       usuarioDemo: email,
@@ -212,13 +190,11 @@ function ensureEnvLocal(cred = loadCredenciais()) {
   }
 
   const merged = { ...desired, ...existing };
-  // Força proxy/target da demo se estiver vazio ou ausente
   for (const [key, value] of Object.entries(desired)) {
     if (!(key in existing) || String(existing[key] || '').trim() === '') {
       merged[key] = value;
     }
   }
-  // Proxy da demo sempre alinhado ao backend oficial
   merged.VITE_API_PROXY_TARGET = desired.VITE_API_PROXY_TARGET || cred.backend;
   if (!('VITE_API_FOURMAKERS_URL' in existing)) {
     merged.VITE_API_FOURMAKERS_URL = desired.VITE_API_FOURMAKERS_URL ?? '';
@@ -226,13 +202,12 @@ function ensureEnvLocal(cred = loadCredenciais()) {
 
   const lines = [
     '# Gerado/atualizado por npm run demo:preparar (DEMO/setup/demo-credenciais.json)',
-    `# Ambiente: ${cred.ambiente} | usuario: ${cred.email} | orgId: ${cred.orgId} (${cred.orgNome})`,
+    `# Ambiente: ${cred.ambiente || 'homolog'} (HML) | usuario: ${cred.email} | orgId: ${cred.orgId} (${cred.orgNome})`,
     `VITE_API_PROXY_TARGET=${merged.VITE_API_PROXY_TARGET}`,
     `VITE_API_FOURMAKERS_URL=${merged.VITE_API_FOURMAKERS_URL ?? ''}`,
     `VITE_FLUTTERFLOW_BASE_URL=${merged.VITE_FLUTTERFLOW_BASE_URL ?? ''}`,
   ];
 
-  // Preserva outras chaves (Firebase etc.)
   for (const [key, value] of Object.entries(merged)) {
     if (key.startsWith('VITE_API_') || key === 'VITE_FLUTTERFLOW_BASE_URL') continue;
     lines.push(`${key}=${value}`);
@@ -253,6 +228,7 @@ module.exports = {
   loadCredenciais,
   syncAuthFiles,
   ensureEnvLocal,
+  ensurePlaywrightEnv,
   demoRoot,
   repoRoot,
   frontendRoot,
