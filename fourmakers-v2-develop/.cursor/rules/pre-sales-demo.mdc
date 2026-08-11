@@ -1,42 +1,84 @@
 ---
 description: >
-  Guardrail PRÉ-VENDAS — Demo E2E de QA para a tela de Reembolso.
-  Acionar EXCLUSIVAMENTE quando o usuário digitar "demo reembolso" (case-insensitive).
-  Executa em sequência: GherkinFlow → DataForge → Playwright (contra backend real).
+  Guardrail PRÉ-VENDAS — Demo de QA / Esteira E2E.
+  Acionar quando o usuário digitar: demo, demo reembolso, esteira e2e, esteira de testes, demo e2e,
+  demo preparar reembolso, demo gherkinflow, demo dataforge ou demo playwright.
+  Módulo padrão: reembolso (DEMO/modulos/reembolso.manifest.json).
 alwaysApply: false
 ---
 
-# Demo Pré-Vendas — Reembolso E2E
+# Demo Pré-Vendas — Esteira E2E
 
-**Ao ser acionada, leia e siga integralmente** o skill `demo-qa-orchestrator/SKILL.md` (se disponível) e os rules `pre-sales-demo-01-gherkin.mdc` → `pre-sales-demo-02-dataforge.mdc` → `pre-sales-demo-03-automacao-logs.mdc`.
+## Comandos (fases e agentes isolados)
 
-As 3 etapas da demo (GherkinFlow → DataForge → Playwright) rodam em sequência, com regras de geração, formatos de output e logs obrigatórios definidas nos rules específicos.
+| Fase / Modo | Comando | Quando |
+|-------------|---------|--------|
+| **Pré-setup** | `demo preparar reembolso` | Antes do cliente — deps, verificações |
+| **Esteira E2E** | `demo` · `demo reembolso` · `esteira e2e` · `esteira de testes` | Jornada completa — GherkinFlow → DataForge → Playwright |
+| **Só GherkinFlow** | `demo gherkinflow` | Agente BDD (Etapa 1) |
+| **Só DataForge** | `demo dataforge` | Massa de dados (Etapa 2) |
+| **Só Playwright** | `demo playwright` | Automação + navegador (Etapa 3) |
+
+**Módulo padrão:** Reembolso (+ telas relacionadas). Outro módulo só se o usuário pedir explicitamente.
+
+**Manifesto:** `DEMO/modulos/reembolso.manifest.json` — caminhos do código-fonte pré-selecionados.
+
+**Status:** `npm run demo:status` · **Módulo:** `npm run demo:modulo`
+
+### Roteamento por agente isolado
+
+| Comando | Rule | Skill canônica |
+|---------|------|----------------|
+| `demo gherkinflow` | `pre-sales-demo-agente-gherkinflow.mdc` | `DEMO/agentes/gherkinflow/gherkinflow.md` |
+| `demo dataforge` | `pre-sales-demo-agente-dataforge.mdc` | `DEMO/agentes/dataforge/dataforge.md` |
+| `demo playwright` | `pre-sales-demo-agente-playwright.mdc` | `DEMO/agentes/playwright/playwright.md` |
+
+Elenco da pasta `DEMO/agentes/`: **só** QA principais + Dev (+ orquestrador/self-healing). Sem meta-agente showcase.
+
+**Pré-setup:** seguir `pre-sales-demo-pre-setup.mdc` → `npm run demo:preparar`
+
+**E2E (`demo reembolso`):** seguir `pre-sales-demo-00-orquestrador.mdc` + skill `DEMO/agentes/orquestrador/orquestrador.md` + etapas 1–3.
+
+**Agente isolado:** seguir o rule `pre-sales-demo-agente-*.mdc` + skill do agente — **um agente por comando**, sem encadear os outros.
+
+As 3 etapas do E2E (GherkinFlow → DataForge → Playwright) rodam em sequência apenas em `demo reembolso`.
+
+### Experiência visível no chat
+
+Na esteira completa, executar estritamente um agente por vez:
+
+`banner → fala/fontes → trabalho da etapa → relatório próprio → handoff`
+
+Relatório de GherkinFlow deve aparecer antes da ativação do DataForge. Relatório de DataForge deve aparecer antes da ativação do Playwright. Nunca gerar artefatos de agentes diferentes em paralelo nem concentrar todos os relatórios somente na resposta final.
 
 ## Guardrails gerais da demo
 
 ### Estrutura de pastas
 
 ```
-frontend/DEMO/
-  cenarios-bdd/          ← Etapa 1 (REEMBOLSO-BDD-vN.md)
-  automacao/reembolso/versionadas/ ← Etapa 2 (reembolso.data.vN.js)
-  ui-elements/           ← input  (reembolso-ui.json)
-  integracao-acesso-qa/  ← docs OTP + Postman collection
+DEMO/
+  modulos/               ← manifestos (caminhos pré-selecionados)
+  outputs/
+    gherkinflow/reembolso/ ← Etapa 1 (REEMBOLSO-BDD-vN.md)
+    dataforge/reembolso/   ← Etapa 2 (reembolso.data.vN.js)
+    playwright/reembolso/  ← Etapa 3 (specs, relatórios, screenshots, test-results)
+  inputs/ui-elements/    ← input (reembolso-ui.json)
+  scripts/               ← demo-modulo, demo-preparar, demo-status
+  agentes/               ← docs dos agentes
 
 frontend/playwright-automation-template/
   support/auth/          ← helper OTP (fourmakers-auth.ts)
   support/pages/         ← Page Objects (ReembolsoPage.ts)
-  tests/reembolso/versionadas/ ← Etapa 3 (reembolso-demo-vN.spec.ts)
   fixtures/              ← dados JSON
-  evidencias/            ← screenshots + relatórios
+  evidencias/.auth/      ← cache interno de autenticação (não é output)
 ```
 
 ### Versionamento
 
 - A demo SEMPRE gera 3 artefatos versionados no mesmo número `vN`:
-  - `frontend/DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md`
-  - `frontend/DEMO/automacao/reembolso/versionadas/reembolso.data.vN.js`
-  - `frontend/playwright-automation-template/tests/reembolso/versionadas/reembolso-demo-vN.spec.ts`
+  - `DEMO/outputs/gherkinflow/reembolso/REEMBOLSO-BDD-vN.md`
+  - `DEMO/outputs/dataforge/reembolso/reembolso.data.vN.js`
+  - `DEMO/outputs/playwright/reembolso/specs/reembolso-demo-vN.spec.ts`
 - **Nunca sobrescrever** arquivos existentes.
 - Política de retenção: manter no máximo 10 versões por artefato.
 - Se já existir `v10` (ou superior), apagar versões antigas das 3 pastas versionadas e reiniciar em `v1`.
@@ -45,14 +87,19 @@ frontend/playwright-automation-template/
 
 - **Backend (dev):** `https://spw.app.foursys.com/backoffice-rf-hom` — tem os módulos da plataforma Colaboração (Reembolso, Usuario, etc.)
 - **Front (local via Vite):** `http://localhost:8080` configurado com proxy pra API dev, para evitar CORS
-- **Usuário padrão:** `gustavo.queiroz@foursys.com.br` (orgId `8`)
-- **Login:** OTP via `loginFourMakers(page, request)` — 3 etapas (EnviaToken → ObtemCodigo → ValidaToken) — credenciais em `frontend/playwright-automation-template/support/auth/fourmakers-auth.ts`
+- **Usuário padrão:** `usuario_qa@foursys.com.br` (orgId `5` / Showcase) — fonte: `DEMO/setup/demo-credenciais.json`
+- **Login:** project `setup` + `storageState` (`E2E_REUSE_SESSION=true` por default). OTP só quando sessão inválida — **não** `loginFourMakers` por teste. Doc: `frontend/playwright-automation-template/e2e/docs/OTP_AUTH.md`
+- **Volume:** demo única enxuta — 8–12 BDD · 3–4 testes (R-01, R-04, I-08, I-13)
 - **NÃO há banco fictício** — dados entram no sistema pelo formulário real
 
 ### Pré-requisito para rodar
 
-- `.env.local` em `frontend/.env.local` com `VITE_API_PROXY_TARGET=https://spw.app.foursys.com/backoffice-rf-hom`
-- Executar da raiz: `npm run demo` — sobe Vite, roda Playwright, desliga Vite
+- **Pré-setup (obrigatório antes da demo ao cliente):** `npm run demo:preparar` ou no chat: `demo preparar reembolso`
+  - Sync credenciais OTP, `.env.local` (proxy + Flutterflow), deps, Chromium, smoke OTP (1 EnviaToken)
+- `.env.local` em `frontend/.env.local` com proxy + Flutterflow (criado/completado pelo pré-setup)
+- Estado salvo em `DEMO/setup/.demo-preparada.json` após pré-setup
+- Bug intencional em `Reembolso.tsx` (`ROTA_NOVA_SOLICITACAO_REEMBOLSO`) — injetado **manualmente** pelo apresentador; corrigido no cenário R-04 via self-healing
+- Executar demo ao vivo: `demo reembolso` (Vite deve estar UP; não rodar npm install na frente do cliente)
 
 ### Proibido durante toda a demo
 

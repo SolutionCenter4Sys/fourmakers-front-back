@@ -1,27 +1,29 @@
 ---
-description: "Guardrail PRÉ-VENDAS — Etapa 2: Geração de dados de teste com DataForge Agent lendo o BDD e o código-fonte das APIs reais. Acionar quando o usuário mencionar: dados de teste, DataForge, gerar massa, constantes de dados."
+description: "Guardrail PRÉ-VENDAS — Etapa 2: DataForge (massa). Acionar em: demo dataforge, demo reembolso, dados de teste, DataForge, gerar massa."
 alwaysApply: false
 ---
 
 # Demo Pré-Vendas — Etapa 2: Dados de Teste com DataForge
 
 ## Contexto
-Esta regra guia a geração de dados de teste realistas em JavaScript para os cenários BDD da tela de Reembolso. Os dados são usados pelo Playwright para preencher o formulário real na UI.
+Esta regra guia a geração de **massa mock** em JavaScript para os cenários BDD da tela de Reembolso, **dentro do E2E** (`demo reembolso`). Os dados são constantes usadas pelo Playwright para preencher o formulário real na UI — **sem banco fictício e sem SQL**.
+
+Para showcase isolada com banco fictício, usar `pre-sales-demo-agente-dataforge.mdc` (`demo dataforge`).
 
 ## Pré-requisito OBRIGATÓRIO — verificar antes de qualquer geração
 
-O arquivo BDD **deve existir** em `frontend/DEMO/cenarios-bdd/` antes de gerar os dados.
+O arquivo BDD **deve existir** em `DEMO/outputs/gherkinflow/reembolso/` antes de gerar os dados.
 
 ```
 SE o arquivo não existir:
   → PARAR imediatamente
-  → Reportar no chat: "❌ Arquivo BDD não encontrado em frontend/DEMO/cenarios-bdd/. Execute a Etapa 1 primeiro."
+  → Reportar no chat: "❌ Arquivo BDD não encontrado em DEMO/outputs/gherkinflow/reembolso/. Execute a Etapa 1 primeiro."
   → NÃO inferir cenários, NÃO gerar dados sem o BDD
 ```
 
 ## Protocolo de Ativação (OBRIGATÓRIO)
 
-1. **Confirmar que o BDD existe:** localizar o arquivo `.md` mais recente em `frontend/DEMO/cenarios-bdd/`
+1. **Confirmar que o BDD existe:** localizar o arquivo `.md` mais recente em `DEMO/outputs/gherkinflow/reembolso/`
 2. **Carregar os inputs:**
    - `[FONTE GHERKIN]` → BDD mais recente — **driver principal**
    - `[FORMULÁRIO]` → `frontend/src/presentation/pages/InserirReembolso.tsx` — campos do formulário
@@ -32,13 +34,13 @@ SE o arquivo não existir:
    - `Então (Then)` → resultado esperado após submissão
    - Para `[Negativo]`: dados que ativem as validações do formulário
 4. **Gerar diretamente** — sem confirmações intermediárias
-5. **Salvar** em `frontend/DEMO/automacao/reembolso/versionadas/reembolso.data.vN.js` (mesmo `vN` do BDD)
+5. **Salvar** em `DEMO/outputs/dataforge/reembolso/reembolso.data.vN.js` (mesmo `vN` do BDD)
 
 ## Política de versionamento (OBRIGATÓRIA)
 
 - Nunca sobrescrever `reembolso.data.vN.js` já existente
 - A versão deve ser alinhada com o BDD da execução (`REEMBOLSO-BDD-vN.md`)
-- Manter no máximo 10 versões em `frontend/DEMO/automacao/reembolso/versionadas/`
+- Manter no máximo 10 versões em `DEMO/outputs/dataforge/reembolso/`
 - Se já existir `v10` (ou superior), apagar versões antigas e reiniciar em `v1`
 
 ## Formato do arquivo — constantes JavaScript
@@ -79,14 +81,13 @@ export const dadosR01 = {
 ║  Formato: JavaScript (constantes de dados)       ║
 ║  Cenários cobertos: XX                           ║
 ║  IDs atendidos: R-01, R-02... I-15              ║
-║  📁 frontend/DEMO/automacao/reembolso/versionadas/reembolso.data.vN.js ║
+║  📁 DEMO/outputs/dataforge/reembolso/reembolso.data.vN.js ║
 ╚══════════════════════════════════════════════════╝
 ```
 
-## Proibido
+## Proibido (E2E e etapa 2 dentro de `demo reembolso`)
 
-- Gerar SQL para banco fictício
-- Referenciar MODELO-DADOS.sql ou DICIONARIO-DADOS.sql
+- Gerar SQL para banco fictício (reservado à showcase `demo dataforge` — ver `pre-sales-demo-agente-dataforge.mdc`)
 - Inferir cenários quando o BDD não for encontrado
 - Usar dados genéricos ou sequências óbvias
 - Sobrescrever arquivo versionado de execução anterior

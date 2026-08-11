@@ -54,8 +54,37 @@ IMPLEMENTATION/
 PBI-Metricas-Board-Contratacao.md
 code-review*
 .cursor/backup/*
-# Backup temporário de arquivos movidos antes de merge (não versionar)
-.merge-backup/
+# Estado local da demo (gerado pelo pre-setup)
+DEMO/setup/.demo-preparada.json
+DEMO/setup/.demo-falha-pendente.json
+DEMO/setup/self-healing-audit.jsonl
+DEMO/setup/.demo-vite.json
+DEMO/setup/vite-dev.log
+DEMO/setup/demo-credenciais.json
+
+# Artefatos efêmeros da execução Playwright na DEMO
+DEMO/outputs/playwright/**/test-results/
+DEMO/outputs/playwright/**/node_modules/
+DEMO/outputs/playwright/**/relatorios/playwright-html/
+graphify-out/
+
+# Sessão OTP persistida da demo (storageState — login único por execução)
+frontend/playwright-automation-template/evidencias/.auth/
+frontend/playwright-automation-template/e2e/.bff-token-cache.json
+frontend/playwright-automation-template/.env
+
+# Backups de branch/worktree
+*-4sys-alp-no2527*
+
+# Cache e artefatos de build/teste
+.vite/
+*.tsbuildinfo
+playwright-report/
+test-results/
+evidencias/
+frontend/playwright-automation-template/playwright-report/
+frontend/playwright-automation-template/test-results/
+frontend/playwright-automation-template/evidencias/
 
 # Artefatos temporários de fluxos Git automatizados (agregação/relatórios)
 .aggregation_backup

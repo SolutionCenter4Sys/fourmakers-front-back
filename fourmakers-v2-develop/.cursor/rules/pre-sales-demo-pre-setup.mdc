@@ -1,0 +1,164 @@
+---
+description: >
+  Guardrail PRÉ-VENDAS — Pré-setup da Demo Reembolso (executar ANTES da apresentação ao cliente).
+  Acionar EXCLUSIVAMENTE quando o usuário digitar exatamente "demo preparar reembolso" (case-insensitive).
+  Instala dependências, sincroniza credenciais OTP, limpa versões antigas, valida ambiente.
+  NÃO injeta bug — self-healing usa bug manual do apresentador.
+alwaysApply: false
+---
+
+# 🛠️ Demo Pré-Vendas — Pré-Setup (antes do cliente)
+
+> **Comando de ativação:** `demo preparar reembolso`
+> **Quando usar:** horas ou dias antes da demo, quando o time clona o repo via GitHub Desktop e ainda não tem ambiente pronto.
+> **Não usar na frente do cliente** — esta etapa pode demorar (npm install, Playwright browsers, smoke OTP).
+
+## Objetivo
+
+Preparar a máquina para que `demo reembolso` rode rápido na apresentação:
+
+1. **Validar instalação na máquina** (Node >= 18, npm, git, disco, porta 8080, package.json)
+2. **Carregar credenciais** de `DEMO/setup/demo-credenciais.json` e **sincronizar** auth (Playwright/Cypress/smoke/manifesto)
+3. Criar/completar `frontend/.env.local` (proxy backend + `VITE_FLUTTERFLOW_BASE_URL`)
+4. Instalar dependências (**raiz + frontend + Playwright**) + Chromium
+5. **Validar pós-install** (`frontend/node_modules/vite`, `@playwright/test`, executável Chromium)
+6. **Limpar** artefatos versionados antigos (BDD, DataForge, specs, relatórios HTML/JSON)
+7. **Subir o front Vite** (`:8080`) em background — o pré-setup deixa o front no ar
+8. **Verificar ambiente** (backend, Vite, proxy `/api/*`) — `DEMO/scripts/demo-env-check.cjs` (sem consumir OTP)
+9. Rodar smoke OTP e **revalidar automaticamente** enquanto houver rate limit
+10. Salvar estado em `DEMO/setup/.demo-preparada.json` (inclui `selfHealing: true`, credenciais, install e `front`)
+
+## Credenciais oficiais (fonte única)
+
+Arquivo: `DEMO/setup/demo-credenciais.json`
+
+| Campo | Valor padrão |
+|-------|----------------|
+| Backend (dev) | `https://spw.app.foursys.com/backoffice-rf-hom` |
+| E-mail OTP | `usuario_qa@foursys.com.br` |
+| orgId | `5` (Showcase) |
+| Flutterflow | `https://wf.dev.fourmakers.io` |
+
+> `usuario_qa` **não** existe no orgId 8 (Trial). Usar org **5**.
+
+## Ação obrigatória (1 comando)
+
+Executar na raiz do repo `fourmakers-v2-develop`:
+
+```bash
+npm run demo:preparar
+```
+
+Aguardar conclusão. Exibir o banner final do script ao usuário (backend, e-mail, orgId, smoke).
+
+## O que o script faz (não repetir manualmente)
+
+| Etapa | Ação |
+|-------|------|
+| Install-check | `demo-install-check.cjs`: Node, npm, git, OS, disco, porta 8080, package.json |
+| Credenciais | Lê `demo-credenciais.json` e sync em auth/smoke/Cypress/manifesto |
+| Env | Cria/completa `frontend/.env.local` (proxy + Flutterflow) |
+| Install | `npm install` raiz + **frontend** + playwright-automation-template |
+| Browsers | `playwright install chromium` |
+| Pós-install | Confirma `vite`, `@playwright/test` e executável Chromium (bloqueia se falhar) |
+| Clean | Remove `REEMBOLSO-BDD-v*.md`, `reembolso.data.v*.js`, `reembolso-demo-v*.spec.ts`, `demo-reembolso-v*.{html,json}` |
+| Front | Sobe `npm run dev` em background e aguarda `:8080/login` responder |
+| Ambiente | `demo-env-check.cjs`: proxy, backend, Vite :8080, proxy `/api/*` (não consome OTP) |
+| Smoke | `npm run test:solution-center:smoke` com revalidação automática em rate limit (3 tentativas / 90s) |
+
+### Validações de instalação (máquinas da equipe)
+
+Cada membro roda o pré-setup na própria máquina. Falhas de instalação **bloqueiam** o pré-setup:
+
+```bash
+npm run demo:install-check   # só checks (sem instalar)
+npm run demo:preparar        # checks + install + ambiente + smoke
+```
+
+| Check | Bloqueia? | O que detecta |
+|-------|-----------|---------------|
+| Node >= 18 | sim | runtime antigo |
+| npm | sim | npm ausente |
+| package.json (raiz/frontend/playwright) | sim | clone incompleto |
+| Disco livre < 500 MB | sim | sem espaço para deps/browsers |
+| Disco < 1 GB | aviso | espaço apertado |
+| Porta 8080 ocupada (não-Vite) | aviso | conflito com outro processo |
+| git | aviso | opcional |
+| `frontend/node_modules/vite` | sim (pós) | frontend sem install |
+| `@playwright/test` | sim (pós) | automação sem install |
+| Chromium executable | sim (pós) | browser Playwright ausente |
+
+### Front Vite — subida automática
+
+O pré-setup deixa o Vite rodando; **não é preciso um segundo terminal**.
+
+| Ação | Comando |
+|------|---------|
+| Subir/garantir | `npm run demo:front` |
+| Status | `npm run demo:front:status` |
+| Parar | `npm run demo:front:parar` |
+
+Logs em `DEMO/setup/vite-dev.log` · PID em `DEMO/setup/.demo-vite.json`.
+
+### Ajustes por flag / env
+
+| Flag ou env | Efeito |
+|-------------|--------|
+| `--sem-vite` | Não sobe o front (usa terminal próprio) |
+| `--sem-smoke` | Pula a validação OTP |
+| `DEMO_SMOKE_TENTATIVAS` | Tentativas do smoke (default `3`) |
+| `DEMO_SMOKE_ESPERA_MS` | Espera entre tentativas (default `90000`) |
+| `DEMO_VITE_TIMEOUT_MS` | Timeout de subida do Vite (default `120000`) |
+
+### Verificações de ambiente (obrigatórias no pré-setup)
+
+```bash
+node DEMO/scripts/demo-env-check.cjs
+```
+
+| Verificação | O que detecta |
+|-------------|----------------|
+| `.env.local` | Arquivo + `VITE_API_PROXY_TARGET` apontando para backend dev |
+| `VITE_API_FOURMAKERS_URL` | Deve estar vazio em local (proxy relativo) |
+| `VITE_FLUTTERFLOW_BASE_URL` | Ausente → dashboard em branco após login (pré-setup preenche) |
+| Firebase (`VITE_FIREBASE_*`) | Ausentes → analytics limitado |
+| Backend + usuário OTP | Rede/VPN; `usuario_qa` no orgId 5 |
+| Vite `:8080` | Front local não rodando (`npm run dev` antes da demo) |
+| Proxy `/api/*` | Vite não repassando para o backend |
+
+Falhas **não abortam** o pré-setup (igual smoke OTP), mas devem ser corrigidas antes de `demo reembolso`.
+
+## Bug intencional (self-healing — fora da esteira)
+
+- **Quem injeta:** o **apresentador**, manualmente, antes da demo ao vivo
+- **Exemplo:** alterar `ROTA_NOVA_SOLICITACAO_REEMBOLSO` em `Reembolso.tsx` para rota inválida
+- **Cenário típico:** **R-04** falha na navegação
+- **Correção:** Etapa 3b — Playwright detecta + **Dev FourBlox** corrige no chat (`DEMO/agentes/self-healing/self-healing.md`)
+- **Não** usar `demo-reembolso-bug.cjs inject` no pré-setup
+
+## Após o pré-setup
+
+Informar ao usuário:
+
+```
+✅ Ambiente pronto.
+   Credenciais: usuario_qa@foursys.com.br | orgId 5 (Showcase)
+   Front: já no ar em http://localhost:8080 (subido pelo pré-setup)
+   Auth demo: storageState + E2E_REUSE_SESSION (OTP só no smoke / se sessão expirar)
+   Na hora: demo reembolso  (volume enxuto: ~4 testes headed)
+   (Opcional) Injete o bug manualmente para self-healing
+```
+
+## Proibido nesta etapa
+
+- Rodar GherkinFlow, DataForge ou Playwright completo
+- Injetar bug automaticamente (responsabilidade do apresentador)
+- Pausar pedindo confirmação entre passos do script
+- Hardcodar outro e-mail/org sem atualizar `DEMO/setup/demo-credenciais.json`
+
+## Comandos legados (apenas referência manual)
+
+```bash
+node DEMO/scripts/demo-reembolso-bug.cjs clean   # limpar versões (já feito pelo pre-setup)
+node DEMO/scripts/demo-reembolso-bug.cjs status  # verificar marcador DEMO_BUG_ATIVO
+```

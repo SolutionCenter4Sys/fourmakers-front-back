@@ -14,7 +14,7 @@ import {
   dadosI11,
   dadosI12,
   dadosI13,
-} from '../../DEMO/automacao/reembolso/reembolso.data.js';
+} from '../../../DEMO/automacao/reembolso/reembolso.data.js';
 
 describe('Módulo de Reembolso — Testes E2E', () => {
   console.log('🎯 AUTOMAÇÃO INICIADA — Módulo de Reembolso');

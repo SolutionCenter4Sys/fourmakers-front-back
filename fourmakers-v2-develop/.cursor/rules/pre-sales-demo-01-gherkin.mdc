@@ -1,5 +1,5 @@
 ---
-description: "Guardrail PRÉ-VENDAS — Etapa 1: Escrita de cenários BDD com GherkinFlow Agent para a tela de Reembolso. Acionar quando o usuário mencionar: cenários BDD, gherkin, tela de reembolso, escrever testes, GherkinFlow."
+description: "Guardrail PRÉ-VENDAS — Etapa 1: GherkinFlow (BDD). Acionar em: demo gherkinflow, demo reembolso, cenários BDD, gherkin, GherkinFlow."
 alwaysApply: false
 ---
 
@@ -10,16 +10,14 @@ Esta regra guia a geração de cenários BDD para a tela de Reembolso do Fourmak
 
 ## Protocolo de Ativação (OBRIGATÓRIO)
 
-1. **Arquivos-fonte da tela de Reembolso:**
-   - `frontend/src/presentation/pages/Reembolso.tsx`
-   - `frontend/src/presentation/pages/InserirReembolso.tsx`
-2. **Executar internamente** (sem exibir no output): Análise → Mapa de Visibilidade → Geração
-3. **Salvar saída** em `frontend/DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md` — verificar arquivos existentes e usar próximo N. Sem subpastas. Sem datas no nome.
+1. **Carregar manifesto:** `DEMO/modulos/reembolso.manifest.json` — usar `telas[].arquivos` como fontes (não improvisar paths)
+2. **Executar internamente:** Análise → Mapa de Visibilidade → Geração (reportar telas e contagens no chat)
+3. **Salvar saída** em `DEMO/outputs/gherkinflow/reembolso/REEMBOLSO-BDD-vN.md` — uma seção ## H2 por tela do manifesto
 
 ## Política de versionamento (OBRIGATÓRIA)
 
 - Nunca sobrescrever versão anterior
-- Manter no máximo 10 versões em `frontend/DEMO/cenarios-bdd/`
+- Manter no máximo 10 versões em `DEMO/outputs/gherkinflow/reembolso/`
 - Se já existir `v10` (ou superior), apagar versões antigas e reiniciar em `v1`
 - O `vN` escolhido nesta etapa deve ser reutilizado nas Etapas 2 e 3 da mesma execução
 
@@ -66,7 +64,7 @@ Esta regra guia a geração de cenários BDD para a tela de Reembolso do Fourmak
 ```
 ✅ Tela analisada: Reembolso (Dashboard) — X cenários
 ✅ Tela analisada: Inserir Reembolso     — X cenários
-📁 frontend/DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md
+📁 DEMO/outputs/gherkinflow/reembolso/REEMBOLSO-BDD-vN.md
 ```
 
 ## Próxima etapa
@@ -76,5 +74,5 @@ Após concluir, o orquestrador lança o **DataForge** (Etapa 2) que lê os cená
 ## Proibido
 
 - Sobrescrever arquivos de versões anteriores
-- Salvar fora de `frontend/DEMO/cenarios-bdd/`
+- Salvar fora de `DEMO/outputs/gherkinflow/reembolso/`
 - Exibir etapas de análise no chat ("Analisando...", "Mapeando...", "Gerando...")

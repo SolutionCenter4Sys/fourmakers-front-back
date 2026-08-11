@@ -1,0 +1,73 @@
+---
+description: >
+  Guardrail PRÉ-VENDAS — Demo showcase do agente Playwright (somente Etapa 3).
+  Acionar EXCLUSIVAMENTE quando o usuário digitar: demo playwright, demo agente playwright,
+  ou demo playwright reembolso (case-insensitive).
+  Gera spec versionada, executa --headed com logs — sem GherkinFlow nem DataForge.
+alwaysApply: false
+---
+
+# 🎬 Demo Showcase — Playwright (agente isolado)
+
+> **Comando:** `demo playwright` (ou `demo playwright reembolso`)
+> **Objetivo:** Apresentar **só** o agente que gera automação E2E e **executa de verdade** no Chromium visível.
+> **Pré-requisitos:** BDD + DataForge + `reembolso-ui.json` + pré-setup (`demo preparar reembolso`)
+
+## Pré-requisitos — verificar antes de gerar
+
+| Artefato | Path | Se ausente |
+|----------|------|------------|
+| BDD | `DEMO/outputs/gherkinflow/reembolso/REEMBOLSO-BDD-vN.md` (maior vN) | PARAR → `demo gherkinflow` |
+| DataForge (mock JS) | `DEMO/outputs/dataforge/reembolso/reembolso.data.vN.js` (mesmo vN) | PARAR → `demo reembolso` (Etapa 2) ou execução E2E anterior |
+| UI JSON | `DEMO/inputs/ui-elements/reembolso-ui.json` | PARAR → exportar da extensão Chrome |
+
+**Alinhar `vN`:** usar o maior `vN` onde **BDD e data existem** para o mesmo número.
+
+## SETUP Vite (obrigatório antes de executar)
+
+1. Se `http://localhost:8080` não responder: `npm run dev` em background na raiz `fourmakers-v2-develop`.
+2. Aguardar HTTP 200 em `/login`.
+3. **Não derrubar** o Vite após a demo.
+
+## O que esta demo faz (e o que NÃO faz)
+
+| Faz | Não faz |
+|-----|---------|
+| Gera `reembolso-demo-vN.spec.ts` | Regenerar BDD ou DataForge |
+| Executa spec `--headed` (Chromium visível) | Pausar entre passos |
+| R-04 falha natural se bug manual injetado | `npm install` ao vivo |
+| Reporta `X passed | Y failed` + path do HTML | Terminar só com "spec gerada" |
+
+## Protocolo (modo cinema — 1 agente)
+
+0. **Ativar agente:** Read `DEMO/agentes/playwright/playwright.md` → banner 🎬 PLAYWRIGHT ATIVO
+1. **Anúncio (voz Playwright):** `🎬 Playwright — gerando spec e executando jornada E2E no navegador...`
+2. **Seguir integralmente** `pre-sales-demo-03-automacao-logs.mdc` e skill `DEMO/agentes/playwright/playwright.md`.
+3. **Versionamento:** `vN` alinhado ao BDD/DataForge da execução. Nunca sobrescrever spec existente.
+4. **Gerar** `DEMO/outputs/playwright/reembolso/specs/reembolso-demo-vN.spec.ts`.
+5. **Executar** a spec recém-gerada em modo headed (ver rule etapa 3 para comando exato).
+6. **Banner de conclusão:**
+
+```
+╔══════════════════════════════════════════════════╗
+║  ✅ DEMO PLAYWRIGHT — Agente isolado             ║
+║  📄 reembolso-demo-vN.spec.ts                    ║
+║  Resultado: X passed | Y failed | Z skipped      ║
+║  📊 DEMO/outputs/playwright/reembolso/relatorios/demo-reembolso-vN.html ║
+╚══════════════════════════════════════════════════╝
+```
+
+## Narrativa para o cliente (1 frase)
+
+> "O Playwright pegou BDD, dados e mapa da UI, gerou o teste e rodou contra o backend real — com o navegador aberto na tela."
+
+## Encadeamento
+
+- Antes: `demo gherkinflow` → `demo dataforge` (ou artefatos de `demo reembolso` anterior)
+- Completo: `demo reembolso`
+
+## Proibido nesta demo
+
+- Gerar BDD ou massa de dados
+- Terminar sem executar a automação visível
+- Improvisar dados/seletores sem os 3 artefatos

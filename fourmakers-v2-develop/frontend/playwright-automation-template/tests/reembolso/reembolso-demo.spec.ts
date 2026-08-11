@@ -28,7 +28,7 @@ import {
   // @ts-ignore
   dadosI09, dadosI10, dadosI14,
 // @ts-ignore — import JS sem types
-} from '../../../DEMO/automacao/reembolso/reembolso.data.js'
+} from '../../../../DEMO/automacao/reembolso/reembolso.data.js'
 
 /**
  * ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -40,9 +40,9 @@ import {
  *  usa as constantes geradas pelo DataForge em reembolso.data.js.
  *
  *  INPUTS DA ETAPA 3 (consumidos abaixo):
- *    📄 DEMO/cenarios-bdd/REEMBOLSO-BDD-v8.md    → IDs e nomes dos cenários
+ *    📄 DEMO/outputs/gherkinflow/reembolso/REEMBOLSO-BDD-v8.md    → IDs e nomes dos cenários
  *    📄 DEMO/automacao/reembolso/reembolso.data.js → constantes dadosRxx / dadosIxx
- *    📄 DEMO/ui-elements/reembolso-ui.json       → seletores refletidos no Page Object
+ *    📄 DEMO/inputs/ui-elements/reembolso-ui.json       → seletores refletidos no Page Object
  *
  *  Pré-requisitos:
  *    1. Front local: `npm run dev` na raiz (Vite em http://localhost:8080)

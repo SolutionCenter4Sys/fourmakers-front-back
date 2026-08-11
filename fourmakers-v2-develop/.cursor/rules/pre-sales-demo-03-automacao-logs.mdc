@@ -1,5 +1,5 @@
 ---
-description: "Guardrail PRÉ-VENDAS — Etapa 3: Automação de tela com Playwright (backend real + front local via Vite + login OTP QA Master), com logs detalhados no terminal. Acionar quando o usuário mencionar: automatizar tela, json da tela, gerar testes, automação reembolso, logs de teste, playwright, rodar testes, demo playwright."
+description: "Guardrail PRÉ-VENDAS — Etapa 3: Playwright (E2E + logs). Acionar em: demo playwright, demo reembolso, automação reembolso, playwright, rodar testes, gerar testes."
 alwaysApply: false
 ---
 
@@ -12,16 +12,17 @@ Esta regra guia a geração de código de automação Playwright a partir do JSO
 - **Framework:** Playwright + TypeScript (migração do Cypress concluída)
 - **Backend real:** `https://spw.app.foursys.com/backoffice-rf-hom` (dev)
 - **Front local via Vite:** `http://localhost:8080` com proxy `VITE_API_PROXY_TARGET` apontando pro backend acima
-- **Login:** OTP real via `loginFourMakers(page, request)` — usuário `gustavo.queiroz@foursys.com.br` (orgId 8)
+- **Login:** OTP real **uma vez por execução** via project `setup` (`tests/_setup/demo-auth.setup.ts`) que grava `storageState`. As specs herdam a sessão — **sem login por teste** (evita rate limit e acelera a demo)
+- **Volume enxuto:** spec com **3-4 testes** (obrigatório R-04). Cenários extras do BDD ficam como `test.skip` documentado
 
 ## Inputs obrigatórios (todos lidos de arquivo — sem pedir ao usuário)
 
 | Input | Arquivo | Como a spec consome |
 |---|---|---|
-| **Cenários BDD** | `frontend/DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md` (mais recente) | Cada `test()` tem o **ID do cenário no título** (ex.: `test('R-01 [Positivo] ...')`) e mapeia 1:1 com uma linha da tabela BDD |
-| **Dados de teste** | `frontend/DEMO/automacao/reembolso/versionadas/reembolso.data.vN.js` | Spec faz `import { dadosR01, dadosR09, ... } from '../../../DEMO/automacao/reembolso/versionadas/reembolso.data.vN.js'` e usa as constantes em `fill()`, `expect()`, etc. |
-| **JSON da UI** | `frontend/DEMO/ui-elements/reembolso-ui.json` | Informa quais `role`, `label`, `testId` a spec deve usar. Traduzidos para locators no Page Object `ReembolsoPage.ts` (prioridade: `getByRole` → `#id` → `getByText`) |
-| Auth helper | `frontend/playwright-automation-template/support/auth/fourmakers-auth.ts` | Login OTP real (3 steps + injeção JWT no localhost) |
+| **Cenários BDD** | `DEMO/outputs/gherkinflow/reembolso/REEMBOLSO-BDD-vN.md` (mais recente) | Cada `test()` tem o **ID do cenário no título** (ex.: `test('R-01 [Positivo] ...')`) e mapeia 1:1 com uma linha da tabela BDD |
+| **Dados de teste** | `DEMO/outputs/dataforge/reembolso/reembolso.data.vN.js` | Spec faz `import { dadosR01, dadosR09, ... } from '../../../../../DEMO/outputs/dataforge/reembolso/reembolso.data.vN.js'` e usa as constantes em `fill()`, `expect()`, etc. |
+| **JSON da UI** | `DEMO/inputs/ui-elements/reembolso-ui.json` | Informa quais `role`, `label`, `testId` a spec deve usar. Traduzidos para locators no Page Object `ReembolsoPage.ts` (prioridade: `getByRole` → `#id` → `getByText`) |
+| Auth setup | `frontend/playwright-automation-template/tests/_setup/demo-auth.setup.ts` | Login OTP único (3 steps + JWT no localStorage) → grava `evidencias/.auth/demo-usuario.json` (storageState). Configurado como project `setup` em `playwright.config.ts` |
 | Page Object | `frontend/playwright-automation-template/support/pages/ReembolsoPage.ts` | Locators + ações mapeados a partir do `reembolso-ui.json` |
 
 ### Obrigatório: a spec DEVE referenciar explicitamente os 3 artefatos
@@ -34,10 +35,10 @@ Esta regra guia a geração de código de automação Playwright a partir do JSO
 
 ### Política de versionamento (OBRIGATÓRIA)
 
-- A spec da execução deve ser criada como `frontend/playwright-automation-template/tests/reembolso/versionadas/reembolso-demo-vN.spec.ts`
+- A spec da execução deve ser criada como `DEMO/outputs/playwright/reembolso/specs/reembolso-demo-vN.spec.ts`
 - O `vN` da spec deve ser o mesmo do BDD e do DataForge da mesma execução
 - Nunca sobrescrever spec versionada já existente
-- Manter no máximo 10 versões em `frontend/playwright-automation-template/tests/reembolso/versionadas/`
+- Manter no máximo 10 versões em `DEMO/outputs/playwright/reembolso/specs/`
 - Se já existir `v10` (ou superior), apagar versões antigas e reiniciar em `v1`
 
 ### Cenários que não podem rodar no ambiente atual
@@ -66,29 +67,27 @@ Mapear cada elemento do JSON para uma ação Playwright e para o seletor mais ro
 
 ```typescript
 import { test, expect } from '@playwright/test'
-import { ReembolsoPage } from '../../support/pages/ReembolsoPage'
-import { loginFourMakers } from '../../support/auth/fourmakers-auth'
-import reembolsoFixture from '../../fixtures/reembolso.json'
+import { ReembolsoPage } from '../../../support/pages/ReembolsoPage'
+// Sessão herdada do project "setup" (storageState) — SEM login por teste.
 
-const dados = reembolsoFixture as any
+// @ts-expect-error — massa JS do DataForge sem tipagem
+import { dadosR01 } from '../../../../../DEMO/outputs/dataforge/reembolso/reembolso.data.vN.js'
 
-test.describe('Módulo de Reembolso — Testes E2E', () => {
-  test.beforeEach(async ({ page, request }) => {
-    await loginFourMakers(page, request)
-  })
+test.beforeEach(async ({}, testInfo) => {
+  console.log(`\n🧪 TESTANDO: ${testInfo.title}`)
+})
 
-  test('[R-01] Colaborador solicita reembolso com dados completos', async ({ page }) => {
-    const p = new ReembolsoPage(page)
-
-    console.log('\n🧪 TESTANDO: R-01 — Solicitação completa')
-    console.log('   → Navegando para /reembolso...')
-    await p.visitarLista()
-    console.log('   ✅ Dashboard carregado')
-    // ... preenchimento e validação
-    console.log('🏁 R-01 CONCLUÍDO\n')
-  })
+test('R-01 [Positivo] Colaborador acessa o módulo', async ({ page }) => {
+  const p = new ReembolsoPage(page)
+  console.log('   → Navegando para /reembolso...')
+  await p.visitarLista() // já autenticado via storageState
+  console.log('   ✅ Dashboard carregado')
+  // ... preenchimento e validação usando dadosR01
+  console.log('🏁 R-01 CONCLUÍDO\n')
 })
 ```
+
+> **Login:** NÃO usar `loginFourMakers` no `beforeEach`. O project `setup` faz OTP 1x e grava `storageState`; o project `chromium` (com `dependencies: ['setup']` + `storageState`) entrega cada teste já autenticado.
 
 ### 3. Logs obrigatórios por bloco
 
@@ -96,8 +95,7 @@ test.describe('Módulo de Reembolso — Testes E2E', () => {
 |---------|----------------|
 | Início do suite | `🎯 AUTOMAÇÃO INICIADA — [Nome da Tela]` |
 | Banner de demo | `╔══ DEMO FOURMAKERS — MÓDULO REEMBOLSO ══╗` |
-| Auth início | `🔐 AUTENTICAÇÃO: Login FourMakers via OTP` |
-| Auth passos | `   → [Step 1] Enviando OTP...` / `   ✅ JWT obtido com sucesso` |
+| Auth (project setup, 1x) | `🔐 [setup] Login OTP único da demo...` / `   ✅ storageState salvo` |
 | Início de cada test | `🧪 TESTANDO: [ID] — [Nome do cenário]` |
 | Cada passo | `   → [Descrição da ação em andamento]...` |
 | Passo aprovado | `   ✅ [Resultado confirmado]` |
@@ -108,7 +106,7 @@ test.describe('Módulo de Reembolso — Testes E2E', () => {
 ### 4. Arquivo de saída
 
 ```
-frontend/playwright-automation-template/tests/reembolso/versionadas/reembolso-demo-vN.spec.ts
+DEMO/outputs/playwright/reembolso/specs/reembolso-demo-vN.spec.ts
 ```
 
 ### 5. Relatório HTML final (OBRIGATÓRIO)
@@ -118,28 +116,63 @@ Após a execução da spec, gerar um HTML consolidado com:
 - resumo da execução (`passed`, `failed`, `skipped`, tempo total),
 - cenários testados (IDs) e cenários com erro,
 - massa DataForge atendida (`reembolso.data.vN.js` + IDs),
-- confirmação do uso do JSON da tela (`frontend/DEMO/ui-elements/reembolso-ui.json`),
+- confirmação do uso do JSON da tela (`DEMO/inputs/ui-elements/reembolso-ui.json`),
 - logs completos do terminal (incluindo falhas, quando existirem).
 
 Output esperado:
 
 ```
-frontend/playwright-automation-template/evidencias/relatorios/demo-reembolso-vN.html
+DEMO/outputs/playwright/reembolso/relatorios/demo-reembolso-vN.html
 ```
+
+### 6. Self-Healing no cenário R-04 (demo ao vivo com bug manual)
+
+O apresentador injeta o bug **fora da esteira** (ex.: rota errada em `Reembolso.tsx`).
+
+A spec **não** usa helper nem loop de self-healing — é Playwright puro. Se o bug estiver injetado, R-04 falha como qualquer teste:
+
+```typescript
+test('R-04 [Regressivo] Navegação para nova solicitação', async ({ page }) => {
+  const p = new ReembolsoPage(page)
+  const rotaEsperada: string = dadosR04.expectedRoute ?? '/inserir-reembolso'
+
+  await p.visitarLista()
+  await p.clicarSolicitarReembolso()
+  await page.waitForURL(new RegExp(`${rotaEsperada.replace(/\//g, '\\/')}(\\?|$)`), { timeout: 12_000 })
+  await expect(page.getByRole('heading', { name: /Nova Solicita[cç][aã]o/i })).toBeVisible()
+  await p.evidencia('r04-formulario-aberto-vN')
+})
+```
+
+Tratamento da falha (no chat, não na automação):
+
+| Momento | Ação |
+|---------|------|
+| Teste vermelho | Playwright reporta cenário, erro e caminhos de evidência |
+| Falha transitória | Reexecutar só o cenário — não é bug de aplicação |
+| Bug real | Perguntar **GO/NOGO** antes de ativar o Dev |
+| Correção (chat) | `⚛️ Dev FourBlox: corrigindo ...` |
+| Reexecução | `🔄 Reexecutando R-04` |
+| Sucesso | Banner `✅ SELF-HEALING CONCLUÍDO` |
+
+**Nunca** chamar `demo-reembolso-bug.cjs fix` dentro do teste — correção pelo agente Dev no chat (Etapa 3b).
+
+**Nunca** sugerir injeção de bug no chat (`demo-reembolso-bug.cjs injetar`, "para demonstrar self-healing…"). Se todos os cenários passarem, o relatório fecha nos artefatos, sem próximos passos.
 
 ## Para rodar (spec versionada, da raiz do repo)
 
 ```bash
 cd fourmakers-v2-develop
 npm run dev             # manter Vite ativo
-npm --prefix frontend/playwright-automation-template exec cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 PLAYWRIGHT_SLOWMO=300 playwright test tests/reembolso/versionadas/reembolso-demo-vN.spec.ts --headed --reporter=list,html,json
+npm --prefix frontend/playwright-automation-template exec cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 PLAYWRIGHT_SLOWMO=150 playwright test reembolso-demo-vN.spec.ts --project=demo --headed --reporter=list,html,json
 ```
 
 Pré-requisito: `frontend/.env.local` com `VITE_API_PROXY_TARGET=https://spw.app.foursys.com/backoffice-rf-hom`.
 
 ## Regras da Demo
 
-- **SEMPRE** usar `await loginFourMakers(page, request)` no `beforeEach` para autenticação
+- **NUNCA** logar por teste — a sessão vem do `storageState` (project `setup`, OTP 1x). Não usar `loginFourMakers` no `beforeEach`
+- **SEMPRE** manter a spec enxuta (3-4 testes, incluindo R-04) — demais cenários como `test.skip`
 - **SEMPRE** usar Page Object `ReembolsoPage` para locators e ações
 - **SEMPRE** usar `console.log` com emojis e prefixos padronizados
 - **SEMPRE** gerar evidências (screenshots) por cenário via `page.screenshot()`
@@ -147,7 +180,7 @@ Pré-requisito: `frontend/.env.local` com `VITE_API_PROXY_TARGET=https://spw.app
 - **SEMPRE** gerar o HTML final consolidado mesmo quando houver falhas
 - **NUNCA** misturar imports Cypress com Playwright no mesmo arquivo
 - **NUNCA** gerar testes sem log de início e fim de cada cenário
-- **NUNCA** editar as credenciais OTP em `fourmakers-auth.ts` sem autorização do time QA
+- **NUNCA** editar as credenciais OTP em `support/auth/solution-center-otp.ts` sem autorização do time QA
 - **NUNCA** usar seletores frágeis como `nth-child` ou XPath absoluto
 - **NUNCA** usar `page.waitForTimeout(2000)` fixo — preferir `page.waitForResponse()` / `page.waitForLoadState()`
 - Cada `test()` deve mapear para exatamente 1 cenário Gherkin

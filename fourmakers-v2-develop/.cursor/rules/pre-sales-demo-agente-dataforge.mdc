@@ -1,0 +1,148 @@
+---
+
+description: >
+
+  Guardrail PRÉ-VENDAS — Demo showcase do agente DataForge (somente Etapa 2).
+
+  Acionar EXCLUSIVAMENTE quando o usuário digitar: demo dataforge, demo agente dataforge,
+
+  ou demo dataforge reembolso (case-insensitive).
+
+  Gera reembolso-seed.vN.sql a partir do BDD + modelo de dados fictício — sem mock JS, sem Playwright.
+
+alwaysApply: false
+
+---
+
+
+
+# 🧪 Demo Showcase — DataForge (agente isolado)
+
+
+
+> **Comando:** `demo dataforge`
+
+> **Objetivo:** Mostrar o DataForge lendo o **modelo de dados fictício** e **gerando** a massa (INSERTs SQL) a partir do BDD.
+
+> **Pré-requisito:** BDD em `DEMO/outputs/gherkinflow/reembolso/`
+
+
+
+## Dois modos do DataForge (não confundir)
+
+
+
+| Demo | Estratégia de massa | Saída |
+
+|------|---------------------|-------|
+
+| **`demo reembolso`** (E2E) | **Mock** — constantes JS para Playwright preencher o formulário real (sem banco) | `reembolso.data.vN.js` |
+
+| **`demo dataforge`** (showcase) | **Banco fictício** — DataForge lê o modelo e **cria** o seed SQL | `reembolso-seed.vN.sql` |
+
+
+
+Nesta demo **não** gerar `reembolso.data.vN.js`. O mock é exclusivo do E2E.
+
+
+
+## Inputs (o agente LÊ — não copia seed pronta)
+
+
+
+| Arquivo | Papel |
+
+|---------|-------|
+
+| `REEMBOLSO-BDD-vN.md` (mais recente) | Cenários e IDs (driver) |
+
+| `MODELO-DADOS.sql` | DDL — tabelas, FKs, tipos |
+
+| `DICIONARIO-DADOS.md` | Mapeamento BDD → colunas + regras de INSERT |
+
+
+
+Opcional para enriquecer mapeamento: `InserirReembolso.tsx`, `SolicitacaoReembolso.ts`.
+
+
+
+**Não existe seed de referência para copiar.** O único SQL de massa é o que o DataForge **gera** em `versionadas/reembolso-seed.vN.sql`.
+
+
+
+## Pré-requisito
+
+
+
+```
+
+SE não existir REEMBOLSO-BDD-v*.md → PARAR ("rode demo gherkinflow")
+
+SE reembolso-seed.vN.sql já existir para o vN do BDD → PARAR ("rode demo gherkinflow para novo vN")
+
+```
+
+
+
+## Protocolo (modo cinema)
+
+0. **Ativar agente:** Read `DEMO/agentes/dataforge/dataforge.md` → banner 🧪 DATAFORGE ATIVO
+1. **Anúncio (voz DataForge):** `🧪 DataForge — lendo MODELO-DADOS + BDD e gerando seed do banco fictício...`
+
+2. Ler BDD + `MODELO-DADOS.sql` + `DICIONARIO-DADOS.md`.
+
+3. **Gerar** `DEMO/dataforge/banco-ficticio/versionadas/reembolso-seed.vN.sql`:
+
+   - Cabeçalho: BDD fonte, schema `demo_qa_reembolso`, aviso "fictício — não usar em hom"
+
+   - INSERTs para cenários **[Positivo]** com persistência esperada
+
+   - Comentários `-- ID [Tipo]` para **[Negativo]** sem INSERT
+
+   - Dados realistas BR (`dataforge-dados-realistas-brasil.mdc`)
+
+   - `cenario_bdd_id` em cada solicitação
+
+4. **Banner:**
+
+
+
+```
+
+╔══════════════════════════════════════════════════╗
+
+║  ✅ DEMO DATAFORGE — Banco fictício              ║
+
+║  🗄️ reembolso-seed.vN.sql (gerado pelo agente)  ║
+
+║  Modelo lido: MODELO-DADOS.sql                   ║
+
+║  BDD fonte: REEMBOLSO-BDD-vN.md                  ║
+
+╚══════════════════════════════════════════════════╝
+
+```
+
+
+
+## Narrativa para o cliente
+
+
+
+> "O DataForge leu o modelo relacional e o BDD, e **produziu** os INSERTs — não usamos massa pré-montada."
+
+
+
+## Proibido
+
+
+
+- Gerar `reembolso.data.vN.js` (mock = só no E2E)
+
+- Copiar/colar seed estática — sempre derivar do BDD + modelo
+
+- Conectar ao MySQL hom da Foursys
+
+- GherkinFlow ou Playwright nesta demo
+
+

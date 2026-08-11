@@ -61,7 +61,9 @@ Todos os prompts (comandos) e rules possuem cabeçalho com:
 |-----------|---------|-----------|
 | `ARCHITECTURE.md` | `/ARCHITECTURE.md` | Arquitetura Clean Architecture, fluxo de dados |
 | `DESIGN_SYSTEM_AUDIT.md` | `/DESIGN_SYSTEM_AUDIT.md` | Auditoria de conformidade com Design System |
-| `design-toolkit.md` | `/public/design-toolkit.md` | Tokens, componentes, hooks, padroes UI/UX |
+| `design-toolkit.md` | `/frontend/public/design-toolkit.md` | Tokens, componentes, hooks, padroes UI/UX |
+| `docs/` | `/docs/README.md` | Indice de documentacao transversal |
+| `DEMO/` | `/DEMO/README.md` | Demo pre-vendas Reembolso |
 
 ## Se arquivos estiverem versionados
 

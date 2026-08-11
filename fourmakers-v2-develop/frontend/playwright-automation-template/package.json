@@ -16,8 +16,11 @@
     "test:reembolso": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test tests/reembolso/reembolso.spec.ts",
     "test:jornada": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test tests/reembolso/reembolso-jornada.spec.ts",
     "test:jornada:unico": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test tests/reembolso/reembolso-jornada-unico.spec.ts",
+    "test:bdd:v5": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test reembolso-demo-v5.spec.ts --project=demo --reporter=list",
+    "generate:spec:v5": "node scripts/generate-reembolso-spec-v5.cjs",
     "test:reembolso:all": "cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 playwright test tests/reembolso/",
-    "relatorio": "playwright show-report evidencias/relatorios",
+    "relatorio": "playwright show-report ../../DEMO/outputs/playwright/reembolso/relatorios/playwright-html",
+    "auth:mint": "node e2e/scripts/mint-bff-token.mjs",
     "install:browsers": "playwright install chromium"
   },
   "devDependencies": {

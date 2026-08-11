@@ -3,8 +3,8 @@ import { SolutionCenterAuth } from '../../e2e/support/auth/solution-center-otp'
 
 const SC = {
   apiBase: 'https://spw.app.foursys.com/backoffice-rf-hom',
-  email: 'solutioncenter@foursys.com.br',
-  orgId: 8,
+  email: 'usuario_qa@foursys.com.br',
+  orgId: 5,
 } as const
 
 /**

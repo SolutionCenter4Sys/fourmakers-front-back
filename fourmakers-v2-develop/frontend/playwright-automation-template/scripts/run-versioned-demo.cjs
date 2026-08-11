@@ -8,12 +8,18 @@ const isDryRun = args.includes('--dry-run');
 
 const templateRoot = process.cwd();
 const frontendRoot = path.resolve(templateRoot, '..');
+const repoRoot = path.resolve(frontendRoot, '..');
+const demoRoot = path.join(repoRoot, 'DEMO');
+const outputsRoot = path.join(demoRoot, 'outputs');
 
-const bddDir = path.join(frontendRoot, 'DEMO', 'cenarios-bdd');
-const dataDir = path.join(frontendRoot, 'DEMO', 'automacao', 'reembolso', 'versionadas');
-const uiElementsFile = path.join(frontendRoot, 'DEMO', 'ui-elements', 'reembolso-ui.json');
-const specDir = path.join(templateRoot, 'tests', 'reembolso', 'versionadas');
-const relatorioDir = path.join(templateRoot, 'evidencias', 'relatorios');
+const bddDir = path.join(outputsRoot, 'gherkinflow', 'reembolso');
+const dataDir = path.join(outputsRoot, 'dataforge', 'reembolso');
+const uiElementsFile = path.join(demoRoot, 'inputs', 'ui-elements', 'reembolso-ui.json');
+const playwrightOutputDir = path.join(outputsRoot, 'playwright', 'reembolso');
+const specDir = path.join(playwrightOutputDir, 'specs');
+const relatorioDir = path.join(playwrightOutputDir, 'relatorios');
+const screenshotDir = path.join(playwrightOutputDir, 'screenshots');
+const testResultsDir = path.join(playwrightOutputDir, 'test-results');
 
 function listVersions(dir, pattern) {
   if (!fs.existsSync(dir)) return [];
@@ -44,33 +50,45 @@ function uniq(values) {
 
 function extractBddScenarioIds(content) {
   const ids = [];
-  const pattern = /^\|\s*([RI]-\d+)\s*\|/gm;
-  let match = pattern.exec(content);
-  while (match) {
-    ids.push(match[1]);
-    match = pattern.exec(content);
+  const patterns = [/^\|\s*([A-Z]{2}-\d{2})\s*\|/gm, /^\|\s*([RI]-\d+)\s*\|/gm];
+  for (const pattern of patterns) {
+    let match = pattern.exec(content);
+    while (match) {
+      ids.push(match[1]);
+      match = pattern.exec(content);
+    }
   }
   return uniq(ids);
 }
 
 function extractDataScenarioIds(content) {
   const ids = [];
-  const pattern = /^export const dados([RI])(\d{2})\s*=/gm;
-  let match = pattern.exec(content);
-  while (match) {
-    ids.push(`${match[1]}-${match[2]}`);
-    match = pattern.exec(content);
+  const patterns = [
+    /^export const dados([A-Z]{2})(\d{2})\s*=/gm,
+    /^export const dados([RI])(\d{2})\s*=/gm,
+  ];
+  for (const pattern of patterns) {
+    let match = pattern.exec(content);
+    while (match) {
+      ids.push(`${match[1]}-${match[2]}`);
+      match = pattern.exec(content);
+    }
   }
   return uniq(ids);
 }
 
 function extractSpecScenarioIds(content) {
   const ids = [];
-  const pattern = /test(?:\.skip)?\(\s*['"`]([RI]-\d+)\s+\[[^\]]+\]/g;
-  let match = pattern.exec(content);
-  while (match) {
-    ids.push(match[1]);
-    match = pattern.exec(content);
+  const patterns = [
+    /test(?:\.skip)?\(\s*['"`]([A-Z]{2}-\d{2})\s+\[[^\]]+\]/g,
+    /test(?:\.skip)?\(\s*['"`]([RI]-\d+)\s+\[[^\]]+\]/g,
+  ];
+  for (const pattern of patterns) {
+    let match = pattern.exec(content);
+    while (match) {
+      ids.push(match[1]);
+      match = pattern.exec(content);
+    }
   }
   return uniq(ids);
 }
@@ -91,7 +109,7 @@ function extractCountsFromText(outputText) {
 
 function extractScenarioIdsFromOutput(outputText) {
   const ids = [];
-  const testLinePattern = /🧪\s*TESTANDO:\s*([RI]-\d+)/g;
+  const testLinePattern = /🧪\s*TESTANDO:\s*([A-Z]{2}-\d{2}|[RI]-\d+)/g;
   let match = testLinePattern.exec(outputText);
   while (match) {
     ids.push(match[1]);
@@ -99,7 +117,7 @@ function extractScenarioIdsFromOutput(outputText) {
   }
 
   if (!ids.length) {
-    const genericPattern = /\b([RI]-\d{2})\b/g;
+    const genericPattern = /\b([A-Z]{2}-\d{2}|[RI]-\d{2})\b/g;
     let genericMatch = genericPattern.exec(outputText);
     while (genericMatch) {
       ids.push(genericMatch[1]);
@@ -369,9 +387,9 @@ async function main() {
   const dataFile = path.join(dataDir, `reembolso.data.v${version}.js`);
   const specFile = path.join(specDir, `reembolso-demo-v${version}.spec.ts`);
   const specRelative = normalizePath(path.relative(templateRoot, specFile));
-  const bddRelative = normalizePath(path.relative(frontendRoot, bddFile));
-  const dataRelative = normalizePath(path.relative(frontendRoot, dataFile));
-  const uiRelative = normalizePath(path.relative(frontendRoot, uiElementsFile));
+  const bddRelative = normalizePath(path.relative(repoRoot, bddFile));
+  const dataRelative = normalizePath(path.relative(repoRoot, dataFile));
+  const uiRelative = normalizePath(path.relative(repoRoot, uiElementsFile));
 
   const bddContent = fs.readFileSync(bddFile, 'utf8');
   const dataContent = fs.readFileSync(dataFile, 'utf8');
@@ -412,7 +430,14 @@ async function main() {
   const htmlSummaryFile = path.join(relatorioDir, `demo-reembolso-v${version}.html`);
   const playwrightCli = resolvePlaywrightCli();
 
-  const playwrightArgs = [playwrightCli, 'test', specRelative, '--reporter=list,html,json'];
+  const playwrightArgs = [
+    playwrightCli,
+    'test',
+    path.basename(specFile),
+    '--project=demo',
+    '--reporter=list,html,json',
+    '--retries=0',
+  ];
   if (isHeaded) playwrightArgs.push('--headed');
 
   console.log(`[demo-versionada] Executando: node ${playwrightArgs.join(' ')}`);
@@ -420,12 +445,18 @@ async function main() {
   const executionEnv = {
     ...process.env,
     PLAYWRIGHT_JSON_OUTPUT_NAME: jsonReportFile,
+    PLAYWRIGHT_HTML_OUTPUT_DIR: path.join(relatorioDir, 'playwright-html'),
+    PLAYWRIGHT_OUTPUT_DIR: testResultsDir,
+    DEMO_SCREENSHOTS_DIR: screenshotDir,
     PLAYWRIGHT_BASE_URL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:8080',
-    PLAYWRIGHT_SLOWMO: process.env.PLAYWRIGHT_SLOWMO || '300',
+    PLAYWRIGHT_SLOWMO: process.env.PLAYWRIGHT_SLOWMO || '150',
+    // Reuso de storageState entre runs — evita rate limit OTP (ver e2e/docs/OTP_AUTH.md)
+    E2E_REUSE_SESSION: process.env.E2E_REUSE_SESSION || 'true',
+    E2E_REUSE_SESSION_MAX_AGE_MIN: process.env.E2E_REUSE_SESSION_MAX_AGE_MIN || '30',
   };
 
   console.log(
-    `[demo-versionada] BASE_URL=${executionEnv.PLAYWRIGHT_BASE_URL} | SLOWMO=${executionEnv.PLAYWRIGHT_SLOWMO}`,
+    `[demo-versionada] BASE_URL=${executionEnv.PLAYWRIGHT_BASE_URL} | SLOWMO=${executionEnv.PLAYWRIGHT_SLOWMO} | REUSE_SESSION=${executionEnv.E2E_REUSE_SESSION}`,
   );
 
   const execution = await runCommandStream(process.execPath, playwrightArgs, executionEnv);
@@ -446,7 +477,7 @@ async function main() {
   const testedFromJson = uniq(
     parsedTests
       .map((test) => {
-        const match = test.title.match(/([RI]-\d+)/);
+        const match = test.title.match(/([A-Z]{2}-\d{2}|[RI]-\d+)/);
         return match ? match[1] : null;
       })
       .filter(Boolean),

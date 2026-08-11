@@ -40,6 +40,9 @@ const tabValueToUrl: Record<string, string> = {
   'aprovacoes': 'aprovacoes',
 };
 
+/** Demo QA — rota do botão "Solicitar Reembolso". Patch: demo-preparar / correção automatizada. */
+const ROTA_NOVA_SOLICITACAO_REEMBOLSO = "/inserir-reembolso"; // DEMO_BUG_ATIVO: false
+
 export default function Reembolso() {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -294,7 +297,7 @@ export default function Reembolso() {
                 Remessa CNAB
               </Button>
             )}
-            <Button onClick={() => navigate("/inserir-reembolso")} className="px-6 shadow-sm w-full md:w-auto">
+            <Button onClick={() => navigate(ROTA_NOVA_SOLICITACAO_REEMBOLSO)} className="px-6 shadow-sm w-full md:w-auto">
               Solicitar Reembolso
             </Button>
           </>

@@ -1,35 +1,42 @@
 /**
 * OTP Auth Service — Solution Center (FourSys)
 *
-* Serviço de autenticação via código OTP pronto para uso em automações Playwright.
-* Não requer variáveis de ambiente — configuração embutida para o ambiente de homologação.
+* Preferir variáveis de ambiente (OTP_*). Fallbacks só para demo local alinhada a
+* DEMO/setup/demo-credenciais.json — em CI use secrets (OTP_SYSTEM_TOKEN).
 *
-* ─── Fluxo de autenticação ───────────────────────────────────────────────────
-*  1. POST /api/Acesso/EnviaTokenAcessoEmail   → dispara e-mail com código OTP
-*  2. GET  /api/Acesso/ObtemCodigoAcessoEmailQA → recupera o código via Bearer token (QA)
-*  3. POST /api/Acesso/ValidaTokenAcessoEmail   → valida o código e retorna JWT
-* ─────────────────────────────────────────────────────────────────────────────
+* ─── Fluxo ───────────────────────────────────────────────────────────────────
+*  1. POST /api/Acesso/EnviaTokenAcessoEmail   → dispara OTP (só quando necessário)
+*  2. GET  /api/Acesso/ObtemCodigoAcessoEmailQA → código via Bearer QA (sem ler e-mail)
+*  3. POST /api/Acesso/ValidaTokenAcessoEmail   → JWT
 *
-* ─── Uso recomendado — API-only ─────────────────────────────────────────────
-*
-*   const auth = new SolutionCenterAuth(request);
-*   const jwt  = await auth.autenticarViaOtp();
-*   await request.get('...', { headers: { Authorization: `Bearer ${jwt}` } });
-*
-* ─── Restrições importantes ───────────────────────────────────────────────────
-*  - Nunca rode testes em paralelo com o mesmo e-mail (o Passo 1 invalida códigos anteriores).
-*  - OTP expira em 15 min; após Passo 3 é marcado como usado.
-* ─────────────────────────────────────────────────────────────────────────────
+* ─── Restrições ───────────────────────────────────────────────────────────────
+*  - Nunca paralelo no mesmo e-mail (Passo 1 invalida códigos anteriores).
+*  - Nunca reenviar OTP em loop após rate limit.
+*  - Preferir storageState / cache JWT (E2E_REUSE_SESSION) em vez de OTP a cada run.
 */
 import type { APIRequestContext, Page } from '@playwright/test';
-const CONFIG = {
+
+/** Fallbacks alinhados a DEMO/setup/demo-credenciais.json (pré-setup sincroniza). */
+const FALLBACK = {
   appUrl:      'https://spw.app.foursys.com/backoffice-rf-hom',
-  email:       'solutioncenter@foursys.com.br',
-  orgId:       8,
+  email:       'usuario_qa@foursys.com.br',
+  orgId:       5,
   systemToken: 'OHw1WUI0MEl6Y0I3eDgzV3NGWUswcUNpb0c2aTNsRmhQM3FsWWJDaXJ6bWM5OTVLdEI4Qg==',
-  pollTimeoutMs:  8_000,
-  pollIntervalMs:   500,
+  pollTimeoutMs: 8_000,
+  pollIntervalMs: 500,
 } as const;
+
+function loadConfig() {
+  return {
+    appUrl: (process.env.OTP_API_BASE_URL || FALLBACK.appUrl).replace(/\/$/, ''),
+    email: process.env.OTP_EMAIL || FALLBACK.email,
+    orgId: Number(process.env.OTP_ORG_ID || FALLBACK.orgId),
+    systemToken: process.env.OTP_SYSTEM_TOKEN || FALLBACK.systemToken,
+    pollTimeoutMs: Number(process.env.OTP_POLL_TIMEOUT_MS || FALLBACK.pollTimeoutMs),
+    pollIntervalMs: Number(process.env.OTP_POLL_INTERVAL_MS || FALLBACK.pollIntervalMs),
+  };
+}
+
 type EnviaTokenResponse = {
   sucesso: boolean;
   tipoAcesso?: 'Email' | 'SSO' | number;
@@ -54,18 +61,33 @@ type ValidaTokenResponse = {
   };
   mensagem?: string;
 };
+
 export class SolutionCenterAuth {
   private readonly api: APIRequestContext;
-  private readonly baseUrl: string;
+  private readonly cfg: ReturnType<typeof loadConfig>;
+
   constructor(api: APIRequestContext) {
     this.api = api;
-    this.baseUrl = CONFIG.appUrl.replace(/\/$/, '');
+    this.cfg = loadConfig();
   }
+
+  get email(): string {
+    return this.cfg.email;
+  }
+
+  get orgId(): number {
+    return this.cfg.orgId;
+  }
+
+  get baseUrl(): string {
+    return this.cfg.appUrl;
+  }
+
   async enviarTokenAcessoEmail(): Promise<EnviaTokenResponse> {
     const response = await this.api.post(
-      `${this.baseUrl}/api/Acesso/EnviaTokenAcessoEmail`,
+      `${this.cfg.appUrl}/api/Acesso/EnviaTokenAcessoEmail`,
       {
-        data: { email: CONFIG.email, orgId: CONFIG.orgId },
+        data: { email: this.cfg.email, orgId: this.cfg.orgId },
         headers: { 'Content-Type': 'application/json' },
       },
     );
@@ -76,6 +98,13 @@ export class SolutionCenterAuth {
       throw new Error(
         `[EnviaTokenAcessoEmail] Resposta não-JSON. ` +
         `Status: ${response.status()} ${response.statusText()}`,
+      );
+    }
+    if (response.status() === 429 || /limite de tentativas/i.test(body.mensagem ?? '')) {
+      throw new Error(
+        `[EnviaTokenAcessoEmail] RATE LIMIT — não reenviar OTP.\n` +
+        `Aguarde a janela do backend ou reutilize JWT/storageState (E2E_REUSE_SESSION).\n` +
+        `Body: ${JSON.stringify(body)}`,
       );
     }
     if (!response.ok()) {
@@ -99,20 +128,21 @@ export class SolutionCenterAuth {
     }
     return body;
   }
+
   async obterCodigoAcessoQa(): Promise<string> {
     const url =
-      `${this.baseUrl}/api/Acesso/ObtemCodigoAcessoEmailQA` +
-      `?email=${encodeURIComponent(CONFIG.email)}&orgId=${CONFIG.orgId}`;
-    const deadline = Date.now() + CONFIG.pollTimeoutMs;
+      `${this.cfg.appUrl}/api/Acesso/ObtemCodigoAcessoEmailQA` +
+      `?email=${encodeURIComponent(this.cfg.email)}&orgId=${this.cfg.orgId}`;
+    const deadline = Date.now() + this.cfg.pollTimeoutMs;
     let lastError = '';
     while (Date.now() < deadline) {
       const response = await this.api.get(url, {
-        headers: { Authorization: `Bearer ${CONFIG.systemToken}` },
+        headers: { Authorization: `Bearer ${this.cfg.systemToken}` },
       });
       if (response.status() === 401) {
         throw new Error(
           `[ObtemCodigoAcessoEmailQA] HTTP 401 Não autorizado.\n` +
-          `Verifique se o systemToken está correto. Body: ${await response.text()}`,
+          `Defina OTP_SYSTEM_TOKEN (secret). Body: ${await response.text()}`,
         );
       }
       let body: ObtemCodigoResponse;
@@ -130,21 +160,22 @@ export class SolutionCenterAuth {
       lastError =
         `HTTP ${response.status()} | sucesso=${body.sucesso} | ` +
         `mensagem="${body.mensagem ?? ''}"`;
-      await new Promise((r) => setTimeout(r, CONFIG.pollIntervalMs));
+      await new Promise((r) => setTimeout(r, this.cfg.pollIntervalMs));
     }
     throw new Error(
-      `[ObtemCodigoAcessoEmailQA] Nenhum código ativo encontrado após ${CONFIG.pollTimeoutMs}ms.\n` +
+      `[ObtemCodigoAcessoEmailQA] Nenhum código ativo após ${this.cfg.pollTimeoutMs}ms.\n` +
       `Última resposta: ${lastError}`,
     );
   }
+
   async validarTokenAcessoEmail(codigo: string): Promise<ValidaTokenResponse> {
     if (!codigo) {
       throw new Error(`[ValidaTokenAcessoEmail] O código não pode ser vazio.`);
     }
     const response = await this.api.post(
-      `${this.baseUrl}/api/Acesso/ValidaTokenAcessoEmail`,
+      `${this.cfg.appUrl}/api/Acesso/ValidaTokenAcessoEmail`,
       {
-        data: { email: CONFIG.email, token: codigo, orgId: CONFIG.orgId },
+        data: { email: this.cfg.email, token: codigo, orgId: this.cfg.orgId },
         headers: { 'Content-Type': 'application/json' },
       },
     );
@@ -171,9 +202,9 @@ export class SolutionCenterAuth {
     }
     return body;
   }
+
   /**
-   * Fluxo completo: EnviaTokenAcessoEmail → ObtemCodigoAcessoEmailQA (polling) → ValidaTokenAcessoEmail.
-   * Retorna o JWT de sessão pronto para uso em `Authorization: Bearer <jwt>`.
+   * Fluxo completo: Envia → ObtemCodigoQA → Valida. Sem retry de EnviaToken.
    */
   async autenticarViaOtp(): Promise<string> {
     await this.enviarTokenAcessoEmail();
@@ -181,13 +212,10 @@ export class SolutionCenterAuth {
     const { token } = await this.validarTokenAcessoEmail(codigo);
     return token!;
   }
-  /**
-   * (Opcional) Autentica e injeta o JWT no localStorage de uma page Playwright.
-   * Para uso API-only, prefira `autenticarViaOtp()`.
-   */
+
   async login(page: Page, appUrl?: string): Promise<void> {
     const jwt = await this.autenticarViaOtp();
-    const target = (appUrl ?? CONFIG.appUrl).replace(/\/$/, '');
+    const target = (appUrl ?? this.cfg.appUrl).replace(/\/$/, '');
     await page.goto(target, { waitUntil: 'domcontentloaded', timeout: 20_000 });
     await page.evaluate((t: string) => {
       localStorage.setItem('authToken', t);

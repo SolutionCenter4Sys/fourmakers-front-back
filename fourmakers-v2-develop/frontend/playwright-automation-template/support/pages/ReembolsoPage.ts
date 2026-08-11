@@ -365,8 +365,11 @@ export class ReembolsoPage {
   // ── Screenshot de evidência ────────────────────────────────────────
 
   async evidencia(nome: string, pasta = 'reembolso') {
-    const dir    = `evidencias/screenshots/${pasta}`
-    const caminho = `${dir}/${nome}.png`
+    const outputRoot =
+      process.env.DEMO_SCREENSHOTS_DIR ||
+      path.resolve(__dirname, '../../../../DEMO/outputs/playwright/reembolso/screenshots')
+    const dir = pasta === 'reembolso' ? outputRoot : path.join(outputRoot, pasta)
+    const caminho = path.join(dir, `${nome}.png`)
     fs.mkdirSync(dir, { recursive: true })
     await this.page.screenshot({ path: caminho, fullPage: false })
     console.log(`   📸 [EVIDÊNCIA] ${caminho}`)

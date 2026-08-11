@@ -1,0 +1,54 @@
+---
+description: >
+  Guardrail PRÉ-VENDAS — Demo showcase do agente GherkinFlow (somente Etapa 1).
+  Acionar EXCLUSIVAMENTE quando o usuário digitar: demo gherkinflow, demo agente gherkinflow,
+  ou demo gherkinflow reembolso (case-insensitive).
+  Gera apenas REEMBOLSO-BDD-vN.md — sem DataForge nem Playwright.
+alwaysApply: false
+---
+
+# 🎭 Demo Showcase — GherkinFlow (agente isolado)
+
+> **Comando:** `demo gherkinflow` (ou `demo gherkinflow reembolso`)
+> **Objetivo:** Apresentar **só** o agente que lê código React e gera cenários BDD em linguagem de negócio.
+> **Pré-requisito recomendado:** `demo preparar reembolso` (ver `pre-sales-demo-pre-setup.mdc`)
+
+## O que esta demo faz (e o que NÃO faz)
+
+| Faz | Não faz |
+|-----|---------|
+| Lê `Reembolso.tsx` + `InserirReembolso.tsx` | DataForge / massa de dados |
+| Gera `REEMBOLSO-BDD-vN.md` (nova versão) | Playwright / execução no navegador |
+| Banner de conclusão com total de cenários | Pausar pedindo confirmação |
+
+## Protocolo (modo cinema — 1 agente)
+
+0. **Ativar agente:** Read `DEMO/agentes/gherkinflow/gherkinflow.md` → banner 🎭 GHERKINFLOW ATIVO
+1. **Anúncio (voz GherkinFlow):** `🎭 GherkinFlow — iniciando engenharia reversa do módulo Reembolso...`
+2. **Seguir integralmente** `pre-sales-demo-01-gherkin.mdc` e skill `DEMO/agentes/gherkinflow/gherkinflow.md`.
+3. **Versionamento:** próximo `vN` em `DEMO/outputs/gherkinflow/reembolso/` (nunca sobrescrever). Se `v10+`, limpar pasta BDD e reiniciar em `v1`.
+4. **Salvar** apenas `DEMO/outputs/gherkinflow/reembolso/REEMBOLSO-BDD-vN.md`.
+5. **Banner de conclusão:**
+
+```
+╔══════════════════════════════════════════════════╗
+║  ✅ DEMO GHERKINFLOW — Agente isolado            ║
+║  📄 REEMBOLSO-BDD-vN.md — XX cenários gerados    ║
+║  Próximo passo opcional: demo dataforge           ║
+╚══════════════════════════════════════════════════╝
+```
+
+## Narrativa para o cliente (1 frase)
+
+> "O GherkinFlow leu o código da tela e traduziu regras de negócio em cenários BDD auditáveis — sem clicar na interface."
+
+## Encadeamento com outras demos
+
+- Depois desta demo: `demo dataforge` usa o BDD `vN` recém-gerado.
+- Jornada completa: `demo reembolso` (3 agentes em sequência).
+
+## Proibido nesta demo
+
+- Rodar DataForge ou Playwright
+- `npm install` na frente do cliente
+- Sumário longo além do banner de conclusão

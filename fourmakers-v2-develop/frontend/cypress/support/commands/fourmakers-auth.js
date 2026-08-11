@@ -19,10 +19,10 @@
  */
 
 const FM = {
-  apiBase: 'https://api.dev.fourmakers.io',
-  email:   'solutioncenter@foursys.com.br',
-  orgId:   8,
-  token:   'Mnx5Y0R3dzNtd3hqaFFuSVVVekVVUHhNdDl2OVowVHNKMnlnclJMOFhWRlB4aGRnT0IxcQ==',
+  apiBase: 'https://spw.app.foursys.com/backoffice-rf-hom',
+  email:   'usuario_qa@foursys.com.br',
+  orgId:   5,
+  token:   'OHw1WUI0MEl6Y0I3eDgzV3NGWUswcUNpb0c2aTNsRmhQM3FsWWJDaXJ6bWM5OTVLdEI4Qg==',
 };
 
 /**

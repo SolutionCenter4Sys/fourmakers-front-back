@@ -26,7 +26,7 @@ import reembolsoFixture from '../../fixtures/reembolso.json'
 test.describe.configure({ retries: 0 })
 
 const dados = reembolsoFixture as any
-const DIR_EV = 'evidencias/screenshots/reembolso-jornada-unico'
+const DIR_EV = '../../DEMO/outputs/playwright/reembolso/screenshots/jornada-unico'
 
 function ev(page: ReembolsoPage, nome: string) {
   return page.evidencia(nome, 'reembolso-jornada-unico')

@@ -12,8 +12,8 @@ import reembolsoFixture from '../../fixtures/reembolso.json'
  *   /reembolso          → botão "Solicitar Reembolso"
  *   /inserir-reembolso  → formulário de cadastro de reembolso
  *
- * Evidências geradas em: evidencias/screenshots/reembolso/
- * Relatório gerado em:   evidencias/relatorios/
+ * Evidências geradas em: ../../DEMO/outputs/playwright/reembolso/screenshots/
+ * Relatório gerado em:   ../../DEMO/outputs/playwright/reembolso/relatorios/
  */
 
 // ─── Setup de sessão ──────────────────────────────────────────────────────────
@@ -33,7 +33,7 @@ test.describe('Reembolso — Cadastro de Solicitação', () => {
   test.afterEach(async ({ page }, testInfo) => {
     const estado      = testInfo.status === 'passed' ? 'passou' : 'falhou'
     const tituloLimpo = testInfo.title.replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').toLowerCase().substring(0, 60)
-    const dir         = 'evidencias/screenshots/reembolso'
+    const dir         = '../../DEMO/outputs/playwright/reembolso/screenshots'
     const caminho     = `${dir}/${estado}--${tituloLimpo}.png`
 
     fs.mkdirSync(dir, { recursive: true })

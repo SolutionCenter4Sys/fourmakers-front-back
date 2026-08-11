@@ -42,7 +42,7 @@
     {
       "label": "📋 Abrir — Script da Demo (DEMO-PROMPT.md)",
       "type": "shell",
-      "command": "code DEMO-PROMPT.md",
+      "command": "code DEMO/DEMO-PROMPT.md",
       "presentation": { "reveal": "never" },
       "problemMatcher": []
     },
@@ -56,7 +56,7 @@
     {
       "label": "🗃 Abrir — Massa de Dados gerada",
       "type": "shell",
-      "command": "code DEMO/massa-dados",
+      "command": "code DEMO/automacao/reembolso",
       "presentation": { "reveal": "never" },
       "problemMatcher": []
     },

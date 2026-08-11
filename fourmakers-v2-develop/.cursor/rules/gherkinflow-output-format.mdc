@@ -126,7 +126,7 @@ Uma seção por tela analisada, com H2 e tabela de 7 colunas:
 
 ## Pasta e nome de arquivo
 
-- **Pasta:** `DEMO/cenarios-bdd/`
+- **Pasta:** `DEMO/outputs/gherkinflow/reembolso/`
 - **Nome:** `REEMBOLSO-BDD-vN.md` — N é o próximo sequencial (verificar arquivos existentes)
 - **NUNCA** sobrescrever versão existente
 - **NUNCA** usar datas, autor ou qualquer sufixo no nome

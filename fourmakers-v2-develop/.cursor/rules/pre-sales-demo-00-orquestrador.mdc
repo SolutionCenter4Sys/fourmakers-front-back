@@ -1,60 +1,150 @@
 ---
 description: >
-  Guardrail PRÉ-VENDAS — Orquestrador da Demo Completa E2E (Etapa 1 + Etapa 2 + Etapa 3).
-  Acionar EXCLUSIVAMENTE quando o usuário digitar exatamente "demo reembolso" (case-insensitive).
-  Executa em sequência: GherkinFlow → DataForge → Playwright (SEM pausas entre etapas).
+  Guardrail PRÉ-VENDAS — Orquestrador da Esteira E2E (GherkinFlow → DataForge → Playwright).
+  Acionar quando o usuário digitar: demo, demo reembolso, esteira e2e, esteira de testes, demo e2e.
+  Módulo padrão: reembolso (manifesto DEMO/modulos/reembolso.manifest.json).
+  Executa em sequência; pausa apenas no gate GO/NOGO de self-healing. Chat mostra banner inicial + falas dos agentes.
+  PRÉ-REQUISITO: demo preparar reembolso (pre-sales-demo-pre-setup.mdc).
 alwaysApply: false
 ---
 
-# 🎬 Demo Pré-Vendas — Orquestrador E2E Completo
+# 🎬 Demo Pré-Vendas — Orquestrador E2E (Esteira)
 
-> **Comando de ativação (único e padronizado):** `demo reembolso`
-> **Fluxo:** GherkinFlow → DataForge → Playwright (executar EM SEQUÊNCIA, sem pausas, sem pedir confirmação)
-> **Backend:** `https://spw.app.foursys.com/backoffice-rf-hom` (dev, acesso via rede Foursys)
-> **Front:** `http://localhost:8080` (Vite local com proxy pra API dev)
-> **Duração esperada:** ~5 minutos de geração contínua + ~1 min de execução da spec
+> **Comandos de ativação:** `demo` · `demo reembolso` · `esteira e2e` · `esteira de testes` · `demo e2e`
+> **Módulo padrão:** Reembolso (+ telas relacionadas) — outro módulo só se o usuário pedir explicitamente
+> **Manifesto:** `DEMO/modulos/reembolso.manifest.json` — caminhos do código **pré-selecionados**
+> **Pré-setup:** `demo preparar reembolso` → `pre-sales-demo-pre-setup.mdc`
+> **Skill:** `DEMO/agentes/orquestrador/orquestrador.md` (stub: `.cursor/skills/orquestrador`)
 
-## 🎥 MODO CINEMA (OBRIGATÓRIO — Demo visível para apresentação)
+## PASSO 0 — Banner + manifesto silencioso
 
-Regras do modo cinema — **enxuto, sem banners verbosos**. Cada agente faz seu trabalho e entrega o artefato, só isso.
+Exibir **somente** este banner:
 
-### SETUP (antes da Etapa 1 — silencioso)
+```
+╔══════════════════════════════════════════════════╗
+║  🎬 ORQUESTRADOR ATIVO — Demo E2E Reembolso      ║
+╠══════════════════════════════════════════════════╣
+║  🎭 GherkinFlow → 🧪 DataForge → 🎬 Playwright   ║
+╚══════════════════════════════════════════════════╝
+```
 
-1. Verificar se Vite já está rodando em `http://localhost:8080`. Se NÃO estiver:
-   - Executar `npm run dev` **em background persistente** (com `block_until_ms: 0`) a partir da raiz do repo
-   - Aguardar `http://localhost:8080` responder HTTP 200 (via `AwaitShell`)
-2. NÃO dar instruções sobre Browser Tab, split view, nem sugestões de workflow ao usuário — o Vite estar UP é detalhe técnico. Seguir direto para a Etapa 1.
+> ⛔ Depois do banner, orquestrador fica invisível. Sem manifesto colado, versão `vN`, status de pré-setup/Vite/bug/self-healing. Próxima mensagem visível: agente GherkinFlow.
 
-O Vite **DEVE permanecer rodando** durante e DEPOIS da demo — não derrubar.
+1. Executar `node DEMO/scripts/demo-modulo.cjs summary reembolso` (uso interno)
+2. Ler **todos** os paths do manifesto (telas, APIs, domínio) antes da Etapa 1 — sem exibir
+3. Obter `vN` via `node DEMO/scripts/demo-modulo.cjs next-version reembolso` (uso interno)
 
-### Em cada etapa
+### Telas do módulo Reembolso (fontes GherkinFlow)
 
-1. **Anúncio curto** (1 linha) de qual agente está entrando em ação. Exemplos:
-   - `🎭 GherkinFlow lendo Reembolso.tsx + InserirReembolso.tsx...`
-   - `🧪 DataForge mapeando cenários para constantes JavaScript...`
-   - `🎬 Playwright atualizando spec com BDD + DataForge...`
-2. **Gerar NOVA versão de arquivo** usando a tool apropriada (Write/Add). Nunca sobrescrever versão existente.
-3. **Banner de conclusão** no estilo:
-   ```
-   ╔══════════════════════════════════════════════════╗
-   ║  ✅ ETAPA 1 CONCLUÍDA — GherkinFlow               ║
-   ║  📄 REEMBOLSO-BDD-v7.md — 30 cenários gerados    ║
-   ╚══════════════════════════════════════════════════╝
-   ```
+| Tela | Prefixo | Arquivos principais |
+|------|---------|---------------------|
+| Dashboard | R- | `Reembolso.tsx`, `useReembolsos.ts`, `GestaoAdmTab`, `AprovacoesTab` |
+| Inserir | I- | `InserirReembolso.tsx`, use cases de solicitação/OCR/verbas |
+| Aprovar | AP- | `AprovarReembolso.tsx` |
+| Parâmetros | RP- | `ReembolsoParametros.tsx`, hooks e componentes de verba |
 
-**NÃO fazer:**
-- ❌ Banners de **abertura** `╔══ 🎭 ETAPA 1/3 — GherkinFlow ══╗` (só usar banner pra CONCLUSÃO)
-- ❌ Sugerir abrir arquivos no split view, Browser Tab, etc.
-- ❌ Descrever o que o agente "vai fazer" antes de fazer — só anunciar em 1 linha e ir direto ao trabalho
-- ❌ Dar sumários textuais pós-execução além do banner de conclusão
+APIs DataForge: `ReembolsoSolicitacaoApi.ts`, `ReembolsosApi.ts`, etc. (ver manifesto completo).
+
+## MODO ESTEIRA — Só a voz dos agentes no chat (OBRIGATÓRIO)
+
+Após o banner inicial, chat mostra **apenas a interação dos agentes** — orquestrador fica invisível.
+
+### Barreira serial de agentes (OBRIGATÓRIA)
+
+Trabalhar com **um agente por vez**, nesta ordem:
+
+`ativação visível → fontes/atividade → execução da etapa → validação → relatório do agente → handoff → próximo agente`
+
+- Relatório de cada agente deve ser publicado no chat em mensagem `commentary` assim que sua etapa terminar.
+- Próximo agente só pode ser ativado **depois** do relatório e do handoff visíveis.
+- Proibido gerar artefatos de agentes diferentes em paralelo ou na mesma chamada de ferramentas.
+- Proibido juntar os três relatórios somente na resposta final.
+- Resposta final contém apenas consolidação curta da esteira; relatórios detalhados já apareceram durante execução.
+
+Em cada etapa reportar (sempre **em voz do agente**, nunca do orquestrador):
+- **Banner de ativação** do agente + Read do arquivo `@` (ver ATIVACAO-AGENTES.md)
+- **Primeira linha em voz do agente** (GherkinFlow / DataForge / Playwright / Dev FourBlox)
+- Arquivos-fonte lidos (lista do manifesto)
+- Contagem de cenários / constantes / testes gerados
+- **Handoff** `⏭️ Ativando {próximo agente}...`
+- Output da execução Playwright (`passed | failed | skipped`)
+- Relatório do agente + caminhos de todos os outputs gerados
+- Se houver falha: Playwright pede decisão **GO/NOGO** antes de ativar Dev FourBlox
+
+⛔ **Proibido após banner inicial:** voz do orquestrador, resumo do manifesto, versão `vN`, status de pré-setup/Vite e menção a bug/rota inválida/self-healing **antes** de teste falhar. Não pausar entre etapas normais. Única pausa: **GO/NOGO** do self-healing.
+
+### Volume ENXUTO (demo única, ~2-4 min)
+
+A demo é **uma só** e otimizada para apresentação ao vivo. Manter o volume enxuto em TODAS as etapas:
+
+- **GherkinFlow (Etapa 1):** gerar de 8 a 12 cenários no total (foco nos principais: R-01, R-04, I-08, I-13). Não gerar dezenas de cenários.
+- **DataForge (Etapa 2):** mapear constantes só para os cenários que a spec executa (~4).
+- **Playwright (Etapa 3):** spec com **3 a 4 testes**, obrigatoriamente incluindo **R-04** (self-healing). Demais cenários do BDD podem ficar como `test.skip` documentado.
+- **Login:** único por execução via project `setup` (`tests/_setup/demo-auth.setup.ts`) + `storageState`. Com `E2E_REUSE_SESSION=true` (default), runs seguintes **pulam** OTP se JWT ainda válido. Nunca `loginFourMakers` no `beforeEach`. Doc: `e2e/docs/OTP_AUTH.md`.
+
+## PROTOCOLO DE ATIVAÇÃO DE AGENTES (OBRIGATÓRIO)
+
+Doc: `QA Agents/demo-fourmakers-reembolso/ATIVACAO-AGENTES.md`
+
+| Etapa | Agente | Read antes de executar |
+|-------|--------|------------------------|
+| 0 | Orquestrador | `DEMO/agentes/orquestrador/orquestrador.md` |
+| 1 | GherkinFlow | `DEMO/agentes/gherkinflow/gherkinflow.md` |
+| 2 | DataForge | `DEMO/agentes/dataforge/dataforge.md` |
+| 3 | Playwright | `DEMO/agentes/playwright/playwright.md` |
+| 3b | Self-healing → Dev FourBlox | `DEMO/agentes/self-healing/self-healing.md` → `DEMO/agentes/dev-fourblox/bridge.md` |
+
+## ⚠️ Pré-requisito — Pré-setup já executado
+
+Antes de iniciar a demo ao vivo, verificar `DEMO/setup/.demo-preparada.json`.
+
+- Se **não existir:** registrar internamente e continuar se o usuário estiver em apresentação; não avisar em voz do orquestrador.
+- Se existir: validar internamente `selfHealing: true`; não anunciar no chat.
+- **Não** rodar `npm install` nem `playwright install` durante a demo — isso é responsabilidade do pré-setup.
+
+## 🔴 Self-Healing (Etapa 3b — quando Playwright falhar)
+
+O **bug é injetado manualmente pelo apresentador** antes da demo — a esteira **não** injeta bug no código.
+
+Quando um cenário falhar (ex.: **R-04** — rota errada em `Reembolso.tsx`):
+
+1. A spec é Playwright puro — sem helper/loop de self-healing. O cenário falha como teste vermelho comum
+2. **Playwright Agent** reporta cenário, erro, esperado e caminhos das evidências
+3. Falha transitória (timeout de carga / flake) → reexecutar só o cenário; **não** é bug de aplicação
+4. Bug real → **Playwright Agent pergunta GO/NOGO via `AskQuestion` e aguarda**
+5. **NOGO:** não ativa Dev, não edita código; fecha relatório com status NOGO
+6. **GO:** ativa Dev FourBlox (`DEMO/agentes/dev-fourblox/bridge.md`)
+7. Dev corrige o código e registra em `DEMO/setup/self-healing-audit.jsonl`
+8. Reexecutar **só o cenário falho**
+
+Skill: `DEMO/agentes/self-healing/self-healing.md` · Protocolo: `DEMO/agentes/self-healing/protocolo.md`
+
+**Proibido:** `demo-reembolso-bug.cjs fix` automático durante o teste — correção colaborativa no chat.
+
+## 🎥 SETUP (antes da Etapa 1)
+
+1. Verificar Vite em `http://localhost:8080` — subir `npm run dev` em background se necessário
+2. Verificar `DEMO/setup/.demo-preparada.json` — avisar em 1 linha se ausente, **continuar mesmo assim**
+
+### Em cada etapa (MODO ESTEIRA — verbose)
+
+1. **Anúncio** + **lista de arquivos-fonte** do manifesto sendo lidos
+2. Gerar NOVA versão `vN` (nunca sobrescrever)
+3. **Reportar no chat** contagens e IDs de cenários
+4. **Banner de conclusão** da etapa
+5. Publicar relatório próprio do agente no chat
+6. Publicar handoff
+7. Só então seguir para a próxima
+
+**NÃO fazer:** pausar pedindo confirmação; esconder o que está acontecendo; terminar sem executar Playwright.
 
 ### Política de versionamento e retenção (OBRIGATÓRIA)
 
 Cada execução de `demo reembolso` precisa criar um trio de arquivos com o mesmo `vN`:
 
-1. `frontend/DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md`
-2. `frontend/DEMO/automacao/reembolso/versionadas/reembolso.data.vN.js`
-3. `frontend/playwright-automation-template/tests/reembolso/versionadas/reembolso-demo-vN.spec.ts`
+1. `DEMO/outputs/gherkinflow/reembolso/REEMBOLSO-BDD-vN.md`
+2. `DEMO/outputs/dataforge/reembolso/reembolso.data.vN.js`
+3. `DEMO/outputs/playwright/reembolso/specs/reembolso-demo-vN.spec.ts`
 
 Regras:
 
@@ -74,7 +164,7 @@ Essa etapa **NÃO pode parar em "spec gerada"**. Ela DEVE:
    - `X passed | Y failed | Z skipped` + tempo total,
    - cenários testados (IDs),
    - massa atendida (`reembolso.data.vN.js` + IDs),
-   - confirmação de uso do JSON da tela (`frontend/DEMO/ui-elements/reembolso-ui.json`),
+   - confirmação de uso do JSON da tela (`DEMO/inputs/ui-elements/reembolso-ui.json`),
    - **link/caminho explícito** do HTML final consolidado (com logs e falhas, quando houver).
 
 **Nunca terminar a demo apenas com um sumário textual — sempre rodar a automação visível ao final.**
@@ -82,19 +172,22 @@ Essa etapa **NÃO pode parar em "spec gerada"**. Ela DEVE:
 ### Estrutura de pastas da demo
 
 ```
-frontend/DEMO/
-  cenarios-bdd/          ← output da Etapa 1 (GherkinFlow)
-  automacao/reembolso/versionadas/ ← output da Etapa 2 (DataForge)
-  ui-elements/           ← JSON da extensão do Chrome (input da Etapa 3)
-    reembolso-ui.json
+DEMO/
+  modulos/               ← manifestos (caminhos pré-selecionados)
+    reembolso.manifest.json
+  outputs/
+    gherkinflow/reembolso/ ← output da Etapa 1
+    dataforge/reembolso/   ← output da Etapa 2
+    playwright/reembolso/  ← specs, relatórios, screenshots e test-results
+  inputs/ui-elements/    ← JSON da extensão do Chrome (input Etapa 3)
+  scripts/               ← demo-modulo, demo-preparar, demo-status
   agentes/               ← documentação dos agentes
-  integracao-acesso-qa/  ← docs OTP + Postman collection
+  inputs/integracao-acesso-qa/  ← docs OTP + Postman
 
 frontend/playwright-automation-template/
-  support/auth/fourmakers-auth.ts   ← helper OTP Gustavo (já configurado)
+  tests/_setup/demo-auth.setup.ts   ← login OTP único (grava storageState)
+  support/auth/solution-center-otp.ts ← fluxo OTP Solution Center
   support/pages/ReembolsoPage.ts    ← Page Object
-  tests/reembolso/versionadas/
-    reembolso-demo-vN.spec.ts       ← output versionado da Etapa 3
 ```
 
 ---
@@ -104,9 +197,9 @@ frontend/playwright-automation-template/
 Lê o código-fonte real das telas e gera cenários BDD.
 
 ### Ações obrigatórias:
-1. **Anúncio curto:** 1 linha no chat → `🎭 GherkinFlow lendo Reembolso.tsx + InserirReembolso.tsx...`
-2. Analisar `frontend/src/presentation/pages/Reembolso.tsx` e `frontend/src/presentation/pages/InserirReembolso.tsx`
-3. Gerar `frontend/DEMO/cenarios-bdd/REEMBOLSO-BDD-vN.md` (N alinhado com as Etapas 2 e 3)
+1. **Anúncio + fontes:** listar arquivos do manifesto `DEMO/modulos/reembolso.manifest.json` (telas R, I, AP, RP)
+2. Analisar **todas as telas relacionadas** do manifesto — não apenas 2 arquivos
+3. Gerar `DEMO/outputs/gherkinflow/reembolso/REEMBOLSO-BDD-vN.md` (N do `demo-modulo.cjs next-version`)
 4. **Banner de conclusão:**
    ```
    ╔══════════════════════════════════════════════════╗
@@ -114,7 +207,8 @@ Lê o código-fonte real das telas e gera cenários BDD.
    ║  📄 REEMBOLSO-BDD-vN.md — XX cenários gerados    ║
    ╚══════════════════════════════════════════════════╝
    ```
-5. Seguir IMEDIATAMENTE para Etapa 2 (sem pausa, sem sumário)
+5. Publicar relatório GherkinFlow no chat
+6. Publicar handoff e só então iniciar Etapa 2
 
 Seguir integralmente as regras de `pre-sales-demo-01-gherkin.mdc`.
 
@@ -122,12 +216,12 @@ Seguir integralmente as regras de `pre-sales-demo-01-gherkin.mdc`.
 
 ## ETAPA 2 — Dados de Teste com DataForge
 
-> Executar **imediatamente** após a Etapa 1, sem esperar confirmação.
+> Executar após relatório e handoff visíveis da Etapa 1, sem pedir confirmação.
 
 ### Ações obrigatórias:
 1. **Anúncio curto:** 1 linha no chat → `🧪 DataForge mapeando cenários para constantes JavaScript...`
 2. Gera constantes JavaScript com dados realistas (CPF/CNPJ válidos, valores em reais, datas dd/MM/yyyy)
-3. **Output:** `frontend/DEMO/automacao/reembolso/versionadas/reembolso.data.vN.js`
+3. **Output:** `DEMO/outputs/dataforge/reembolso/reembolso.data.vN.js`
 4. **Banner de conclusão:**
    ```
    ╔══════════════════════════════════════════════════╗
@@ -153,43 +247,45 @@ Seguir integralmente as regras de `pre-sales-demo-02-dataforge.mdc`.
 
 ## ETAPA 3 — Testes Automatizados com Playwright
 
-> Executar **imediatamente** após a Etapa 2, sem esperar confirmação.
+> Executar após relatório e handoff visíveis da Etapa 2, sem pedir confirmação.
 
 ### Ações obrigatórias:
 1. **Anúncio curto:** 1 linha no chat → `🎬 Playwright atualizando spec com BDD + DataForge...`
-2. Gerar `frontend/playwright-automation-template/tests/reembolso/versionadas/reembolso-demo-vN.spec.ts` — importar constantes do DataForge versionado e mapear cenários do BDD `vN`
+2. Gerar `DEMO/outputs/playwright/reembolso/specs/reembolso-demo-vN.spec.ts` — importar constantes do DataForge versionado e mapear cenários do BDD `vN`. **3-4 testes** (incluindo R-04). **Sem `loginFourMakers` no `beforeEach`** — a sessão vem do `storageState` (project `setup`)
 3. Executar a spec gerada (`reembolso-demo-vN.spec.ts`) em `--headed` com `slowMo` (Vite já está UP)
-4. Chromium abre visível com a jornada do Gustavo
+4. Chromium abre visível com a jornada do usuário QA
 5. **Banner de conclusão:**
    ```
    ╔══════════════════════════════════════════════════╗
    ║  ✅ ETAPA 3 CONCLUÍDA — Playwright                ║
    ║  🎬 X passed | Y failed | Z skipped em T.Ts      ║
-   ║  🧪 Cenários testados: R-01, R-12, I-08...       ║
+   ║  🧪 Cenários testados: R-01, R-04, I-08, I-13    ║
+   ║  🔐 Auth: reuso storageState | OTP 0–1×          ║
    ║  🧾 Massa atendida: reembolso.data.vN.js         ║
    ║  🧭 UI JSON usado: reembolso-ui.json             ║
-   ║  📄 HTML final: evidencias/relatorios/...html    ║
+   ║  📄 HTML: DEMO/outputs/playwright/.../relatorios ║
    ╚══════════════════════════════════════════════════╝
    ```
 
 ### Características do Playwright:
 - **Framework:** Playwright + TypeScript
-- **Login:** OTP real via `loginFourMakers(page, request)` (3 steps, credenciais do Gustavo fixas)
+- **Login:** OTP real UMA vez por execução via project `setup` (`tests/_setup/demo-auth.setup.ts`) → grava `storageState`. As specs herdam a sessão (nada de login por teste). NÃO chamar `loginFourMakers` no `beforeEach`.
 - **Backend:** real em `https://spw.app.foursys.com/backoffice-rf-hom`
 - **Front:** Vite local (`http://localhost:8080`) configurado com proxy pra API dev
-- **Output:** `frontend/playwright-automation-template/tests/reembolso/versionadas/reembolso-demo-vN.spec.ts`
+- **Output:** `DEMO/outputs/playwright/reembolso/specs/reembolso-demo-vN.spec.ts`
 
-### Fluxo real de cada teste (visível em `--headed`):
-1. `await loginFourMakers(page, request)` → autentica via API real + injeta JWT em localhost:8080
-2. `await page.goto('/reembolso')` → dashboard real
-3. Ações de navegação/preenchimento com `slowMo=400ms` (digitação visível para apresentação)
-4. Assertions sobre a UI real + screenshot por cenário
+### Fluxo real da execução (visível em `--headed`):
+1. Project `setup`: se `E2E_REUSE_SESSION` + JWT válido → `♻️` sem OTP; senão 1× OTP → `storageState`
+2. Cada teste já autenticado → `page.goto('/reembolso')` / formulário
+3. Ações com `slowMo=150ms` (visível para apresentação)
+4. Assertions + screenshot; R-04 é Playwright puro (falha vermelha comum se a rota estiver errada)
+5. HTML consolidado em `DEMO/outputs/playwright/reembolso/relatorios/demo-reembolso-vN.html`
 
 ### Comandos disponíveis (se a usuária quiser rodar manualmente):
 ```bash
 # Na raiz do repo:
 npm run dev              # sobe Vite (persistente) — deixar rodando em outro terminal
-npm --prefix frontend/playwright-automation-template exec cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 PLAYWRIGHT_SLOWMO=300 playwright test tests/reembolso/versionadas/reembolso-demo-vN.spec.ts --headed --reporter=list
+npm --prefix frontend/playwright-automation-template exec cross-env PLAYWRIGHT_BASE_URL=http://localhost:8080 PLAYWRIGHT_SLOWMO=150 playwright test reembolso-demo-vN.spec.ts --project=demo --headed --reporter=list
 npm run demo             # one-shot — sobe Vite, roda headless, desliga Vite (CI)
 npm run demo:headed      # one-shot headed (sobe Vite, roda, desliga)
 ```
@@ -198,7 +294,11 @@ Seguir integralmente as regras de `pre-sales-demo-03-automacao-logs.mdc`.
 
 ---
 
-## Sumário Final (depois que a automação terminar de rodar no navegador)
+## Relatório final — agente Playwright
+
+Depois da execução (ou decisão NOGO), **Playwright** publica o relatório; orquestrador não fala. Incluir status/tempo e caminhos de BDD, massa, spec, screenshots, vídeo/error-context quando houver e HTML.
+
+⛔ **O relatório termina nos caminhos dos artefatos.** Proibido sugerir injetar bug, citar `demo-reembolso-bug.cjs`, propor rodar de novo ou oferecer próximos passos. A injeção de bug é decisão exclusiva da apresentadora — nunca sugerida pelo agente.
 
 ```
 ╔══════════════════════════════════════════════════════════╗
@@ -208,20 +308,30 @@ Seguir integralmente as regras de `pre-sales-demo-03-automacao-logs.mdc`.
 ║  ✅ Etapa 2 — DataForge    → XX constantes / cenários    ║
 ║  ✅ Etapa 3 — Playwright   → X pass | Y fail | Z skip    ║
 ║                             em YY.Ys no navegador real   ║
-║  📄 HTML final consolidado: evidencias/relatorios/...    ║
+║  📄 BDD: DEMO/outputs/gherkinflow/reembolso/REEMBOLSO-BDD-vN.md          ║
+║  🧾 Massa: DEMO/automacao/.../reembolso.data.vN.js      ║
+║  🧪 Spec: frontend/.../reembolso-demo-vN.spec.ts        ║
+║  📸 Evidências: frontend/.../evidencias/                ║
+║  📄 HTML: DEMO/outputs/playwright/.../relatorios         ║
 ╠══════════════════════════════════════════════════════════╣
 ║  Backend: https://spw.app.foursys.com/backoffice-rf-hom ║
-║  Usuário: gustavo.queiroz@foursys.com.br (org 8)        ║
-║  Screenshots: evidencias/screenshots/reembolso/*.png    ║
+║  Usuário: usuario_qa@foursys.com.br (org 5 Showcase)    ║
+║  Auth: storageState + E2E_REUSE_SESSION (OTP 0–1×)      ║
+║  Screenshots: DEMO/outputs/playwright/.../screenshots   ║
 ╚══════════════════════════════════════════════════════════╝
 ```
 
 ## Proibido durante toda a demo
 
 - Pausar entre etapas pedindo confirmação do usuário
+- Ativar próximo agente antes do relatório do agente atual
+- Gerar BDD, massa e spec em paralelo
+- Guardar relatórios intermediários para exibir todos apenas no final
 - Gerar SQL para banco fictício
 - Referenciar MODELO-DADOS.sql ou DICIONARIO-DADOS.sql
 - Usar Cypress (framework atual é Playwright — migração concluída)
 - Deixar qualquer `test()` sem log de início e fim
 - Salvar specs fora de `frontend/playwright-automation-template/tests/`
 - Usar `page.waitForTimeout(2000)` fixo sem justificativa
+- Sugerir/lembrar injeção de bug ou citar `demo-reembolso-bug.cjs injetar` em qualquer mensagem
+- Oferecer "próximos passos" no fim da demo (relatório fecha nos artefatos)

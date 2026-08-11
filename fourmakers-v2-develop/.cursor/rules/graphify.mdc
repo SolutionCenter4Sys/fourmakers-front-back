@@ -1,0 +1,22 @@
+---
+description: graphify knowledge graph — consultar grafo antes de Read/Grep/Glob (economia de tokens)
+alwaysApply: true
+---
+
+Este workspace pode ter um grafo graphify em `graphify-out/`.
+
+**OBRIGATÓRIO:** Antes de Read, Grep, Glob ou Bash para explorar código, usar graphify:
+- `graphify query "<pergunta>"` — subgrafo escopo
+- `graphify path "<A>" "<B>"` — caminho entre símbolos
+- `graphify explain "<conceito>"` — nós relacionados
+
+Só usar Read/Grep/Glob quando:
+1. graphify já orientou e precisas editar linhas específicas
+2. `graphify-out/graph.json` ainda não existe (correr `graphify update .` primeiro)
+
+**Obsidian + wiki (TokenOps):**
+- Se `graphify-out/wiki/index.md` existe → navegar wiki em vez de ficheiros raw
+- Vault Obsidian sincronizado: `C:\Cursor_Codigo\Obsidian-Vault\Graphify-Knowledge`
+- MCP graphify disponível no Cursor para `query_graph`, `shortest_path`, `get_node`
+
+Após editar código: `graphify update .` (AST local, sem custo API).

@@ -1,0 +1,206 @@
+{
+  "id": "reembolso",
+  "nome": "Módulo de Reembolso",
+  "padrao": true,
+  "descricao": "Dashboard, nova solicitação, aprovações, gestão ADM e parâmetros do módulo Colaboração — Reembolso.",
+  "comandosAtivacao": [
+    "demo reembolso",
+    "demo",
+    "esteira e2e",
+    "esteira de testes",
+    "demo e2e",
+    "demo e2e reembolso"
+  ],
+  "telas": [
+    {
+      "id": "dashboard",
+      "nome": "Reembolso (Dashboard)",
+      "rota": "/reembolso",
+      "prefixoCenario": "R",
+      "prioridade": "alta",
+      "arquivos": [
+        "frontend/src/presentation/pages/Reembolso.tsx",
+        "frontend/src/presentation/hooks/useReembolsos.ts",
+        "frontend/src/presentation/components/reembolso/GestaoAdmTab.tsx",
+        "frontend/src/presentation/components/reembolso/AprovacoesTab.tsx"
+      ]
+    },
+    {
+      "id": "inserir",
+      "nome": "Inserir Reembolso",
+      "rota": "/inserir-reembolso",
+      "prefixoCenario": "I",
+      "prioridade": "alta",
+      "arquivos": [
+        "frontend/src/presentation/pages/InserirReembolso.tsx",
+        "frontend/src/domain/usecases/InserirSolicitacaoUseCase.ts",
+        "frontend/src/domain/usecases/AnalisarComprovantesUseCase.ts",
+        "frontend/src/domain/usecases/GetVerbasUseCase.ts",
+        "frontend/src/domain/usecases/GetProjetosColaboradorUseCase.ts"
+      ]
+    },
+    {
+      "id": "aprovar",
+      "nome": "Aprovar Reembolso",
+      "rota": "/aprovar-reembolso",
+      "prefixoCenario": "AP",
+      "prioridade": "media",
+      "arquivos": [
+        "frontend/src/presentation/pages/AprovarReembolso.tsx"
+      ]
+    },
+    {
+      "id": "parametros",
+      "nome": "Parâmetros de Reembolso",
+      "rota": "/reembolso-parametros",
+      "prefixoCenario": "RP",
+      "prioridade": "baixa",
+      "arquivos": [
+        "frontend/src/presentation/pages/ReembolsoParametros.tsx",
+        "frontend/src/presentation/hooks/useReembolsoParametros.ts",
+        "frontend/src/presentation/components/reembolso-parametros/RegrasTab.tsx",
+        "frontend/src/presentation/components/reembolso-parametros/VerbaCard.tsx"
+      ]
+    }
+  ],
+  "apis": [
+    "frontend/src/data/api/ReembolsoSolicitacaoApi.ts",
+    "frontend/src/data/api/ReembolsosApi.ts",
+    "frontend/src/data/api/ReembolsoParametrosApi.ts",
+    "frontend/src/data/api/ReembolsoComponentesApi.ts"
+  ],
+  "dominio": [
+    "frontend/src/domain/entities/SolicitacaoReembolso.ts",
+    "frontend/src/domain/repositories/ReembolsoSolicitacaoRepository.ts",
+    "frontend/src/domain/repositories/ReembolsosRepository.ts"
+  ],
+  "dataforge": {
+    "estrategia": "constantes-js-alinhadas-api",
+    "descricao": "Massa de dados como constantes JavaScript mapeadas aos contratos da API real (formulário + payloads). Dados entram pelo front contra backend hom — sem SQL fictício no E2E.",
+    "apisPrincipais": [
+      "frontend/src/data/api/ReembolsoSolicitacaoApi.ts"
+    ],
+    "formulario": "frontend/src/presentation/pages/InserirReembolso.tsx"
+  },
+  "outputs": {
+    "bdd": {
+      "dir": "DEMO/outputs/gherkinflow/reembolso",
+      "arquivo": "REEMBOLSO-BDD-v{N}.md"
+    },
+    "data": {
+      "dir": "DEMO/outputs/dataforge/reembolso",
+      "arquivo": "reembolso.data.v{N}.js"
+    },
+    "spec": {
+      "dir": "DEMO/outputs/playwright/reembolso/specs",
+      "arquivo": "reembolso-demo-v{N}.spec.ts"
+    },
+    "relatorio": {
+      "dir": "DEMO/outputs/playwright/reembolso/relatorios",
+      "arquivo": "demo-reembolso-v{N}.html"
+    }
+  },
+  "inputs": {
+    "uiJson": "DEMO/inputs/ui-elements/reembolso-ui.json",
+    "otpDocs": "DEMO/inputs/integracao-acesso-qa/integracao-acesso-qa.md"
+  },
+  "playwright": {
+    "pageObject": "frontend/playwright-automation-template/support/pages/ReembolsoPage.ts",
+    "authHelper": "frontend/playwright-automation-template/support/auth/fourmakers-auth.ts",
+    "runScript": "frontend/playwright-automation-template/scripts/run-versioned-demo.cjs",
+    "cenarioSelfHealingExemplo": "R-04"
+  },
+  "selfHealing": {
+    "habilitado": true,
+    "humanInTheLoop": true,
+    "maxTentativas": 2,
+    "protocolo": "DEMO/agentes/self-healing/protocolo.md",
+    "protocoloLocal": "DEMO/agentes/self-healing/protocolo.md",
+    "skill": "DEMO/agentes/self-healing/self-healing.md",
+    "agenteDev": {
+      "id": "dev-reactjs-fourblox",
+      "bridge": "DEMO/agentes/dev-fourblox/bridge.md",
+      "fonteCompleta": "Agents DownStream/dev-reactjs-fourblox.md"
+    },
+    "auditLog": "DEMO/setup/self-healing-audit.jsonl",
+    "falhaPendente": "DEMO/setup/.demo-falha-pendente.json",
+    "script": "DEMO/scripts/demo-self-healing.cjs",
+    "nota": "Bug injetado manualmente pelo apresentador — a demo NAO injeta bug no codigo. Gate GO/NOGO obrigatorio antes do Dev."
+  },
+  "ambiente": {
+    "backend": "https://spw.app.foursys.com/backoffice-rf-hom",
+    "frontLocal": "http://localhost:8080",
+    "usuarioDemo": "usuario_qa@foursys.com.br",
+    "orgId": "5",
+    "orgNome": "Showcase"
+  },
+  "versionamento": {
+    "maxVersoes": 10,
+    "bddPattern": "^REEMBOLSO-BDD-v(\\d+)\\.md$",
+    "dataPattern": "^reembolso\\.data\\.v(\\d+)\\.js$",
+    "specPattern": "^reembolso-demo-v(\\d+)\\.spec\\.ts$"
+  },
+  "agentes": {
+    "ativacaoDoc": "DEMO/agentes/README.md",
+    "orquestrador": {
+      "id": "orquestrador",
+      "icone": "🎬",
+      "skill": "DEMO/agentes/orquestrador/orquestrador.md",
+      "stubCursor": ".cursor/skills/orquestrador/SKILL.md"
+    },
+    "etapas": [
+      {
+        "etapa": 0,
+        "id": "orquestrador",
+        "nome": "Orquestrador",
+        "icone": "🎬",
+        "ativacao": "DEMO/agentes/orquestrador/orquestrador.md"
+      },
+      {
+        "etapa": 1,
+        "id": "gherkinflow",
+        "nome": "GherkinFlow",
+        "icone": "🎭",
+        "ativacao": "DEMO/agentes/gherkinflow/gherkinflow.md",
+        "stubCursor": ".cursor/skills/gherkinflow/SKILL.md",
+        "comandoShowcase": "demo gherkinflow"
+      },
+      {
+        "etapa": 2,
+        "id": "dataforge",
+        "nome": "DataForge",
+        "icone": "🧪",
+        "ativacao": "DEMO/agentes/dataforge/dataforge.md",
+        "stubCursor": ".cursor/skills/dataforge/SKILL.md",
+        "comandoShowcase": "demo dataforge"
+      },
+      {
+        "etapa": 3,
+        "id": "playwright",
+        "nome": "Playwright",
+        "icone": "🎬",
+        "ativacao": "DEMO/agentes/playwright/playwright.md",
+        "stubCursor": ".cursor/skills/playwright/SKILL.md",
+        "comandoShowcase": "demo playwright"
+      },
+      {
+        "etapa": "3b-detect",
+        "id": "playwright",
+        "nome": "Playwright (Self-Healing detect + GO/NOGO)",
+        "icone": "🔴",
+        "ativacao": "DEMO/agentes/playwright/playwright.md",
+        "skill": "DEMO/agentes/self-healing/self-healing.md"
+      },
+      {
+        "etapa": "3b-fix",
+        "id": "dev-reactjs-fourblox",
+        "nome": "Dev FourBlox",
+        "icone": "⚛️",
+        "persona": "Eliza",
+        "ativacao": "DEMO/agentes/dev-fourblox/bridge.md",
+        "bridge": "DEMO/agentes/dev-fourblox/bridge.md",
+        "comandoShowcase": "self-healing"
+      }
+    ]
+  }
+}
