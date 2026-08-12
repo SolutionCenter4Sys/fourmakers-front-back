@@ -113,14 +113,14 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 995,
+                  "duration": 1694,
                   "errors": [],
                   "stdout": [
                     {
                       "text": "\n♻️  [setup] Reusando storageState — SEM EnviaTokenAcessoEmail\n"
                     },
                     {
-                      "text": "   motivo: storageState válido (JWT + idade OK)\n"
+                      "text": "   motivo: storageState válido (JWT OK) (arquivo 2502 min > max 30 — JWT ainda válido, OTP não disparado)\n"
                     },
                     {
                       "text": "   arquivo: evidencias\\.auth\\demo-usuario.json\n"
@@ -131,7 +131,7 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-11T19:53:11.599Z",
+                  "startTime": "2026-08-12T14:12:47.415Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -147,13 +147,13 @@
       ]
     },
     {
-      "title": "..\\..\\..\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-      "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v1.spec.ts",
+      "title": "..\\..\\..\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+      "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v2.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [
         {
-          "title": "R-01 [Positivo] Acesso à lista de reembolsos",
+          "title": "R-01 [Positivo] Acesso ao dashboard de reembolsos",
           "ok": true,
           "tags": [],
           "tests": [
@@ -168,20 +168,20 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 6066,
+                  "duration": 15532,
                   "errors": [],
                   "stdout": [
                     {
                       "text": "\n╔══════════════════════════════════════════════════════╗\n"
                     },
                     {
-                      "text": "║  🎯 DEMO FOURMAKERS — MÓDULO REEMBOLSO (v1)          ║\n"
+                      "text": "║  🎯 AUTOMAÇÃO INICIADA — DEMO REEMBOLSO v2           ║\n"
                     },
                     {
                       "text": "╚══════════════════════════════════════════════════════╝\n"
                     },
                     {
-                      "text": "\n🧪 TESTANDO: R-01 [Positivo] Acesso à lista de reembolsos\n"
+                      "text": "\n🧪 TESTANDO: R-01 [Positivo] Acesso ao dashboard de reembolsos\n"
                     },
                     {
                       "text": "   → Navegando para /reembolso...\n"
@@ -190,15 +190,15 @@
                       "text": "   ✅ Aba \"Meus Reembolsos\" visível\n"
                     },
                     {
-                      "text": "   📸 [EVIDÊNCIA] C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\screenshots\\r01-lista-v1.png\n"
+                      "text": "   📸 [EVIDÊNCIA] C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\screenshots\\r01-dashboard-v2.png\n"
                     },
                     {
-                      "text": "🏁 R-01 [Positivo] Acesso à lista de reembolsos CONCLUÍDO\n"
+                      "text": "🏁 R-01 CONCLUÍDO\n"
                     }
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-11T19:53:15.176Z",
+                  "startTime": "2026-08-12T14:12:53.996Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -206,9 +206,9 @@
               "status": "expected"
             }
           ],
-          "id": "882d1bcc90077dc30b70-50818a0e456ee493f194",
-          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v1.spec.ts",
-          "line": 64,
+          "id": "7bfb308c2bceb112d9da-346c63fb3bb467547568",
+          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v2.spec.ts",
+          "line": 55,
           "column": 5
         },
         {
@@ -227,7 +227,7 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 7739,
+                  "duration": 14995,
                   "errors": [],
                   "stdout": [
                     {
@@ -246,15 +246,15 @@
                       "text": "   ✅ Formulário de nova solicitação aberto\n"
                     },
                     {
-                      "text": "   📸 [EVIDÊNCIA] C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\screenshots\\r04-formulario-aberto-v1.png\n"
+                      "text": "   📸 [EVIDÊNCIA] C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\screenshots\\r04-formulario-aberto-v2.png\n"
                     },
                     {
-                      "text": "🏁 R-04 [Positivo] Navegação para nova solicitação CONCLUÍDO\n"
+                      "text": "🏁 R-04 CONCLUÍDO\n"
                     }
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-11T19:53:21.844Z",
+                  "startTime": "2026-08-12T14:13:10.663Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -262,69 +262,13 @@
               "status": "expected"
             }
           ],
-          "id": "882d1bcc90077dc30b70-6abbb1566a8f744ac5a5",
-          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v1.spec.ts",
-          "line": 73,
+          "id": "7bfb308c2bceb112d9da-c74abb1c30b1c7e403fd",
+          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v2.spec.ts",
+          "line": 65,
           "column": 5
         },
         {
-          "title": "I-08 [Positivo] Inclusão de despesa no carrinho",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 30000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "demo",
-              "projectName": "demo",
-              "results": [
-                {
-                  "workerIndex": 1,
-                  "parallelIndex": 0,
-                  "status": "passed",
-                  "duration": 23863,
-                  "errors": [],
-                  "stdout": [
-                    {
-                      "text": "\n🧪 TESTANDO: I-08 [Positivo] Inclusão de despesa no carrinho\n"
-                    },
-                    {
-                      "text": "   → Abrindo formulário de inserção...\n"
-                    },
-                    {
-                      "text": "   → Preenchendo objetivo: \"Workshop de arquitetura com cliente Braskem\"...\n"
-                    },
-                    {
-                      "text": "   → Adicionando ao carrinho...\n"
-                    },
-                    {
-                      "text": "   ✅ Item no painel de envio\n"
-                    },
-                    {
-                      "text": "   📸 [EVIDÊNCIA] C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\screenshots\\i08-item-carrinho-v1.png\n"
-                    },
-                    {
-                      "text": "🏁 I-08 [Positivo] Inclusão de despesa no carrinho CONCLUÍDO\n"
-                    }
-                  ],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-08-11T19:53:29.606Z",
-                  "annotations": [],
-                  "attachments": []
-                }
-              ],
-              "status": "expected"
-            }
-          ],
-          "id": "882d1bcc90077dc30b70-77434411cd1561c3805a",
-          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v1.spec.ts",
-          "line": 95,
-          "column": 5
-        },
-        {
-          "title": "I-13 [Positivo] Envio da solicitação com itens",
+          "title": "I-08 [Positivo] Inclusão de item no carrinho com comprovante",
           "ok": true,
           "tags": [],
           "tests": [
@@ -339,37 +283,34 @@
                   "workerIndex": 1,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 15296,
+                  "duration": 16826,
                   "errors": [],
                   "stdout": [
                     {
-                      "text": "\n🧪 TESTANDO: I-13 [Positivo] Envio da solicitação com itens\n"
+                      "text": "\n🧪 TESTANDO: I-08 [Positivo] Inclusão de item no carrinho com comprovante\n"
                     },
                     {
-                      "text": "   → Montando solicitação para envio...\n"
+                      "text": "   → Abrindo formulário de inserção...\n"
                     },
                     {
-                      "text": "   → Enviando solicitações...\n"
+                      "text": "   → Preenchendo campos gerais + item...\n"
                     },
                     {
-                      "text": "   → [API] Interceptando Inserir — sucesso garantido para demo\n"
+                      "text": "   → Adicionando ao carrinho...\n"
                     },
                     {
-                      "text": "   ✅ Modal de sucesso exibido\n"
+                      "text": "   ✅ Item no carrinho — valor 87,50 | Alimentação\n"
                     },
                     {
-                      "text": "   ✅ Redirecionado à lista de reembolsos\n"
+                      "text": "   📸 [EVIDÊNCIA] C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\screenshots\\i08-item-carrinho-v2.png\n"
                     },
                     {
-                      "text": "   📸 [EVIDÊNCIA] C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\screenshots\\i13-envio-sucesso-v1.png\n"
-                    },
-                    {
-                      "text": "🏁 I-13 [Positivo] Envio da solicitação com itens CONCLUÍDO\n"
+                      "text": "🏁 I-08 CONCLUÍDO\n"
                     }
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-11T19:53:53.501Z",
+                  "startTime": "2026-08-12T14:13:25.700Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -377,13 +318,72 @@
               "status": "expected"
             }
           ],
-          "id": "882d1bcc90077dc30b70-ca4aade8944ec1de9460",
-          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v1.spec.ts",
-          "line": 123,
+          "id": "7bfb308c2bceb112d9da-e2b5e375db67fa1c032b",
+          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v2.spec.ts",
+          "line": 85,
           "column": 5
         },
         {
-          "title": "R-02 [Negativo] Abas restritas ocultas sem permissão — requer perfil sem gestão/aprovação garantido",
+          "title": "I-13 [Positivo] Envio da solicitação com itens no carrinho",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 120000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "demo",
+              "projectName": "demo",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18864,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "\n🧪 TESTANDO: I-13 [Positivo] Envio da solicitação com itens no carrinho\n"
+                    },
+                    {
+                      "text": "   → Preparando solicitação completa...\n"
+                    },
+                    {
+                      "text": "   → Enviando solicitações...\n"
+                    },
+                    {
+                      "text": "   → [API] Interceptando Inserir — sucesso controlado para demo...\n"
+                    },
+                    {
+                      "text": "   ✅ Modal de sucesso exibido\n"
+                    },
+                    {
+                      "text": "   ✅ Redirecionado para acompanhamento em /reembolso\n"
+                    },
+                    {
+                      "text": "   📸 [EVIDÊNCIA] C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\screenshots\\i13-envio-sucesso-v2.png\n"
+                    },
+                    {
+                      "text": "🏁 I-13 CONCLUÍDO\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-08-12T14:13:42.557Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7bfb308c2bceb112d9da-7a3a8f63a078a5f62794",
+          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v2.spec.ts",
+          "line": 117,
+          "column": 5
+        },
+        {
+          "title": "R-02 [Negativo] Aba de gestão restrita sem perfil de gestor — requer colaborador sem permissão de gestão",
           "ok": true,
           "tags": [],
           "tests": [
@@ -393,8 +393,8 @@
                 {
                   "type": "skip",
                   "location": {
-                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-                    "line": 173,
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+                    "line": 166,
                     "column": 6
                   }
                 }
@@ -412,13 +412,13 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-11T19:54:08.813Z",
+                  "startTime": "2026-08-12T14:14:01.456Z",
                   "annotations": [
                     {
                       "type": "skip",
                       "location": {
-                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-                        "line": 173,
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+                        "line": 166,
                         "column": 6
                       }
                     }
@@ -429,13 +429,13 @@
               "status": "skipped"
             }
           ],
-          "id": "882d1bcc90077dc30b70-4452b2c0535f6f20e11b",
-          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v1.spec.ts",
-          "line": 173,
+          "id": "7bfb308c2bceb112d9da-66ab488998ae2986bada",
+          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v2.spec.ts",
+          "line": 166,
           "column": 6
         },
         {
-          "title": "R-03 [Negativo] Lista vazia com mensagem orientativa — requer período sem solicitações",
+          "title": "I-09 [Negativo] Categoria com comprovante obrigatório sem anexo — coberto indiretamente por I-08 com anexo",
           "ok": true,
           "tags": [],
           "tests": [
@@ -445,8 +445,8 @@
                 {
                   "type": "skip",
                   "location": {
-                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-                    "line": 174,
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+                    "line": 167,
                     "column": 6
                   }
                 }
@@ -464,13 +464,13 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-11T19:54:08.814Z",
+                  "startTime": "2026-08-12T14:14:01.458Z",
                   "annotations": [
                     {
                       "type": "skip",
                       "location": {
-                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-                        "line": 174,
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+                        "line": 167,
                         "column": 6
                       }
                     }
@@ -481,13 +481,13 @@
               "status": "skipped"
             }
           ],
-          "id": "882d1bcc90077dc30b70-81ac44d179844fae7087",
-          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v1.spec.ts",
-          "line": 174,
+          "id": "7bfb308c2bceb112d9da-00b9484c1baa84d5948b",
+          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v2.spec.ts",
+          "line": 167,
           "column": 6
         },
         {
-          "title": "I-09 [Negativo] Bloqueio por campos obrigatórios vazios — coberto pela validação de I-08",
+          "title": "I-14 [Regressivo] Leitura automática de dados do comprovante — depende de OCR estável no HML",
           "ok": true,
           "tags": [],
           "tests": [
@@ -497,8 +497,8 @@
                 {
                   "type": "skip",
                   "location": {
-                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-                    "line": 175,
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+                    "line": 168,
                     "column": 6
                   }
                 }
@@ -516,13 +516,13 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-11T19:54:08.815Z",
+                  "startTime": "2026-08-12T14:14:01.459Z",
                   "annotations": [
                     {
                       "type": "skip",
                       "location": {
-                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-                        "line": 175,
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+                        "line": 168,
                         "column": 6
                       }
                     }
@@ -533,13 +533,13 @@
               "status": "skipped"
             }
           ],
-          "id": "882d1bcc90077dc30b70-cccd81c5100e44272edb",
-          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v1.spec.ts",
-          "line": 175,
+          "id": "7bfb308c2bceb112d9da-1e00f790fe1f998d4460",
+          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v2.spec.ts",
+          "line": 168,
           "column": 6
         },
         {
-          "title": "I-10 [Negativo] Comprovante obrigatório ausente — requer categoria com exigirComprovante",
+          "title": "AP-01 [Positivo] Aprovação de solicitações pendentes — requer perfil aprovador + massa pendente",
           "ok": true,
           "tags": [],
           "tests": [
@@ -549,8 +549,8 @@
                 {
                   "type": "skip",
                   "location": {
-                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-                    "line": 176,
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+                    "line": 169,
                     "column": 6
                   }
                 }
@@ -568,13 +568,13 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-11T19:54:08.815Z",
+                  "startTime": "2026-08-12T14:14:01.460Z",
                   "annotations": [
                     {
                       "type": "skip",
                       "location": {
-                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-                        "line": 176,
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+                        "line": 169,
                         "column": 6
                       }
                     }
@@ -585,13 +585,13 @@
               "status": "skipped"
             }
           ],
-          "id": "882d1bcc90077dc30b70-a38b16ee8669b2d38a1c",
-          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v1.spec.ts",
-          "line": 176,
+          "id": "7bfb308c2bceb112d9da-5825876b32174452f8ef",
+          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v2.spec.ts",
+          "line": 169,
           "column": 6
         },
         {
-          "title": "AP-01 [Positivo] Aprovação de solicitações selecionadas — requer perfil aprovador",
+          "title": "AP-02 [Negativo] Reprovação sem justificativa — requer perfil aprovador",
           "ok": true,
           "tags": [],
           "tests": [
@@ -601,8 +601,8 @@
                 {
                   "type": "skip",
                   "location": {
-                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-                    "line": 177,
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+                    "line": 170,
                     "column": 6
                   }
                 }
@@ -620,13 +620,13 @@
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-11T19:54:08.815Z",
+                  "startTime": "2026-08-12T14:14:01.461Z",
                   "annotations": [
                     {
                       "type": "skip",
                       "location": {
-                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-                        "line": 177,
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+                        "line": 170,
                         "column": 6
                       }
                     }
@@ -637,13 +637,13 @@
               "status": "skipped"
             }
           ],
-          "id": "882d1bcc90077dc30b70-22f0c603b54763d861a0",
-          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v1.spec.ts",
-          "line": 177,
+          "id": "7bfb308c2bceb112d9da-47307f535089dac7c85c",
+          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v2.spec.ts",
+          "line": 170,
           "column": 6
         },
         {
-          "title": "RP-01 [Regressivo] Visualização das regras de verba — requer perfil gestor",
+          "title": "RP-01 [Regressivo] Consulta das regras e verbas parametrizadas — requer perfil gestor",
           "ok": true,
           "tags": [],
           "tests": [
@@ -653,8 +653,8 @@
                 {
                   "type": "skip",
                   "location": {
-                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-                    "line": 178,
+                    "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+                    "line": 171,
                     "column": 6
                   }
                 }
@@ -671,18 +671,18 @@
                   "errors": [],
                   "stdout": [
                     {
-                      "text": "╚══ ✅ DEMO CONCLUÍDA ══╝\n"
+                      "text": "\n╚══ ✅ DEMO CONCLUÍDA ══╝\n\n"
                     }
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-08-11T19:54:08.816Z",
+                  "startTime": "2026-08-12T14:14:01.462Z",
                   "annotations": [
                     {
                       "type": "skip",
                       "location": {
-                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v1.spec.ts",
-                        "line": 178,
+                        "file": "C:\\Users\\LetíciaGonçalvesdeOl\\OneDrive - Foursys\\Área de Trabalho\\fourmakers-front-back\\fourmakers-v2-develop\\DEMO\\outputs\\playwright\\reembolso\\specs\\reembolso-demo-v2.spec.ts",
+                        "line": 171,
                         "column": 6
                       }
                     }
@@ -693,9 +693,9 @@
               "status": "skipped"
             }
           ],
-          "id": "882d1bcc90077dc30b70-9fb9206d3c2176066c1d",
-          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v1.spec.ts",
-          "line": 178,
+          "id": "7bfb308c2bceb112d9da-dd3a795e74ee2180b1bc",
+          "file": "../../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v2.spec.ts",
+          "line": 171,
           "column": 6
         }
       ]
@@ -703,8 +703,8 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-08-11T19:53:09.917Z",
-    "duration": 59331.673,
+    "startTime": "2026-08-12T14:12:44.693Z",
+    "duration": 77428.189,
     "expected": 5,
     "skipped": 6,
     "unexpected": 0,

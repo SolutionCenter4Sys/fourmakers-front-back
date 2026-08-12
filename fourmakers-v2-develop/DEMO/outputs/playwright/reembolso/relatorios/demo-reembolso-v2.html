@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Demo Reembolso v2 - Resultado Final</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; background: #0f172a; color: #e2e8f0; }
+    h1, h2 { margin: 0 0 12px; }
+    .card { background: #111827; border: 1px solid #334155; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .muted { color: #94a3b8; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; }
+    .metric { background: #0b1220; border: 1px solid #334155; border-radius: 10px; padding: 12px; }
+    .metric strong { display: block; font-size: 28px; margin-bottom: 4px; }
+    ul { margin: 0; padding-left: 18px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #334155; padding: 8px; text-align: left; vertical-align: top; }
+    th { background: #1f2937; }
+    pre { white-space: pre-wrap; background: #020617; border: 1px solid #334155; border-radius: 8px; padding: 12px; }
+    .badge { display: inline-block; border-radius: 10px; padding: 2px 8px; border: 1px solid #64748b; }
+    .ok { border-color: #22c55e; color: #22c55e; }
+    .fail { border-color: #ef4444; color: #ef4444; }
+    .skip { border-color: #f59e0b; color: #f59e0b; }
+  </style>
+</head>
+<body>
+  <h1>Demo Reembolso v2 - Resultado Final</h1>
+  <p class="muted">Gerado automaticamente em 12/08/2026, 11:14:02</p>
+
+  <div class="card">
+    <h2>Artefatos utilizados</h2>
+    <ul>
+      <li><strong>BDD:</strong> DEMO/outputs/gherkinflow/reembolso/REEMBOLSO-BDD-v2.md</li>
+      <li><strong>Massa DataForge:</strong> DEMO/outputs/dataforge/reembolso/reembolso.data.v2.js</li>
+      <li><strong>Spec Playwright:</strong> ../../DEMO/outputs/playwright/reembolso/specs/reembolso-demo-v2.spec.ts</li>
+      <li><strong>JSON de campos da tela:</strong> DEMO/inputs/ui-elements/reembolso-ui.json (usado)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Resumo da execução</h2>
+    <div class="grid">
+      <div class="metric"><strong>5</strong><span>passed</span></div>
+      <div class="metric"><strong>0</strong><span>failed</span></div>
+      <div class="metric"><strong>6</strong><span>skipped</span></div>
+      <div class="metric"><strong>11</strong><span>total</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Cobertura declarada</h2>
+    <ul>
+      <li><strong>Cenários do BDD (10):</strong> AP-01, AP-02, RP-01, R-01, R-02, R-04, I-08, I-09, I-13, I-14</li>
+      <li><strong>Cenários da massa (10):</strong> AP-01, AP-02, RP-01, R-01, R-02, R-04, I-08, I-09, I-13, I-14</li>
+      <li><strong>Cenários mapeados na spec (10):</strong> AP-01, AP-02, RP-01, R-01, R-04, I-08, I-13, R-02, I-09, I-14</li>
+      <li><strong>Cenários testados na execução (10):</strong> R-01, R-04, I-08, I-13, R-02, I-09, I-14, AP-01, AP-02, RP-01</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Resultados por cenário</h2>
+    <table>
+      <thead>
+        <tr><th>Status</th><th>Cenário</th><th>Duração</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="badge ok">passed</span></td><td>autenticar demo (OTP único ou reuso)</td><td>1694 ms</td></tr>
+<tr><td><span class="badge ok">passed</span></td><td>R-01 [Positivo] Acesso ao dashboard de reembolsos</td><td>15532 ms</td></tr>
+<tr><td><span class="badge ok">passed</span></td><td>R-04 [Positivo] Navegação para nova solicitação</td><td>14995 ms</td></tr>
+<tr><td><span class="badge ok">passed</span></td><td>I-08 [Positivo] Inclusão de item no carrinho com comprovante</td><td>16826 ms</td></tr>
+<tr><td><span class="badge ok">passed</span></td><td>I-13 [Positivo] Envio da solicitação com itens no carrinho</td><td>18864 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>R-02 [Negativo] Aba de gestão restrita sem perfil de gestor — requer colaborador sem permissão de gestão</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>I-09 [Negativo] Categoria com comprovante obrigatório sem anexo — coberto indiretamente por I-08 com anexo</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>I-14 [Regressivo] Leitura automática de dados do comprovante — depende de OCR estável no HML</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>AP-01 [Positivo] Aprovação de solicitações pendentes — requer perfil aprovador + massa pendente</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>AP-02 [Negativo] Reprovação sem justificativa — requer perfil aprovador</td><td>0 ms</td></tr>
+<tr><td><span class="badge skip">skipped</span></td><td>RP-01 [Regressivo] Consulta das regras e verbas parametrizadas — requer perfil gestor</td><td>0 ms</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Falhas e erros (quando houver)</h2>
+    <p>Nenhuma falha registrada no relatório JSON.</p>
+  </div>
+
+  <div class="card">
+    <h2>Logs completos da execução</h2>
+    <pre>
+Running 11 tests using 1 worker
+
+
+♻️  [setup] Reusando storageState — SEM EnviaTokenAcessoEmail
+   motivo: storageState válido (JWT OK) (arquivo 2502 min &gt; max 30 — JWT ainda válido, OTP não disparado)
+   arquivo: evidencias\.auth\demo-usuario.json
+   JWT exp: 15/08/2026, 17:30:38
+
+  ok  1 [setup] › tests\_setup\demo-auth.setup.ts:16:6 › autenticar demo (OTP único ou reuso) (1.7s)
+
+╔══════════════════════════════════════════════════════╗
+║  🎯 AUTOMAÇÃO INICIADA — DEMO REEMBOLSO v2           ║
+╚══════════════════════════════════════════════════════╝
+
+🧪 TESTANDO: R-01 [Positivo] Acesso ao dashboard de reembolsos
+   → Navegando para /reembolso...
+   ✅ Aba &quot;Meus Reembolsos&quot; visível
+   📸 [EVIDÊNCIA] C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\DEMO\outputs\playwright\reembolso\screenshots\r01-dashboard-v2.png
+🏁 R-01 CONCLUÍDO
+  ok  2 [demo] › ..\..\DEMO\outputs\playwright\reembolso\specs\reembolso-demo-v2.spec.ts:55:5 › R-01 [Positivo] Acesso ao dashboard de reembolsos (15.5s)
+
+🧪 TESTANDO: R-04 [Positivo] Navegação para nova solicitação
+   → Abrindo lista de reembolsos...
+   → Acionando &quot;Solicitar Reembolso&quot;...
+   → Aguardando URL /inserir-reembolso...
+   ✅ Formulário de nova solicitação aberto
+   📸 [EVIDÊNCIA] C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\DEMO\outputs\playwright\reembolso\screenshots\r04-formulario-aberto-v2.png
+🏁 R-04 CONCLUÍDO
+  ok  3 [demo] › ..\..\DEMO\outputs\playwright\reembolso\specs\reembolso-demo-v2.spec.ts:65:5 › R-04 [Positivo] Navegação para nova solicitação (15.0s)
+
+🧪 TESTANDO: I-08 [Positivo] Inclusão de item no carrinho com comprovante
+   → Abrindo formulário de inserção...
+   → Preenchendo campos gerais + item...
+   → Adicionando ao carrinho...
+   ✅ Item no carrinho — valor 87,50 | Alimentação
+   📸 [EVIDÊNCIA] C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\DEMO\outputs\playwright\reembolso\screenshots\i08-item-carrinho-v2.png
+🏁 I-08 CONCLUÍDO
+  ok  4 [demo] › ..\..\DEMO\outputs\playwright\reembolso\specs\reembolso-demo-v2.spec.ts:85:5 › I-08 [Positivo] Inclusão de item no carrinho com comprovante (16.8s)
+
+🧪 TESTANDO: I-13 [Positivo] Envio da solicitação com itens no carrinho
+   → Preparando solicitação completa...
+   → Enviando solicitações...
+   → [API] Interceptando Inserir — sucesso controlado para demo...
+   ✅ Modal de sucesso exibido
+   ✅ Redirecionado para acompanhamento em /reembolso
+   📸 [EVIDÊNCIA] C:\Users\LetíciaGonçalvesdeOl\OneDrive - Foursys\Área de Trabalho\fourmakers-front-back\fourmakers-v2-develop\DEMO\outputs\playwright\reembolso\screenshots\i13-envio-sucesso-v2.png
+🏁 I-13 CONCLUÍDO
+  ok  5 [demo] › ..\..\DEMO\outputs\playwright\reembolso\specs\reembolso-demo-v2.spec.ts:117:5 › I-13 [Positivo] Envio da solicitação com itens no carrinho (18.9s)
+  -   6 [demo] › ..\..\DEMO\outputs\playwright\reembolso\specs\reembolso-demo-v2.spec.ts:166:6 › R-02 [Negativo] Aba de gestão restrita sem perfil de gestor — requer colaborador sem permissão de gestão
+  -   7 [demo] › ..\..\DEMO\outputs\playwright\reembolso\specs\reembolso-demo-v2.spec.ts:167:6 › I-09 [Negativo] Categoria com comprovante obrigatório sem anexo — coberto indiretamente por I-08 com anexo
+  -   8 [demo] › ..\..\DEMO\outputs\playwright\reembolso\specs\reembolso-demo-v2.spec.ts:168:6 › I-14 [Regressivo] Leitura automática de dados do comprovante — depende de OCR estável no HML
+  -   9 [demo] › ..\..\DEMO\outputs\playwright\reembolso\specs\reembolso-demo-v2.spec.ts:169:6 › AP-01 [Positivo] Aprovação de solicitações pendentes — requer perfil aprovador + massa pendente
+  -  10 [demo] › ..\..\DEMO\outputs\playwright\reembolso\specs\reembolso-demo-v2.spec.ts:170:6 › AP-02 [Negativo] Reprovação sem justificativa — requer perfil aprovador
+
+╚══ ✅ DEMO CONCLUÍDA ══╝
+
+  -  11 [demo] › ..\..\DEMO\outputs\playwright\reembolso\specs\reembolso-demo-v2.spec.ts:171:6 › RP-01 [Regressivo] Consulta das regras e verbas parametrizadas — requer perfil gestor
+
+  6 skipped
+  5 passed (1.3m)
+(node:33412) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:33412) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20992) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:20992) Warning: The &#39;NO_COLOR&#39; env is ignored due to the &#39;FORCE_COLOR&#39; env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+</pre>
+  </div>
+</body>
+</html>
